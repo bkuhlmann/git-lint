@@ -1,6 +1,6 @@
 detectors:
+  BooleanParameter:
+    exclude:
+      - "#respond_to_missing?"
   IrresponsibleModule:
     enabled: false
-exclude_paths:
-  - tmp
-  - vendor

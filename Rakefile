@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 begin
-  require "gemsmith/rake/setup"
   require "bundler/audit/task"
-  require "git/cop/rake/setup"
+  require "gemsmith/rake/setup"
+  require "git/lint/rake/setup"
   require "rspec/core/rake_task"
   require "reek/rake/task"
   require "rubocop/rake_task"
@@ -17,6 +17,6 @@ rescue LoadError => error
 end
 
 desc "Run code quality checks"
-task code_quality: %i[bundle:audit git_cop reek rubocop]
+task code_quality: %i[bundle:audit git_lint reek rubocop]
 
 task default: %i[code_quality spec]

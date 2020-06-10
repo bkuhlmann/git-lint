@@ -1,0 +1,1068 @@
+:toc: macro
+:toclevels: 5
+:figure-caption!:
+
+:git_rebase_workflow_link: link:https://www.alchemists.io/articles/git_commit_anatomy[Git Rebase Workflow]
+
+= Git Lint
+
+[link=http://badge.fury.io/rb/git-lint]
+image::https://badge.fury.io/rb/git-lint.svg[Gem Version]
+[link=https://circleci.com/gh/bkuhlmann/git-lint]
+image::https://circleci.com/gh/bkuhlmann/git-lint.svg?style=svg[Circle CI Status]
+
+[link=https://travis-ci.org/bkuhlmann/git-lint]
+image::https://travis-ci.org/bkuhlmann/git-lint.svg?branch=master[Travis CI Status]
+[link=https://app.netlify.com/sites/git-lint/deploys]
+image::https://api.netlify.com/api/v1/badges/d4a15c9c-46ba-49db-9f31-33f389ee3259/deploy-status[Netlify CI Status]
+
+A command line interface for linting Git commits. Ensures you maintain a clean, easy to read,
+debuggable, and maintainable project history.
+
+*Git Lint is the offical port of the original Git Cop project that avoids references to violence or
+violent terminology that might make anyone feel unwelcome. The name change was necessary in order to
+better support the link:https://blacklivesmatter.com[Black Lives Matter] and
+link:https://8cantwait.org[Defund Police] movements.*
+
+toc::[]
+
+== Features
+
+* Enforces a {git_rebase_workflow_link}.
+* Enforces a clean and consistent Git commit history.
+* Provides a customizable suite of analyzers.
+* Provides Git Hook support for local use.
+* Provides Continuous Integration (CI) build server support.
+
+== Screencasts
+
+[link=https://www.alchemists.io/screencasts/git_lint]
+image::https://www.alchemists.io/images/screencasts/git_lint/cover-original.png[Screencast,role=focal_point]
+
+== Requirements
+
+. link:https://www.ruby-lang.org[Ruby 2.7.0] (or higher)
+
+== Setup
+
+=== Production
+
+To install, run:
+
+[source,bash]
+----
+gem install git-lint
+----
+
+=== Development
+
+To contribute, run:
+
+[source,bash]
+----
+git clone https://github.com/bkuhlmann/git-lint.git
+cd git-lint
+bin/setup
+----
+
+You can also use the IRB console for direct access to all objects:
+
+[source,bash]
+----
+bin/console
+----
+
+== Usage
+
+=== Command Line Interface (CLI)
+
+From the command line, type: `git-lint --help`
+
+....
+git-lint --hook                # Add Git Hook support.
+git-lint -a, [--analyze]       # Analyze feature branch for issues.
+git-lint -c, [--config]        # Manage gem configuration.
+git-lint -h, [--help=COMMAND]  # Show this message or get help for a command.
+git-lint -v, [--version]       # Show gem version.
+....
+
+To check if your Git commit history is clean, run: `git-lint --analyze`. It will exit with a failure
+if at least one issue with error severity is detected.
+
+This gem does not check commits on `master`. This is intentional as you would, generally, not want
+to rewrite or fix commits on `master`. This gem is best used on feature branches as it automatically
+detects all commits made since `master` on the feature branch.
+
+Here is an example workflow, using gem defaults with issues detected:
+
+[source,bash]
+----
+cd example
+git checkout -b test
+touch text.txt
+git add --all .
+git commit --message "This is a bogus commit message that is also terribly long and will word wrap"
+git-lint --analyze
+----
+
+Output:
+
+....
+Running Git Lint...
+
+83dbad531d84a184e55cbb38c5b2a4e5fa5bcaee (Brooke Kuhlmann, 0 seconds ago): This is a bogus commit message that is also terribly long and will word wrap.
+  Commit Body Presence Warning. Use minimum of 1 line (non-empty).
+  Commit Subject Length Error. Use 72 characters or less.
+  Commit Subject Prefix Error. Use: /Fixed/, /Added/, /Updated/, /Removed/, /Refactored/.
+  Commit Subject Suffix Error. Avoid: /\./, /\?/, /\!/.
+
+1 commit inspected. 4 issues detected (1 warning, 3 errors).
+....
+
+=== Rake
+
+This gem provides optional Rake tasks. They can be added to your project by adding the following
+requirement to the top of your `Rakefile`:
+
+[source,ruby]
+----
+require "git/lint/rake/setup"
+----
+
+Now, when running `bundle exec rake -T`, you'll see `git_lint` included in the list.
+
+If you need a concrete example, check out the link:Rakefile[Rakefile] of this project for details.
+
+=== Configuration
+
+This gem can be configured via a global configuration:
+
+....
+$HOME/.config/git-lint/configuration.yml
+....
+
+It can also be configured via link:https://www.alchemists.io/projects/xdg[XDG] environment
+variables. The default configuration is:
+
+[source,yaml]
+----
+:commit_author_capitalization:
+  :enabled: true
+  :severity: :error
+:commit_author_email:
+  :enabled: true
+  :severity: :error
+:commit_author_name:
+  :enabled: true
+  :severity: :error
+  :minimum: 2
+:commit_body_bullet:
+  :enabled: true
+  :severity: :error
+  :excludes:
+    - "\\*"
+    - "•"
+:commit_body_bullet_capitalization:
+  :enabled: true
+  :severity: :error
+  :includes: "\\-"
+:commit_body_bullet_delimiter:
+  :enabled: true
+  :severity: :error
+  :includes: "\\-"
+:commit_body_issue_tracker_link:
+  :enabled: true,
+  :severity: :error
+  :excludes:
+    - "(f|F)ix(es|ed)?\\s\\#\\d+"
+    - "(c|C)lose(s|d)?\\s\\#\\d+"
+    - "(r|R)esolve(s|d)?\\s\\#\\d+"
+    - "github\\.com\\/.+\\/issues\\/\\d+"
+:commit_body_leading_line:
+  :enabled: false
+  :severity: :warn
+:commit_body_line_length:
+  :enabled: true
+  :severity: :error
+  :length: 72
+:commit_body_paragraph_capitalization:
+  :enabled: true
+  :severity: :error
+:commit_body_phrase:
+  :enabled: true
+  :severity: :error
+  :excludes:
+    - "absolutely"
+    - "actually"
+    - "all intents and purposes"
+    - "along the lines"
+    - "at this moment in time"
+    - "basically"
+    - "each and every one"
+    - "everyone knows"
+    - "fact of the matter"
+    - "furthermore"
+    - "however"
+    - "in due course"
+    - "in the end"
+    - "last but not least"
+    - "matter of fact"
+    - "obviously"
+    - "of course"
+    - "really"
+    - "simply"
+    - "things being equal"
+    - "would like to"
+    - "/\\beasy\\b/"
+    - "/\\bjust\\b/"
+    - "/\\bquite\\b/"
+    - "/as\\sfar\\sas\\s.+\\sconcerned/"
+    - "/of\\sthe\\s(fact|opinion)\\sthat/"
+:commit_body_presence:
+  :enabled: false
+  :severity: :warn
+  :minimum: 1
+:commit_body_single_bullet:
+  :enabled: true
+  :severity: :error
+  :includes: "\\-"
+:commit_subject_length:
+  :enabled: true
+  :severity: :error
+  :length: 72
+:commit_subject_prefix:
+  :enabled: true
+  :severity: :error
+  :includes:
+    - Fixed
+    - Added
+    - Updated
+    - Removed
+    - Refactored
+:commit_subject_suffix:
+  :enabled: true
+  :severity: :error
+  :excludes:
+    - "\\."
+    - "\\?"
+    - "\\!"
+:commit_trailer_collaborator_capitalization:
+  :enabled: true
+  :severity: :error
+:commit_trailer_collaborator_duplication:
+  :enabled: true
+  :severity: :error
+:commit_trailer_collaborator_email:
+  :enabled: true
+  :severity: :error
+:commit_trailer_collaborator_key:
+  :enabled: true
+  :severity: :error
+  :includes:
+    - "Co-Authored-By"
+:commit_trailer_collaborator_name:
+  :enabled: true
+  :severity: :error
+  :minimum: 2
+----
+
+Feel free to take this default configuration, modify, and save as your own custom
+`configuration.yml`.
+
+=== Enablement
+
+By default, most analyzers are enabled. Accepted values are `true` or `false`. If you wish to
+disable a analyzer, set it to `false`.
+
+==== Severity Levels
+
+By default, most analyzers are set to `error` severity. If you wish to reduce the severity level of
+a analyzer, you can set it to `warn` instead. Here are the accepted values and what each means:
+
+* `warn`: Will count as an issue and display a warning but will not cause the program/build to
+  fail. Use this if you want to display issues as reminders or cautionary warnings.
+* `error`: Will count as an issue, display error output, and cause the program/build to fail. Use
+  this setting if you want to ensure bad commits are prevented.
+
+==== Regular Expressions
+
+Some analyzers support _include_ or _exclude_ lists. These lists can consist of strings, regular
+expressions, or a combination thereof. Regardless of your choice, all lists are automatically
+converted to regular expression for use by the analyzers. This means a string like `"example"`
+becomes `/example/` and a regular expression of `"\\AExample.+"` becomes `/\AExample.+/`.
+
+If you need help constructing complex regular expressions for these lists, try launching an IRB
+session and using `Regexp.new` or `Regexp.escape` to experiment with the types of words/phrases you
+want to turn into regular expressions. _For purposes of the YAML configuration, these need to be
+expressed as strings with special characters escaped properly for internal conversion to a regular
+expression._
+
+=== Git Hooks
+
+This gem supports link:https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks[Git Hooks].
+
+It is _highly recommended_ you manage Git Hooks as global scripts as it'll reduce project
+maintenance costs for you. To configure global Git Hooks, add the following to your
+`$HOME/.gitconfig`:
+
+....
+[core]
+  hooksPath = ~/.git_template/hooks
+....
+
+Then you can customize Git Hooks for all of your projects.
+link:https://github.com/bkuhlmann/dotfiles/tree/master/home_files/.config/git/hooks[Check out these
+examples].
+
+If a global configuration is not desired, you can add Git Hooks at a per project level by editing
+any of the scripts within the `.git/hooks` directory of the repository.
+
+==== Commit Message
+
+The _commit-msg_ hook, which is the best way to use this gem as a Git Hook, is provided as a
+`--hook` option. Run `git-lint --help --hook` for usage:
+
+    Usage:
+      git-lint --hook
+
+    Options:
+      [--commit-message=PATH]  # Check commit message.
+
+    Add Git Hook support.
+
+As shown above, the `--commit-message` option accepts a file path (i.e. `.git/COMMIT_EDITMSG`) which
+is provided to you by Git within the `.git/hooks/commit-msg` script. Here is a working example of
+what that script might look like:
+
+[source,bash]
+----
+#! /usr/bin/env bash
+
+set -o nounset
+set -o errexit
+set -o pipefail
+IFS=$'\n\t'
+
+if ! command -v git-lint > /dev/null; then
+   printf "%s\n" "[git]: Git Lint not found. To install, run: gem install git-lint."
+   exit 1
+fi
+
+git-lint --hook --commit-message "${BASH_ARGV[0]}"
+----
+
+Whenever you attempt to add a commit, Git Lint will check your commit for issues prior to saving it.
+
+==== Post Commit
+
+The _post-commit_ hook is possible via the `--analyze --commits` option. Usage:
+
+....
+Usage:
+  git-lint -a, [--analyze]
+
+Options:
+  -c, [--commits=one two three]  # Analyze specific commit SHA(s).
+
+Analyze feature branch for issues.
+....
+
+The _post-commit_ hook can be used multiple ways but, if you want it to check each commit after it
+has been made, here is a working example which can be used as a `.git/hooks/post-commit` script:
+
+[source,bash]
+----
+#! /usr/bin/env bash
+
+set -o nounset
+set -o errexit
+set -o pipefail
+IFS=$'\n\t'
+
+if ! command -v git-lint > /dev/null; then
+   printf "%s\n" "[git]: Git Lint not found. To install, run: gem install git-lint."
+   exit 1
+fi
+
+git-lint --analyze --commits $(git log --pretty=format:%H -1)
+----
+
+Whenever a commit has been saved, this script will run Git Lint to check for issues.
+
+=== Continuous Integration (CI)
+
+This gem automatically configures itself for known CI build servers (see below for details). If you
+have a build server that is not listed, please log an issue or provide an implementation with
+support.
+
+Calculation of commits is done by reviewing all commits made on the feature branch since branching
+from `master`.
+
+==== link:https://circleci.com[Circle CI]
+
+Detection and configuration happens automatically by checking the `CIRCLECI` environment variable.
+No additional setup required!
+
+==== link:https://www.netlify.com[Netlify CI]
+
+Detection and configuration happens automatically by checking the `NETLIFY` environment variable. No
+additional setup required!
+
+==== link:https://travis-ci.org[Travis CI]
+
+Detection and configuration happens automatically by checking the `TRAVIS` environment variable. No
+additional setup required!
+
+== Analyzers
+
+The following details the various analyzers provided by this gem to ensure a high standard of
+commits for your project.
+
+=== Commit Author Capitalization
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures author name is properly capitalized. Example:
+
+....
+# Disallowed
+jayne cobb
+dr. simon tam
+
+# Allowed
+Jayne Cobb
+Dr. Simon Tam
+....
+
+=== Commit Author Email
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures author email address exists. Git requires an author email when you use it for the first time
+too. This takes it a step further to ensure the email address loosely resembles an email address.
+
+....
+# Disallowed
+mudder_man
+
+# Allowed
+jayne@serenity.com
+....
+
+=== Commit Author Name
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | minimum: 2
+|===
+
+Ensures author name consists of, at least, a first and last name. Example:
+
+....
+# Disallowed
+Kaylee
+
+# Allowed
+Kaywinnet Lee Frye
+....
+
+=== Commit Body Bullet
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | excludes: `["\\*", "•"]`
+|===
+
+Ensures commit message bodies use a standard Markdown syntax for bullet points. Markdown supports
+the following syntax for bullets:
+
+....
+*
+-
+....
+
+It's best to use dashes for bullet point syntax as stars are easier to read when used for
+_emphasis_. This makes parsing the Markdown syntax easier when reviewing a Git commit as the syntax
+used for bullet points and _emphasis_ are now, distinctly, unique.
+
+=== Commit Body Bullet Capitalization
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["\\-"]`
+|===
+
+Ensures commit body bullet lines are capitalized. Example:
+
+....
+# Disallowed
+- an example bullet.
+
+# Allowed
+- An example bullet.
+....
+
+=== Commit Body Bullet Delimiter
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["\\-"]`
+|===
+
+Ensures commit body bullets are delimited by a space. Example:
+
+....
+# Disallowed
+-An example bullet.
+
+# Allowed
+- An example bullet.
+....
+
+=== Commit Body Issue Tracker Link
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | excludes: (see configuration)
+|===
+
+Ensures commit body doesn't contain a link to an issue tracker. The exclude list defaults to GitHub
+Issue links but can be customized for any issue tracker.
+
+There are several reasons for excluding issue tracker links from commit bodies:
+
+. Not all issue trackers preserve issues (meaning they can be deleted). This makes make reading
+  historic commits much harder to understand why the change was made when the link no longer works.
+. When not connected to the internet or working on a laggy connection, it's hard to understand why
+  a commit was made when all you have is a link to an issue with no other supporting context.
+. During the course of a repository's life, issue trackers can be replaced (rare but it does
+  happen). If the old issue tracker service is no longer paid for, none of the links within the
+  commit will be of any relevance.
+. An issue might span several commits in order to resolve it. Including a link in each commit is
+  tedious and can create noise within the issue's history which is distracting.
+
+Instead of linking to issues, take the time to write a short summary as to _why_ the commit was
+made. Doing this will make it easier to understand _why_ the commit was made, keeps the commit self-
+contained, and makes learning about/debugging the commit faster.
+
+Issue tracker links are best used at the code review level due to an issue usually spanning multiple
+commits in order to complete the work. When reading a code review, this is a great opportunity to
+link to an issue in order to provide a high level overview and reason why the code review was
+initiated in the first place.
+
+=== Commit Body Leading Line
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures there is a leading, empty line, between the commit subject and body. Generally, this isn't
+an issue but sometimes the Git CLI can be misused or a misconfigured Git editor will smash the
+subject line and start of the body as one run-on paragraph. Example:
+
+....
+# Disallowed
+
+Curabitur eleifend wisi iaculis ipsum.
+Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
+quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam
+egestas semper. Aenean ultricies mi vitae est. Mauris placerat's eleifend leo. Quisque et sapien
+ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, orn si amt wit.
+
+# Allowed
+
+Curabitur eleifend wisi iaculis ipsum.
+
+Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
+quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam
+egestas semper. Aenean ultricies mi vitae est. Mauris placerat's eleifend leo. Quisque et sapien
+ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, orn si amt wit.
+....
+
+=== Commit Body Line Length
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | length: 72
+|===
+
+Ensures each line of the commit body is no longer than 72 characters in length for consistent
+readability and word-wrap prevention on smaller screen sizes. For further details, read Tim Pope's
+original link:http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html[article] on the
+subject.
+
+=== Commit Body Paragraph Capitalization
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures each paragraph of the commit body is capitalized. Example:
+
+....
+# Disallowed
+curabitur eleifend wisi iaculis ipsum.
+
+# Allowed
+Curabitur eleifend wisi iaculis ipsum.
+....
+
+=== Commit Body Phrase
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | excludes: (see configuration)
+|===
+
+Ensures non-descriptive words/phrases are avoided in order to keep commit message bodies informative
+and specific. The exclude list is case insensitive. Detection of excluded words/phrases is case
+insensitive as well. Example:
+
+....
+# Disallowed
+
+Obviously, the existing implementation was too simple for my tastes. Of course, this couldn't be
+allowed. Everyone knows the correct way to implement this code is to do just what I've added in
+this commit. Easy!
+
+# Allowed
+
+Necessary to fix due to a bug detected in production. The included implementation fixes the bug
+and provides the missing spec to ensure this doesn't happen again.
+....
+
+=== Commit Body Presence
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | warn     | minimum: 1
+|===
+
+Ensures a minimum number of lines are present within the commit body. Lines with empty characters
+(i.e. whitespace, carriage returns, etc.) are considered to be empty.
+
+Automatically ignores _fixup!_ commits as they are not meant to have bodies.
+
+=== Commit Body Single Bullet
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `"\\-"`
+|===
+
+Ensures a single bullet is never used when a paragraph could be used instead. Example:
+
+....
+# Disallowed
+
+- Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
+  quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam.
+
+# Allowed
+
+Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
+quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam.
+....
+
+=== Commit Subject Length
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | length: 72
+|===
+
+Ensures the commit subject length is no more than 72 characters in length. This default is more
+lenient than the link:http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html[50/72
+rule] as it gives one the ability to formulate a more descriptive subject line without being too
+wordy or suffer being word wrapped.
+
+Automatically ignores _fixup!_ or _squash!_ commit prefixes when calculating subject length.
+
+=== Commit Subject Prefix
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: (see below)
+|===
+
+Ensures the commit subject uses consistent prefixes that explain _what_ is being committed. The
+`includes` are _case sensitive_ and default to the following prefixes:
+
+* *Fixed* - Identifies what was fixed. The commit should be as small as possible and consist of
+  changes to implementation and spec only. In some cases this might be a single line or file change.
+  The important point is the change is applied to existing code which corrects behavior that wasn't
+  properly implemented earlier.
+* *Removed* - Identifies what was removed. The commit should be as small as possible and consist
+  only of removed lines/files from the existing implementation. This might also mean breaking
+  changes requiring the publishing of a _major_ version release in the future.
+* *Added* - Identifies what was added. The commit should be as small as possible and consist of
+  implementation and spec. Otherwise, it might be a change to an existing file which adds new
+  behavior.
+* *Updated* - Identifies what was updated. The commit should be as small as possible and _not add
+  or fix_ existing behavior. This can sometimes be a grey area but is typically reserved for updates
+  to documentation, code comments, dependencies, etc.
+* *Refactored* - Identifies what was refactored. The commit should be as small as possible and only
+  improve existing functionality while avoiding changes in behavior (especially to public API
+  that might effect downstream dependencies). Refactored code should never break existing specs.
+
+In practice, using a prefix other than what has been detailed above to explain _what_ is being
+committed is never needed. These prefixes are not only short and easy to remember but also have the
+added benefit of categorizing the commits for building release notes, change logs, etc. This becomes
+handy when coupled with another tool, link:https://www.alchemists.io/projects/milestoner[Milestoner],
+for producing consistent project milestones and Git tag histories.
+
+Automatically ignores _fixup!_ or _squash!_ commit prefixes when used as a Git Hook in order to not
+disturb interactive rebase workflows.
+
+=== Commit Subject Suffix
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | excludes: `["\\.", "\\?", "\\!"]`
+|===
+
+Ensures commit subjects are suffixed consistently. The exclude list _is_ case sensitive and prevents
+the use of punctuation. This is handy when coupled with a tool, like
+link:https://www.alchemists.io/projects/milestoner[Milestoner], which automates project milestone
+releases.
+
+=== Commit Trailer Collaborator Capitalization
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | error    | none
+|===
+
+Ensures collaborator name is properly capitalized. Example:
+
+....
+# Disallowed
+shepherd derrial book
+
+# Allowed
+Shepherd Derrial Book
+....
+
+=== Commit Trailer Collaborator Duplication
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | error    | none
+|===
+
+Ensures collaborator trailers are not duplicated. Example:
+
+....
+# Disallowed
+Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+
+# Allowed
+Co-Authored-By: Malcolm Reynolds <malcolm@firefly.com>
+Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+....
+
+=== Commit Trailer Collaborator Email
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | error    | none
+|===
+
+Ensures collaborator email address is valid for commit trailer.
+
+....
+# Disallowed
+Co-Authored-By: River Tam <invalid>
+
+# Allowed
+Co-Authored-By: River Tam <river@firefly.com>
+....
+
+=== Commit Trailer Collaborator Key
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | error    | includes: `["Co-Authored-By"]`
+|===
+
+Ensures collaborator trailer key is correct format.
+
+....
+# Disallowed
+Co-authored-by: River Tam <river@firefly.com>
+
+# Allowed
+Co-Authored-By: River Tam <river@firefly.com>
+....
+
+=== Commit Trailer Collaborator Name
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | error    | minimum: 2
+|===
+
+Ensures collaborator name consists of, at least, a first and last name. Example:
+
+....
+# Disallowed
+Co-Authored-By: River <river@firefly.com>
+
+# Allowed
+Co-Authored-By: River Tam <river@firefly.com>
+....
+
+== Style Guide
+
+In addition to what is described above and automated for you, the following style guide is also
+worth considering:
+
+=== General
+
+* Use a {git_rebase_workflow_link} instead of a Git merge workflow.
+* Use `git commit --amend` when fixing a previous commit, addressing code review feedback, etc.
+* Use `git commit --fixup` when fixing an earlier commit, addressing code review feedback, etc., and
+  don't need to modify the original commit message.
+* Use `git commit --squash` when fixing an earlier commit, addressing code review feedback, etc.,
+  and want to combine multiple commit messages into a single commit message. _Avoid using squash to
+  blindly combine multiple commit messages without editing them into a single, coherent message._
+* Use `git rebase --interactive` when cleaning up commit history, order, messages, etc. This should
+  be done prior to submitting a code review or when code review feedback has been addressed and
+  you are ready to rebase onto `master`.
+* Use `git push --force-with-lease` instead of `git push --force` when pushing changes after an
+  interactive rebasing session.
+* Avoid checking in development-specific configuration files (add to `.gitignore` instead).
+* Avoid checking in sensitive information (i.e. security keys, passphrases, etc).
+* Avoid "WIP" (a.k.a. "Work in Progress") commits and/or code review labels. Be confident with your
+  code and colleagues' time. Use branches, stashes, etc. instead -- share a link to a feature branch
+  diff if you have questions/concerns during development.
+* Avoid using link:https://git-scm.com/book/en/v2/Git-Tools-Submodules[Git Submodules]. This
+  practice leads to complicated project cloning, deployments, maintenance, etc. Use separate
+  repositories to better organize and split out this work. Sophisticated package managers, like
+  link:https://bundler.io[Bundler] for example, exist to manage these dependencies better than what
+  multiple Git Submodules can accomplish.
+* Avoid using link:https://git-lfs.github.com[Git LFS] for tracking binary artifacts/resources.
+  These files are not meant for version control and lead to large repositories that are time
+  consuming to clone/deploy. Use storage managers, like link:https://aws.amazon.com/s3[Amazon S3]
+  for example, that are better suited for binary assets that don't change often.
+
+=== Commits
+
+* Use a commit subject that explains _what_ is being committed.
+* Use a commit message body that explains _why_ the commit is necessary. Additional considerations:
+** If the commit has a dependency to the previous commit or is a precursor to the commit that will
+   follow, make sure to explain that.
+** Include links to dependent projects, stories, etc. if available.
+* Use small, atomic commits:
+** Easier to review and provide feedback.
+** Easier to review implementation and corresponding tests.
+** Easier to document with detailed subject messages (especially when grouped together in a pull
+   request).
+** Easier to reword, edit, squash, fix, or drop when interactively rebasing.
+** Easier to combine together versus tearing apart a larger commit into smaller commits.
+* Use logically ordered commits:
+** Each commit should tell a story and be a logical building block to the next commit.
+** Each commit, when reviewed in order, should be able to explain _how_ the feature or bug fix was
+   completed and implemented properly.
+
+=== Branches
+
+* Use feature branches for new work.
+* Maintain branches by rebasing upon `master` on a regular basis.
+
+=== Tags
+
+* Use tags to denote milestones/releases:
+** Makes it easier to record milestones and capture associated release notes.
+** Makes it easier to compare differences between versions.
+** Provides a starting point for debugging production issues (if any).
+
+=== Rebases
+
+* Avoid rebasing a shared branch. If you must do this, clear communication should be used to warn
+  those ahead of time, ensure that all of their work is checked in, and that their local branch is
+  deleted first.
+
+=== Hooks
+
+* Use hooks to augment and automate your personal workflow such as checking code quality, detecting
+  forgotten debug statements, etc.
+* Use hooks globally rather than locally per project. Doing this applies the same functionality
+  across all projects automatically, reduces maintenance per project, and provides consistency
+  across all projects. This can best be managed via your
+  link:https://github.com/bkuhlmann/dotfiles/tree/master/home_files/.config/git/hooks[Dotfiles].
+* Avoid forcing global or local project hooks as a team-wide mandate. Hooks are a personal tool much
+  like editors or other tools one choose to do their work. For team consistency, use a continuous
+  integration build server instead.
+
+=== Code Reviews
+
+There are two objectives each code review should achieve:
+
+. *Quality*: Ensures changes are of highest quality that adhere to team standards while enhancing
+   the customer experience and not disrupting their workflow.
+. *Education*: Provides a chance for everyone on the team to learn more about the architecture,
+   product/service, and how each member of the team implements a solution. This is your chance to
+   ask questions and learn how to be a better engineer so take advantage of it.
+
+In addition to the objectives above, the following guidelines are worth following:
+
+* Keep code reviews short and easy to review:
+** Provide a high level overview that answers _why_ the code review is necessary.
+** Provide a link to the issue/task that prompted the code review (if any).
+** Provide screenshots/screencasts if possible.
+** Ensure commits within the code review are related to the purpose of the code review.
+** Prefer code reviews at about 250 lines in order to keep the quality of the code review and defect
+   detection high.
+** Avoid working on a large issue without getting feedback first in order to not overwhelm/surprise
+   the maintainers. More discussion up front will help ensure your work has a faster chance of
+   acceptance.
+* Review and rebase code reviews quickly:
+** Maintain a consistent but reasonable pace -- Review morning, noon, and night.
+** Avoid letting code reviews linger more than a day. Otherwise, you risk hampering moral and
+   diminishing the productivity of the team.
+* Use emojis, with a format of `<emoji> <feedback>`, to identify the kinds of feedback used during
+  the review process:
+** 🍵 (`:tea:`) - Signifies you are starting the code review. This is _non-blocking_ and
+    informational. Useful when reading over a code review with a large number of commits, complex
+    code, requires additional testing by the reviewer, etc.
+** ⭐️ (`:star:`) - Signifies code that is liked, favorited, remarkable, etc. This feedback is
+    _non-blocking_ and is always meant to be positive/uplifting.
+** ℹ️ (`:information_source:`) - Signifies informational feedback that is
+    _non-blocking_. Can also be used to let one know you are done reviewing but haven't approved yet
+    (due to feedback that needs addressing), rebasing a code review and then merging, waiting for a
+    blocking code review to be resolved, status updates to the code review, etc.
+** 💭 (`:thought_balloon:`) - Signifies inquisitive intent that is _non-blocking_.
+    Useful when asking questions and/or probing deeper into implementation details to learn more.
+** 🔤 (`:abc:`) - Signifies detection of a misspelling with suggested correction. This is
+    _blocking_ feedback that is easy to correct.
+** 🎨 (`:art:`) - Signifies an issue with code style and/or code quality. This can be _blocking_
+    or _non-blocking_ feedback. It is up to the discretion of the author on how to address the
+    feedback but encouraged that the feedback is incorporated or at least discussed. Generally,
+    these situations are automatically detected via code linters but there are occasions where
+    there is ambiguity in which linters can't catch.
+** 🏛 (`:classical_building:`) - Signifies an issue with the architecture of the
+    implementation. This is _blocking_ and requires immediate correction. The reviewer should
+    provide a suggested solution and/or links to patterns, articles, etc. that might help the author
+    fix the implementation. Pairing is encouraged if feedback is vast and/or complex.
+** 🔒 (`:lock:`) - Signifies a security violation that would damage us and/or our customers. This is
+   _blocking_ feedback and must be addressed immediately.
+** 💡 (`:bulb:`) - Indicates a helpful tip or trick for improving the code. This can be
+    _blocking_ or _non-blocking_ feedback and is left up to the author to decide. Generally, it is a
+    good idea to address and resolve the feedback.
+** 🙇 (`:bow:`) - Indicates thankfulness of the feedback received. This is _non-blocking_ and
+    always meant as a response to helpful feedback.
+** ✅ (`:white_check_mark:`) - Signifies code review approval. The author can
+    rebase onto `master` and delete the feature branch at this point.
+* Use face-to-face communication if a code review's written discussion gets lengthy/noisy.
+* Create new tasks/actions if additional features are discovered during a code review to avoid
+  delaying code review acceptance. Return to the code review once tasks have been logged.
+* The author, not the reviewer, should rebase the feature branch onto `master` upon approval.
+* Avoid reviewing your own code review before rebasing onto `master`. Have another pair of eyes
+  review your code first.
+* Ensure the following criteria is met before rebasing your feature branch to `master`:
+** Ensure all `fixup!` and `squash!` commits are interactively rebased. _Avoid rebasing these onto
+   the `master` branch!_
+** Ensure your feature branch is rebased upon `master`.
+** Ensure all tests and code quality checks are passing.
+** Ensure the feature branch is deleted after being successfully rebased.
+
+=== GitHub
+
+When using GitHub, enforce a rebase workflow for all of your GitHub projects (_highly recommended_).
+You can do this via your project options (i.e. `https://github.com/<username/<project>/settings`)
+and editing your merge options for code reviews as follows:
+
+image::https://www.alchemists.io/images/projects/git-lint/screenshots/github-settings-options.png[GitHub Merge Options]
+
+In addition to the above, you'll want to add _branch_ protection rules for your `master` branch. To
+do this, follow these steps:
+
+. Visit your branch settings (i.e. `https://github.com/<username>/<project>/settings/branches`).
+. Click the _Add rule_ button.
+. For _branch name pattern_, enter: `master`.
+. Check _Require pull request reviews before merging_.
+. Set _Required approving reviews_ to `2` as a minimum.
+. Check _Dismiss stale pull request approvals when new commits are pushed_.
+. Check _Require review from Code Owners_.
+. Check _Require status checks to pass before merging_.
+. Check _Require branches to be up to date before merging_.
+. Check _Require linear history_ (pairs well with the merge options mentioned above).
+. Check _Include administrators_.
+. Uncheck _Require signed commits_ (only necessary for tags).
+. Uncheck _Allow force pushes_.
+. Uncheck _Allow deletions_.
+
+With the above applied, you should have the following result:
+
+image::https://www.alchemists.io/images/projects/git-lint/screenshots/github-settings-branch_protections.png[GitHub Branch Protections]
+
+Applying the above changes will help maintain a clean Git history.
+
+== Tests
+
+To test, run:
+
+[source,bash]
+----
+bundle exec rake
+----
+
+== Versioning
+
+Read link:https://semver.org[Semantic Versioning] for details. Briefly, it means:
+
+* Major (X.y.z) - Incremented for any backwards incompatible public API changes.
+* Minor (x.Y.z) - Incremented for new, backwards compatible, public API enhancements/fixes.
+* Patch (x.y.Z) - Incremented for small, backwards compatible, bug fixes.
+
+== Code of Conduct
+
+Please note that this project is released with a link:CODE_OF_CONDUCT.adoc[CODE OF CONDUCT]. By
+participating in this project you agree to abide by its terms.
+
+== Contributions
+
+Read link:CONTRIBUTING.adoc[CONTRIBUTING] for details.
+
+== License
+
+Read link:LICENSE.adoc[LICENSE] for details.
+
+== History
+
+Read link:CHANGES.adoc[CHANGES] for details.
+
+== Credits
+
+Engineered by link:https://www.alchemists.io/team/brooke_kuhlmann[Brooke Kuhlmann].

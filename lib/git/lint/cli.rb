@@ -3,6 +3,7 @@
 require "thor"
 require "thor/actions"
 require "runcom"
+require "pastel"
 
 module Git
   module Lint
@@ -13,12 +14,18 @@ module Git
       package_name Identity::VERSION_LABEL
 
       def self.configuration
-        Runcom::Config.new "#{Identity::NAME}/configuration.yml"
+        defaults = Analyzers::Abstract.descendants.reduce({}) do |settings, analyzer|
+          settings.merge analyzer.id => analyzer.defaults
+        end
+
+        Runcom::Config.new "#{Identity::NAME}/configuration.yml", defaults: defaults
       end
 
       def initialize args = [], options = {}, config = {}
         super args, options, config
         @configuration = self.class.configuration
+        @runner = Runner.new configuration: @configuration.to_h
+        @colorizer = Pastel.new
       rescue Runcom::Errors::Base => error
         abort error.message
       end
@@ -45,6 +52,36 @@ module Git
         end
       end
 
+      desc "-a, [--analyze]", "Analyze feature branch for issues."
+      map %w[-a --analyze] => :analyze
+      method_option :commits,
+                    aliases: "-c",
+                    desc: "Analyze specific commit SHA(s).",
+                    type: :array,
+                    default: []
+      def analyze
+        collector = analyze_commits options.commits
+        abort if collector.errors?
+      rescue Errors::Base => error
+        abort colorizer.red("#{Identity::LABEL}: #{error.message}")
+      end
+
+      desc "--hook", "Add Git Hook support."
+      map "--hook" => :hook
+      method_option :commit_message,
+                    desc: "Analyze commit message.",
+                    banner: "PATH",
+                    type: :string
+      def hook
+        if options.commit_message?
+          check_commit_message options.commit_message
+        else
+          help "--hook"
+        end
+      rescue Errors::Base => error
+        abort colorizer.red("#{Identity::LABEL}: #{error.message}")
+      end
+
       desc "-v, [--version]", "Show gem version."
       map %w[-v --version] => :version
       def version
@@ -59,7 +96,27 @@ module Git
 
       private
 
-      attr_reader :configuration
+      attr_reader :configuration, :runner, :colorizer
+
+      def load_collector shas
+        commits = shas.map { |sha| Commits::Saved.new sha: sha }
+        commits.empty? ? runner.call : runner.call(commits: commits)
+      end
+
+      def analyze_commits shas
+        load_collector(shas).tap do |collector|
+          reporter = Reporters::Branch.new collector: collector
+          say reporter.to_s
+        end
+      end
+
+      def check_commit_message path
+        commit = Commits::Unsaved.new path: path
+        collector = runner.call commits: commit
+        reporter = Reporters::Branch.new collector: collector
+        say reporter.to_s
+        abort if collector.errors?
+      end
     end
   end
 end

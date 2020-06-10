@@ -1,0 +1,8 @@
+= Changes
+
+== 1.0.0 (2020-06-13)
+
+* Initial implementation and port of the Git Cop project with changes to terminology as necessary.
+  Git Lint is now the offical implementation of this work in order to support the
+  link:https://blacklivesmatter.com[Black Lives Matter] and link:https://8cantwait.org[Defund
+  Police] movements.

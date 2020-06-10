@@ -1,0 +1,21 @@
+Added commit with verbose option.
+
+A fixture for commits made via `git commit --verbose` which include
+scissor-related content.
+
+# A test comment.
+
+# ------------------------ >8 ------------------------
+# Do not modify or remove the line above.
+# Everything below it will be ignored.
+diff --git c/one.txt i/one.txt
+new file mode 100644
+index 000000000000..98038f7b36d7
+--- /dev/null
++++ i/one.txt
+@@ -0,0 +1,5 @@
++A ruby example:
++
++def example
++  puts "example"
++end
