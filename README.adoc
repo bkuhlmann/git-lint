@@ -14,7 +14,7 @@ image::https://circleci.com/gh/bkuhlmann/git-lint.svg?style=svg[Circle CI Status
 [link=https://travis-ci.org/bkuhlmann/git-lint]
 image::https://travis-ci.org/bkuhlmann/git-lint.svg?branch=master[Travis CI Status]
 [link=https://app.netlify.com/sites/git-lint/deploys]
-image::https://api.netlify.com/api/v1/badges/d4a15c9c-46ba-49db-9f31-33f389ee3259/deploy-status[Netlify CI Status]
+image::https://api.netlify.com/api/v1/badges/7e23b422-3412-4e7f-b654-65c0417a0b1f/deploy-status[Netlify CI Status]
 
 A command line interface for linting Git commits. Ensures you maintain a clean, easy to read,
 debuggable, and maintainable project history.
