@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "runcom", "~> 6.0"
   spec.add_dependency "thor", "~> 0.20"
   spec.add_development_dependency "bundler-audit", "~> 0.6"
-  spec.add_development_dependency "gemsmith", "~> 14.0"
+  spec.add_development_dependency "gemsmith", "~> 14.2"
   spec.add_development_dependency "guard-rspec", "~> 4.7"
   spec.add_development_dependency "pry", "~> 0.13"
   spec.add_development_dependency "pry-byebug", "~> 3.9"
