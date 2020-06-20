@@ -41,7 +41,7 @@ image::https://www.alchemists.io/images/screencasts/git_lint/cover-original.png[
 
 == Requirements
 
-. link:https://www.ruby-lang.org[Ruby 2.7.0] (or higher)
+. link:https://www.ruby-lang.org[Ruby]
 
 == Setup
 
