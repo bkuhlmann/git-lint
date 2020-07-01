@@ -2,7 +2,7 @@
 :toclevels: 5
 :figure-caption!:
 
-:git_rebase_workflow_link: link:https://www.alchemists.io/articles/git_commit_anatomy[Git Rebase Workflow]
+:git_rebase_workflow_link: link:https://www.alchemists.io/articles/git_rebase[Git Rebase Workflow]
 
 = Git Lint
 
@@ -849,7 +849,7 @@ worth considering:
 
 === General
 
-* Use a {git_rebase_workflow_link} instead of a Git merge workflow.
+* Use a {git_rebase_workflow_link} instead of a Git Merge Workflow.
 * Use `git commit --amend` when fixing a previous commit, addressing code review feedback, etc.
 * Use `git commit --fixup` when fixing an earlier commit, addressing code review feedback, etc., and
   don't need to modify the original commit message.
