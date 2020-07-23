@@ -1,5 +1,16 @@
 = Changes
 
+== 1.0.1 (2020-07-22)
+
+- Fixed README typo
+- Fixed Rubocop Lint/NonDeterministicRequireOrder issues.
+- Fixed project requirements
+- Updated Netlify badge URL
+- Updated README screencast cover to SVG format
+- Updated README to point to Git Rebase Workflow
+- Updated to Gemsmith 14.2.0
+- Refactored Rakefile requirements
+
 == 1.0.0 (2020-06-13)
 
 * Initial implementation and port of the Git Cop project with changes to terminology as necessary.
