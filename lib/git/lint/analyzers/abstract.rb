@@ -13,6 +13,7 @@ module Git
         ISSUE_LINE_OFFSET = 2
 
         def self.inherited klass
+          super
           @descendants ||= []
           @descendants << klass unless klass.to_s.start_with? "#<Class" # Ignore anonymous classes.
         end
