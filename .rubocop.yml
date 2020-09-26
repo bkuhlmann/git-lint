@@ -9,8 +9,5 @@ Lint/Void:
 RSpec/SubjectStub:
   Exclude:
     - "spec/lib/git/lint/commits/unsaved_spec.rb"
-Style/OptionalBooleanParameter:
-  Exclude:
-    - "lib/git/lint/commits/saved.rb"
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
