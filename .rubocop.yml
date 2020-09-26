@@ -12,3 +12,5 @@ RSpec/SubjectStub:
 Style/OptionalBooleanParameter:
   Exclude:
     - "lib/git/lint/commits/saved.rb"
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
