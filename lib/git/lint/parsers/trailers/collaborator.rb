@@ -7,6 +7,7 @@ module Git
         class Collaborator
           DEFAULT_KEY_PATTERN = /\ACo.*Authored.*By.*\Z/i.freeze
 
+          # rubocop:disable Lint/MixedRegexpCaptureTypes
           DEFAULT_MATCH_PATTERN = /
             (?<key>\A.+)         # Key (anchored to start of line).
             (?<delimiter>:)      # Key delimiter.
@@ -16,6 +17,7 @@ module Git
             (?<email><.+>)?      # Collaborator email (optional).
             \Z                   # End of line.
           /x.freeze
+          # rubocop:enable Lint/MixedRegexpCaptureTypes
 
           def initialize text,
                          key_pattern: DEFAULT_KEY_PATTERN,
