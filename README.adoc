@@ -869,12 +869,29 @@ worth considering:
 * Avoid using link:https://git-scm.com/book/en/v2/Git-Tools-Submodules[Git Submodules]. This
   practice leads to complicated project cloning, deployments, maintenance, etc. Use separate
   repositories to better organize and split out this work. Sophisticated package managers, like
-  link:https://bundler.io[Bundler] for example, exist to manage these dependencies better than what
-  multiple Git Submodules can accomplish.
+  link:https://bundler.io[Bundler], exist to manage these dependencies better than what multiple Git
+  Submodules can accomplish.
 * Avoid using link:https://git-lfs.github.com[Git LFS] for tracking binary artifacts/resources.
   These files are not meant for version control and lead to large repositories that are time
   consuming to clone/deploy. Use storage managers, like link:https://aws.amazon.com/s3[Amazon S3]
   for example, that are better suited for binary assets that don't change often.
+
+=== Security
+
+Ensure signed commits, pushes, and tags are enabled within your global Git Configuration to reduce
+an
+link:https://blog.gruntwork.io/how-to-spoof-any-user-on-github-and-what-to-do-to-prevent-it-e237e95b8deb[attack
+vector]. Run the following commands to enable:
+
+[source,bash]
+----
+git config --global commit.gpgSign true
+git config --global push.gpgSign true
+git config --global tag.gpgSign true
+----
+
+⚠️ GitHub, unfortunately, doesn't support signed pushes so you might need to leave that
+configuration disabled.
 
 === Commits
 
@@ -1017,9 +1034,9 @@ do this, follow these steps:
 . Check _Require review from Code Owners_.
 . Check _Require status checks to pass before merging_.
 . Check _Require branches to be up to date before merging_.
+. Check _Require signed commits_.
 . Check _Require linear history_ (pairs well with the merge options mentioned above).
 . Check _Include administrators_.
-. Uncheck _Require signed commits_ (only necessary for tags).
 . Uncheck _Allow force pushes_.
 . Uncheck _Allow deletions_.
 
