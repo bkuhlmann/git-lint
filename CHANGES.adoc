@@ -1,15 +1,31 @@
 = Changes
 
+== 1.1.0 (2020-10-12)
+
+* Fixed Lint/MissingSuper issue
+* Fixed Lint/MixedRegexpCaptureTypes issue with collaborator trailer
+* Fixed README YAML configuration typo
+* Fixed Style/OptionalBooleanParameter issue
+* Added Guard and Rubocop binstubs
+* Added RSpec/MultipleMemoizedHelpers configuration
+* Updated README style guide to include Git and GitHub security settings
+* Updated to Refinements 7.11.0
+* Updated to Rubocop 0.89.0
+* Updated to Ruby 2.7.2
+* Updated to SimpleCov 0.19.0
+* Removed Lint/RedundantCopDisableDirective false positive
+* Removed Style/OptionalBooleanParameter configuration
+
 == 1.0.1 (2020-07-22)
 
-- Fixed README typo
-- Fixed Rubocop Lint/NonDeterministicRequireOrder issues.
-- Fixed project requirements
-- Updated Netlify badge URL
-- Updated README screencast cover to SVG format
-- Updated README to point to Git Rebase Workflow
-- Updated to Gemsmith 14.2.0
-- Refactored Rakefile requirements
+* Fixed README typo
+* Fixed Rubocop Lint/NonDeterministicRequireOrder issues.
+* Fixed project requirements
+* Updated Netlify badge URL
+* Updated README screencast cover to SVG format
+* Updated README to point to Git Rebase Workflow
+* Updated to Gemsmith 14.2.0
+* Refactored Rakefile requirements
 
 == 1.0.0 (2020-06-13)
 
