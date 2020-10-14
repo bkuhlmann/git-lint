@@ -45,31 +45,11 @@ image::https://www.alchemists.io/images/screencasts/git_lint/cover.svg[Screencas
 
 == Setup
 
-=== Production
-
 To install, run:
 
 [source,bash]
 ----
 gem install git-lint
-----
-
-=== Development
-
-To contribute, run:
-
-[source,bash]
-----
-git clone https://github.com/bkuhlmann/git-lint.git
-cd git-lint
-bin/setup
-----
-
-You can also use the IRB console for direct access to all objects:
-
-[source,bash]
-----
-bin/console
 ----
 
 == Usage
@@ -1045,6 +1025,24 @@ With the above applied, you should have the following result:
 image::https://www.alchemists.io/images/projects/git-lint/screenshots/github-settings-branch_protections.png[GitHub Branch Protections]
 
 Applying the above changes will help maintain a clean Git history.
+
+== Development
+
+To contribute, run:
+
+[source,bash]
+----
+git clone https://github.com/bkuhlmann/git-lint.git
+cd git-lint
+bin/setup
+----
+
+You can also use the IRB console for direct access to all objects:
+
+[source,bash]
+----
+bin/console
+----
 
 == Tests
 
