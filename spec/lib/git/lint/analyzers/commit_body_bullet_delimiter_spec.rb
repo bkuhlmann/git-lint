@@ -51,6 +51,14 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
       end
     end
 
+    context "with repeated bullet" do
+      let(:body_lines) { ["--", "--test", " --test", "-- test"] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to eq(true)
+      end
+    end
+
     context "without space after bullet" do
       let(:body_lines) { ["-Test bullet."] }
 
