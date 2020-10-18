@@ -14,9 +14,10 @@ module Git
         def valid?
           raw_body = commit.raw_body
           subject, body = raw_body.split "\n", 2
+
           return true if !String(subject).empty? && String(body).strip.empty?
 
-          raw_body.match?(/\A.+\n\n.+/)
+          raw_body.match?(/\A.+(\n\n|\#).+/m)
         end
 
         def issue

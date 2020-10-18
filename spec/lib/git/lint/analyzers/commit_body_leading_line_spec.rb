@@ -51,19 +51,27 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
       end
     end
 
-    context "with no space between subject and body" do
-      let(:raw_body) { "Subject\nBody\n" }
-
-      it "answers false" do
-        expect(analyzer.valid?).to eq(false)
-      end
-    end
-
     context "with subject and no body" do
       let(:raw_body) { "A test subject.\n\n" }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
+      end
+    end
+
+    context "with subject and comments" do
+      let(:raw_body) { "Subject\n\n# Comment.\n" }
+
+      it "answers true" do
+        expect(analyzer.valid?).to eq(true)
+      end
+    end
+
+    context "with no space between subject and body" do
+      let(:raw_body) { "Subject\nBody\n" }
+
+      it "answers false" do
+        expect(analyzer.valid?).to eq(false)
       end
     end
 
