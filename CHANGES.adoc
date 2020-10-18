@@ -1,5 +1,11 @@
 = Changes
 
+== 1.1.1 (2020-10-18)
+
+* Fixed Commit Body Bullet Delimiter double bullet false positive
+* Fixed Commit Body Leading Line subject and comment false positive
+* Updated project documentation to conform to Rubysmith template
+
 == 1.1.0 (2020-10-12)
 
 * Fixed Lint/MissingSuper issue
