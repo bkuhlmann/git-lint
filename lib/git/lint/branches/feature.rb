@@ -28,6 +28,8 @@ module Git
         attr_reader :current_environment, :selected_environment
 
         def load_environment
+          puts "ENVIRONMENT: #{current_environment}"
+
           if key? "CIRCLECI" then Environments::CircleCI.new
           elsif key? "GITHUB_ACTIONS" then Environments::GitHubAction.new
           elsif key? "NETLIFY" then Environments::NetlifyCI.new environment: current_environment
