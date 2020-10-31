@@ -29,6 +29,7 @@ module Git
 
         def load_environment
           if key? "CIRCLECI" then Environments::CircleCI.new
+          elsif key? "GITHUB_ACTIONS" then Environments::GitHubAction.new
           elsif key? "NETLIFY" then Environments::NetlifyCI.new environment: current_environment
           elsif key? "TRAVIS" then Environments::TravisCI.new environment: current_environment
           else Environments::Local.new
