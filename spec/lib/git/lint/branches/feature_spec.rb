@@ -33,10 +33,11 @@ RSpec.describe Git::Lint::Branches::Feature do
   end
 
   describe "#name" do
-    context "with Circle CI environments", :git_repo do
+    context "with Circle CI environment", :git_repo do
       let :environment do
         {
           "CIRCLECI" => "true",
+          "GITHUB_ACTIONS" => "false",
           "NETLIFY" => "false",
           "TRAVIS" => "false"
         }
@@ -50,10 +51,29 @@ RSpec.describe Git::Lint::Branches::Feature do
       end
     end
 
-    context "with Netlify CI environments", :git_repo do
+    context "with GitHub Action environment", :git_repo do
       let :environment do
         {
           "CIRCLECI" => "false",
+          "GITHUB_ACTIONS" => "true",
+          "NETLIFY" => "false",
+          "TRAVIS" => "false"
+        }
+      end
+
+      it "answers name" do
+        Dir.chdir git_repo_dir do
+          git_create_branch
+          expect(feature_branch.name).to eq("origin/test")
+        end
+      end
+    end
+
+    context "with Netlify CI environment", :git_repo do
+      let :environment do
+        {
+          "CIRCLECI" => "false",
+          "GITHUB_ACTIONS" => "false",
           "NETLIFY" => "true",
           "HEAD" => "test",
           "TRAVIS" => "false"
@@ -68,10 +88,11 @@ RSpec.describe Git::Lint::Branches::Feature do
       end
     end
 
-    context "with Travis CI environments", :git_repo do
+    context "with Travis CI environment", :git_repo do
       let :environment do
         {
           "CIRCLECI" => "false",
+          "GITHUB_ACTIONS" => "false",
           "NETLIFY" => "false",
           "TRAVIS" => "true",
           "TRAVIS_PULL_REQUEST_BRANCH" => "test"
