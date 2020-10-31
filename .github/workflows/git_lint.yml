@@ -1,0 +1,20 @@
+name: Git Lint
+
+on: pull_request
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    container:
+      image: ruby:latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      - name: Analyze Branch Commits
+        run: |
+          printenv | sort
+          git status
+          gem install git-lint
+          git-lint --analyze
