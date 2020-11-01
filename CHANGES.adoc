@@ -1,5 +1,11 @@
 = Changes
 
+== 1.2.0 (2020-11-01)
+
+* Added Bundler Leak development dependency
+* Added GitHub Action automatic environment detection
+* Added GitHub Action branch environment
+
 == 1.1.1 (2020-10-18)
 
 * Fixed Commit Body Bullet Delimiter double bullet false positive

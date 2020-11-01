@@ -383,6 +383,36 @@ from `master`.
 Detection and configuration happens automatically by checking the `CIRCLECI` environment variable.
 No additional setup required!
 
+==== link:https://docs.github.com/en/free-pro-team@latest/actions[GitHub Actions]
+
+Detection happens automatically by checking the `GITHUB_ACTIONS` environment variable as supplied by
+the GitHub environment. The only configuration required is to add a `.github/workflows/git_lint.yml`
+to your repository with the following contents:
+
+[source,yaml]
+----
+name: Git Lint
+
+on: pull_request
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    container:
+      image: ruby:latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+          ref: ${{github.head_ref}}
+      - name: Install
+        run: gem install git-lint
+      - name: Analyze
+        run: git-lint --analyze
+----
+
+The above will ensure Git Lint runs as an additional check on each Pull Request.
+
 ==== link:https://www.netlify.com[Netlify CI]
 
 Detection and configuration happens automatically by checking the `NETLIFY` environment variable. No
