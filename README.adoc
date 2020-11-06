@@ -8,6 +8,8 @@
 
 [link=http://badge.fury.io/rb/git-lint]
 image::https://badge.fury.io/rb/git-lint.svg[Gem Version]
+[link=https://www.alchemists.io/projects/code_quality]
+image::https://img.shields.io/badge/code_style-alchemists-brightgreen.svg[Alchemists Style Guide]
 [link=https://circleci.com/gh/bkuhlmann/git-lint]
 image::https://circleci.com/gh/bkuhlmann/git-lint.svg?style=svg[Circle CI Status]
 
