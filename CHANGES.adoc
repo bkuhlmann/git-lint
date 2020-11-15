@@ -1,5 +1,15 @@
 = Changes
 
+== 1.3.0 (2020-11-14)
+
+- Added Alchemists style guide badge
+- Updated Rubocop gems
+- Updated to Bundler Audit 0.7.0
+- Updated to Gemsmith 14.8.0
+- Updated to RSpec 3.10.0
+- Updated to Refinements 7.14.0
+- Updated to Runcom 6.4.0
+
 == 1.2.0 (2020-11-01)
 
 * Added Bundler Leak development dependency
