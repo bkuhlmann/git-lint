@@ -7,10 +7,13 @@ SimpleCov.start { enable_coverage :branch }
 
 require "pry"
 require "pry-byebug"
+require "refinements"
 require "git/lint"
 
-Dir[File.join(__dir__, "support", "shared_contexts", "**/*.rb")].sort.each { |path| require path }
-Dir[File.join(__dir__, "support", "shared_examples", "**/*.rb")].sort.each { |path| require path }
+using Refinements::Pathnames
+
+Pathname.require_tree __dir__, "support/shared_contexts/**/*.rb"
+Pathname.require_tree __dir__, "support/shared_examples/**/*.rb"
 
 # Ensure CI environments are disabled for local testing purposes.
 ENV["CIRCLECI"] = "false"
