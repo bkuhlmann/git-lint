@@ -7,6 +7,7 @@ require "simplecov"
 SimpleCov.start { enable_coverage :branch }
 
 require "git/lint"
+require "refinements"
 
 using Refinements::Pathnames
 
