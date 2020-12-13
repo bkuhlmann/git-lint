@@ -915,14 +915,19 @@ configuration disabled.
 * Use small, atomic commits:
 ** Easier to review and provide feedback.
 ** Easier to review implementation and corresponding tests.
-** Easier to document with detailed subject messages (especially when grouped together in a pull
-   request).
+** Easier to document with detailed subjects (especially when grouped together in a pull request).
 ** Easier to reword, edit, squash, fix, or drop when interactively rebasing.
 ** Easier to combine together versus tearing apart a larger commit into smaller commits.
 * Use logically ordered commits:
 ** Each commit should tell a story and be a logical building block to the next commit.
+** Each commit should, ideally, be the implementation plus corresponding test. Avoid committing
+   changes that are a jumble of mixed ideas as they are hard to decipher and a huge insult not only
+   to the reviewer but your future self.
 ** Each commit, when reviewed in order, should be able to explain _how_ the feature or bug fix was
    completed and implemented properly.
+* Keep refactored code separate from behavioral changes. This makes the review process easier
+  because you don't have to sift through all the line and format changes to figure out what is new
+  or changed.
 
 === Branches
 
@@ -956,8 +961,11 @@ configuration disabled.
 
 === Code Reviews
 
-There are two objectives each code review should achieve:
+There are three main objectives each code review should achieve:
 
+. *Joy* - The experience of working with you, receiving feedback, giving feedback, and demonstrating
+   a level of care influences others and encourages a collaborative environment that is fun to work
+   in. Use this time to build and reinforce trust amongst your fellow colleagues.
 . *Quality*: Ensures changes are of highest quality that adhere to team standards while enhancing
    the customer experience and not disrupting their workflow.
 . *Education*: Provides a chance for everyone on the team to learn more about the architecture,
@@ -967,13 +975,22 @@ There are two objectives each code review should achieve:
 In addition to the objectives above, the following guidelines are worth following:
 
 * Keep code reviews short and easy to review:
+** Review your own code first before submitting to others. By ensuring your are confident in the
+   overall implementation and the commits in terms of commit messages and implementation details,
+   you'll encourage higher quality feedback and show appreciation for the reviewer's time.
 ** Provide a high level overview that answers _why_ the code review is necessary.
-** Provide a link to the issue/task that prompted the code review (if any).
+** Provide a link to the issue that prompted the code review (if any) and any additional details
+   worth highlighting to guide the reviewer through the process.
 ** Provide screenshots/screencasts if possible.
-** Ensure commits within the code review are related to the purpose of the code review.
-** Prefer code reviews at about 250 lines in order to keep the quality of the code review and defect
-   detection high.
-** Avoid working on a large issue without getting feedback first in order to not overwhelm/surprise
+** Provide any ancillary notes or points of interest worth highlighting for the reviewer.
+** Ensure commits within the code review are related to the purpose of the code review and avoid
+   mixing in changes that are ancillary to the primary objective of the code view. If you do have
+   changes outside of the scope of the current code review, open those changes up as a separate code
+   review instead.
+** Prefer code reviews at about 300 lines in order to keep the quality of the code review and defect
+   detection high. This also shows you value the reviewers time and attention away from their own
+   work.
+** Avoid working on a large issues without first getting feedback in order to not overwhelm/surprise
    the maintainers. More discussion up front will help ensure your work has a faster chance of
    acceptance.
 * Review and rebase code reviews quickly:
@@ -1013,9 +1030,14 @@ In addition to the objectives above, the following guidelines are worth followin
     always meant as a response to helpful feedback.
 ** ✅ (`:white_check_mark:`) - Signifies code review approval. The author can
     rebase onto `master` and delete the feature branch at this point.
+* Use all feedback as a chance to learn, teach, strenghen the bond of trust between you and your
+  fellow colleagues, and avoid being cut by
+  link:https://fs.blog/2017/04/mental-model-hanlons-razor[Hanlon's Razor].
+* Use automation to ensure code reviews are consistent, of high quality, and swift to resolve. Each
+  code review can be an opportunity to identify and automate the process further.
 * Use face-to-face communication if a code review's written discussion gets lengthy/noisy.
-* Create new tasks/actions if additional features are discovered during a code review to avoid
-  delaying code review acceptance. Return to the code review once tasks have been logged.
+* Create follow-up actions if additional features are discovered during a code review to avoid
+  delaying code review acceptance. Return to the code review once the new actions have been logged.
 * The author, not the reviewer, should rebase the feature branch onto `master` upon approval.
 * Avoid reviewing your own code review before rebasing onto `master`. Have another pair of eyes
   review your code first.
