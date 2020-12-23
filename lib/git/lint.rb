@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "git_plus"
 require "git/lint/identity"
 require "git/kit/repo"
 require "git/lint/refinements/strings"
