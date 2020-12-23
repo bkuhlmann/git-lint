@@ -24,7 +24,7 @@ module Git
         # rubocop:enable Metrics/ParameterLists
 
         def valid?
-          affected_commit_trailer_lines.empty?
+          affected_commit_trailers.empty?
         end
 
         def issue
@@ -32,7 +32,7 @@ module Git
 
           {
             hint: %(Email must follow name and use format: "<name@server.domain>".),
-            lines: affected_commit_trailer_lines
+            lines: affected_commit_trailers
           }
         end
 

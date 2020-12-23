@@ -3,18 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
-  subject(:analyzer) { described_class.new commit: commit, settings: settings }
-
-  let(:body_lines) { ["Curabitur eleifend wisi iaculis ipsum."] }
-  let(:status) { instance_double Process::Status, success?: true }
-  let(:shell) { class_spy Open3, capture2e: ["", status] }
-
-  let :commit do
-    object_double Git::Lint::Commits::Saved.new(sha: "1", shell: shell), body_lines: body_lines
-  end
-
-  let(:length) { 72 }
-  let(:settings) { {enabled: true, length: length} }
+  subject(:analyzer) { described_class.new commit: commit }
 
   describe ".id" do
     it "answers class ID" do
@@ -40,14 +29,18 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
 
   describe "#valid?" do
     context "when valid" do
+      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
+
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
       end
     end
 
     context "when invalid (single line)" do
-      let :body_lines do
-        ["Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egest."]
+      let :commit do
+        GitPlus::Commit[
+          body_lines: ["Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egest."]
+        ]
       end
 
       it "answers false" do
@@ -56,11 +49,13 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
     end
 
     context "when invalid (multiple lines)" do
-      let :body_lines do
-        [
-          "- Curabitur eleifend wisi iaculis ipsum.",
-          "- Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.",
-          "- Donec eu_libero sit amet quam egestas semper. Aenean ultricies mi vitae est."
+      let :commit do
+        GitPlus::Commit[
+          body_lines: [
+            "- Curabitur eleifend wisi iaculis ipsum.",
+            "- Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.",
+            "- Donec eu_libero sit amet quam egestas semper. Aenean ultricies mi vitae est."
+          ]
         ]
       end
 
@@ -74,23 +69,30 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
+      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
+
       it "answers empty hash" do
         expect(issue).to eq({})
       end
     end
 
     context "when invalid" do
-      let(:length) { 55 }
-      let :body_lines do
-        [
-          "- Curabitur eleifend wisi iaculis ipsum.",
-          "- Vestibulum tortor quam, feugiat vitae, ultricies eget bon.",
-          "- Donec eu_libero sit amet quam egestas semper. Aenean ultr."
+      subject :analyzer do
+        described_class.new commit: commit, settings: {enabled: true, length: 55}
+      end
+
+      let :commit do
+        GitPlus::Commit[
+          body_lines: [
+            "- Curabitur eleifend wisi iaculis ipsum.",
+            "- Vestibulum tortor quam, feugiat vitae, ultricies eget bon.",
+            "- Donec eu_libero sit amet quam egestas semper. Aenean ultr."
+          ]
         ]
       end
 
       it "answers issue hint" do
-        expect(issue[:hint]).to eq("Use #{length} characters or less per line.")
+        expect(issue[:hint]).to eq("Use 55 characters or less per line.")
       end
 
       it "answers issue lines" do

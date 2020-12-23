@@ -8,35 +8,35 @@ module Git
       module Environments
         # Provides Travis CI build environment feature branch information.
         class TravisCI
-          def initialize environment: ENV, repo: Git::Kit::Repo.new, shell: Open3
-            @environment = environment
-            @repo = repo
+          def initialize repository: GitPlus::Repository.new, shell: Open3, environment: ENV
+            @repository = repository
             @shell = shell
+            @environment = environment
           end
 
           def name
             pull_request_branch.empty? ? ci_branch : pull_request_branch
           end
 
-          def shas
+          def commits
             prepare_project
-            repo.shas start: "origin/master", finish: name
+            repository.commits "origin/master..#{name}"
           end
 
           private
 
-          attr_reader :environment, :repo, :shell
+          attr_reader :environment, :repository, :shell
 
           def prepare_project
             slug = pull_request_slug
 
             unless slug.empty?
-              shell.capture2e "git remote add -f original_branch https://github.com/#{slug}.git"
-              shell.capture2e "git fetch original_branch #{name}:#{name}"
+              shell.capture3 "git remote add -f original_branch https://github.com/#{slug}.git"
+              shell.capture3 "git fetch original_branch #{name}:#{name}"
             end
 
-            shell.capture2e "git remote set-branches --add origin master"
-            shell.capture2e "git fetch"
+            shell.capture3 "git remote set-branches --add origin master"
+            shell.capture3 "git fetch"
           end
 
           def ci_branch

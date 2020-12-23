@@ -20,7 +20,7 @@ module Git
         end
 
         def valid?
-          affected_commit_trailer_lines.empty?
+          affected_commit_trailers.empty?
         end
 
         def issue
@@ -28,7 +28,7 @@ module Git
 
           {
             hint: "Use format: #{filter_list.to_hint}.",
-            lines: affected_commit_trailer_lines
+            lines: affected_commit_trailers
           }
         end
 

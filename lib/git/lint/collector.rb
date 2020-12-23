@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require "refinements/strings"
+require "refinements/hashes"
 
 module Git
   module Lint
     class Collector
-      using Refinements::Strings
+      using ::Refinements::Hashes
 
       def initialize
-        @collection = Hash.new { |default, missing_id| default[missing_id] = [] }
+        @collection = Hash.with_default []
       end
 
       def add analyzer

@@ -2,8 +2,10 @@
 
 require "spec_helper"
 
-RSpec.describe Git::Lint::Runner, :temp_dir, :git_repo do
+RSpec.describe Git::Lint::Runner do
   subject(:runner) { described_class.new configuration: configuration.to_h }
+
+  include_context "with Git repository"
 
   let :defaults do
     {
@@ -22,7 +24,7 @@ RSpec.describe Git::Lint::Runner, :temp_dir, :git_repo do
 
   before do
     Dir.chdir git_repo_dir do
-      git_create_branch
+      `git switch --create test --track`
       `printf "%s\n" "Test content" > one.txt`
       `git add --all .`
     end
@@ -81,14 +83,11 @@ RSpec.describe Git::Lint::Runner, :temp_dir, :git_repo do
     end
 
     context "with single commit" do
-      it "processes commit" do
-        Dir.chdir git_repo_dir do
-          `git commit --no-verify --message "Add one.txt"`
-          commit = Git::Lint::Commits::Saved.new sha: `git log --pretty=format:%H -1`
-          collector = runner.call commits: commit
+      include_context "with Git commit"
 
-          expect(collector.issues?).to eq(true)
-        end
+      it "processes commit" do
+        collector = runner.call commits: [git_commit]
+        expect(collector.issues?).to eq(true)
       end
     end
   end

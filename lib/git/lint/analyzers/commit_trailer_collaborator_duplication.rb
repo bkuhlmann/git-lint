@@ -20,7 +20,7 @@ module Git
         end
 
         def valid?
-          affected_commit_trailer_lines.empty?
+          affected_commit_trailers.empty?
         end
 
         def issue
@@ -28,7 +28,7 @@ module Git
 
           {
             hint: "Avoid duplication.",
-            lines: affected_commit_trailer_lines
+            lines: affected_commit_trailers
           }
         end
 
@@ -47,7 +47,7 @@ module Git
           zeros = Hash.new { |new_hash, missing_key| new_hash[missing_key] = 0 }
 
           zeros.tap do |collection|
-            commit.trailer_lines.each { |line| collection[line] += 1 if parser.new(line).match? }
+            commit.trailers.each { |line| collection[line] += 1 if parser.new(line).match? }
           end
         end
       end

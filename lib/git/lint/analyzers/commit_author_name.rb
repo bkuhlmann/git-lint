@@ -32,7 +32,7 @@ module Git
         attr_reader :validator
 
         def minimum
-          settings.fetch :minimum
+          settings.fetch __method__
         end
       end
     end

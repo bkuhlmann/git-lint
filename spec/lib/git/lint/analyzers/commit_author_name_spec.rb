@@ -3,18 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
-  subject(:analyzer) { described_class.new commit: commit, settings: settings }
-
-  let(:name) { "Example Tester" }
-  let(:status) { instance_double Process::Status, success?: true }
-  let(:shell) { class_spy Open3, capture2e: ["", status] }
-
-  let :commit do
-    object_double Git::Lint::Commits::Saved.new(sha: "1", shell: shell), author_name: name
-  end
-
-  let(:minimum) { 2 }
-  let(:settings) { {enabled: true, minimum: minimum} }
+  subject(:analyzer) { described_class.new commit: commit }
 
   describe ".id" do
     it "answers class ID" do
@@ -39,17 +28,8 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
   end
 
   describe "#valid?" do
-    context "with valid name" do
-      let(:name) { "Test Example" }
-
-      it "answers true" do
-        expect(analyzer.valid?).to eq(true)
-      end
-    end
-
-    context "with custom minimum" do
-      let(:name) { "Example" }
-      let(:minimum) { 1 }
+    context "when valid" do
+      let(:commit) { GitPlus::Commit[author_name: "Test Example"] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -57,10 +37,20 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
     end
 
     context "with invalid name" do
-      let(:name) { "Invalid" }
+      let(:commit) { GitPlus::Commit[author_name: "Bogus"] }
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
+      end
+    end
+
+    context "with custom minimum" do
+      subject(:analyzer) { described_class.new commit: commit, settings: {minimum: 1} }
+
+      let(:commit) { GitPlus::Commit[author_name: "Example"] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to eq(true)
       end
     end
   end
@@ -69,13 +59,15 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
+      let(:commit) { GitPlus::Commit[author_name: "Example Tester"] }
+
       it "answers empty hash" do
         expect(issue).to eq({})
       end
     end
 
     context "when invalid" do
-      let(:name) { "Invalid" }
+      let(:commit) { GitPlus::Commit[author_name: "Bogus"] }
 
       it "answers issue hint" do
         hint = "Author name must consist of 2 parts (minimum)."

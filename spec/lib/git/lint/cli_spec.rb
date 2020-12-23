@@ -5,10 +5,12 @@ require "spec_helper"
 RSpec.describe Git::Lint::CLI do
   subject(:cli) { described_class.start command_line }
 
+  include_context "with Git repository"
+
   let(:options) { [] }
   let(:command_line) { Array(command).concat options }
 
-  shared_examples_for "a config command", :temp_dir do
+  shared_examples_for "a config command" do
     context "with no options" do
       it "prints help text" do
         result = -> { cli }
@@ -17,11 +19,11 @@ RSpec.describe Git::Lint::CLI do
     end
   end
 
-  shared_examples_for "an analyze command", :git_repo do
+  shared_examples_for "an analyze command" do
     context "with warnings" do
       before do
         Dir.chdir git_repo_dir do
-          git_create_branch
+          `git switch --create test --track`
           `printf "%s\n" "Test content" > one.txt`
           `git add --all .`
           `git commit --no-verify --message "Added test file"`
@@ -38,7 +40,7 @@ RSpec.describe Git::Lint::CLI do
       it "prints commit label" do
         Dir.chdir git_repo_dir do
           result = -> { cli }
-          pattern = /[0-9a-f]{40}\s\(Test\sExample,\s\d\sseconds\sago\):\sAdded\stest\sfile/
+          pattern = /[0-9a-f]{40}\s\(Test\sUser,\s\d\sseconds\sago\):\sAdded\stest\sfile/
 
           expect(&result).to output(pattern).to_stdout
         end
@@ -71,7 +73,7 @@ RSpec.describe Git::Lint::CLI do
     context "with errors" do
       before do
         Dir.chdir git_repo_dir do
-          git_create_branch
+          `git switch --create test --track`
           `printf "%s\n" "Test content." > one.txt`
           `git add --all .`
           `git commit --no-verify --message "Made a test commit"`
@@ -108,7 +110,7 @@ RSpec.describe Git::Lint::CLI do
     context "with no issues" do
       before do
         Dir.chdir git_repo_dir do
-          git_create_branch
+          `git switch --create test --track`
           `printf "%s\n" "Test content" > one.txt`
           `git add --all .`
           `git commit --no-verify --message "Added a test commit" --message "A test body."`
@@ -145,7 +147,7 @@ RSpec.describe Git::Lint::CLI do
     end
   end
 
-  shared_examples_for "a hook command", :git_repo do
+  shared_examples_for "a hook command" do
     context "with valid commit" do
       let(:commit) { Bundler.root.join "spec", "support", "fixtures", "commit-valid.txt" }
       let(:options) { ["--commit-message", commit] }

@@ -34,7 +34,7 @@ module Git
         private
 
         def fixup_or_squash?
-          commit.is_a?(Git::Lint::Commits::Unsaved) && (commit.fixup? || commit.squash?)
+          commit.fixup? || commit.squash?
         end
       end
     end

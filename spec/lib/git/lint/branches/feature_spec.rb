@@ -5,10 +5,12 @@ require "spec_helper"
 RSpec.describe Git::Lint::Branches::Feature do
   subject(:feature_branch) { described_class.new environment: environment }
 
+  include_context "with Git repository"
+
   let(:environment) { {} }
 
-  describe ".initialize", :temp_dir do
-    let(:git_repo) { instance_spy Git::Kit::Repo, exist?: exist }
+  describe ".initialize" do
+    let(:git_repo) { instance_spy GitPlus::Repository, exist?: exist }
 
     context "when Git repository exists" do
       let(:exist) { true }
@@ -33,7 +35,7 @@ RSpec.describe Git::Lint::Branches::Feature do
   end
 
   describe "#name" do
-    context "with Circle CI environment", :git_repo do
+    context "with Circle CI environment" do
       let :environment do
         {
           "CIRCLECI" => "true",
@@ -45,13 +47,13 @@ RSpec.describe Git::Lint::Branches::Feature do
 
       it "answers name" do
         Dir.chdir git_repo_dir do
-          git_create_branch
+          `git switch --create test --track`
           expect(feature_branch.name).to eq("origin/test")
         end
       end
     end
 
-    context "with GitHub Action environment", :git_repo do
+    context "with GitHub Action environment" do
       let :environment do
         {
           "CIRCLECI" => "false",
@@ -63,13 +65,13 @@ RSpec.describe Git::Lint::Branches::Feature do
 
       it "answers name" do
         Dir.chdir git_repo_dir do
-          git_create_branch
+          `git switch --create test --track`
           expect(feature_branch.name).to eq("origin/test")
         end
       end
     end
 
-    context "with Netlify CI environment", :git_repo do
+    context "with Netlify CI environment" do
       let :environment do
         {
           "CIRCLECI" => "false",
@@ -82,13 +84,13 @@ RSpec.describe Git::Lint::Branches::Feature do
 
       it "answers name" do
         Dir.chdir git_repo_dir do
-          git_create_branch
+          `git switch --create test --track`
           expect(feature_branch.name).to eq("test")
         end
       end
     end
 
-    context "with Travis CI environment", :git_repo do
+    context "with Travis CI environment" do
       let :environment do
         {
           "CIRCLECI" => "false",
@@ -101,16 +103,16 @@ RSpec.describe Git::Lint::Branches::Feature do
 
       it "answers name" do
         Dir.chdir git_repo_dir do
-          git_create_branch
+          `git switch --create test --track`
           expect(feature_branch.name).to eq("test")
         end
       end
     end
 
-    context "with local environment", :git_repo do
+    context "with local environment" do
       before do
         Dir.chdir git_repo_dir do
-          git_create_branch
+          `git switch --create test --track`
         end
       end
 
@@ -122,45 +124,23 @@ RSpec.describe Git::Lint::Branches::Feature do
     end
   end
 
-  describe "#shas" do
-    context "with local environment", :git_repo do
+  describe "#commits" do
+    context "with local environment" do
       before do
         Dir.chdir git_repo_dir do
-          git_create_branch
-          git_commit_file "test.txt"
+          `git switch --create test --track`
+          `touch test.txt && git add . && git commit --message "Added test file"`
         end
       end
 
       it "answers SHA strings" do
         Dir.chdir git_repo_dir do
-          expect(feature_branch.shas).to all(match(/[0-9a-f]{40}/))
+          subjects = feature_branch.commits.map(&:subject)
+          expect(subjects).to contain_exactly("Added test file")
         end
       end
 
       it "answers SHA count" do
-        Dir.chdir git_repo_dir do
-          expect(feature_branch.shas.count).to eq(1)
-        end
-      end
-    end
-  end
-
-  describe "#commits" do
-    context "with local environment", :git_repo do
-      before do
-        Dir.chdir git_repo_dir do
-          git_create_branch
-          git_commit_file "test.txt"
-        end
-      end
-
-      it "answers saved commits" do
-        Dir.chdir git_repo_dir do
-          expect(feature_branch.commits).to all(be_a(Git::Lint::Commits::Saved))
-        end
-      end
-
-      it "answers commit count" do
         Dir.chdir git_repo_dir do
           expect(feature_branch.commits.count).to eq(1)
         end

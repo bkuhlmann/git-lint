@@ -3,18 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
-  subject(:analyzer) { described_class.new commit: commit, settings: settings }
-
-  let(:content) { "Added test subject." }
-  let(:status) { instance_double Process::Status, success?: true }
-  let(:shell) { class_spy Open3, capture2e: ["", status] }
-
-  let :commit do
-    object_double Git::Lint::Commits::Saved.new(sha: "1", shell: shell), subject: content
-  end
-
-  let(:length) { 25 }
-  let(:settings) { {enabled: true, length: length} }
+  subject(:analyzer) { described_class.new commit: commit }
 
   describe ".id" do
     it "answers class ID" do
@@ -40,21 +29,19 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
 
   describe "#valid?" do
     context "when valid" do
+      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
       end
     end
 
-    context "with invalid content" do
-      let(:content) { "Curabitur eleifend wisi iaculis ipsum." }
-
-      it "answers false" do
-        expect(analyzer.valid?).to eq(false)
-      end
-    end
-
     context "with fixup prefix and max subject length" do
-      let(:content) { "fixup! Curabitur eleifend wisix." }
+      let :commit do
+        GitPlus::Commit[
+          subject: "fixup! Added Curabitur eleifend wisi iaculis ipsum iaculis inia wazlouth tik mx"
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -62,7 +49,12 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     end
 
     context "with squash prefix and max subject length" do
-      let(:content) { "squash! Curabitur eleifend wisix." }
+      let :commit do
+        GitPlus::Commit[
+          subject: "squash! Added Curabitur eleifend wisi iaculis ipsum iaculis inia wazlouth " \
+                   "tik mx"
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -70,7 +62,9 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     end
 
     context "with invalid length" do
-      let(:length) { 10 }
+      subject(:analyzer) { described_class.new commit: commit, settings: {length: 10} }
+
+      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -82,13 +76,17 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
+      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+
       it "answers empty hash" do
         expect(issue).to eq({})
       end
     end
 
     context "when invalid" do
-      let(:length) { 10 }
+      subject(:analyzer) { described_class.new commit: commit, settings: {length: 10} }
+
+      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq("Use 10 characters or less.")

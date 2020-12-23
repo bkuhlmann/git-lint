@@ -3,6 +3,7 @@
 require "thor"
 require "thor/actions"
 require "runcom"
+require "pathname"
 require "pastel"
 
 module Git
@@ -60,7 +61,9 @@ module Git
                     type: :array,
                     default: []
       def analyze
-        collector = analyze_commits options.commits
+        # FIX: Need to accept SHAs.
+        # collector = analyze_commits options.commits
+        collector = analyze_commits
         abort if collector.errors?
       rescue Errors::Base => error
         abort colorizer.red("#{Identity::LABEL}: #{error.message}")
@@ -78,7 +81,7 @@ module Git
         else
           help "--hook"
         end
-      rescue Errors::Base => error
+      rescue Errors::Base, GitPlus::Errors::Base => error
         abort colorizer.red("#{Identity::LABEL}: #{error.message}")
       end
 
@@ -98,21 +101,16 @@ module Git
 
       attr_reader :configuration, :runner, :colorizer
 
-      def load_collector shas
-        commits = shas.map { |sha| Commits::Saved.new sha: sha }
-        commits.empty? ? runner.call : runner.call(commits: commits)
-      end
-
-      def analyze_commits shas
-        load_collector(shas).tap do |collector|
+      def analyze_commits
+        runner.call.tap do |collector|
           reporter = Reporters::Branch.new collector: collector
           say reporter.to_s
         end
       end
 
       def check_commit_message path
-        commit = Commits::Unsaved.new path: path
-        collector = runner.call commits: commit
+        commit = GitPlus::Repository.new.unsaved Pathname(path)
+        collector = runner.call commits: [commit]
         reporter = Reporters::Branch.new collector: collector
         say reporter.to_s
         abort if collector.errors?

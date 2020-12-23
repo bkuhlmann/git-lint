@@ -3,22 +3,21 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Reporters::Style do
-  subject(:reporter) { described_class.new analyzer_instance }
-
-  let(:severity) { :error }
-
-  let :analyzer_class do
-    class_spy Git::Lint::Analyzers::CommitAuthorEmail, label: "Commit Author Email"
-  end
-
-  let :analyzer_instance do
-    instance_spy Git::Lint::Analyzers::CommitAuthorEmail,
-                 class: analyzer_class,
-                 severity: severity,
-                 issue: issue
-  end
+  subject(:reporter) { described_class.new analyzer }
 
   describe "#to_s" do
+    let :analyzer do
+      instance_spy Git::Lint::Analyzers::CommitAuthorEmail,
+                   class: class_spy(
+                     Git::Lint::Analyzers::CommitAuthorEmail,
+                     label: "Commit Author Email"
+                   ),
+                   severity: severity,
+                   issue: issue
+    end
+
+    let(:severity) { :error }
+
     context "with warning" do
       let(:severity) { :warn }
       let(:issue) { {hint: "A test hint."} }

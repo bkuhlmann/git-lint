@@ -5,13 +5,6 @@ require "spec_helper"
 RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
   subject(:analyzer) { described_class.new commit: commit }
 
-  let(:status) { instance_double Process::Status, success?: true }
-  let(:shell) { class_spy Open3, capture2e: ["", status] }
-
-  let :commit do
-    object_double Git::Lint::Commits::Saved.new(sha: "1", shell: shell), body_lines: body_lines
-  end
-
   describe ".id" do
     it "answers class ID" do
       expect(described_class.id).to eq(:commit_body_bullet_capitalization)
@@ -36,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
 
   describe "#valid?" do
     context "with uppercase bullet" do
-      let(:body_lines) { ["- Test bullet."] }
+      let(:commit) { GitPlus::Commit[body_lines: ["- Test bullet."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -44,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     end
 
     context "with no bullet lines" do
-      let(:body_lines) { ["a test line."] }
+      let(:commit) { GitPlus::Commit[body_lines: ["a test line."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -52,7 +45,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     end
 
     context "with empty lines" do
-      let(:body_lines) { [] }
+      let(:commit) { GitPlus::Commit[body_lines: []] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -60,7 +53,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     end
 
     context "with lowercase bullet (no trailing space)" do
-      let(:body_lines) { ["-test bullet."] }
+      let(:commit) { GitPlus::Commit[body_lines: ["-test bullet."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -68,7 +61,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     end
 
     context "with lowercase bullet" do
-      let(:body_lines) { ["- test bullet."] }
+      let(:commit) { GitPlus::Commit[body_lines: ["- test bullet."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -76,7 +69,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     end
 
     context "with lowercase bullet (indented)" do
-      let(:body_lines) { ["  - test bullet."] }
+      let(:commit) { GitPlus::Commit[body_lines: ["  - test bullet."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -88,7 +81,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:body_lines) { [] }
+      let(:commit) { GitPlus::Commit[body_lines: ["- Test."]] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -96,7 +89,9 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     end
 
     context "when invalid" do
-      let(:body_lines) { ["Examples:", "- a bullet.", "- Another bullet."] }
+      let :commit do
+        GitPlus::Commit[body_lines: ["Examples:", "- a bullet.", "- Another bullet."]]
+      end
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq("Capitalize first word.")

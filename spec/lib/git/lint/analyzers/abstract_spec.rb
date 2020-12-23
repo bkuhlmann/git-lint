@@ -3,16 +3,13 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::Abstract do
-  subject(:analyzer) { described_class.new commit: commit, settings: settings }
+  subject(:analyzer) { described_class.new commit: git_commit, settings: settings }
 
-  let(:sha) { "123" }
-  let(:status) { instance_double Process::Status, success?: true }
-  let(:shell) { class_spy Open3, capture2e: ["", status] }
-  let(:commit) { object_double Git::Lint::Commits::Saved.new(sha: sha, shell: shell), sha: sha }
-  let(:enabled) { true }
-  let(:settings) { {enabled: enabled} }
+  include_context "with Git commit"
 
-  let :valid_style_class do
+  let(:settings) { {enabled: true} }
+
+  let :valid_analyzer do
     Class.new described_class do
       def valid?
         true
@@ -20,16 +17,13 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
     end
   end
 
-  let :invalid_style_class do
+  let :invalid_analyzer do
     Class.new described_class do
       def valid?
         false
       end
     end
   end
-
-  let(:valid_style) { valid_style_class.new commit: commit, settings: settings }
-  let(:invalid_style) { invalid_style_class.new commit: commit, settings: settings }
 
   describe ".id" do
     it "answers class ID" do
@@ -88,7 +82,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
   describe "#enabled?" do
     context "when enabled" do
-      let(:enabled) { true }
+      let(:settings) { {enabled: true} }
 
       it "answers true" do
         expect(analyzer.enabled?).to eq(true)
@@ -96,7 +90,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
     end
 
     context "when disabled" do
-      let(:enabled) { false }
+      let(:settings) { {enabled: false} }
 
       it "answers false" do
         expect(analyzer.enabled?).to eq(false)
@@ -141,11 +135,11 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
   describe "#invalid?" do
     it "answers true when not valid" do
-      expect(invalid_style.invalid?).to eq(true)
+      expect(invalid_analyzer.new(commit: git_commit, settings: settings).invalid?).to eq(true)
     end
 
     it "answers false when valid" do
-      expect(valid_style.invalid?).to eq(false)
+      expect(valid_analyzer.new(commit: git_commit, settings: settings).invalid?).to eq(false)
     end
 
     it "fails with NotImplementedError when not implemented" do
@@ -155,14 +149,14 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
   end
 
   describe "#warning?" do
-    let(:settings) { {enabled: enabled, severity: :warn} }
+    let(:settings) { {enabled: true, severity: :warn} }
 
     it "answers true when invalid" do
-      expect(invalid_style.warning?).to eq(true)
+      expect(invalid_analyzer.new(commit: git_commit, settings: settings).warning?).to eq(true)
     end
 
     it "answers false when valid" do
-      expect(valid_style.warning?).to eq(false)
+      expect(valid_analyzer.new(commit: git_commit, settings: settings).warning?).to eq(false)
     end
 
     it "fails with NotImplementedError when not implemented" do
@@ -172,14 +166,14 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
   end
 
   describe "#error?" do
-    let(:settings) { {enabled: enabled, severity: :error} }
+    let(:settings) { {enabled: true, severity: :error} }
 
     it "answers true when invalid" do
-      expect(invalid_style.error?).to eq(true)
+      expect(invalid_analyzer.new(commit: git_commit, settings: settings).error?).to eq(true)
     end
 
     it "answers false when valid" do
-      expect(valid_style.error?).to eq(false)
+      expect(valid_analyzer.new(commit: git_commit, settings: settings).error?).to eq(false)
     end
 
     it "fails with NotImplementedError when not implemented" do

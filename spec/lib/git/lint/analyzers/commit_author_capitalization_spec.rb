@@ -3,18 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
-  subject(:analyzer) { described_class.new commit: commit, settings: settings }
-
-  let(:name) { "Example Tester" }
-  let(:status) { instance_double Process::Status, success?: true }
-  let(:shell) { class_spy Open3, capture2e: ["", status] }
-
-  let :commit do
-    object_double Git::Lint::Commits::Saved.new(sha: "1", shell: shell), author_name: name
-  end
-
-  let(:minimum) { 2 }
-  let(:settings) { {enabled: true, minimum: minimum} }
+  subject(:analyzer) { described_class.new commit: commit }
 
   describe ".id" do
     it "answers class ID" do
@@ -39,7 +28,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
 
   describe "#valid?" do
     context "with capitalization" do
-      let(:name) { "Example Test" }
+      let(:commit) { GitPlus::Commit[author_name: "Example Test"] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -47,10 +36,19 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
     end
 
     context "without capitalization" do
-      let(:name) { "Example test" }
+      let(:commit) { GitPlus::Commit[author_name: "Example test"] }
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
+      end
+    end
+
+    context "with custom minimum" do
+      let(:commit) { GitPlus::Commit[author_name: "Example"] }
+      let(:settings) { {enabled: true, minimum: 1} }
+
+      it "answers true" do
+        expect(analyzer.valid?).to eq(true)
       end
     end
   end
@@ -59,13 +57,15 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
+      let(:commit) { GitPlus::Commit[author_name: "Example Test"] }
+
       it "answers empty hash" do
         expect(issue).to eq({})
       end
     end
 
     context "when invalid" do
-      let(:name) { "example" }
+      let(:commit) { GitPlus::Commit[author_name: "example"] }
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq(%(Capitalize each part of name: "example".))

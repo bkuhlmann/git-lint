@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "forwardable"
+require "refinements/strings"
 
 module Git
   module Lint
@@ -9,18 +10,16 @@ module Git
       class Feature
         extend Forwardable
 
-        def_delegators :selected_environment, :name, :shas
+        using ::Refinements::Strings
 
-        def initialize environment: ENV, git_repo: Git::Kit::Repo.new
+        def_delegators :selected_environment, :name, :commits
+
+        def initialize environment: ENV, git_repo: GitPlus::Repository.new
           message = "Invalid repository. Are you within a Git-enabled project?"
           fail Errors::Base, message unless git_repo.exist?
 
           @current_environment = environment
           @selected_environment = load_environment
-        end
-
-        def commits
-          shas.map { |sha| Commits::Saved.new sha: sha }
         end
 
         private
@@ -37,7 +36,7 @@ module Git
         end
 
         def key? key
-          current_environment[key] == "true"
+          current_environment.fetch(key, "false").to_bool
         end
       end
     end

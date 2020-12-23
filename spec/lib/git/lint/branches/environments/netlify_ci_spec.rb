@@ -3,39 +3,37 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Branches::Environments::NetlifyCI do
-  subject(:netlify_ci) { described_class.new environment: environment, repo: repo, shell: shell }
+  subject :branch do
+    described_class.new repository: repository, shell: shell, environment: environment
+  end
 
   let(:environment) { {"HEAD" => "test", "REPOSITORY_URL" => "https://www.example.com/test.git"} }
-  let(:repo) { instance_spy Git::Kit::Repo, shas: %w[abc def] }
+  let(:repository) { instance_spy GitPlus::Repository }
   let(:shell) { class_spy Open3 }
 
   describe "#name" do
     it "answers Git branch name" do
-      expect(netlify_ci.name).to eq("test")
+      expect(branch.name).to eq("test")
     end
   end
 
-  describe "#shas" do
+  describe "#commits" do
     it "adds remote origin branch" do
-      netlify_ci.shas
+      branch.commits
 
-      expect(shell).to have_received(:capture2e).with(
+      expect(shell).to have_received(:capture3).with(
         "git remote add -f origin https://www.example.com/test.git"
       )
     end
 
     it "fetches feature branch" do
-      netlify_ci.shas
-      expect(shell).to have_received(:capture2e).with("git fetch origin test:test")
+      branch.commits
+      expect(shell).to have_received(:capture3).with("git fetch origin test:test")
     end
 
     it "uses specific start and finish range" do
-      netlify_ci.shas
-      expect(repo).to have_received(:shas).with(start: "origin/master", finish: "origin/test")
-    end
-
-    it "answers Git commit SHAs" do
-      expect(netlify_ci.shas).to contain_exactly("abc", "def")
+      branch.commits
+      expect(repository).to have_received(:commits).with("origin/master..origin/test")
     end
   end
 end

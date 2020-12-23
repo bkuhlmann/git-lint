@@ -3,18 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
-  subject(:analyzer) { described_class.new commit: commit, settings: settings }
-
-  let(:content) { "Added test subject" }
-  let(:status) { instance_double Process::Status, success?: true }
-  let(:shell) { class_spy Open3, capture2e: ["", status] }
-
-  let :commit do
-    object_double Git::Lint::Commits::Saved.new(sha: "1", shell: shell), subject: content
-  end
-
-  let(:enabled) { true }
-  let(:settings) { {enabled: enabled, excludes: ["\\.", "\\?", "\\!"]} }
+  subject(:analyzer) { described_class.new commit: commit }
 
   describe ".id" do
     it "answers class ID" do
@@ -40,40 +29,54 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
 
   describe "#valid?" do
     context "when valid" do
-      it "answers true" do
-        expect(analyzer.valid?).to eq(true)
-      end
-    end
-
-    context "with empty include list" do
-      let(:suffixes) { [] }
+      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
       end
     end
 
-    context "with period suffix" do
-      let(:content) { "Added bad subject." }
+    context "with period" do
+      let(:commit) { GitPlus::Commit[subject: "Added specs."] }
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
       end
     end
 
-    context "with question suffix" do
-      let(:content) { "Added bad subject?" }
+    context "with question mark" do
+      let(:commit) { GitPlus::Commit[subject: "Added specs?"] }
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
       end
     end
 
-    context "with exclamation suffix" do
-      let(:content) { "Added bad subject!" }
+    context "with exclamation mark" do
+      let(:commit) { GitPlus::Commit[subject: "Added specs!"] }
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
+      end
+    end
+
+    context "with custom exclude list" do
+      subject(:analyzer) { described_class.new commit: commit, settings: {excludes: ["😅"]} }
+
+      let(:commit) { GitPlus::Commit[subject: "Added specs 😅"] }
+
+      it "answers false" do
+        expect(analyzer.valid?).to eq(false)
+      end
+    end
+
+    context "with empty exclude list" do
+      subject(:analyzer) { described_class.new commit: commit, settings: {excludes: []} }
+
+      let(:commit) { GitPlus::Commit[subject: "Added specs?"] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to eq(true)
       end
     end
   end
@@ -82,13 +85,15 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
+      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+
       it "answers empty hash" do
         expect(issue).to eq({})
       end
     end
 
     context "when invalid" do
-      let(:content) { "Added bad subject?" }
+      let(:commit) { GitPlus::Commit[subject: "Added specs?"] }
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq("Avoid: /\\./, /\\?/, /\\!/.")

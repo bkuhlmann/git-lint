@@ -11,7 +11,10 @@ require "refinements"
 
 using Refinements::Pathnames
 
-Pathname.require_tree __dir__, "support/shared_contexts/**/*.rb"
+require "git_plus/spec/shared_contexts/temp_dir"
+require "git_plus/spec/shared_contexts/git_commit"
+require "git_plus/spec/shared_contexts/git_repo"
+
 Pathname.require_tree __dir__, "support/shared_examples/**/*.rb"
 
 # Ensure CI environments are disabled for local testing purposes.

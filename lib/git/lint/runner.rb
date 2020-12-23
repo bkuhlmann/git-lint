@@ -3,19 +3,20 @@
 module Git
   module Lint
     class Runner
-      def initialize configuration:, collector: Collector.new
+      def initialize configuration:, branch: Branches::Feature.new, collector: Collector.new
         @configuration = configuration
+        @branch = branch
         @collector = collector
       end
 
-      def call commits: Branches::Feature.new.commits
-        Array(commits).map { |commit| check commit }
+      def call commits: branch.commits
+        commits.map { |commit| check commit }
         collector
       end
 
       private
 
-      attr_reader :configuration, :collector
+      attr_reader :configuration, :branch, :collector
 
       def check commit
         configuration.map { |id, settings| load_analyzer id, commit, settings }

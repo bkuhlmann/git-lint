@@ -12,12 +12,12 @@ module Git
         end
 
         def valid?
-          raw_body = commit.raw_body
-          subject, body = raw_body.split "\n", 2
+          message = commit.message
+          subject, body = message.split "\n", 2
 
           return true if !String(subject).empty? && String(body).strip.empty?
 
-          raw_body.match?(/\A.+(\n\n|\#).+/m)
+          message.match?(/\A.+(\n\n|\#).+/m)
         end
 
         def issue

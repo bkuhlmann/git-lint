@@ -5,13 +5,6 @@ require "spec_helper"
 RSpec.describe Git::Lint::Analyzers::CommitBodyIssueTrackerLink do
   subject(:analyzer) { described_class.new commit: commit }
 
-  let(:status) { instance_double Process::Status, success?: true }
-  let(:shell) { class_spy Open3, capture2e: ["", status] }
-
-  let :commit do
-    object_double Git::Lint::Commits::Saved.new(sha: "1", shell: shell), body_lines: body_lines
-  end
-
   describe ".id" do
     it "answers class ID" do
       expect(described_class.id).to eq(:commit_body_issue_tracker_link)
@@ -41,7 +34,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyIssueTrackerLink do
 
   describe "#valid?" do
     context "with no links" do
-      let(:body_lines) { ["A body line."] }
+      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -50,7 +43,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyIssueTrackerLink do
 
     ["fix #1", "Fix #12", "fixes #3", "Fixes #4", "fixed #5", "Fixed #6"].each do |line|
       context %(with "#{line}" link) do
-        let(:body_lines) { [line] }
+        let(:commit) { GitPlus::Commit[body_lines: [line]] }
 
         it "answers false" do
           expect(analyzer.valid?).to eq(false)
@@ -60,7 +53,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyIssueTrackerLink do
 
     ["close #1", "Close #12", "closes #3", "Closes #4", "closed #5", "Closed #6"].each do |line|
       context %(with "#{line}" link) do
-        let(:body_lines) { [line] }
+        let(:commit) { GitPlus::Commit[body_lines: [line]] }
 
         it "answers false" do
           expect(analyzer.valid?).to eq(false)
@@ -77,7 +70,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyIssueTrackerLink do
       "Resolved #6"
     ].each do |line|
       context %(with "#{line}" link) do
-        let(:body_lines) { [line] }
+        let(:commit) { GitPlus::Commit[body_lines: [line]] }
 
         it "answers false" do
           expect(analyzer.valid?).to eq(false)
@@ -86,7 +79,11 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyIssueTrackerLink do
     end
 
     context "with GitHub link" do
-      let(:body_lines) { ["This completes issue [#45](https://github.com/test/test/issues/24)."] }
+      let :commit do
+        GitPlus::Commit[
+          body_lines: ["This completes issue [#45](https://github.com/test/test/issues/24)."]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -98,7 +95,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyIssueTrackerLink do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:body_lines) { [] }
+      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -106,11 +103,13 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyIssueTrackerLink do
     end
 
     context "when invalid" do
-      let :body_lines do
-        [
-          "An example paragraph.",
-          "This work fixes #22 using suggestions from team.",
-          "See [Issue 22](https://github.com/test/project/issues/22)."
+      let :commit do
+        GitPlus::Commit[
+          body_lines: [
+            "An example paragraph.",
+            "This work fixes #22 using suggestions from team.",
+            "See [Issue 22](https://github.com/test/project/issues/22)."
+          ]
         ]
       end
 

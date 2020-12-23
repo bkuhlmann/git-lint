@@ -3,10 +3,11 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Branches::Environments::TravisCI do
-  subject(:travis_ci) { described_class.new environment: environment, repo: repo, shell: shell }
+  subject :branch do
+    described_class.new repository: repository, shell: shell, environment: environment
+  end
 
-  let(:environment) { {} }
-  let(:repo) { instance_spy Git::Kit::Repo, shas: %w[abc def] }
+  let(:repository) { instance_spy GitPlus::Repository }
   let(:shell) { class_spy Open3 }
 
   describe "#name" do
@@ -19,7 +20,7 @@ RSpec.describe Git::Lint::Branches::Environments::TravisCI do
       end
 
       it "answers pull request branch name" do
-        expect(travis_ci.name).to eq("pr_test")
+        expect(branch.name).to eq("pr_test")
       end
     end
 
@@ -32,20 +33,17 @@ RSpec.describe Git::Lint::Branches::Environments::TravisCI do
       end
 
       it "answers CI branch name" do
-        expect(travis_ci.name).to eq("ci_test")
+        expect(branch.name).to eq("ci_test")
       end
     end
   end
 
-  describe "#shas" do
-    let(:commits_command) { %(git log --pretty=format:"%H" origin/master..test_name) }
-
-    before do
-      allow(shell).to receive(:capture2e).with("git remote set-branches --add origin master")
-      allow(shell).to receive(:capture2e).with("git fetch")
-    end
-
+  describe "#commits" do
     context "with pull request branch and without slug" do
+      let :shell do
+        class_spy Open3, capture3: ["git remote set-branches --add origin master", "git fetch"]
+      end
+
       let :environment do
         {
           "TRAVIS_PULL_REQUEST_BRANCH" => "test_name",
@@ -54,16 +52,20 @@ RSpec.describe Git::Lint::Branches::Environments::TravisCI do
       end
 
       it "uses specific start and finish range" do
-        travis_ci.shas
-        expect(repo).to have_received(:shas).with(start: "origin/master", finish: "test_name")
-      end
-
-      it "answers Git commit SHAs" do
-        expect(travis_ci.shas).to contain_exactly("abc", "def")
+        branch.commits
+        expect(repository).to have_received(:commits).with("origin/master..test_name")
       end
     end
 
     context "with pull request branch and slug" do
+      let :shell do
+        class_spy Open3,
+                  capture3: [
+                    "git remote add -f original_branch https://github.com/test_slug.git",
+                    "git fetch original_branch test_name:test_name"
+                  ]
+      end
+
       let :environment do
         {
           "TRAVIS_PULL_REQUEST_BRANCH" => "test_name",
@@ -71,24 +73,9 @@ RSpec.describe Git::Lint::Branches::Environments::TravisCI do
         }
       end
 
-      let :remote_add_command do
-        "git remote add -f original_branch https://github.com/test_slug.git"
-      end
-
-      let(:remote_fetch_command) { "git fetch original_branch test_name:test_name" }
-
-      before do
-        allow(shell).to receive(:capture2e).with(remote_add_command)
-        allow(shell).to receive(:capture2e).with(remote_fetch_command)
-      end
-
       it "uses specific start and finish range" do
-        travis_ci.shas
-        expect(repo).to have_received(:shas).with(start: "origin/master", finish: "test_name")
-      end
-
-      it "answers Git commit SHAs" do
-        expect(travis_ci.shas).to contain_exactly("abc", "def")
+        branch.commits
+        expect(repository).to have_received(:commits).with("origin/master..test_name")
       end
     end
   end

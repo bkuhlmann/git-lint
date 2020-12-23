@@ -2,11 +2,10 @@
 
 require "spec_helper"
 
-RSpec.describe Git::Lint::Collector, :git_repo do
+RSpec.describe Git::Lint::Collector do
   subject(:collector) { described_class.new }
 
-  let(:sha) { Dir.chdir(git_repo_dir) { `git log --pretty=format:%H -1` } }
-  let(:commit) { Dir.chdir(git_repo_dir) { Git::Lint::Commits::Saved.new sha: sha } }
+  let(:commit) { GitPlus::Commit.new }
 
   let :valid_analyzer do
     instance_spy Git::Lint::Analyzers::CommitSubjectPrefix,

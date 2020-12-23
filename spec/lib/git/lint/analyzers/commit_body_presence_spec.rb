@@ -3,21 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
-  subject(:analyzer) { described_class.new commit: commit, settings: settings }
-
-  let(:fixup) { false }
-  let(:body_lines) { ["Curabitur eleifend wisi iaculis ipsum."] }
-  let(:status) { instance_double Process::Status, success?: true }
-  let(:shell) { class_spy Open3, capture2e: ["", status] }
-
-  let :commit do
-    object_double Git::Lint::Commits::Saved.new(sha: "1", shell: shell),
-                  body_lines: body_lines,
-                  fixup?: fixup
-  end
-
-  let(:minimum) { 1 }
-  let(:settings) { {enabled: true, minimum: minimum} }
+  subject(:analyzer) { described_class.new commit: commit }
 
   describe ".id" do
     it "answers class ID" do
@@ -33,14 +19,19 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
 
   describe "#valid?" do
     context "when valid" do
+      let(:commit) { GitPlus::Commit[subject: "Test", body_lines: ["Test."]] }
+
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
       end
     end
 
     context "when valid (custom minimum)" do
-      let(:minimum) { 3 }
-      let(:body_lines) { ["First line.", "Second line", "", "Third line."] }
+      subject :analyzer do
+        described_class.new commit: commit, settings: described_class.defaults.merge(minimum: 3)
+      end
+
+      let(:commit) { GitPlus::Commit[subject: "Test", body_lines: ["One.", "Two.", "Three."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -48,8 +39,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
     end
 
     context "when valid (fixup!)" do
-      let(:body_lines) { [] }
-      let(:fixup) { true }
+      let(:commit) { GitPlus::Commit[subject: "fixup! Test", body_lines: ["Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -57,16 +47,21 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
     end
 
     context "when invalid (empty)" do
-      let(:body_lines) { [""] }
+      let(:commit) { GitPlus::Commit[subject: "Test", body_lines: [""]] }
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
       end
     end
 
-    context "when invalid (custom minimum & not enough non-empty lines)" do
-      let(:minimum) { 3 }
-      let(:body_lines) { ["First line.", "\r", "", "\t", "Second one here."] }
+    context "when invalid (custom minimum and not enough non-empty lines)" do
+      subject :analyzer do
+        described_class.new commit: commit, settings: described_class.defaults.merge(minimum: 3)
+      end
+
+      let :commit do
+        GitPlus::Commit[subject: "Test", body_lines: ["One.", "\r", "", "\t", "Two."]]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -78,14 +73,21 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
+      let(:commit) { GitPlus::Commit[subject: "Test", body_lines: ["Test."]] }
+
       it "answers empty hash" do
         expect(issue).to eq({})
       end
     end
 
     context "when invalid" do
-      let(:minimum) { 3 }
-      let(:body_lines) { ["First line.", "\r", " ", "\t", "Second one here."] }
+      subject :analyzer do
+        described_class.new commit: commit, settings: described_class.defaults.merge(minimum: 3)
+      end
+
+      let :commit do
+        GitPlus::Commit[subject: "Test", body_lines: ["One.", "\r", " ", "\t", "Two."]]
+      end
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq("Use minimum of 3 lines (non-empty).")

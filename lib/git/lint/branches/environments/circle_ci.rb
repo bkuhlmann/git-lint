@@ -6,21 +6,21 @@ module Git
       module Environments
         # Provides Circle CI build environment feature branch information.
         class CircleCI
-          def initialize repo: Git::Kit::Repo.new
-            @repo = repo
+          def initialize repository: GitPlus::Repository.new
+            @repository = repository
           end
 
           def name
-            "origin/#{repo.branch_name}"
+            "origin/#{repository.branch_name}"
           end
 
-          def shas
-            repo.shas start: "origin/master", finish: name
+          def commits
+            repository.commits "origin/master..#{name}"
           end
 
           private
 
-          attr_reader :repo
+          attr_reader :repository
         end
       end
     end

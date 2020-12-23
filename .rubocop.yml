@@ -6,8 +6,3 @@ inherit_from:
 
 Lint/Void:
   CheckForMethodsWithNoSideEffects: false
-RSpec/SubjectStub:
-  Exclude:
-    - "spec/lib/git/lint/commits/unsaved_spec.rb"
-RSpec/MultipleMemoizedHelpers:
-  Enabled: false

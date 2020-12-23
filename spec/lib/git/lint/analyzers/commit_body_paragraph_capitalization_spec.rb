@@ -5,14 +5,6 @@ require "spec_helper"
 RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
   subject(:analyzer) { described_class.new commit: commit }
 
-  let(:status) { instance_double Process::Status, success?: true }
-  let(:shell) { class_spy Open3, capture2e: ["", status] }
-
-  let :commit do
-    object_double Git::Lint::Commits::Saved.new(sha: "1", shell: shell),
-                  body_paragraphs: body_paragraphs
-  end
-
   describe ".id" do
     it "answers class ID" do
       expect(described_class.id).to eq(:commit_body_paragraph_capitalization)
@@ -36,7 +28,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
 
   describe "#valid?" do
     context "with uppercase paragraph" do
-      let(:body_paragraphs) { ["A test paragraph."] }
+      let(:commit) { GitPlus::Commit[body_paragraphs: ["Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -44,7 +36,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
     end
 
     context "with empty paragraphs" do
-      let(:body_paragraphs) { [] }
+      let(:commit) { GitPlus::Commit[body_paragraphs: []] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -52,7 +44,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
     end
 
     context "with lowercase paragraph" do
-      let(:body_paragraphs) { ["a test paragraph."] }
+      let(:commit) { GitPlus::Commit[body_paragraphs: ["test."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -64,7 +56,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:body_paragraphs) { [] }
+      let(:commit) { GitPlus::Commit[body_paragraphs: ["Test."]] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -72,7 +64,9 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
     end
 
     context "when invalid" do
-      let(:body_paragraphs) { ["an invalid paragraph.\nwhich has\nmultiple lines."] }
+      let :commit do
+        GitPlus::Commit[body_paragraphs: ["an invalid paragraph.\nwhich has\nmultiple lines."]]
+      end
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq("Capitalize first word.")
