@@ -17,7 +17,7 @@ group :code_quality do
 end
 
 group :development do
-  gem "gemsmith", "~> 14.9"
+  # gem "gemsmith", "~> 14.11"
   gem "rake", "~> 13.0"
 end
 
