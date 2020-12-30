@@ -5,7 +5,7 @@ module Git
     module Parsers
       module Trailers
         class Collaborator
-          DEFAULT_KEY_PATTERN = /\ACo.*Authored.*By.*\Z/i.freeze
+          DEFAULT_KEY_PATTERN = /\ACo.*Authored.*By.*\Z/i
 
           DEFAULT_MATCH_PATTERN = /
             (?<key>\A.+)         # Key (anchored to start of line).
@@ -15,7 +15,7 @@ module Git
             (?<name_space>\s?)   # Space delimiter (optional).
             (?<email><.+>)?      # Collaborator email (optional).
             \Z                   # End of line.
-          /x.freeze
+          /x
 
           def initialize text,
                          key_pattern: DEFAULT_KEY_PATTERN,

@@ -4,7 +4,7 @@ module Git
   module Lint
     module Validators
       class Name
-        DEFAULT_DELIMITER = /\s{1}/.freeze
+        DEFAULT_DELIMITER = /\s{1}/
         DEFAULT_MINIMUM = 2
 
         def initialize text, delimiter: DEFAULT_DELIMITER, minimum: DEFAULT_MINIMUM
