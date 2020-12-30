@@ -1,5 +1,20 @@
 = Changes
 
+== 2.0.0 (2020-12-29)
+
+* Fixed Circle CI configuration for Bundler config path - Brooke Kuhlmann
+* Fixed Rubocop Style/RedundantFreeze issues - Brooke Kuhlmann
+* Added Circle CI explicit Bundle install configuration - Brooke Kuhlmann
+* Added Git+ dependency - Brooke Kuhlmann
+* Updated Circle CI Git version - Brooke Kuhlmann
+* Updated implementatation to use Git+ implementation - Brooke Kuhlmann
+* Updated to Refinements 7.18.0 - Brooke Kuhlmann
+* Updated to Refinements 8.0.0 - Brooke Kuhlmann
+* Updated to Ruby 3.0.0 - Brooke Kuhlmann
+* Updated to Runcom 7.0.0 - Brooke Kuhlmann
+* Removed duplicated Git+ implementation - Brooke Kuhlmann
+* Refactored branch reporter to list private methods in call order - Brooke Kuhlmann
+
 == 1.4.0 (2020-12-13)
 
 * Fixed Rubocop Performance/ConstantRegexp issues
