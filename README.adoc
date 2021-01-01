@@ -21,11 +21,6 @@ image::https://api.netlify.com/api/v1/badges/7e23b422-3412-4e7f-b654-65c0417a0b1
 A command line interface for linting Git commits. Ensures you maintain a clean, easy to read,
 debuggable, and maintainable project history.
 
-*Git Lint is the official port of the original Git Cop project that avoids references to violence or
-violent terminology that might make anyone feel unwelcome. The name change was necessary in order to
-better support the link:https://blacklivesmatter.com[Black Lives Matter] and
-link:https://8cantwait.org[Defund Police] movements.*
-
 toc::[]
 
 == Features
