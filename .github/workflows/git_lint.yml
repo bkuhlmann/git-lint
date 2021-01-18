@@ -1,0 +1,17 @@
+name: Git Lint
+
+on: pull_request
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          fetch-depth: '0'
+          ref: ${{github.head_ref}}
+      - name: Install
+        run: bundle install
+      - name: Analyze
+        run: bundle exec rake git_lint
