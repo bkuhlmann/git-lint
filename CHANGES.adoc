@@ -1,5 +1,16 @@
 = Changes
 
+== 2.1.0 (2021-01-19)
+
+- Fixed collector to manually build hash with default array - Brooke Kuhlmann
+- Added GitHub Action - Brooke Kuhlmann
+- Updated Rakefile to enable Git link checks - Brooke Kuhlmann
+- Updated to Gemsmith 15.0.0 - Brooke Kuhlmann
+- Updated to Git 2.30.0 - Brooke Kuhlmann
+- Updated to Git+ 0.2.0 - Brooke Kuhlmann
+- Updated to Rubocop 1.8.0 - Brooke Kuhlmann
+- Removed README Git Cop reference - Brooke Kuhlmann
+
 == 2.0.0 (2020-12-29)
 
 * Fixed Circle CI configuration for Bundler config path - Brooke Kuhlmann
