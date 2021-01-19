@@ -8,7 +8,7 @@ module Git
       using ::Refinements::Hashes
 
       def initialize
-        @collection = Hash.with_default []
+        @collection = Hash.new { |default, missing_id| default[missing_id] = [] }
       end
 
       def add analyzer
