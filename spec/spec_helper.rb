@@ -9,6 +9,9 @@ SimpleCov.start { enable_coverage :branch }
 require "git/lint"
 require "refinements"
 
+GC.auto_compact = true
+GC.verify_compaction_references double_heap: true, toward: :empty
+
 using Refinements::Pathnames
 
 require "git_plus/spec/shared_contexts/temp_dir"
