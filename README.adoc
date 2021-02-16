@@ -1016,8 +1016,8 @@ In addition to the objectives above, the following guidelines are worth followin
     implementation. This is _blocking_ and requires immediate correction. The reviewer should
     provide a suggested solution and/or links to patterns, articles, etc. that might help the author
     fix the implementation. Pairing is encouraged if feedback is vast and/or complex.
-** 🔒 (`:lock:`) - Signifies a security violation that would damage us and/or our customers. This is
-   _blocking_ feedback and must be addressed immediately.
+** 🔓 (`:unlock:`) - Signifies a security violation that would damage us and/or our customers. This
+   is _blocking_ feedback and must be addressed immediately.
 ** 💡 (`:bulb:`) - Indicates a helpful tip or trick for improving the code. This can be
     _blocking_ or _non-blocking_ feedback and is left up to the author to decide. Generally, it is a
     good idea to address and resolve the feedback.
