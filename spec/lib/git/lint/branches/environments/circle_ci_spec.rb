@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Git::Lint::Branches::Environments::CircleCI do
   subject(:branch) { described_class.new repository: repository }
 
-  let(:repository) { instance_spy GitPlus::Repository, branch_name: "test" }
+  let(:repository) { instance_spy GitPlus::Repository, branch_default: "main", branch_name: "test" }
 
   describe "#name" do
     it "answers Git branch name" do
@@ -16,7 +16,7 @@ RSpec.describe Git::Lint::Branches::Environments::CircleCI do
   describe "#commits" do
     it "uses specific start and finish range" do
       branch.commits
-      expect(repository).to have_received(:commits).with("origin/master..origin/test")
+      expect(repository).to have_received(:commits).with("origin/main..origin/test")
     end
   end
 end

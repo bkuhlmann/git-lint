@@ -20,7 +20,7 @@ module Git
 
           def commits
             prepare_project
-            repository.commits "origin/master..#{name}"
+            repository.commits "origin/#{repository.branch_default}..#{name}"
           end
 
           private
@@ -35,7 +35,7 @@ module Git
               shell.capture3 "git fetch original_branch #{name}:#{name}"
             end
 
-            shell.capture3 "git remote set-branches --add origin master"
+            shell.capture3 "git remote set-branches --add origin #{repository.branch_default}"
             shell.capture3 "git fetch"
           end
 

@@ -15,7 +15,7 @@ module Git
           end
 
           def commits
-            repository.commits "master..#{name}"
+            repository.commits "#{repository.branch_default}..#{name}"
           end
 
           private

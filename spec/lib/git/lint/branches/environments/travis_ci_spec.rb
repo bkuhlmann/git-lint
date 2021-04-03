@@ -7,7 +7,7 @@ RSpec.describe Git::Lint::Branches::Environments::TravisCI do
     described_class.new repository: repository, shell: shell, environment: environment
   end
 
-  let(:repository) { instance_spy GitPlus::Repository }
+  let(:repository) { instance_spy GitPlus::Repository, branch_default: "main" }
   let(:shell) { class_spy Open3 }
 
   describe "#name" do
@@ -41,7 +41,7 @@ RSpec.describe Git::Lint::Branches::Environments::TravisCI do
   describe "#commits" do
     context "with pull request branch and without slug" do
       let :shell do
-        class_spy Open3, capture3: ["git remote set-branches --add origin master", "git fetch"]
+        class_spy Open3, capture3: ["git remote set-branches --add origin main", "git fetch"]
       end
 
       let :environment do
@@ -53,7 +53,7 @@ RSpec.describe Git::Lint::Branches::Environments::TravisCI do
 
       it "uses specific start and finish range" do
         branch.commits
-        expect(repository).to have_received(:commits).with("origin/master..test_name")
+        expect(repository).to have_received(:commits).with("origin/main..test_name")
       end
     end
 
@@ -75,7 +75,7 @@ RSpec.describe Git::Lint::Branches::Environments::TravisCI do
 
       it "uses specific start and finish range" do
         branch.commits
-        expect(repository).to have_received(:commits).with("origin/master..test_name")
+        expect(repository).to have_received(:commits).with("origin/main..test_name")
       end
     end
   end

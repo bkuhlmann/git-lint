@@ -8,7 +8,7 @@ RSpec.describe Git::Lint::Branches::Environments::NetlifyCI do
   end
 
   let(:environment) { {"HEAD" => "test", "REPOSITORY_URL" => "https://www.example.com/test.git"} }
-  let(:repository) { instance_spy GitPlus::Repository }
+  let(:repository) { instance_spy GitPlus::Repository, branch_default: "main" }
   let(:shell) { class_spy Open3 }
 
   describe "#name" do
@@ -33,7 +33,7 @@ RSpec.describe Git::Lint::Branches::Environments::NetlifyCI do
 
     it "uses specific start and finish range" do
       branch.commits
-      expect(repository).to have_received(:commits).with("origin/master..origin/test")
+      expect(repository).to have_received(:commits).with("origin/main..origin/test")
     end
   end
 end

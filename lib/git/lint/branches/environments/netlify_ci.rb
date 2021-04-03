@@ -21,7 +21,7 @@ module Git
           def commits
             shell.capture3 "git remote add -f origin #{environment["REPOSITORY_URL"]}"
             shell.capture3 "git fetch origin #{name}:#{name}"
-            repository.commits "origin/master..origin/#{name}"
+            repository.commits "origin/#{repository.branch_default}..origin/#{name}"
           end
 
           private
