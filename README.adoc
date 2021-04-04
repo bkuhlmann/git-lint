@@ -14,7 +14,7 @@ image::https://img.shields.io/badge/code_style-alchemists-brightgreen.svg[Alchem
 image::https://circleci.com/gh/bkuhlmann/git-lint.svg?style=svg[Circle CI Status]
 
 [link=https://travis-ci.org/bkuhlmann/git-lint]
-image::https://travis-ci.org/bkuhlmann/git-lint.svg?branch=master[Travis CI Status]
+image::https://travis-ci.org/bkuhlmann/git-lint.svg?branch=main[Travis CI Status]
 [link=https://app.netlify.com/sites/git-lint/deploys]
 image::https://api.netlify.com/api/v1/badges/7e23b422-3412-4e7f-b654-65c0417a0b1f/deploy-status[Netlify CI Status]
 
@@ -27,9 +27,10 @@ toc::[]
 
 * Enforces a {git_rebase_workflow_link}.
 * Enforces a clean and consistent Git commit history.
+* Supports Git default branch configuration.
 * Provides a customizable suite of analyzers.
 * Provides Git Hook support for local use.
-* Provides Continuous Integration (CI) build server support.
+* Provides Continuous Integration (CI) support.
 
 == Screencasts
 
@@ -66,9 +67,9 @@ git-lint -v, [--version]       # Show gem version.
 To check if your Git commit history is clean, run: `git-lint --analyze`. It will exit with a failure
 if at least one issue with error severity is detected.
 
-This gem does not check commits on `master`. This is intentional as you would, generally, not want
-to rewrite or fix commits on `master`. This gem is best used on feature branches as it automatically
-detects all commits made since `master` on the feature branch.
+This gem does not check commits on your default branch (i.e. `main`). This is intentional as you
+would, generally, not want to rewrite or fix commits on the `main` branch. This gem is best used on
+feature branches as it automatically detects all commits made since creation of the feature branch.
 
 Here is an example workflow, using gem defaults with issues detected:
 
@@ -109,6 +110,21 @@ require "git/lint/rake/setup"
 Now, when running `bundle exec rake -T`, you'll see `git_lint` included in the list.
 
 If you need a concrete example, check out the link:Rakefile[Rakefile] of this project for details.
+
+=== Default Branch
+
+Your default branch configuration is respected no matter if it is set globally or locally. If the
+default branch is _not set_ then Git Lint will fall back to `master` for backwards compatibility.
+When the next major version is released, the default branch fallback will change from `master` to
+`main`. You can set your default branch at any time by running the following from the command line:
+
+[source,bash]
+----
+git config --add init.defaultBranch main
+----
+
+💡 When setting your default branch, ensure you use a consistent Git configuration across all of
+your environments.
 
 === Configuration
 
@@ -288,7 +304,7 @@ maintenance costs for you. To configure global Git Hooks, add the following to y
 ....
 
 Then you can customize Git Hooks for all of your projects.
-link:https://github.com/bkuhlmann/dotfiles/tree/master/home_files/.config/git/hooks[Check out these
+link:https://github.com/bkuhlmann/dotfiles/tree/main/home_files/.config/git/hooks[Check out these
 examples].
 
 If a global configuration is not desired, you can add Git Hooks at a per project level by editing
@@ -373,7 +389,7 @@ have a build server that is not listed, please log an issue or provide an implem
 support.
 
 Calculation of commits is done by reviewing all commits made on the feature branch since branching
-from `master`.
+from `main`.
 
 ==== link:https://circleci.com[Circle CI]
 
@@ -865,7 +881,7 @@ worth considering:
   blindly combine multiple commit messages without editing them into a single, coherent message._
 * Use `git rebase --interactive` when cleaning up commit history, order, messages, etc. This should
   be done prior to submitting a code review or when code review feedback has been addressed and
-  you are ready to rebase onto `master`.
+  you are ready to rebase onto `main`.
 * Use `git push --force-with-lease` instead of `git push --force` when pushing changes after an
   interactive rebasing session.
 * Avoid checking in development-specific configuration files (add to `.gitignore` instead).
@@ -927,7 +943,7 @@ configuration disabled.
 === Branches
 
 * Use feature branches for new work.
-* Maintain branches by rebasing upon `master` on a regular basis.
+* Maintain branches by rebasing upon `main` on a regular basis.
 
 === Tags
 
@@ -949,7 +965,7 @@ configuration disabled.
 * Use hooks globally rather than locally per project. Doing this applies the same functionality
   across all projects automatically, reduces maintenance per project, and provides consistency
   across all projects. This can best be managed via your
-  link:https://github.com/bkuhlmann/dotfiles/tree/master/home_files/.config/git/hooks[Dotfiles].
+  link:https://github.com/bkuhlmann/dotfiles/tree/main/home_files/.config/git/hooks[Dotfiles].
 * Avoid forcing global or local project hooks as a team-wide mandate. Hooks are a personal tool much
   like editors or other tools one choose to do their work. For team consistency, use a continuous
   integration build server instead.
@@ -1024,7 +1040,7 @@ In addition to the objectives above, the following guidelines are worth followin
 ** 🙇 (`:bow:`) - Indicates thankfulness of the feedback received. This is _non-blocking_ and
     always meant as a response to helpful feedback.
 ** ✅ (`:white_check_mark:`) - Signifies code review approval. The author can
-    rebase onto `master` and delete the feature branch at this point.
+    rebase onto `main` and delete the feature branch at this point.
 * Use all feedback as a chance to learn, teach, strenghen the bond of trust between you and your
   fellow colleagues, and avoid being cut by
   link:https://fs.blog/2017/04/mental-model-hanlons-razor[Hanlon's Razor].
@@ -1033,13 +1049,13 @@ In addition to the objectives above, the following guidelines are worth followin
 * Use face-to-face communication if a code review's written discussion gets lengthy/noisy.
 * Create follow-up actions if additional features are discovered during a code review to avoid
   delaying code review acceptance. Return to the code review once the new actions have been logged.
-* The author, not the reviewer, should rebase the feature branch onto `master` upon approval.
-* Avoid reviewing your own code review before rebasing onto `master`. Have another pair of eyes
+* The author, not the reviewer, should rebase the feature branch onto `main` upon approval.
+* Avoid reviewing your own code review before rebasing onto `main`. Have another pair of eyes
   review your code first.
-* Ensure the following criteria is met before rebasing your feature branch to `master`:
+* Ensure the following criteria is met before rebasing your feature branch to `main`:
 ** Ensure all `fixup!` and `squash!` commits are interactively rebased. _Avoid rebasing these onto
-   the `master` branch!_
-** Ensure your feature branch is rebased upon `master`.
+   the `main` branch!_
+** Ensure your feature branch is rebased upon `main`.
 ** Ensure all tests and code quality checks are passing.
 ** Ensure the feature branch is deleted after being successfully rebased.
 
@@ -1051,12 +1067,12 @@ and editing your merge options for code reviews as follows:
 
 image::https://www.alchemists.io/images/projects/git-lint/screenshots/github-settings-options.png[GitHub Merge Options]
 
-In addition to the above, you'll want to add _branch_ protection rules for your `master` branch. To
+In addition to the above, you'll want to add _branch_ protection rules for your `main` branch. To
 do this, follow these steps:
 
 . Visit your branch settings (i.e. `https://github.com/<username>/<project>/settings/branches`).
 . Click the _Add rule_ button.
-. For _branch name pattern_, enter: `master`.
+. For _branch name pattern_, enter: `main`.
 . Check _Require pull request reviews before merging_.
 . Set _Required approving reviews_ to `2` as a minimum.
 . Check _Dismiss stale pull request approvals when new commits are pushed_.
