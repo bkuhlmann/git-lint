@@ -19,11 +19,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
 
   describe ".defaults" do
     it "answers defaults" do
-      expect(described_class.defaults).to eq(
-        enabled: true,
-        severity: :error,
-        includes: %w[\\-]
-      )
+      expect(described_class.defaults).to eq(enabled: true, severity: :error, includes: %w[\\-])
     end
   end
 

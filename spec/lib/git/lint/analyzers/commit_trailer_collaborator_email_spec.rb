@@ -19,10 +19,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
 
   describe ".defaults" do
     it "answers defaults" do
-      expect(described_class.defaults).to eq(
-        enabled: true,
-        severity: :error
-      )
+      expect(described_class.defaults).to eq(enabled: true, severity: :error)
     end
   end
 
@@ -69,10 +66,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
 
     context "when invalid" do
       let :commit do
-        GitPlus::Commit[
-          trailers: ["Co-Authored-By: Test Example <invalid>"],
-          trailers_index: 2
-        ]
+        GitPlus::Commit[trailers: ["Co-Authored-By: Test Example <invalid>"], trailers_index: 2]
       end
 
       it "answers issue" do

@@ -19,11 +19,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
 
   describe ".defaults" do
     it "answers defaults" do
-      expect(described_class.defaults).to eq(
-        enabled: true,
-        severity: :error,
-        minimum: 2
-      )
+      expect(described_class.defaults).to eq(enabled: true, severity: :error, minimum: 2)
     end
   end
 

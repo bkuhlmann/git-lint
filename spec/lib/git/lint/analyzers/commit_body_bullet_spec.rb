@@ -19,11 +19,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
 
   describe ".defaults" do
     it "answers defaults" do
-      expect(described_class.defaults).to eq(
-        enabled: true,
-        severity: :error,
-        excludes: %w[\\* •]
-      )
+      expect(described_class.defaults).to eq(enabled: true, severity: :error, excludes: %w[\\* •])
     end
   end
 

@@ -92,8 +92,7 @@ RSpec.describe Git::Lint::CLI do
       it "prints zero issues for zero commits" do
         Dir.chdir git_repo_dir do
           result = -> { cli }
-          text = "Running Git Lint...\n" \
-                 "0 commits inspected. \e[32m0 issues\e[0m detected.\n"
+          text = "Running Git Lint...\n0 commits inspected. \e[32m0 issues\e[0m detected.\n"
 
           expect(&result).to output(text).to_stdout
         end
@@ -120,8 +119,7 @@ RSpec.describe Git::Lint::CLI do
       it "prints zero issues for one commit" do
         Dir.chdir git_repo_dir do
           result = -> { cli }
-          text = "Running Git Lint...\n" \
-                 "1 commit inspected. \e[32m0 issues\e[0m detected.\n"
+          text = "Running Git Lint...\n1 commit inspected. \e[32m0 issues\e[0m detected.\n"
 
           expect(&result).to output(text).to_stdout
         end

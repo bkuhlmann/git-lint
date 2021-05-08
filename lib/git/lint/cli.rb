@@ -71,10 +71,7 @@ module Git
 
       desc "--hook", "Add Git Hook support."
       map "--hook" => :hook
-      method_option :commit_message,
-                    desc: "Analyze commit message.",
-                    banner: "PATH",
-                    type: :string
+      method_option :commit_message, desc: "Analyze commit message.", banner: "PATH", type: :string
       def hook
         if options.commit_message?
           check_commit_message options.commit_message

@@ -19,11 +19,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
 
   describe ".defaults" do
     it "answers defaults" do
-      expect(described_class.defaults).to eq(
-        enabled: true,
-        severity: :error,
-        length: 72
-      )
+      expect(described_class.defaults).to eq(enabled: true, severity: :error, length: 72)
     end
   end
 

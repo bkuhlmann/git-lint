@@ -23,9 +23,7 @@ RSpec.describe Git::Lint::Reporters::Style do
       let(:issue) { {hint: "A test hint."} }
 
       it "answers analyzer label and issue hint" do
-        expect(reporter.to_s).to eq(
-          "\e[33m  Commit Author Email Warning. A test hint.\n\e[0m"
-        )
+        expect(reporter.to_s).to eq("\e[33m  Commit Author Email Warning. A test hint.\n\e[0m")
       end
     end
 
@@ -34,9 +32,7 @@ RSpec.describe Git::Lint::Reporters::Style do
       let(:issue) { {hint: "A test hint."} }
 
       it "answers analyzer label and issue hint" do
-        expect(reporter.to_s).to eq(
-          "\e[31m  Commit Author Email Error. A test hint.\n\e[0m"
-        )
+        expect(reporter.to_s).to eq("\e[31m  Commit Author Email Error. A test hint.\n\e[0m")
       end
     end
 
@@ -45,9 +41,7 @@ RSpec.describe Git::Lint::Reporters::Style do
       let(:issue) { {hint: "A test hint."} }
 
       it "answers analyzer label and issue hint" do
-        expect(reporter.to_s).to eq(
-          "\e[37m  Commit Author Email. A test hint.\n\e[0m"
-        )
+        expect(reporter.to_s).to eq("\e[37m  Commit Author Email. A test hint.\n\e[0m")
       end
     end
 

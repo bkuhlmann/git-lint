@@ -110,11 +110,7 @@ RSpec.describe Git::Lint::Branches::Feature do
     end
 
     context "with local environment" do
-      before do
-        Dir.chdir git_repo_dir do
-          `git switch --create test --track`
-        end
-      end
+      before { Dir.chdir(git_repo_dir) { `git switch --create test --track` } }
 
       it "answers name" do
         Dir.chdir git_repo_dir do

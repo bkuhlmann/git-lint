@@ -19,10 +19,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorCapitalization do
 
   describe ".defaults" do
     it "answers defaults" do
-      expect(described_class.defaults).to eq(
-        enabled: true,
-        severity: :error
-      )
+      expect(described_class.defaults).to eq(enabled: true, severity: :error)
     end
   end
 
