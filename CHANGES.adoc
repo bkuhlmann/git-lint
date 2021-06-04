@@ -1,5 +1,13 @@
 = Changes
 
+== 2.2.1 (2021-06-04)
+
+* Fixed Rubocop Layout/RedundantLineBreak issues - Brooke Kuhlmann
+* Updated README to improve refactoring definition - Brooke Kuhlmann
+* Updated README to point to Alchemists code reviews article - Brooke Kuhlmann
+* Updated to Rubocop 1.14.0 - Brooke Kuhlmann
+* Updated to Ruby 3.0.1 - Brooke Kuhlmann
+
 == 2.2.0 (2021-04-04)
 
 * Added Git default branch detection - Brooke Kuhlmann
