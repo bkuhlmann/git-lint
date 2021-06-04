@@ -747,9 +747,12 @@ Ensures the commit subject uses consistent prefixes that explain _what_ is being
 * *Updated* - Identifies what was updated. The commit should be as small as possible and _not add
   or fix_ existing behavior. This can sometimes be a grey area but is typically reserved for updates
   to documentation, code comments, dependencies, etc.
-* *Refactored* - Identifies what was refactored. The commit should be as small as possible and only
-  improve existing functionality while avoiding changes in behavior (especially to public API
-  that might effect downstream dependencies). Refactored code should never break existing specs.
+* *Refactored* - Identifies what was refactored.
+  link:https://thoughtbot.com/blog/lets-not-misuse-refactoring[_Refactoring is for changing code
+  structure without changing observable behavior_]. The commit should be as small as possible and
+  not mix multiple kinds of changes at once. Refactored code should never break existing
+  implementation behavior or corresponding specs because, if that happens, then one of the other
+  four prefixes is what you want to use instead.
 
 In practice, using a prefix other than what has been detailed above to explain _what_ is being
 committed is never needed. These prefixes are not only short and easy to remember but also have the
