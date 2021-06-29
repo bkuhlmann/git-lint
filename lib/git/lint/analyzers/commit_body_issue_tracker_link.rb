@@ -17,9 +17,7 @@ module Git
           }
         end
 
-        def valid?
-          commit.body_lines.none? { |line| invalid_line? line }
-        end
+        def valid? = commit.body_lines.none? { |line| invalid_line? line }
 
         def issue
           return {} if valid?
@@ -32,13 +30,9 @@ module Git
 
         protected
 
-        def load_filter_list
-          Kit::FilterList.new settings.fetch :excludes
-        end
+        def load_filter_list = Kit::FilterList.new(settings.fetch(:excludes))
 
-        def invalid_line? line
-          line.match?(/.*#{Regexp.union filter_list.to_regexp}.*/)
-        end
+        def invalid_line?(line) = line.match?(/.*#{Regexp.union filter_list.to_regexp}.*/)
       end
     end
   end

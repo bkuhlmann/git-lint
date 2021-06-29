@@ -9,17 +9,11 @@ module Git
           @list = Array list
         end
 
-        def to_hint
-          to_regexp.map(&:inspect).join ", "
-        end
+        def to_hint = to_regexp.map(&:inspect).join(", ")
 
-        def to_regexp
-          list.map { |item| Regexp.new item }
-        end
+        def to_regexp = list.map { |item| Regexp.new item }
 
-        def empty?
-          list.empty?
-        end
+        def empty? = list.empty?
 
         private
 

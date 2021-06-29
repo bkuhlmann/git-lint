@@ -12,9 +12,7 @@ module Git
           }
         end
 
-        def valid?
-          commit.subject.sub(/(fixup!|squash!)\s{1}/, "").size <= length
-        end
+        def valid? = commit.subject.sub(/(fixup!|squash!)\s{1}/, "").size <= length
 
         def issue
           return {} if valid?
@@ -24,9 +22,7 @@ module Git
 
         private
 
-        def length
-          settings.fetch :length
-        end
+        def length = settings.fetch(:length)
       end
     end
   end

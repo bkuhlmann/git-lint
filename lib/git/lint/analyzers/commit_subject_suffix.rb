@@ -30,9 +30,7 @@ module Git
 
         protected
 
-        def load_filter_list
-          Kit::FilterList.new settings.fetch(:excludes)
-        end
+        def load_filter_list = Kit::FilterList.new(settings.fetch(:excludes))
       end
     end
   end

@@ -23,9 +23,7 @@ module Git
 
         attr_reader :data
 
-        def content
-          data.fetch :content
-        end
+        def content = data.fetch(__method__)
       end
     end
   end

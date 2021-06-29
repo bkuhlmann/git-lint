@@ -21,9 +21,7 @@ module Git
           valid_lines.size >= minimum
         end
 
-        def minimum
-          settings.fetch :minimum
-        end
+        def minimum = settings.fetch(:minimum)
 
         def issue
           return {} if valid?

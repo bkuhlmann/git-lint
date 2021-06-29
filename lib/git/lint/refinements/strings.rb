@@ -11,13 +11,9 @@ module Git
             "#{count} #{self}#{suffix}"
           end
 
-          def fixup?
-            match?(/\Afixup!\s/)
-          end
+          def fixup? = match?(/\Afixup!\s/)
 
-          def squash?
-            match?(/\Asquash!\s/)
-          end
+          def squash? = match?(/\Asquash!\s/)
         end
       end
     end

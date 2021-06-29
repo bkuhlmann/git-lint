@@ -19,9 +19,7 @@ module Git
           @tally = build_tally
         end
 
-        def valid?
-          affected_commit_trailers.empty?
-        end
+        def valid? = affected_commit_trailers.empty?
 
         def issue
           return {} if valid?

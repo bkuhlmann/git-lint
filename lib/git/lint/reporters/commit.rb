@@ -21,9 +21,7 @@ module Git
 
         attr_reader :commit, :analyzers
 
-        def report
-          analyzers.reduce("") { |report, analyzer| report + Style.new(analyzer).to_s }
-        end
+        def report = analyzers.reduce("") { |report, analyzer| report + Style.new(analyzer).to_s }
       end
     end
   end

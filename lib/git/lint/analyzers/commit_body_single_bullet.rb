@@ -12,9 +12,7 @@ module Git
           }
         end
 
-        def valid?
-          affected_commit_body_lines.size != 1
-        end
+        def valid? = affected_commit_body_lines.size != 1
 
         def issue
           return {} if valid?
@@ -27,13 +25,9 @@ module Git
 
         protected
 
-        def load_filter_list
-          Kit::FilterList.new settings.fetch :includes
-        end
+        def load_filter_list = Kit::FilterList.new(settings.fetch(:includes))
 
-        def invalid_line? line
-          line.match?(/\A#{Regexp.union filter_list.to_regexp}\s+/)
-        end
+        def invalid_line?(line) = line.match?(/\A#{Regexp.union filter_list.to_regexp}\s+/)
       end
     end
   end

@@ -9,9 +9,7 @@ module Git
       class Tasks
         include ::Rake::DSL
 
-        def self.setup
-          new.install
-        end
+        def self.setup = new.install
 
         def initialize cli: CLI
           @cli = cli

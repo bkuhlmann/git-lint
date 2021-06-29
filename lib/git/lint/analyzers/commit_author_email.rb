@@ -16,9 +16,7 @@ module Git
           @validator = validator
         end
 
-        def valid?
-          validator.new(commit.author_email).valid?
-        end
+        def valid? = validator.new(commit.author_email).valid?
 
         def issue
           return {} if valid?

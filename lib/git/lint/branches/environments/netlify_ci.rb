@@ -14,9 +14,7 @@ module Git
             @environment = environment
           end
 
-          def name
-            environment["HEAD"]
-          end
+          def name = environment["HEAD"]
 
           def commits
             shell.capture3 "git remote add -f origin #{environment["REPOSITORY_URL"]}"

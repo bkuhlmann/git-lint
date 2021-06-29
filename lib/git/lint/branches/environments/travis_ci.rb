@@ -14,9 +14,7 @@ module Git
             @environment = environment
           end
 
-          def name
-            pull_request_branch.empty? ? ci_branch : pull_request_branch
-          end
+          def name = pull_request_branch.empty? ? ci_branch : pull_request_branch
 
           def commits
             prepare_project
@@ -39,17 +37,11 @@ module Git
             shell.capture3 "git fetch"
           end
 
-          def ci_branch
-            environment["TRAVIS_BRANCH"]
-          end
+          def ci_branch = environment["TRAVIS_BRANCH"]
 
-          def pull_request_branch
-            environment["TRAVIS_PULL_REQUEST_BRANCH"]
-          end
+          def pull_request_branch = environment["TRAVIS_PULL_REQUEST_BRANCH"]
 
-          def pull_request_slug
-            environment["TRAVIS_PULL_REQUEST_SLUG"]
-          end
+          def pull_request_slug = environment["TRAVIS_PULL_REQUEST_SLUG"]
         end
       end
     end

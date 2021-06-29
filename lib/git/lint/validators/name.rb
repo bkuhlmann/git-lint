@@ -13,17 +13,13 @@ module Git
           @minimum = minimum
         end
 
-        def valid?
-          parts.size >= minimum && parts.all? { |name| !String(name).empty? }
-        end
+        def valid? = parts.size >= minimum && parts.all? { |name| !String(name).empty? }
 
         private
 
         attr_reader :text, :delimiter, :minimum
 
-        def parts
-          String(text).split delimiter
-        end
+        def parts = String(text).split(delimiter)
       end
     end
   end

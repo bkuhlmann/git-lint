@@ -12,17 +12,13 @@ module Git
           @pattern = pattern
         end
 
-        def valid?
-          parts.all? { |name| String(name).match? pattern }
-        end
+        def valid? = parts.all? { |name| String(name).match? pattern }
 
         private
 
         attr_reader :text, :delimiter, :pattern
 
-        def parts
-          text.split delimiter
-        end
+        def parts = text.split(delimiter)
       end
     end
   end

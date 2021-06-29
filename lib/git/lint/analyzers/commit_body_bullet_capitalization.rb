@@ -12,9 +12,7 @@ module Git
           }
         end
 
-        def valid?
-          lowercased_bullets.size.zero?
-        end
+        def valid? = lowercased_bullets.size.zero?
 
         def issue
           return {} if valid?
@@ -27,9 +25,7 @@ module Git
 
         protected
 
-        def load_filter_list
-          Kit::FilterList.new settings.fetch :includes
-        end
+        def load_filter_list = Kit::FilterList.new(settings.fetch(:includes))
 
         def invalid_line? line
           line.match?(/\A\s*#{Regexp.union filter_list.to_regexp}\s[[:lower:]]+/)
@@ -37,9 +33,7 @@ module Git
 
         private
 
-        def lowercased_bullets
-          commit.body_lines.select { |line| invalid_line? line }
-        end
+        def lowercased_bullets = commit.body_lines.select { |line| invalid_line? line }
       end
     end
   end

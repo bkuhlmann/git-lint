@@ -24,9 +24,7 @@ module Git
         end
         # rubocop:enable Metrics/ParameterLists
 
-        def valid?
-          affected_commit_trailers.empty?
-        end
+        def valid? = affected_commit_trailers.empty?
 
         def issue
           return {} if valid?
@@ -48,9 +46,7 @@ module Git
 
         attr_reader :parser, :validator
 
-        def minimum
-          settings.fetch :minimum
-        end
+        def minimum = settings.fetch(:minimum)
       end
     end
   end

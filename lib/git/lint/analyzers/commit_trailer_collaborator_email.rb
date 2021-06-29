@@ -23,9 +23,7 @@ module Git
         end
         # rubocop:enable Metrics/ParameterLists
 
-        def valid?
-          affected_commit_trailers.empty?
-        end
+        def valid? = affected_commit_trailers.empty?
 
         def issue
           return {} if valid?

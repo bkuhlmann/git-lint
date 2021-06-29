@@ -19,9 +19,7 @@ module Git
           @parser = parser
         end
 
-        def valid?
-          affected_commit_trailers.empty?
-        end
+        def valid? = affected_commit_trailers.empty?
 
         def issue
           return {} if valid?
@@ -34,9 +32,7 @@ module Git
 
         protected
 
-        def load_filter_list
-          Kit::FilterList.new settings.fetch :includes
-        end
+        def load_filter_list = Kit::FilterList.new(settings.fetch(:includes))
 
         def invalid_line? line
           collaborator = parser.new line

@@ -27,15 +27,11 @@ module Git
 
         protected
 
-        def load_filter_list
-          Kit::FilterList.new settings.fetch(:includes)
-        end
+        def load_filter_list = Kit::FilterList.new(settings.fetch(:includes))
 
         private
 
-        def fixup_or_squash?
-          commit.fixup? || commit.squash?
-        end
+        def fixup_or_squash? = commit.fixup? || commit.squash?
       end
     end
   end

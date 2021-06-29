@@ -12,9 +12,7 @@ module Git
           }
         end
 
-        def valid?
-          commit.body_lines.all? { |line| !invalid_line? line }
-        end
+        def valid? = commit.body_lines.all? { |line| !invalid_line? line }
 
         def issue
           return {} if valid?
@@ -27,9 +25,7 @@ module Git
 
         protected
 
-        def load_filter_list
-          Kit::FilterList.new settings.fetch :excludes
-        end
+        def load_filter_list = Kit::FilterList.new(settings.fetch(:excludes))
 
         # :reek:FeatureEnvy
         def invalid_line? line

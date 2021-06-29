@@ -27,21 +27,13 @@ module Git
             @matches = build_matches
           end
 
-          def key
-            String matches["key"]
-          end
+          def key = String(matches["key"])
 
-          def name
-            String matches["name"]
-          end
+          def name = String(matches["name"])
 
-          def email
-            String(matches["email"]).delete_prefix("<").delete_suffix(">")
-          end
+          def email = String(matches["email"]).delete_prefix("<").delete_suffix(">")
 
-          def match?
-            text.match? key_pattern
-          end
+          def match? = text.match?(key_pattern)
 
           private
 

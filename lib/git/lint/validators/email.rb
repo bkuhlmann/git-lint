@@ -11,9 +11,7 @@ module Git
           @pattern = pattern
         end
 
-        def valid?
-          String(text).match? pattern
-        end
+        def valid? = String(text).match?(pattern)
 
         private
 

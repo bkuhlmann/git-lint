@@ -18,25 +18,17 @@ module Git
           @descendants << klass unless klass.to_s.start_with? "#<Class" # Ignore anonymous classes.
         end
 
-        def self.id
-          to_s.delete_prefix("Git::Lint::Analyzers").snakecase.to_sym
-        end
+        def self.id = to_s.delete_prefix("Git::Lint::Analyzers").snakecase.to_sym
 
-        def self.label
-          to_s.delete_prefix("Git::Lint::Analyzers").titleize
-        end
+        def self.label = to_s.delete_prefix("Git::Lint::Analyzers").titleize
 
         def self.defaults
           fail NotImplementedError, "The `.#{__method__}` method must be implemented."
         end
 
-        def self.descendants
-          @descendants || []
-        end
+        def self.descendants = @descendants || []
 
-        def self.build_issue_line index, line
-          {number: index + ISSUE_LINE_OFFSET, content: line}
-        end
+        def self.build_issue_line(index, line) = {number: index + ISSUE_LINE_OFFSET, content: line}
 
         attr_reader :commit
 
@@ -46,9 +38,7 @@ module Git
           @filter_list = load_filter_list
         end
 
-        def enabled?
-          settings.fetch :enabled
-        end
+        def enabled? = settings.fetch(:enabled)
 
         def severity
           settings.fetch(:severity).tap do |level|
@@ -60,17 +50,11 @@ module Git
           fail NotImplementedError, "The `##{__method__}` method must be implemented."
         end
 
-        def invalid?
-          !valid?
-        end
+        def invalid? = !valid?
 
-        def warning?
-          invalid? && severity == :warn
-        end
+        def warning? = invalid? && severity == :warn
 
-        def error?
-          invalid? && severity == :error
-        end
+        def error? = invalid? && severity == :error
 
         def issue
           fail NotImplementedError, "The `##{__method__}` method must be implemented."
@@ -80,9 +64,7 @@ module Git
 
         attr_reader :settings, :filter_list
 
-        def load_filter_list
-          Kit::FilterList.new settings[:list]
-        end
+        def load_filter_list = Kit::FilterList.new(settings[:list])
 
         def affected_commit_body_lines
           commit.body_lines.each.with_object([]).with_index do |(line, lines), index|

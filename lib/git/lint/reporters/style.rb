@@ -13,9 +13,7 @@ module Git
           @colorizer = colorizer
         end
 
-        def to_s
-          colorizer.public_send color, message
-        end
+        def to_s = colorizer.public_send(color, message)
 
         private
 

@@ -11,13 +11,9 @@ module Git
           }
         end
 
-        def self.invalid? line
-          line.match?(/\A[[:lower:]].+\Z/m)
-        end
+        def self.invalid?(line) = line.match?(/\A[[:lower:]].+\Z/m)
 
-        def valid?
-          lowercased_lines.empty?
-        end
+        def valid? = lowercased_lines.empty?
 
         def issue
           return {} if valid?
@@ -30,9 +26,7 @@ module Git
 
         private
 
-        def lowercased_lines
-          commit.body_paragraphs.select { |line| self.class.invalid? line }
-        end
+        def lowercased_lines = commit.body_paragraphs.select { |line| self.class.invalid? line }
 
         def affected_lines
           klass = self.class

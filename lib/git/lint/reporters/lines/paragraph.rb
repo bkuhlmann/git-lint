@@ -17,13 +17,9 @@ module Git
 
           attr_reader :data
 
-          def label
-            "#{Line::DEFAULT_INDENT}Line #{number}: "
-          end
+          def label = "#{Line::DEFAULT_INDENT}Line #{number}: "
 
-          def paragraph
-            formatted_lines.join "\n"
-          end
+          def paragraph = formatted_lines.join("\n")
 
           def formatted_lines
             content.split("\n").map.with_index do |line, index|
@@ -31,17 +27,11 @@ module Git
             end
           end
 
-          def indent
-            " " * (label.length + 1)
-          end
+          def indent = " " * (label.length + 1)
 
-          def number
-            data.fetch :number
-          end
+          def number = data.fetch(:number)
 
-          def content
-            data.fetch :content
-          end
+          def content = data.fetch(:content)
         end
       end
     end

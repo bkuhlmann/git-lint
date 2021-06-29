@@ -10,13 +10,9 @@ module Git
             @repository = repository
           end
 
-          def name
-            "origin/#{repository.branch_name}"
-          end
+          def name = "origin/#{repository.branch_name}"
 
-          def commits
-            repository.commits "origin/#{repository.branch_default}..#{name}"
-          end
+          def commits = repository.commits("origin/#{repository.branch_default}..#{name}")
 
           private
 
