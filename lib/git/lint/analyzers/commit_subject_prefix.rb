@@ -13,7 +13,7 @@ module Git
         end
 
         def valid?
-          return true if fixup_or_squash?
+          return true if commit.prefix?
           return true if filter_list.empty?
 
           commit.subject.match?(/\A#{Regexp.union filter_list.to_regexp}/)
@@ -28,10 +28,6 @@ module Git
         protected
 
         def load_filter_list = Kit::FilterList.new(settings.fetch(:includes))
-
-        private
-
-        def fixup_or_squash? = commit.fixup? || commit.squash?
       end
     end
   end

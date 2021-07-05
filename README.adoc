@@ -760,8 +760,8 @@ added benefit of categorizing the commits for building release notes, change log
 handy when coupled with another tool, link:https://www.alchemists.io/projects/milestoner[Milestoner],
 for producing consistent project milestones and Git tag histories.
 
-Automatically ignores _fixup!_ or _squash!_ commit prefixes when used as a Git Hook in order to not
-disturb interactive rebase workflows.
+💡 Automatically ignores _amend!_, _fixup!_, or _squash!_ commit prefixes when used as a Git Hook in
+order to not disturb interactive rebase workflows.
 
 === Commit Subject Suffix
 

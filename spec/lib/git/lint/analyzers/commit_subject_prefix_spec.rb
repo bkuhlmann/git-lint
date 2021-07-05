@@ -56,6 +56,14 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       end
     end
 
+    context "with amend" do
+      let(:commit) { GitPlus::Commit[subject: "amend! Added specs"] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to eq(true)
+      end
+    end
+
     context "with fixup" do
       let(:commit) { GitPlus::Commit[subject: "fixup! Added specs"] }
 
