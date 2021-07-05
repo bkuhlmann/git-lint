@@ -4,7 +4,7 @@ module Git
   module Lint
     module Analyzers
       class CommitBodyPresence < Abstract
-        using Refinements::Strings
+        using GitPlus::Refinements::Strings
 
         def self.defaults
           {

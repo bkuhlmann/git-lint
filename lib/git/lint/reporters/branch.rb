@@ -7,7 +7,7 @@ module Git
     module Reporters
       # Reports issues related to a single branch.
       class Branch
-        using Refinements::Strings
+        using GitPlus::Refinements::Strings
 
         def initialize collector: Collector.new, colorizer: Pastel.new
           @collector = collector
