@@ -1,5 +1,14 @@
 = Changes
 
+== 2.3.0 (2021-07-05)
+
+* Added Zeitwerk gem - Brooke Kuhlmann
+* Added Zeitwerk loader - Brooke Kuhlmann
+* Added commit subject prefix support for amend prefixes - Brooke Kuhlmann
+* Updated to Git+ 0.5.0 - Brooke Kuhlmann
+* Updated to using Git+ String refinements - Brooke Kuhlmann
+* Refactored implementation to use endless methods - Brooke Kuhlmann
+
 == 2.2.1 (2021-06-04)
 
 * Fixed Rubocop Layout/RedundantLineBreak issues - Brooke Kuhlmann
