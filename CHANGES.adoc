@@ -1,5 +1,10 @@
 = Changes
 
+== 2.3.1 (2021-07-11)
+
+* Updated to Ruby 3.0.2 - Brooke Kuhlmann
+* Removed Zeitwerk - Brooke Kuhlmann
+
 == 2.3.0 (2021-07-05)
 
 * Added Zeitwerk gem - Brooke Kuhlmann
