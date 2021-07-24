@@ -731,12 +731,12 @@ Automatically ignores _fixup!_ or _squash!_ commit prefixes when calculating sub
 | true    | error    | includes: (see below)
 |===
 
-Ensures the commit subject uses consistent prefixes that explain _what_ is being committed. The
+Ensures each commit subject uses consistent prefixes that explain _what_ is being committed. The
 `includes` are _case sensitive_ and default to the following prefixes:
 
 * *Fixed* - Identifies what was fixed. The commit should be as small as possible and consist of
-  changes to implementation and spec only. In some cases this might be a single line or file change.
-  The important point is the change is applied to existing code which corrects behavior that wasn't
+  changes to implementation and spec only. In some cases this might be a single line change. The
+  important point is the change is applied to existing code which corrects behavior that wasn't
   properly implemented earlier.
 * *Removed* - Identifies what was removed. The commit should be as small as possible and consist
   only of removed lines/files from the existing implementation. This might also mean breaking
@@ -754,14 +754,17 @@ Ensures the commit subject uses consistent prefixes that explain _what_ is being
   implementation behavior or corresponding specs because, if that happens, then one of the other
   four prefixes is what you want to use instead.
 
-In practice, using a prefix other than what has been detailed above to explain _what_ is being
-committed is never needed. These prefixes are not only short and easy to remember but also have the
+In practice, it is quite rare to need a prefix other than what has been detailed above to explain
+_what_ is being committed. These prefixes are not only short and easy to remember but also have the
 added benefit of categorizing the commits for building release notes, change logs, etc. This becomes
-handy when coupled with another tool, link:https://www.alchemists.io/projects/milestoner[Milestoner],
-for producing consistent project milestones and Git tag histories.
+handy when coupled with another tool,
+link:https://www.alchemists.io/projects/milestoner[Milestoner], for producing consistent project
+milestones and Git tag histories. For a deeper dive on subject prefixes and good commit messages in
+general, please read about link:https://www.alchemists.io/articles/git_commit_anatomy[commit anatomy
+] to learn more. 🎉
 
-💡 Automatically ignores _amend!_, _fixup!_, or _squash!_ commit prefixes when used as a Git Hook in
-order to not disturb interactive rebase workflows.
+💡 This analyzer automatically ignores _amend!_, _fixup!_, or _squash!_ commit prefixes when used as
+a Git Hook in order to not disturb interactive rebase workflows.
 
 === Commit Subject Suffix
 
