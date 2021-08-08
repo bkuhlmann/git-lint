@@ -78,7 +78,7 @@ module Git
         else
           help "--hook"
         end
-      rescue Errors::Base, GitPlus::Errors::Base => error
+      rescue Errors::Base, GitPlus::Error => error
         abort colorizer.red("#{Identity::LABEL}: #{error.message}")
       end
 
