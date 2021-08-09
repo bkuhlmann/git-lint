@@ -1,5 +1,11 @@
 = Changes
 
+== 2.3.2 (2021-08-08)
+
+* Updated Git commit subjec prefix analyzer documentation - Brooke Kuhlmann
+* Updated to Git+ 0.6.0 - Brooke Kuhlmann
+* Removed Bundler Audit - Brooke Kuhlmann
+
 == 2.3.1 (2021-07-11)
 
 * Updated to Ruby 3.0.2 - Brooke Kuhlmann
