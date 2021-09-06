@@ -7,10 +7,10 @@ gemspec
 group :code_quality do
   gem "bundler-leak", "~> 0.2"
   gem "reek", "~> 6.0"
-  gem "rubocop", "~> 1.14"
-  gem "rubocop-performance", "~> 1.9"
-  gem "rubocop-rake", "~> 0.5"
-  gem "rubocop-rspec", "~> 2.0"
+  gem "rubocop", "~> 1.20"
+  gem "rubocop-performance", "~> 1.11"
+  gem "rubocop-rake", "~> 0.6"
+  gem "rubocop-rspec", "~> 2.4"
   gem "simplecov", "~> 0.20"
 end
 
