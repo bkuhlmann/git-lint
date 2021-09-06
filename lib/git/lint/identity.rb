@@ -6,7 +6,7 @@ module Git
     module Identity
       NAME = "git-lint"
       LABEL = "Git Lint"
-      VERSION = "2.3.2"
+      VERSION = "2.3.3"
       VERSION_LABEL = "#{LABEL} #{VERSION}".freeze
     end
   end
