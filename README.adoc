@@ -112,7 +112,8 @@ require "git/lint/rake/setup"
 
 Now, when running `bundle exec rake -T`, you'll see `git_lint` included in the list.
 
-If you need a concrete example, check out the link:Rakefile[Rakefile] of this project for details.
+If you need a concrete example, check out the
+link:https://github.com/bkuhlmann/git-lint/blob/main/Rakefile[Rakefile] of this project for details.
 
 === Default Branch
 
