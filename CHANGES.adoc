@@ -1,5 +1,14 @@
 = Changes
 
+== 2.4.0 (2021-10-03)
+
+* Fixed README link to Rakefile - Brooke Kuhlmann
+* Fixed Rubocop Style/SelectByRegexp issue - Brooke Kuhlmann
+* Added Debug gem - Brooke Kuhlmann
+* Updated to Refinements 8.4.0 - Brooke Kuhlmann
+* Removed Pry gems - Brooke Kuhlmann
+* Removed RSpec spec helper GC automatic compaction - Brooke Kuhlmann
+
 == 2.3.3 (2021-09-05)
 
 * Fixed Rubocop Style/MutableConstant issue - Brooke Kuhlmann
