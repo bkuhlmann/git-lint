@@ -9,11 +9,13 @@ SimpleCov.start { enable_coverage :branch }
 require "git/lint"
 require "refinements"
 
-using Refinements::Pathnames
-
 require "git_plus/spec/shared_contexts/temp_dir"
 require "git_plus/spec/shared_contexts/git_commit"
 require "git_plus/spec/shared_contexts/git_repo"
+
+using Refinements::Pathnames
+
+Pathname.require_tree __dir__, "support/shared_contexts/**/*.rb"
 
 # Ensure CI environments are disabled for local testing purposes.
 ENV["CIRCLECI"] = "false"
