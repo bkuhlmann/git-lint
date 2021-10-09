@@ -1,0 +1,119 @@
+:analyzers:
+  :commit_author_capitalization:
+    :enabled: true
+    :severity: :error
+  :commit_author_email:
+    :enabled: true
+    :severity: :error
+  :commit_author_name:
+    :enabled: true
+    :severity: :error
+    :minimum: 2
+  :commit_body_bullet:
+    :enabled: true
+    :severity: :error
+    :excludes:
+      - "\\*"
+      - "•"
+  :commit_body_bullet_capitalization:
+    :enabled: true
+    :severity: :error
+    :includes: "\\-"
+  :commit_body_bullet_delimiter:
+    :enabled: true
+    :severity: :error
+    :includes: "\\-"
+  :commit_body_issue_tracker_link:
+    :enabled: true
+    :severity: :error
+    :excludes:
+      - "(f|F)ix(es|ed)?\\s\\#\\d+"
+      - "(c|C)lose(s|d)?\\s\\#\\d+"
+      - "(r|R)esolve(s|d)?\\s\\#\\d+"
+      - "github\\.com\\/.+\\/issues\\/\\d+"
+  :commit_body_leading_line:
+    :enabled: false
+    :severity: :warn
+  :commit_body_line_length:
+    :enabled: true
+    :severity: :error
+    :length: 72
+  :commit_body_paragraph_capitalization:
+    :enabled: true
+    :severity: :error
+  :commit_body_phrase:
+    :enabled: true
+    :severity: :error
+    :excludes:
+      - "absolutely"
+      - "actually"
+      - "all intents and purposes"
+      - "along the lines"
+      - "at this moment in time"
+      - "basically"
+      - "each and every one"
+      - "everyone knows"
+      - "fact of the matter"
+      - "furthermore"
+      - "however"
+      - "in due course"
+      - "in the end"
+      - "last but not least"
+      - "matter of fact"
+      - "obviously"
+      - "of course"
+      - "really"
+      - "simply"
+      - "things being equal"
+      - "would like to"
+      - "/\\beasy\\b/"
+      - "/\\bjust\\b/"
+      - "/\\bquite\\b/"
+      - "/as\\sfar\\sas\\s.+\\sconcerned/"
+      - "/of\\sthe\\s(fact|opinion)\\sthat/"
+  :commit_body_presence:
+    :enabled: false
+    :severity: :warn
+    :minimum: 1
+  :commit_body_single_bullet:
+    :enabled: true
+    :severity: :error
+    :includes: "\\-"
+  :commit_subject_length:
+    :enabled: true
+    :severity: :error
+    :length: 72
+  :commit_subject_prefix:
+    :enabled: true
+    :severity: :error
+    :includes:
+      - Fixed
+      - Added
+      - Updated
+      - Removed
+      - Refactored
+  :commit_subject_suffix:
+    :enabled: true
+    :severity: :error
+    :excludes:
+      - "\\."
+      - "\\?"
+      - "\\!"
+  :commit_trailer_collaborator_capitalization:
+    :enabled: true
+    :severity: :error
+  :commit_trailer_collaborator_duplication:
+    :enabled: true
+    :severity: :error
+  :commit_trailer_collaborator_email:
+    :enabled: true
+    :severity: :error
+  :commit_trailer_collaborator_key:
+    :enabled: true
+    :severity: :error
+    :includes:
+      - "Co-Authored-By"
+  :commit_trailer_collaborator_name:
+    :enabled: true
+    :severity: :error
+    :minimum: 2
