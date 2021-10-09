@@ -12,20 +12,20 @@ module Git
 
         def self.setup = new.install
 
-        def initialize cli: CLI
-          @cli = cli
+        def initialize shell: CLI::Shell.new
+          @shell = shell
         end
 
         def install
           desc "Run Git Lint"
           task :git_lint do
-            cli.start ["--analyze"]
+            shell.call ["--analyze"]
           end
         end
 
         private
 
-        attr_reader :cli
+        attr_reader :shell
       end
     end
   end

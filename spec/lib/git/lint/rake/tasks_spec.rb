@@ -4,9 +4,9 @@ require "spec_helper"
 require "git/lint/rake/tasks"
 
 RSpec.describe Git::Lint::Rake::Tasks do
-  subject(:tasks) { described_class.new cli: cli }
+  subject(:tasks) { described_class.new shell: shell }
 
-  let(:cli) { class_spy Git::Lint::CLI }
+  let(:shell) { instance_spy Git::Lint::CLI::Shell }
 
   before { Rake::Task.clear }
 
@@ -22,7 +22,7 @@ RSpec.describe Git::Lint::Rake::Tasks do
 
     it "executes --analyze option via git_lint task" do
       Rake::Task["git_lint"].invoke
-      expect(cli).to have_received(:start).with(["--analyze"])
+      expect(shell).to have_received(:call).with(["--analyze"])
     end
   end
 end
