@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://www.alchemists.io/projects/git-lint"
-  spec.summary = "A command line interface for linting Git commits."
+  spec.summary = Git::Lint::Identity::SUMMARY
   spec.license = "Apache-2.0"
 
   spec.metadata = {

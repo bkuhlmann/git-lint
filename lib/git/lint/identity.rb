@@ -8,6 +8,7 @@ module Git
       LABEL = "Git Lint"
       VERSION = "2.4.0"
       VERSION_LABEL = "#{LABEL} #{VERSION}".freeze
+      SUMMARY = "A command line interface for linting Git commits."
     end
   end
 end
