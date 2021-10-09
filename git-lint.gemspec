@@ -27,7 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "pastel", "~> 0.7"
   spec.add_dependency "refinements", "~> 8.5"
   spec.add_dependency "runcom", "~> 7.0"
-  spec.add_dependency "thor", "~> 0.20"
   spec.add_dependency "zeitwerk", "~> 2.5"
 
   spec.files = Dir["lib/**/*"]
