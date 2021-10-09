@@ -2,8 +2,6 @@
 # frozen_string_literal: true
 
 require "git/lint"
-require "git/lint/cli"
-require "git/lint/identity"
 
 Process.setproctitle Git::Lint::Identity::VERSION_LABEL
-Git::Lint::CLI.start
+Git::Lint::CLI::Shell.new.call ARGV
