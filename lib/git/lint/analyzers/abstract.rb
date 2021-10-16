@@ -12,12 +12,6 @@ module Git
         LEVELS = %i[warn error].freeze
         ISSUE_LINE_OFFSET = 2
 
-        def self.inherited klass
-          super
-          @descendants ||= []
-          @descendants << klass unless klass.to_s.start_with? "#<Class" # Ignore anonymous classes.
-        end
-
         def self.id = to_s.delete_prefix("Git::Lint::Analyzers").snakecase.to_sym
 
         def self.label = to_s.delete_prefix("Git::Lint::Analyzers").titleize
@@ -25,8 +19,6 @@ module Git
         def self.defaults
           fail NotImplementedError, "The `.#{__method__}` method must be implemented."
         end
-
-        def self.descendants = @descendants || []
 
         def self.build_issue_line(index, line) = {number: index + ISSUE_LINE_OFFSET, content: line}
 

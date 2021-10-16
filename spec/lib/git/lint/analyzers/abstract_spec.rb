@@ -44,36 +44,6 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
     end
   end
 
-  describe ".descendants" do
-    # rubocop:disable RSpec/ExampleLength
-    it "answers descendant classes" do
-      expect(described_class.descendants).to contain_exactly(
-        Git::Lint::Analyzers::CommitAuthorCapitalization,
-        Git::Lint::Analyzers::CommitAuthorEmail,
-        Git::Lint::Analyzers::CommitAuthorName,
-        Git::Lint::Analyzers::CommitBodyBulletCapitalization,
-        Git::Lint::Analyzers::CommitBodyBulletDelimiter,
-        Git::Lint::Analyzers::CommitBodyIssueTrackerLink,
-        Git::Lint::Analyzers::CommitBodyBullet,
-        Git::Lint::Analyzers::CommitBodyLeadingLine,
-        Git::Lint::Analyzers::CommitBodyLineLength,
-        Git::Lint::Analyzers::CommitBodyParagraphCapitalization,
-        Git::Lint::Analyzers::CommitBodyPhrase,
-        Git::Lint::Analyzers::CommitBodyPresence,
-        Git::Lint::Analyzers::CommitBodySingleBullet,
-        Git::Lint::Analyzers::CommitSubjectLength,
-        Git::Lint::Analyzers::CommitSubjectPrefix,
-        Git::Lint::Analyzers::CommitSubjectSuffix,
-        Git::Lint::Analyzers::CommitTrailerCollaboratorCapitalization,
-        Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication,
-        Git::Lint::Analyzers::CommitTrailerCollaboratorEmail,
-        Git::Lint::Analyzers::CommitTrailerCollaboratorKey,
-        Git::Lint::Analyzers::CommitTrailerCollaboratorName
-      )
-    end
-    # rubocop:enable RSpec/ExampleLength
-  end
-
   describe ".build_issue_line" do
     it "answers isuse line" do
       expect(described_class.build_issue_line(1, "Test.")).to eq(number: 3, content: "Test.")
