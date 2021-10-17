@@ -7,7 +7,7 @@ module Git
     module Reporters
       # Reports issues related to a single branch.
       class Branch
-        using GitPlus::Refinements::Strings
+        using ::Refinements::Strings
 
         def initialize collector: Collector.new, colorizer: Pastel.new
           @collector = collector
@@ -38,7 +38,8 @@ module Git
         end
 
         def commit_total
-          %(#{"commit".pluralize count: collector.total_commits} inspected)
+          total = collector.total_commits
+          %(#{total} #{"commit".pluralize "s", count: total} inspected)
         end
 
         def issue_totals
@@ -51,17 +52,20 @@ module Git
 
         def issue_total
           color = collector.errors? ? :red : :yellow
-          colorizer.public_send color, "issue".pluralize(count: collector.total_issues)
+          total = collector.total_issues
+          colorizer.public_send color, "#{total} issue".pluralize("s", count: total)
         end
 
         def warning_total
           color = collector.warnings? ? :yellow : :green
-          colorizer.public_send color, "warning".pluralize(count: collector.total_warnings)
+          total = collector.total_warnings
+          colorizer.public_send color, "#{total} warning".pluralize("s", count: total)
         end
 
         def error_total
           color = collector.errors? ? :red : :green
-          colorizer.public_send color, "error".pluralize(count: collector.total_errors)
+          total = collector.total_errors
+          colorizer.public_send color, "#{total} error".pluralize("s", count: total)
         end
       end
     end

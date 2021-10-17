@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes pretense of commit body.
       class CommitBodyPresence < Abstract
-        using GitPlus::Refinements::Strings
+        using ::Refinements::Strings
 
         def self.defaults
           {
@@ -27,7 +27,7 @@ module Git
         def issue
           return {} if valid?
 
-          {hint: %(Use minimum of #{"line".pluralize count: minimum} (non-empty).)}
+          {hint: %(Use minimum of #{"#{minimum} line".pluralize "s", count: minimum} (non-empty).)}
         end
       end
     end
