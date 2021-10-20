@@ -4,13 +4,12 @@ module Git
   module Lint
     # Runs all analyzers.
     class Runner
-      def initialize configuration:, branch: Branches::Feature.new, collector: Collector.new
+      def initialize configuration:, collector: Collector.new
         @configuration = configuration
-        @branch = branch
         @collector = collector
       end
 
-      def call commits: branch.commits
+      def call commits: Commits::Loader.new.call
         commits.map { |commit| check commit }
         collector
       end

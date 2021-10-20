@@ -4,26 +4,24 @@ require "open3"
 
 module Git
   module Lint
-    module Branches
-      module Environments
+    module Commits
+      module Systems
         # Provides Travis CI build environment feature branch information.
         class TravisCI
-          def initialize repository: GitPlus::Repository.new, shell: Open3, environment: ENV
-            @repository = repository
-            @shell = shell
-            @environment = environment
+          def initialize container: Container
+            @container = container
           end
 
-          def name = pull_request_branch.empty? ? ci_branch : pull_request_branch
-
-          def commits
+          def call
             prepare_project
             repository.commits "origin/#{repository.branch_default}..#{name}"
           end
 
           private
 
-          attr_reader :environment, :repository, :shell
+          attr_reader :container
+
+          def name = pull_request_branch.empty? ? ci_branch : pull_request_branch
 
           def prepare_project
             slug = pull_request_slug
@@ -42,6 +40,12 @@ module Git
           def pull_request_branch = environment["TRAVIS_PULL_REQUEST_BRANCH"]
 
           def pull_request_slug = environment["TRAVIS_PULL_REQUEST_SLUG"]
+
+          def repository = container[__method__]
+
+          def shell = container[__method__]
+
+          def environment = container[__method__]
         end
       end
     end

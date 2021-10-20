@@ -4,19 +4,15 @@ require "open3"
 
 module Git
   module Lint
-    module Branches
-      module Environments
+    module Commits
+      module Systems
         # Provides Netlify CI build environment feature branch information.
         class NetlifyCI
-          def initialize repository: GitPlus::Repository.new, shell: Open3, environment: ENV
-            @repository = repository
-            @shell = shell
-            @environment = environment
+          def initialize container: Container
+            @container = container
           end
 
-          def name = environment["HEAD"]
-
-          def commits
+          def call
             shell.capture3 "git remote add -f origin #{environment["REPOSITORY_URL"]}"
             shell.capture3 "git fetch origin #{name}:#{name}"
             repository.commits "origin/#{repository.branch_default}..origin/#{name}"
@@ -24,7 +20,15 @@ module Git
 
           private
 
-          attr_reader :repository, :shell, :environment
+          attr_reader :container
+
+          def name = environment["HEAD"]
+
+          def repository = container[__method__]
+
+          def shell = container[__method__]
+
+          def environment = container[__method__]
         end
       end
     end
