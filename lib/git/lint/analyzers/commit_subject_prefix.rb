@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit subject uses standard prefix.
       class CommitSubjectPrefix < Abstract
         def self.defaults
           {

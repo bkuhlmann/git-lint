@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Validators
+      # Validates the format of names.
       class Name
         DEFAULT_DELIMITER = /\s{1}/
         DEFAULT_MINIMUM = 2

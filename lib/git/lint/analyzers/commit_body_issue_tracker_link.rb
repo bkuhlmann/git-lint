@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes body issue tracker link usage.
       class CommitBodyIssueTrackerLink < Abstract
         def self.defaults
           {

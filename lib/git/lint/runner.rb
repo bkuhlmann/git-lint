@@ -2,6 +2,7 @@
 
 module Git
   module Lint
+    # Runs all analyzers.
     class Runner
       def initialize configuration:, branch: Branches::Feature.new, collector: Collector.new
         @configuration = configuration

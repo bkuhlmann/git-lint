@@ -3,8 +3,8 @@
 module Git
   module Lint
     module Kit
+      # Represents an regular expression list which may be used as an analyzer setting.
       class FilterList
-        # Represents an regular expression list which may be used as an analyzer setting.
         def initialize list = []
           @list = Array list
         end

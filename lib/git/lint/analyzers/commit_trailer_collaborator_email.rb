@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit trailer collaborator email address format.
       class CommitTrailerCollaboratorEmail < Abstract
         def self.defaults
           {

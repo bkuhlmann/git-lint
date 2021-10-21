@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes author for proper capitalization of author name.
       class CommitAuthorCapitalization < Abstract
         def self.defaults
           {

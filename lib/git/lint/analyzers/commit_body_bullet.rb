@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit body for correct bullet point syntax.
       class CommitBodyBullet < Abstract
         def self.defaults
           {

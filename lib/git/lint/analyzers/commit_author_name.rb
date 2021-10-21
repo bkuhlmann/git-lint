@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes author name for minimum parts of name.
       class CommitAuthorName < Abstract
         def self.defaults
           {

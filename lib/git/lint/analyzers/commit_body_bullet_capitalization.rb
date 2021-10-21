@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit body for proper capitalization of bullet sentences.
       class CommitBodyBulletCapitalization < Abstract
         def self.defaults
           {

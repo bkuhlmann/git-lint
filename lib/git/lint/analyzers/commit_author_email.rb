@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes author email address for proper format.
       class CommitAuthorEmail < Abstract
         def self.defaults
           {

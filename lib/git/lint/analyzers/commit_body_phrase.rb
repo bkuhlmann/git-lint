@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes use of commit body phrases that are not informative.
       class CommitBodyPhrase < Abstract
         # rubocop:disable Metrics/MethodLength
         def self.defaults

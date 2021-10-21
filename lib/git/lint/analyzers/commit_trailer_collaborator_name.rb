@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit trailer collaborator name construction.
       class CommitTrailerCollaboratorName < Abstract
         def self.defaults
           {

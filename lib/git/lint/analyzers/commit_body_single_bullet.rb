@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit bodies with only a single bullet point.
       class CommitBodySingleBullet < Abstract
         def self.defaults
           {

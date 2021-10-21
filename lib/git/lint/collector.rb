@@ -4,6 +4,7 @@ require "refinements/hashes"
 
 module Git
   module Lint
+    # Collects and categorizes all issues (if any) of branch commits.
     class Collector
       using ::Refinements::Hashes
 

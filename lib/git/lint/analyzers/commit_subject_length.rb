@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit subject length is short and concise.
       class CommitSubjectLength < Abstract
         def self.defaults
           {

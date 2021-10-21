@@ -4,6 +4,7 @@ module Git
   module Lint
     module Parsers
       module Trailers
+        # Parses collaborator information within a commit trailer.
         class Collaborator
           DEFAULT_KEY_PATTERN = /\ACo.*Authored.*By.*\Z/i
 

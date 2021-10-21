@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes leading line between commit subject and start of body.
       class CommitBodyLeadingLine < Abstract
         def self.defaults
           {

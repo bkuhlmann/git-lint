@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit trailer collaborator key usage.
       class CommitTrailerCollaboratorKey < Abstract
         def self.defaults
           {

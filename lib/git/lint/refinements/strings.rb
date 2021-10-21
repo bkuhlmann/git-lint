@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Refinements
+      # Refines strings for commit subject use.
       module Strings
         refine String do
           def pluralize count:, suffix: "s"

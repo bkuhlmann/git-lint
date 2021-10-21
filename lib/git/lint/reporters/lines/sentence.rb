@@ -4,6 +4,7 @@ module Git
   module Lint
     module Reporters
       module Lines
+        # Reports sentence details.
         class Sentence
           def initialize data = {}
             @data = data

@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit body line length to prevent unnecessary horizontal scrolling.
       class CommitBodyLineLength < Abstract
         def self.defaults
           {

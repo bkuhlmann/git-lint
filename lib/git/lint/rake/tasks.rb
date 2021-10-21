@@ -6,6 +6,7 @@ require "git/lint"
 module Git
   module Lint
     module Rake
+      # Defines and installs Rake tasks for use in downstream projects.
       class Tasks
         include ::Rake::DSL
 

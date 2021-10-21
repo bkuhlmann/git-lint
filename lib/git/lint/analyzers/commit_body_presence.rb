@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes pretense of commit body.
       class CommitBodyPresence < Abstract
         using GitPlus::Refinements::Strings
 

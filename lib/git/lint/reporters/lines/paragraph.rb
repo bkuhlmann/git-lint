@@ -4,6 +4,7 @@ module Git
   module Lint
     module Reporters
       module Lines
+        # Reports paragraph details.
         class Paragraph
           def initialize data = {}
             @data = data

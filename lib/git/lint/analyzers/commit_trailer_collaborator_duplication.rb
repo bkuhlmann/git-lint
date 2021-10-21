@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit trailer collaborator duplication.
       class CommitTrailerCollaboratorDuplication < Abstract
         def self.defaults
           {

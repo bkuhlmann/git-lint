@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes proper capitalization of commit body paragraphs.
       class CommitBodyParagraphCapitalization < Abstract
         def self.defaults
           {

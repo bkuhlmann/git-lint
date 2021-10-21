@@ -5,6 +5,7 @@ require "uri"
 module Git
   module Lint
     module Validators
+      # Validates the format of email addresses.
       class Email
         def initialize text, pattern: URI::MailTo::EMAIL_REGEXP
           @text = text

@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Validators
+      # Validates the capitalizationn of text.
       class Capitalization
         DEFAULT_PATTERN = /\A[[:upper:]].*\Z/
 

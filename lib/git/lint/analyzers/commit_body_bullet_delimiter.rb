@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit body delimiter usage.
       class CommitBodyBulletDelimiter < Abstract
         def self.defaults
           {

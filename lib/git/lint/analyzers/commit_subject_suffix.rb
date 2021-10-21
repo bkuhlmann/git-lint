@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit subject suffix for punctuation.
       class CommitSubjectSuffix < Abstract
         def self.defaults
           {

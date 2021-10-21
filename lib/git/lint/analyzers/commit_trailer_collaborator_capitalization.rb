@@ -3,6 +3,7 @@
 module Git
   module Lint
     module Analyzers
+      # Analyzes commit trailer collaborator name capitalization.
       class CommitTrailerCollaboratorCapitalization < Abstract
         def self.defaults
           {
