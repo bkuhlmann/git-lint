@@ -1,4 +1,0 @@
-detectors:
-  BooleanParameter:
-    exclude:
-      - "#respond_to_missing?"
