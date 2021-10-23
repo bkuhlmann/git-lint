@@ -23,32 +23,52 @@ RSpec.describe Git::Lint::Runner do
 
   before do
     git_repo_dir.change_dir do
-      `git switch --create test --track`
+      `git switch --quiet --create test --track`
       `printf "%s\n" "Test content" > one.txt`
       `git add --all .`
     end
   end
 
   describe "#call" do
-    context "with valid commits" do
-      it "reports no issues" do
-        git_repo_dir.change_dir do
-          `git commit --no-verify --message "Added one.txt" --message "- For testing purposes"`
-          collector = runner.call
+    it "answers collector and reporter without block" do
+      git_repo_dir.change_dir do
+        `git commit --no-verify --message "Added one.txt" --message "- For testing purposes"`
 
-          expect(collector.issues?).to eq(false)
+        expect(runner.call).to contain_exactly(
+          kind_of(Git::Lint::Collector),
+          kind_of(Git::Lint::Reporters::Branch)
+        )
+      end
+    end
+
+    it "yields collector and reporter with block" do
+      git_repo_dir.change_dir do
+        `git commit --no-verify --message "Added one.txt" --message "- For testing purposes"`
+
+        runner.call do |collector, reporter|
+          expect([collector, reporter]).to contain_exactly(
+            kind_of(Git::Lint::Collector),
+            kind_of(Git::Lint::Reporters::Branch)
+          )
         end
       end
     end
 
-    context "with invalid commits" do
-      it "reports issues" do
-        git_repo_dir.change_dir do
-          `git commit --no-verify --message "Add one.txt" --message "- A test bullet"`
-          collector = runner.call
+    it "reports no issues with valid commits" do
+      git_repo_dir.change_dir do
+        `git commit --no-verify --message "Added one.txt" --message "- For testing purposes"`
+        collector, _reporter = runner.call
 
-          expect(collector.issues?).to eq(true)
-        end
+        expect(collector.issues?).to eq(false)
+      end
+    end
+
+    it "reports issues with invalid commits" do
+      git_repo_dir.change_dir do
+        `git commit --no-verify --message "Add one.txt" --message "- A test bullet"`
+        collector, _reporter = runner.call
+
+        expect(collector.issues?).to eq(true)
       end
     end
 
@@ -58,7 +78,7 @@ RSpec.describe Git::Lint::Runner do
       it "reports no issues" do
         git_repo_dir.change_dir do
           `git commit --no-verify --message "Bogus commit message"`
-          collector = runner.call
+          collector, _reporter = runner.call
 
           expect(collector.issues?).to eq(false)
         end
@@ -85,7 +105,7 @@ RSpec.describe Git::Lint::Runner do
       include_context "with Git commit"
 
       it "processes commit" do
-        collector = runner.call commits: [git_commit]
+        collector, _reporter = runner.call commits: [git_commit]
         expect(collector.issues?).to eq(true)
       end
     end

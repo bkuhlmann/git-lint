@@ -28,24 +28,34 @@ module Git
         Analyzers::CommitTrailerCollaboratorName
       ].freeze
 
+      # rubocop:disable Metrics/ParameterLists
       def initialize configuration = Container[:configuration].analyzers,
                      analyzers: ANALYZERS,
-                     collector: Collector.new
+                     collector: Collector.new,
+                     reporter: Reporters::Branch
         @configuration = configuration
         @analyzers = analyzers
         @collector = collector
+        @reporter = reporter
       end
+      # rubocop:enable Metrics/ParameterLists
 
       def call commits: Commits::Loader.new.call
-        commits.map { |commit| check commit }
-        collector
+        process commits
+        a_reporter = reporter.new collector: collector
+        block_given? ? yield(collector, a_reporter) : [collector, a_reporter]
       end
 
       private
 
-      attr_reader :configuration, :analyzers, :collector
+      attr_reader :configuration, :analyzers, :collector, :reporter
 
-      def check commit
+      def process commits
+        collector.clear
+        commits.map { |commit| analyze commit }
+      end
+
+      def analyze commit
         configuration.map { |id, settings| load_analyzer id, commit, settings }
                      .select(&:enabled?)
                      .map { |analyzer| collector.add analyzer }
