@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
-require "refinements/hashes"
-
 module Git
   module Lint
-    # Collects and categorizes all issues (if any) of branch commits.
+    # Collects and categorizes, by severity, all issues (if any).
     class Collector
-      using ::Refinements::Hashes
-
       def initialize
         @collection = Hash.new { |default, missing_id| default[missing_id] = [] }
       end
