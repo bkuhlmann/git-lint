@@ -12,12 +12,10 @@ module Git
         end
 
         def to_s
-          if content.include? "\n"
-            Lines::Paragraph.new(data).to_s
-          else
-            Lines::Sentence.new(data).to_s
-          end
+          content.include?("\n") ? Lines::Paragraph.new(data).to_s : Lines::Sentence.new(data).to_s
         end
+
+        alias to_str to_s
 
         private
 

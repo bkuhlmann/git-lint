@@ -14,6 +14,8 @@ module Git
             %(#{label}"#{paragraph}"\n)
           end
 
+          alias to_str to_s
+
           private
 
           attr_reader :data

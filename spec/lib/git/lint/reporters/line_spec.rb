@@ -26,4 +26,12 @@ RSpec.describe Git::Lint::Reporters::Line do
       end
     end
   end
+
+  describe "#to_str" do
+    let(:line) { {number: 1, content: "Example."} }
+
+    it "answers implicit string" do
+      expect(reporter.to_str).to eq(%(    Line 1: "Example."\n))
+    end
+  end
 end

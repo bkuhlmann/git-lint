@@ -19,6 +19,8 @@ module Git
           "#{commit_total}. #{issue_totals}.\n"
         end
 
+        alias to_str to_s
+
         private
 
         attr_reader :collector, :colorizer
@@ -31,7 +33,7 @@ module Git
 
         def commit_report
           collector.to_h.reduce "" do |details, (commit, analyzers)|
-            details + Commit.new(commit: commit, analyzers: analyzers).to_s
+            details + Commit.new(commit: commit, analyzers: analyzers)
           end
         end
 

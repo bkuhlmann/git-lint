@@ -12,6 +12,8 @@ module Git
 
           def to_s = %(#{Line::DEFAULT_INDENT}Line #{number}: "#{content}"\n)
 
+          alias to_str to_s
+
           private
 
           attr_reader :data

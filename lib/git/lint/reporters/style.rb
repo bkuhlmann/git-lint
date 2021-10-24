@@ -15,6 +15,8 @@ module Git
 
         def to_s = colorizer.public_send(color, message)
 
+        alias to_str to_s
+
         private
 
         attr_reader :analyzer, :issue, :colorizer
@@ -42,7 +44,7 @@ module Git
         end
 
         def affected_lines
-          issue.fetch(:lines, []).reduce("") { |lines, line| lines + Line.new(line).to_s }
+          issue.fetch(:lines, []).reduce("") { |lines, line| lines + Line.new(line) }
         end
       end
     end

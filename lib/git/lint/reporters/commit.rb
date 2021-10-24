@@ -17,11 +17,13 @@ module Git
           "#{commit.subject}\n#{report}\n"
         end
 
+        alias to_str to_s
+
         private
 
         attr_reader :commit, :analyzers
 
-        def report = analyzers.reduce("") { |report, analyzer| report + Style.new(analyzer).to_s }
+        def report = analyzers.reduce("") { |report, analyzer| report + Style.new(analyzer) }
       end
     end
   end

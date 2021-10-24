@@ -3,13 +3,13 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Reporters::Branch do
+  subject(:reporter) { described_class.new collector: collector }
+
   include_context "with Git commit"
 
+  let(:collector) { Git::Lint::Collector.new }
+
   describe "#to_s" do
-    subject(:reporter) { described_class.new collector: collector }
-
-    let(:collector) { Git::Lint::Collector.new }
-
     let :analyzer do
       instance_spy Git::Lint::Analyzers::CommitAuthorEmail,
                    class: class_spy(
@@ -81,6 +81,15 @@ RSpec.describe Git::Lint::Reporters::Branch do
           "0 commits inspected. \e[32m0 issues\e[0m detected.\n"
         )
       end
+    end
+  end
+
+  describe "#to_str" do
+    it "answers implicit string" do
+      expect(reporter.to_str).to eq(
+        "Running Git Lint...\n" \
+        "0 commits inspected. \e[32m0 issues\e[0m detected.\n"
+      )
     end
   end
 end

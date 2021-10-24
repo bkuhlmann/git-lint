@@ -5,22 +5,22 @@ require "spec_helper"
 RSpec.describe Git::Lint::Reporters::Style do
   subject(:reporter) { described_class.new analyzer }
 
+  let :analyzer do
+    instance_spy Git::Lint::Analyzers::CommitAuthorEmail,
+                 class: class_spy(
+                   Git::Lint::Analyzers::CommitAuthorEmail,
+                   label: "Commit Author Email"
+                 ),
+                 severity: severity,
+                 issue: issue
+  end
+
+  let(:severity) { :error }
+  let(:issue) { {hint: "A test hint."} }
+
   describe "#to_s" do
-    let :analyzer do
-      instance_spy Git::Lint::Analyzers::CommitAuthorEmail,
-                   class: class_spy(
-                     Git::Lint::Analyzers::CommitAuthorEmail,
-                     label: "Commit Author Email"
-                   ),
-                   severity: severity,
-                   issue: issue
-    end
-
-    let(:severity) { :error }
-
     context "with warning" do
       let(:severity) { :warn }
-      let(:issue) { {hint: "A test hint."} }
 
       it "answers analyzer label and issue hint" do
         expect(reporter.to_s).to eq("\e[33m  Commit Author Email Warning. A test hint.\n\e[0m")
@@ -29,7 +29,6 @@ RSpec.describe Git::Lint::Reporters::Style do
 
     context "with error" do
       let(:severity) { :error }
-      let(:issue) { {hint: "A test hint."} }
 
       it "answers analyzer label and issue hint" do
         expect(reporter.to_s).to eq("\e[31m  Commit Author Email Error. A test hint.\n\e[0m")
@@ -38,7 +37,6 @@ RSpec.describe Git::Lint::Reporters::Style do
 
     context "with unknown severity" do
       let(:severity) { :bogus }
-      let(:issue) { {hint: "A test hint."} }
 
       it "answers analyzer label and issue hint" do
         expect(reporter.to_s).to eq("\e[37m  Commit Author Email. A test hint.\n\e[0m")
@@ -63,6 +61,12 @@ RSpec.describe Git::Lint::Reporters::Style do
           "    Line 3: \"Ipsum eleifend wisi iaculis curabitur.\"\n\e[0m" \
         )
       end
+    end
+  end
+
+  describe "#to_str" do
+    it "answers implicit string" do
+      expect(reporter.to_str).to eq("\e[31m  Commit Author Email Error. A test hint.\n\e[0m")
     end
   end
 end
