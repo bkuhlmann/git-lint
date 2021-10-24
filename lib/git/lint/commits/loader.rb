@@ -13,7 +13,6 @@ module Git
           circle_ci: Systems::CircleCI.new,
           git_hub_action: Systems::GitHubAction.new,
           netlify_ci: Systems::NetlifyCI.new,
-          travis_ci: Systems::TravisCI.new,
           local: Systems::Local.new
         }.freeze
 
@@ -37,7 +36,6 @@ module Git
           if key? "CIRCLECI" then systems.fetch :circle_ci
           elsif key? "GITHUB_ACTIONS" then systems.fetch :git_hub_action
           elsif key? "NETLIFY" then systems.fetch :netlify_ci
-          elsif key? "TRAVIS" then systems.fetch :travis_ci
           else systems.fetch :local
           end
         end

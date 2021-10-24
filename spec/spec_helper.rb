@@ -21,7 +21,6 @@ Pathname.require_tree __dir__, "support/shared_examples/**/*.rb"
 
 # Ensure CI environments are disabled for local testing purposes.
 ENV["CIRCLECI"] = "false"
-ENV["TRAVIS"] = "false"
 
 RSpec.configure do |config|
   config.color = true

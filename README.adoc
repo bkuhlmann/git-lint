@@ -12,9 +12,6 @@ image::https://badge.fury.io/rb/git-lint.svg[Gem Version]
 image::https://img.shields.io/badge/code_style-alchemists-brightgreen.svg[Alchemists Style Guide]
 [link=https://circleci.com/gh/bkuhlmann/git-lint]
 image::https://circleci.com/gh/bkuhlmann/git-lint.svg?style=svg[Circle CI Status]
-
-[link=https://travis-ci.org/bkuhlmann/git-lint]
-image::https://travis-ci.org/bkuhlmann/git-lint.svg?branch=main[Travis CI Status]
 [link=https://app.netlify.com/sites/git-lint/deploys]
 image::https://api.netlify.com/api/v1/badges/7e23b422-3412-4e7f-b654-65c0417a0b1f/deploy-status[Netlify CI Status]
 
@@ -433,11 +430,6 @@ The above will ensure Git Lint runs as an additional check on each Pull Request.
 ==== link:https://www.netlify.com[Netlify CI]
 
 Detection and configuration happens automatically by checking the `NETLIFY` environment variable. No
-additional setup required!
-
-==== link:https://travis-ci.org[Travis CI]
-
-Detection and configuration happens automatically by checking the `TRAVIS` environment variable. No
 additional setup required!
 
 == Analyzers

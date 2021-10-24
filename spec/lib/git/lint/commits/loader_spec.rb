@@ -60,24 +60,6 @@ RSpec.describe Git::Lint::Commits::Loader do
       end
     end
 
-    context "with Travis CI environment" do
-      let :environment do
-        {
-          "CIRCLECI" => "false",
-          "GITHUB_ACTIONS" => "false",
-          "NETLIFY" => "false",
-          "TRAVIS" => "true",
-          "TRAVIS_PULL_REQUEST_BRANCH" => "test",
-          "TRAVIS_PULL_REQUEST_SLUG" => ""
-        }
-      end
-
-      it "computes correct commit range" do
-        loader.call
-        expect(repository).to have_received(:commits).with("origin/main..test")
-      end
-    end
-
     context "with local environment" do
       let(:repository) { GitPlus::Repository.new }
 
