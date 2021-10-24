@@ -59,6 +59,18 @@ RSpec.describe Git::Lint::Collector do
     end
   end
 
+  describe "#clear" do
+    it "clears collection of all entries" do
+      collector.add valid_analyzer
+      collector.clear
+      expect(collector.empty?).to eq(true)
+    end
+
+    it "answers itself" do
+      expect(collector.clear).to eq(collector)
+    end
+  end
+
   describe "#empty?" do
     it "answers true without data" do
       expect(collector.empty?).to eq(true)

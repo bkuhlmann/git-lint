@@ -15,6 +15,8 @@ module Git
 
       def retrieve(id) = collection[id]
 
+      def clear = collection.clear && self
+
       def empty? = collection.empty?
 
       def warnings? = collection.values.flatten.any?(&:warning?)
