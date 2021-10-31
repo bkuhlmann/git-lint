@@ -906,9 +906,9 @@ worth considering:
   Submodules can accomplish.
 * Avoid using link:https://git-lfs.github.com[Git LFS] for tracking binary artifacts/resources.
   These files are not meant for version control and lead to large repositories that are time
-  consuming to clone/deploy. Use storage managers, like link:https://aws.amazon.com/s3[Amazon S3] or
-  link:https://lakefs.io[LakeFS] for example, that are better suited for binary assets that don't
-  change often.
+  consuming to clone/deploy. Use storage managers like link:https://git-annex.branchable.com[Git
+  Annex], link:https://aws.amazon.com/s3[Amazon S3], or link:https://lakefs.io[LakeFS] which are
+  better suited for binary assets that don't change often.
 
 === Security
 
