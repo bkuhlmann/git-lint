@@ -66,11 +66,11 @@
       - "simply"
       - "things being equal"
       - "would like to"
-      - "/\\beasy\\b/"
-      - "/\\bjust\\b/"
-      - "/\\bquite\\b/"
-      - "/as\\sfar\\sas\\s.+\\sconcerned/"
-      - "/of\\sthe\\s(fact|opinion)\\sthat/"
+      - "\\beasy\\b"
+      - "\\bjust\\b"
+      - "\\bquite\\b"
+      - "as\\sfar\\sas\\s.+\\sconcerned"
+      - "of\\sthe\\s(fact|opinion)\\sthat"
   :commit_body_presence:
     :enabled: false
     :severity: :warn
