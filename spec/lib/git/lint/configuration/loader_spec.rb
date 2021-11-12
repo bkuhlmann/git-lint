@@ -18,7 +18,11 @@ RSpec.describe Git::Lint::Configuration::Loader do
   end
 
   let :analyzers do
-    YAML.load_file(Bundler.root.join("lib/git/lint/configuration/defaults.yml"))[:analyzers]
+    Bundler.root
+           .join("lib/git/lint/configuration/defaults.yml")
+           .then { |path| YAML.load_file path }
+           .then { |defaults| defaults.fetch :analyzers }
+           .map { |id, defaults| Git::Lint::Configuration::Setting[id: id, **defaults] }
   end
 
   describe ".call" do

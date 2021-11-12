@@ -21,22 +21,29 @@ module Git
 
         def self.with_defaults = new(handler: DEFAULTS)
 
-        def initialize content: Content.new, handler: HANDLER
+        def initialize content: Content.new, handler: HANDLER, setting: Setting
           @content = content
           @handler = handler
+          @setting = setting
         end
 
         def call
           handler.to_h
-                 .then do |raw|
-                   content.merge(**raw.slice(:analyzers), **raw.except(:analyzers).flatten_keys)
-                          .freeze
+                 .then do |defaults|
+                   content.merge(
+                     **defaults.except(:analyzers).flatten_keys,
+                     analyzers: load_analyzer_settings(defaults)
+                   ).freeze
                  end
         end
 
         private
 
-        attr_reader :content, :handler
+        attr_reader :content, :handler, :setting
+
+        def load_analyzer_settings defaults
+          defaults.fetch(:analyzers).map { |id, body| setting[id: id, **body] }
+        end
       end
     end
   end
