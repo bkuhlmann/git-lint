@@ -5,15 +5,8 @@ module Git
     module Analyzers
       # Analyzes author email address for proper format.
       class CommitAuthorEmail < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error
-          }
-        end
-
-        def initialize commit:, settings: self.class.defaults, validator: Validators::Email
-          super commit: commit, settings: settings
+        def initialize commit, validator: Validators::Email
+          super commit
           @validator = validator
         end
 

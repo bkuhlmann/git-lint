@@ -3,7 +3,9 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
-  subject(:analyzer) { described_class.new commit: commit }
+  subject(:analyzer) { described_class.new commit }
+
+  include_context "with application container"
 
   describe ".id" do
     it "answers class ID" do
@@ -14,47 +16,6 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
   describe ".label" do
     it "answers class label" do
       expect(described_class.label).to eq("Commit Body Phrase")
-    end
-  end
-
-  describe ".defaults" do
-    let :proof do
-      {
-        enabled: true,
-        severity: :error,
-        excludes: [
-          "absolutely",
-          "actually",
-          "all intents and purposes",
-          "along the lines",
-          "at this moment in time",
-          "basically",
-          "each and every one",
-          "everyone knows",
-          "fact of the matter",
-          "furthermore",
-          "however",
-          "in due course",
-          "in the end",
-          "last but not least",
-          "matter of fact",
-          "obviously",
-          "of course",
-          "really",
-          "simply",
-          "things being equal",
-          "would like to",
-          /\beasy\b/,
-          /\bjust\b/,
-          /\bquite\b/,
-          /as\sfar\sas\s.+\sconcerned/,
-          /of\sthe\s(fact|opinion)\sthat/
-        ]
-      }
-    end
-
-    it "answers defaults" do
-      expect(described_class.defaults).to eq(proof)
     end
   end
 
@@ -139,9 +100,17 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     end
 
     context "with excluded word (mixed case)" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {excludes: ["BasicaLLy"]} }
+      subject :analyzer do
+        described_class.new GitPlus::Commit[body_lines: ["This will fail, basically."]]
+      end
 
-      let(:commit) { GitPlus::Commit[body_lines: ["This will fail, basically."]] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["BasicaLLy"]]
+          ]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -149,9 +118,17 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     end
 
     context "with excluded phrase (mixed case)" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {excludes: ["OF CoursE"]} }
+      subject :analyzer do
+        described_class.new GitPlus::Commit[body_lines: ["This will fail, of course."]]
+      end
 
-      let(:commit) { GitPlus::Commit[body_lines: ["This will fail, of course."]] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["OF CoursE"]]
+          ]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -160,10 +137,16 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
     context "with excluded boundary word (regular expression)" do
       subject :analyzer do
-        described_class.new commit: commit, settings: {excludes: ["\\bjust\\b"]}
+        described_class.new GitPlus::Commit[body_lines: ["Just for test purposes."]]
       end
 
-      let(:commit) { GitPlus::Commit[body_lines: ["Just for test purposes."]] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["\\bjust\\b"]]
+          ]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -172,10 +155,16 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
     context "with excluded, embedded boundary word (regular expression)" do
       subject :analyzer do
-        described_class.new commit: commit, settings: {excludes: ["\\bjust\\b"]}
+        described_class.new GitPlus::Commit[body_lines: ["Adjusted for testing purposes."]]
       end
 
-      let(:commit) { GitPlus::Commit[body_lines: ["Adjusted for testing purposes."]] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["\\bjust\\b"]]
+          ]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -184,10 +173,19 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
     context "with excluded phrase (regular expression)" do
       subject :analyzer do
-        described_class.new commit: commit, settings: {excludes: ["(o|O)f (c|C)ourse"]}
+        described_class.new GitPlus::Commit[body_lines: ["This will fail, of course."]]
       end
 
-      let(:commit) { GitPlus::Commit[body_lines: ["This will fail, of course."]] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[
+              id: :commit_body_phrase,
+              excludes: ["(o|O)f (c|C)ourse"]
+            ]
+          ]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)

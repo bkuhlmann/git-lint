@@ -3,7 +3,9 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
-  subject(:analyzer) { described_class.new commit: commit }
+  subject(:analyzer) { described_class.new commit }
+
+  include_context "with application container"
 
   describe ".id" do
     it "answers class ID" do
@@ -28,10 +30,19 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
 
     context "when valid (custom minimum)" do
       subject :analyzer do
-        described_class.new commit: commit, settings: described_class.defaults.merge(minimum: 3)
+        described_class.new GitPlus::Commit[
+                              subject: "Test",
+                              body_lines: ["One.", "Two.", "Three."]
+                            ]
       end
 
-      let(:commit) { GitPlus::Commit[subject: "Test", body_lines: ["One.", "Two.", "Three."]] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_body_presence, minimum: 3]
+          ]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -56,11 +67,18 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
 
     context "when invalid (custom minimum and not enough non-empty lines)" do
       subject :analyzer do
-        described_class.new commit: commit, settings: described_class.defaults.merge(minimum: 3)
+        described_class.new GitPlus::Commit[
+                              subject: "Test",
+                              body_lines: ["One.", "\r", "", "\t", "Two."]
+                            ]
       end
 
-      let :commit do
-        GitPlus::Commit[subject: "Test", body_lines: ["One.", "\r", "", "\t", "Two."]]
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_body_presence, minimum: 3]
+          ]
+        ]
       end
 
       it "answers false" do
@@ -82,11 +100,18 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
 
     context "when invalid" do
       subject :analyzer do
-        described_class.new commit: commit, settings: described_class.defaults.merge(minimum: 3)
+        described_class.new GitPlus::Commit[
+                              subject: "Test",
+                              body_lines: ["One.", "\r", " ", "\t", "Two."]
+                            ]
       end
 
-      let :commit do
-        GitPlus::Commit[subject: "Test", body_lines: ["One.", "\r", " ", "\t", "Two."]]
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_body_presence, minimum: 3]
+          ]
+        ]
       end
 
       it "answers issue hint" do

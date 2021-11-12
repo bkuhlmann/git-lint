@@ -16,24 +16,20 @@ module Git
 
         def self.label = to_s.delete_prefix("Git::Lint::Analyzers").titleize
 
-        def self.defaults
-          fail NotImplementedError, "The `.#{__method__}` method must be implemented."
-        end
-
         def self.build_issue_line(index, line) = {number: index + ISSUE_LINE_OFFSET, content: line}
 
         attr_reader :commit
 
-        def initialize commit:, settings: self.class.defaults
+        def initialize commit, container: Container
           @commit = commit
-          @settings = settings
+          @container = container
           @filter_list = load_filter_list
         end
 
-        def enabled? = settings.fetch(:enabled)
+        def enabled? = settings.enabled
 
         def severity
-          settings.fetch(:severity).tap do |level|
+          settings.severity.tap do |level|
             fail Errors::Severity, level unless LEVELS.include? level
           end
         end
@@ -54,9 +50,9 @@ module Git
 
         protected
 
-        attr_reader :settings, :filter_list
+        attr_reader :container, :filter_list
 
-        def load_filter_list = Kit::FilterList.new(settings[:list])
+        def load_filter_list = []
 
         def affected_commit_body_lines
           commit.body_lines.each.with_object([]).with_index do |(line, lines), index|
@@ -77,6 +73,8 @@ module Git
         def invalid_line? _line
           fail NotImplementedError, "The `.#{__method__}` method must be implemented."
         end
+
+        def settings = container[:configuration].find_setting(self.class.id)
       end
     end
   end

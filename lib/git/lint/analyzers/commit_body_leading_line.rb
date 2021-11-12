@@ -5,13 +5,6 @@ module Git
     module Analyzers
       # Analyzes leading line between commit subject and start of body.
       class CommitBodyLeadingLine < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error
-          }
-        end
-
         def valid?
           message = commit.message
           subject, body = message.split "\n", 2

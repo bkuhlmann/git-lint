@@ -5,17 +5,8 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator duplication.
       class CommitTrailerCollaboratorDuplication < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error
-          }
-        end
-
-        def initialize commit:,
-                       settings: self.class.defaults,
-                       parser: Parsers::Trailers::Collaborator
-          super commit: commit, settings: settings
+        def initialize commit, parser: Parsers::Trailers::Collaborator
+          super commit
           @parser = parser
           @tally = build_tally
         end

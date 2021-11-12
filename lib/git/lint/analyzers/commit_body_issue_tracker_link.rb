@@ -5,19 +5,6 @@ module Git
     module Analyzers
       # Analyzes body issue tracker link usage.
       class CommitBodyIssueTrackerLink < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error,
-            excludes: [
-              "(f|F)ix(es|ed)?\\s\\#\\d+",
-              "(c|C)lose(s|d)?\\s\\#\\d+",
-              "(r|R)esolve(s|d)?\\s\\#\\d+",
-              "github\\.com\\/.+\\/issues\\/\\d+"
-            ]
-          }
-        end
-
         def valid? = commit.body_lines.none? { |line| invalid_line? line }
 
         def issue
@@ -31,7 +18,7 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.fetch(:excludes))
+        def load_filter_list = Kit::FilterList.new(settings.excludes)
 
         def invalid_line?(line) = line.match?(/.*#{Regexp.union filter_list.to_regexp}.*/)
       end

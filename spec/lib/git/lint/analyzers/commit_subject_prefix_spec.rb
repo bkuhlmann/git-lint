@@ -3,7 +3,9 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
-  subject(:analyzer) { described_class.new commit: commit }
+  subject(:analyzer) { described_class.new commit }
+
+  include_context "with application container"
 
   describe ".id" do
     it "answers class ID" do
@@ -17,16 +19,6 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
   end
 
-  describe ".defaults" do
-    it "answers defaults" do
-      expect(described_class.defaults).to eq(
-        enabled: true,
-        severity: :error,
-        includes: %w[Fixed Added Updated Removed Refactored]
-      )
-    end
-  end
-
   describe "#valid?" do
     context "with valid prefix" do
       let(:commit) { GitPlus::Commit[subject: "Added specs"] }
@@ -37,9 +29,15 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with custom include list" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {includes: %w[One Two]} }
+      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "One"] }
 
-      let(:commit) { GitPlus::Commit[subject: "One"] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_subject_prefix, includes: %w[One Two]]
+          ]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
@@ -47,9 +45,15 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with empty include list" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {includes: []} }
+      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "Test"] }
 
-      let(:commit) { GitPlus::Commit[subject: "Test"] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_subject_prefix, includes: []]
+          ]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)

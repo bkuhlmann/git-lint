@@ -5,18 +5,8 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator key usage.
       class CommitTrailerCollaboratorKey < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error,
-            includes: ["Co-Authored-By"]
-          }
-        end
-
-        def initialize commit:,
-                       settings: self.class.defaults,
-                       parser: Parsers::Trailers::Collaborator
-          super commit: commit, settings: settings
+        def initialize commit, parser: Parsers::Trailers::Collaborator
+          super commit
           @parser = parser
         end
 
@@ -33,7 +23,7 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.fetch(:includes))
+        def load_filter_list = Kit::FilterList.new(settings.includes)
 
         def invalid_line? line
           collaborator = parser.new line

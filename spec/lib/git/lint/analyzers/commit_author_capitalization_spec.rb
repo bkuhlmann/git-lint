@@ -3,7 +3,9 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
-  subject(:analyzer) { described_class.new commit: commit }
+  subject(:analyzer) { described_class.new commit }
+
+  include_context "with application container"
 
   describe ".id" do
     it "answers class ID" do
@@ -14,12 +16,6 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
   describe ".label" do
     it "answers class label" do
       expect(described_class.label).to eq("Commit Author Capitalization")
-    end
-  end
-
-  describe ".defaults" do
-    it "answers defaults" do
-      expect(described_class.defaults).to eq(enabled: true, severity: :error)
     end
   end
 
@@ -42,7 +38,14 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
 
     context "with custom minimum" do
       let(:commit) { GitPlus::Commit[author_name: "Example"] }
-      let(:settings) { {enabled: true, minimum: 1} }
+
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_author_capitalization, minimum: 1]
+          ]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)

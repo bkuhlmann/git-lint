@@ -5,24 +5,14 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator email address format.
       class CommitTrailerCollaboratorEmail < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error
-          }
-        end
-
-        # rubocop:disable Metrics/ParameterLists
-        def initialize commit:,
-                       settings: self.class.defaults,
+        def initialize commit,
                        parser: Parsers::Trailers::Collaborator,
                        validator: Validators::Email
 
-          super commit: commit, settings: settings
+          super commit
           @parser = parser
           @validator = validator
         end
-        # rubocop:enable Metrics/ParameterLists
 
         def valid? = affected_commit_trailers.empty?
 

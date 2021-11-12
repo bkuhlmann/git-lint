@@ -7,14 +7,6 @@ module Git
       class CommitBodyPresence < Abstract
         using ::Refinements::Strings
 
-        def self.defaults
-          {
-            enabled: true,
-            severity: :warn,
-            minimum: 1
-          }
-        end
-
         def valid?
           return true if commit.fixup?
 
@@ -22,7 +14,7 @@ module Git
           valid_lines.size >= minimum
         end
 
-        def minimum = settings.fetch(:minimum)
+        def minimum = settings.minimum
 
         def issue
           return {} if valid?

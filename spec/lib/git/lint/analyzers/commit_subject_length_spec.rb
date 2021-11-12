@@ -3,7 +3,9 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
-  subject(:analyzer) { described_class.new commit: commit }
+  subject(:analyzer) { described_class.new commit }
+
+  include_context "with application container"
 
   describe ".id" do
     it "answers class ID" do
@@ -14,12 +16,6 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
   describe ".label" do
     it "answers class label" do
       expect(described_class.label).to eq("Commit Subject Length")
-    end
-  end
-
-  describe ".defaults" do
-    it "answers defaults" do
-      expect(described_class.defaults).to eq(enabled: true, severity: :error, maximum: 72)
     end
   end
 
@@ -58,9 +54,15 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     end
 
     context "with invalid length" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {maximum: 10} }
+      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "Added specs"] }
 
-      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_subject_length, maximum: 10]
+          ]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -80,9 +82,15 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     end
 
     context "when invalid" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {maximum: 10} }
+      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "Added specs"] }
 
-      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_subject_length, maximum: 10]
+          ]
+        ]
+      end
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq("Use 10 characters or less.")

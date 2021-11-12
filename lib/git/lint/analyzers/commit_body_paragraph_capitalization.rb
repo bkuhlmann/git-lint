@@ -5,13 +5,6 @@ module Git
     module Analyzers
       # Analyzes proper capitalization of commit body paragraphs.
       class CommitBodyParagraphCapitalization < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error
-          }
-        end
-
         def self.invalid?(line) = line.match?(/\A[[:lower:]].+\Z/m)
 
         def valid? = lowercased_lines.empty?

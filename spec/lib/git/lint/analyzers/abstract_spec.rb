@@ -3,25 +3,30 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::Abstract do
-  subject(:analyzer) { described_class.new commit: git_commit, settings: settings }
+  subject(:analyzer) { described_class.new git_commit }
 
+  include_context "with application container"
   include_context "with Git commit"
 
-  let(:settings) { {enabled: true} }
+  let :configuration do
+    Git::Lint::Configuration::Content[
+      analyzers: [Git::Lint::Configuration::Setting[id: :abstract, enabled: true, severity: :error]]
+    ]
+  end
 
   let :valid_analyzer do
     Class.new described_class do
-      def valid?
-        true
-      end
+      def self.id = :abtract
+
+      def valid? = true
     end
   end
 
   let :invalid_analyzer do
     Class.new described_class do
-      def valid?
-        false
-      end
+      def self.id = :abstract
+
+      def valid? = false
     end
   end
 
@@ -37,13 +42,6 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
     end
   end
 
-  describe ".defaults" do
-    it "fails with NotImplementedError" do
-      result = -> { described_class.defaults }
-      expect(&result).to raise_error(NotImplementedError, /.+\.defaults.+/)
-    end
-  end
-
   describe ".build_issue_line" do
     it "answers isuse line" do
       expect(described_class.build_issue_line(1, "Test.")).to eq(number: 3, content: "Test.")
@@ -51,16 +49,16 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
   end
 
   describe "#enabled?" do
-    context "when enabled" do
-      let(:settings) { {enabled: true} }
-
-      it "answers true" do
-        expect(analyzer.enabled?).to eq(true)
-      end
+    it "answers true when enabled" do
+      expect(analyzer.enabled?).to eq(true)
     end
 
     context "when disabled" do
-      let(:settings) { {enabled: false} }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [Git::Lint::Configuration::Setting[id: :abstract, enabled: false]]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.enabled?).to eq(false)
@@ -69,29 +67,33 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
   end
 
   describe "#severity" do
-    context "with severity" do
-      let(:settings) { {severity: :error} }
-
-      it "answers severity" do
-        expect(analyzer.severity).to eq(:error)
-      end
+    it "answers severity when severity is defined" do
+      expect(analyzer.severity).to eq(:error)
     end
 
     context "without severity" do
-      let(:settings) { Hash.new }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [Git::Lint::Configuration::Setting[id: :abstract]]
+        ]
+      end
 
-      it "fails with key error" do
+      it "fails with severity error" do
         result = -> { analyzer.severity }
-        expect(&result).to raise_error(KeyError)
+        expect(&result).to raise_error(Git::Lint::Errors::Severity, /invalid severity/i)
       end
     end
 
     context "with invalid severity" do
-      let(:settings) { {severity: :bogus} }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [Git::Lint::Configuration::Setting[id: :abstract, severity: :bogus]]
+        ]
+      end
 
       it "fails with invalid severity error" do
         result = -> { analyzer.severity }
-        expect(&result).to raise_error(Git::Lint::Errors::Severity)
+        expect(&result).to raise_error(Git::Lint::Errors::Severity, /invalid severity.+bogus/i)
       end
     end
   end
@@ -105,11 +107,11 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
   describe "#invalid?" do
     it "answers true when not valid" do
-      expect(invalid_analyzer.new(commit: git_commit, settings: settings).invalid?).to eq(true)
+      expect(invalid_analyzer.new(git_commit).invalid?).to eq(true)
     end
 
     it "answers false when valid" do
-      expect(valid_analyzer.new(commit: git_commit, settings: settings).invalid?).to eq(false)
+      expect(valid_analyzer.new(git_commit).invalid?).to eq(false)
     end
 
     it "fails with NotImplementedError when not implemented" do
@@ -119,14 +121,20 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
   end
 
   describe "#warning?" do
-    let(:settings) { {enabled: true, severity: :warn} }
+    let :configuration do
+      Git::Lint::Configuration::Content[
+        analyzers: [
+          Git::Lint::Configuration::Setting[id: :abstract, enabled: true, severity: :warn]
+        ]
+      ]
+    end
 
     it "answers true when invalid" do
-      expect(invalid_analyzer.new(commit: git_commit, settings: settings).warning?).to eq(true)
+      expect(invalid_analyzer.new(git_commit).warning?).to eq(true)
     end
 
     it "answers false when valid" do
-      expect(valid_analyzer.new(commit: git_commit, settings: settings).warning?).to eq(false)
+      expect(valid_analyzer.new(git_commit).warning?).to eq(false)
     end
 
     it "fails with NotImplementedError when not implemented" do
@@ -136,14 +144,12 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
   end
 
   describe "#error?" do
-    let(:settings) { {enabled: true, severity: :error} }
-
     it "answers true when invalid" do
-      expect(invalid_analyzer.new(commit: git_commit, settings: settings).error?).to eq(true)
+      expect(invalid_analyzer.new(git_commit).error?).to eq(true)
     end
 
     it "answers false when valid" do
-      expect(valid_analyzer.new(commit: git_commit, settings: settings).error?).to eq(false)
+      expect(valid_analyzer.new(git_commit).error?).to eq(false)
     end
 
     it "fails with NotImplementedError when not implemented" do

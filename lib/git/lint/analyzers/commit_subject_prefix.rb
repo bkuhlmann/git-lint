@@ -5,14 +5,6 @@ module Git
     module Analyzers
       # Analyzes commit subject uses standard prefix.
       class CommitSubjectPrefix < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error,
-            includes: %w[Fixed Added Updated Removed Refactored]
-          }
-        end
-
         def valid?
           return true if commit.prefix?
           return true if filter_list.empty?
@@ -28,7 +20,7 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.fetch(:includes))
+        def load_filter_list = Kit::FilterList.new(settings.includes)
       end
     end
   end

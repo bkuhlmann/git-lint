@@ -3,7 +3,9 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
-  subject(:analyzer) { described_class.new commit: commit }
+  subject(:analyzer) { described_class.new commit }
+
+  include_context "with application container"
 
   describe ".id" do
     it "answers class ID" do
@@ -14,16 +16,6 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
   describe ".label" do
     it "answers class label" do
       expect(described_class.label).to eq("Commit Subject Suffix")
-    end
-  end
-
-  describe ".defaults" do
-    it "answers defaults" do
-      expect(described_class.defaults).to eq(
-        enabled: true,
-        severity: :error,
-        excludes: ["\\.", "\\?", "\\!"]
-      )
     end
   end
 
@@ -61,9 +53,15 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     end
 
     context "with custom exclude list" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {excludes: ["😅"]} }
+      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "Added specs 😅"] }
 
-      let(:commit) { GitPlus::Commit[subject: "Added specs 😅"] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_subject_suffix, excludes: ["😅"]]
+          ]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to eq(false)
@@ -71,9 +69,15 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     end
 
     context "with empty exclude list" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {excludes: []} }
+      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "Added specs?"] }
 
-      let(:commit) { GitPlus::Commit[subject: "Added specs?"] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_subject_suffix, excludes: []]
+          ]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)

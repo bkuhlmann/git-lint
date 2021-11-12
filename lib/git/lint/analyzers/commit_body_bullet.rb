@@ -5,14 +5,6 @@ module Git
     module Analyzers
       # Analyzes commit body for correct bullet point syntax.
       class CommitBodyBullet < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error,
-            excludes: %w[\\* •]
-          }
-        end
-
         def valid? = commit.body_lines.all? { |line| !invalid_line? line }
 
         def issue
@@ -26,7 +18,7 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.fetch(:excludes))
+        def load_filter_list = Kit::FilterList.new(settings.excludes)
 
         # :reek:FeatureEnvy
         def invalid_line? line

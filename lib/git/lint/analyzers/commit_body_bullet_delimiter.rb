@@ -5,14 +5,6 @@ module Git
     module Analyzers
       # Analyzes commit body delimiter usage.
       class CommitBodyBulletDelimiter < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error,
-            includes: %w[\\-]
-          }
-        end
-
         def valid? = commit.body_lines.none? { |line| invalid_line? line }
 
         def issue
@@ -26,7 +18,7 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.fetch(:includes))
+        def load_filter_list = Kit::FilterList.new(settings.includes)
 
         def invalid_line?(line) = line.match?(/\A\s*#{pattern}(?!(#{pattern}|\s)).+\Z/)
 

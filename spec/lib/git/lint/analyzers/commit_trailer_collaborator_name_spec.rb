@@ -3,7 +3,9 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
-  subject(:analyzer) { described_class.new commit: commit }
+  subject(:analyzer) { described_class.new commit }
+
+  include_context "with application container"
 
   describe ".id" do
     it "answers class ID" do
@@ -14,12 +16,6 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
   describe ".label" do
     it "answers class label" do
       expect(described_class.label).to eq("Commit Trailer Collaborator Name")
-    end
-  end
-
-  describe ".defaults" do
-    it "answers defaults" do
-      expect(described_class.defaults).to eq(enabled: true, severity: :error, minimum: 2)
     end
   end
 
@@ -43,9 +39,17 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
     end
 
     context "with custom minimum" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {minimum: 1} }
+      subject :analyzer do
+        described_class.new GitPlus::Commit[trailers: ["Co-Authored-By: Test <test@example.com>"]]
+      end
 
-      let(:commit) { GitPlus::Commit[trailers: ["Co-Authored-By: Test <test@example.com>"]] }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[id: :commit_trailer_collaborator_name, minimum: 1]
+          ]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)

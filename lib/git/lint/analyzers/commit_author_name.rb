@@ -5,16 +5,8 @@ module Git
     module Analyzers
       # Analyzes author name for minimum parts of name.
       class CommitAuthorName < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error,
-            minimum: 2
-          }
-        end
-
-        def initialize commit:, settings: self.class.defaults, validator: Validators::Name
-          super commit: commit, settings: settings
+        def initialize commit, validator: Validators::Name
+          super commit
           @validator = validator
         end
 
@@ -30,9 +22,7 @@ module Git
 
         attr_reader :validator
 
-        def minimum
-          settings.fetch __method__
-        end
+        def minimum = settings.minimum
       end
     end
   end

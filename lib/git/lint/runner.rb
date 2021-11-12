@@ -29,14 +29,14 @@ module Git
       ].freeze
 
       # rubocop:disable Metrics/ParameterLists
-      def initialize configuration = Container[:configuration].analyzers,
-                     analyzers: ANALYZERS,
+      def initialize analyzers: ANALYZERS,
                      collector: Collector.new,
-                     reporter: Reporters::Branch
-        @configuration = configuration
+                     reporter: Reporters::Branch,
+                     container: Container
         @analyzers = analyzers
         @collector = collector
         @reporter = reporter
+        @container = container
       end
       # rubocop:enable Metrics/ParameterLists
 
@@ -48,7 +48,7 @@ module Git
 
       private
 
-      attr_reader :configuration, :analyzers, :collector, :reporter
+      attr_reader :analyzers, :collector, :reporter, :container
 
       def process commits
         collector.clear
@@ -56,19 +56,21 @@ module Git
       end
 
       def analyze commit
-        configuration.map { |id, settings| load_analyzer id, commit, settings }
-                     .select(&:enabled?)
-                     .map { |analyzer| collector.add analyzer }
+        settings.map { |setting| load_analyzer commit, setting.id }
+                .select(&:enabled?)
+                .map { |analyzer| collector.add analyzer }
       end
 
-      def load_analyzer id, commit, settings
+      def load_analyzer commit, id
         analyzers.find { |analyzer| analyzer.id == id }
                  .then do |analyzer|
                    fail Errors::Base, "Invalid analyzer detected: #{id}." unless analyzer
 
-                   analyzer.new commit: commit, settings: settings
+                   analyzer.new commit
                  end
       end
+
+      def settings = container[:configuration].analyzers
     end
   end
 end

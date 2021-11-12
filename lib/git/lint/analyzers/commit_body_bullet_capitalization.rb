@@ -5,14 +5,6 @@ module Git
     module Analyzers
       # Analyzes commit body for proper capitalization of bullet sentences.
       class CommitBodyBulletCapitalization < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error,
-            includes: %w[\\-]
-          }
-        end
-
         def valid? = lowercased_bullets.size.zero?
 
         def issue
@@ -26,7 +18,7 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.fetch(:includes))
+        def load_filter_list = Kit::FilterList.new(settings.includes)
 
         def invalid_line? line
           line.match?(/\A\s*#{Regexp.union filter_list.to_regexp}\s[[:lower:]]+/)

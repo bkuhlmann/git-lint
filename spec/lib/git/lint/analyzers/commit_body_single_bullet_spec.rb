@@ -3,7 +3,9 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
-  subject(:analyzer) { described_class.new commit: commit }
+  subject(:analyzer) { described_class.new commit }
+
+  include_context "with application container"
 
   describe ".id" do
     it "answers class ID" do
@@ -14,12 +16,6 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
   describe ".label" do
     it "answers class label" do
       expect(described_class.label).to eq("Commit Body Single Bullet")
-    end
-  end
-
-  describe ".defaults" do
-    it "answers defaults" do
-      expect(described_class.defaults).to eq(enabled: true, severity: :error, includes: %w[\\-])
     end
   end
 

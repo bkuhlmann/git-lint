@@ -5,14 +5,6 @@ module Git
     module Analyzers
       # Analyzes commit body line length to prevent unnecessary horizontal scrolling.
       class CommitBodyLineLength < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error,
-            maximum: 72
-          }
-        end
-
         def valid? = commit.body_lines.all? { |line| !invalid_line? line }
 
         def issue
@@ -30,7 +22,7 @@ module Git
 
         private
 
-        def maximum = settings.fetch(:maximum)
+        def maximum = settings.maximum
       end
     end
   end

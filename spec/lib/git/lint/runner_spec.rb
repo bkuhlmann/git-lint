@@ -5,18 +5,39 @@ require "spec_helper"
 RSpec.describe Git::Lint::Runner do
   using Refinements::Pathnames
 
-  subject(:runner) { described_class.new configuration }
+  subject(:runner) { described_class.new }
 
   include_context "with Git repository"
   include_context "with application container"
 
   let :configuration do
-    {
-      commit_body_leading_line: {enabled: true, severity: :error},
-      commit_subject_length: {enabled: true, severity: :error, maximum: 50},
-      commit_subject_prefix: {enabled: true, severity: :error, includes: %w[Fixed Added]},
-      commit_subject_suffix: {enabled: true, severity: :error, excludes: ["\\.", "\\?", "\\!"]}
-    }
+    Git::Lint::Configuration::Content[
+      analyzers: [
+        Git::Lint::Configuration::Setting[
+          id: :commit_body_leading_line,
+          enabled: true,
+          severity: :error
+        ],
+        Git::Lint::Configuration::Setting[
+          id: :commit_subject_length,
+          enabled: true,
+          severity: :error,
+          maximum: 50
+        ],
+        Git::Lint::Configuration::Setting[
+          id: :commit_subject_prefix,
+          enabled: true,
+          severity: :error,
+          includes: %w[Fixed Added]
+        ],
+        Git::Lint::Configuration::Setting[
+          id: :commit_subject_suffix,
+          enabled: true,
+          severity: :error,
+          excludes: ["\\.", "\\?", "\\!"]
+        ]
+      ]
+    ]
   end
 
   let(:branch) { "test" }
@@ -73,7 +94,17 @@ RSpec.describe Git::Lint::Runner do
     end
 
     context "with disabled analyzer" do
-      let(:configuration) { {commit_subject_prefix: {enabled: false, includes: %w[Added]}} }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[
+              id: :commit_subject_prefix,
+              enabled: false,
+              includes: %w[Added]
+            ]
+          ]
+        ]
+      end
 
       it "reports no issues" do
         git_repo_dir.change_dir do
@@ -86,7 +117,11 @@ RSpec.describe Git::Lint::Runner do
     end
 
     context "with invalid analyzer ID" do
-      let(:configuration) { {invalid_analyzer_id: true} }
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [Git::Lint::Configuration::Setting[id: :bogus]]
+        ]
+      end
 
       it "fails with errors" do
         git_repo_dir.change_dir do
@@ -95,7 +130,7 @@ RSpec.describe Git::Lint::Runner do
 
           expect(&result).to raise_error(
             Git::Lint::Errors::Base,
-            /Invalid\sanalyzer detected:\sinvalid_analyzer_id/
+            /Invalid\sanalyzer detected:\sbogus/
           )
         end
       end

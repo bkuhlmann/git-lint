@@ -5,25 +5,14 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator name construction.
       class CommitTrailerCollaboratorName < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error,
-            minimum: 2
-          }
-        end
-
-        # rubocop:disable Metrics/ParameterLists
-        def initialize commit:,
-                       settings: self.class.defaults,
+        def initialize commit,
                        parser: Parsers::Trailers::Collaborator,
                        validator: Validators::Name
 
-          super commit: commit, settings: settings
+          super commit
           @parser = parser
           @validator = validator
         end
-        # rubocop:enable Metrics/ParameterLists
 
         def valid? = affected_commit_trailers.empty?
 
@@ -47,7 +36,7 @@ module Git
 
         attr_reader :parser, :validator
 
-        def minimum = settings.fetch(:minimum)
+        def minimum = settings.minimum
       end
     end
   end

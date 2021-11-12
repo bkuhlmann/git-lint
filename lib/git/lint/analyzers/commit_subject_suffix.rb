@@ -5,18 +5,6 @@ module Git
     module Analyzers
       # Analyzes commit subject suffix for punctuation.
       class CommitSubjectSuffix < Abstract
-        def self.defaults
-          {
-            enabled: true,
-            severity: :error,
-            excludes: [
-              "\\.",
-              "\\?",
-              "\\!"
-            ]
-          }
-        end
-
         def valid?
           return true if filter_list.empty?
 
@@ -31,7 +19,7 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.fetch(:excludes))
+        def load_filter_list = Kit::FilterList.new(settings.excludes)
       end
     end
   end
