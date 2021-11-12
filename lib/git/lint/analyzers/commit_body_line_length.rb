@@ -9,7 +9,7 @@ module Git
           {
             enabled: true,
             severity: :error,
-            length: 72
+            maximum: 72
           }
         end
 
@@ -19,18 +19,18 @@ module Git
           return {} if valid?
 
           {
-            hint: "Use #{length} characters or less per line.",
+            hint: "Use #{maximum} characters or less per line.",
             lines: affected_commit_body_lines
           }
         end
 
         protected
 
-        def invalid_line?(line) = line.length > length
+        def invalid_line?(line) = line.length > maximum
 
         private
 
-        def length = settings.fetch(:length)
+        def maximum = settings.fetch(:maximum)
       end
     end
   end

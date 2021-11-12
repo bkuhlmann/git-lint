@@ -19,7 +19,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
 
   describe ".defaults" do
     it "answers defaults" do
-      expect(described_class.defaults).to eq(enabled: true, severity: :error, length: 72)
+      expect(described_class.defaults).to eq(enabled: true, severity: :error, maximum: 72)
     end
   end
 
@@ -74,7 +74,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
 
     context "when invalid" do
       subject :analyzer do
-        described_class.new commit: commit, settings: {enabled: true, length: 55}
+        described_class.new commit: commit, settings: {enabled: true, maximum: 55}
       end
 
       let :commit do
