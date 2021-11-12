@@ -18,6 +18,8 @@ module Git
           super
           freeze
         end
+
+        def find_setting(id) = analyzers.find { |setting| setting.id == id }
       end
     end
   end

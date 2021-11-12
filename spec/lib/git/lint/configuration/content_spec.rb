@@ -3,7 +3,9 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Configuration::Content do
-  subject(:content) { described_class.new }
+  subject(:content) { described_class[analyzers: [setting]] }
+
+  let(:setting) { Git::Lint::Configuration::Setting[id: :commit_subject_prefix, enabled: true] }
 
   describe "#initialize" do
     let :proof do
@@ -19,12 +21,22 @@ RSpec.describe Git::Lint::Configuration::Content do
     end
 
     it "answers default attributes" do
-      expect(content).to have_attributes(proof)
+      expect(described_class.new).to have_attributes(proof)
     end
 
     it "fails when attempting to modify a frozen attribute" do
-      expecation = proc { content.action_help = "danger" }
+      expecation = proc { described_class.new.action_help = "danger" }
       expect(&expecation).to raise_error(FrozenError)
+    end
+  end
+
+  describe "#find_setting" do
+    it "answers setting by ID" do
+      expect(content.find_setting(:commit_subject_prefix)).to eq(setting)
+    end
+
+    it "answers nil when ID isn't found" do
+      expect(content.find_setting(:mystery)).to eq(nil)
     end
   end
 end
