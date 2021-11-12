@@ -19,7 +19,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
 
   describe ".defaults" do
     it "answers defaults" do
-      expect(described_class.defaults).to eq(enabled: true, severity: :error, length: 72)
+      expect(described_class.defaults).to eq(enabled: true, severity: :error, maximum: 72)
     end
   end
 
@@ -58,7 +58,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     end
 
     context "with invalid length" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {length: 10} }
+      subject(:analyzer) { described_class.new commit: commit, settings: {maximum: 10} }
 
       let(:commit) { GitPlus::Commit[subject: "Added specs"] }
 
@@ -80,7 +80,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     end
 
     context "when invalid" do
-      subject(:analyzer) { described_class.new commit: commit, settings: {length: 10} }
+      subject(:analyzer) { described_class.new commit: commit, settings: {maximum: 10} }
 
       let(:commit) { GitPlus::Commit[subject: "Added specs"] }
 

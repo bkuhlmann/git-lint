@@ -82,7 +82,7 @@
   :commit_subject_length:
     :enabled: true
     :severity: :error
-    :length: 72
+    :maximum: 72
   :commit_subject_prefix:
     :enabled: true
     :severity: :error

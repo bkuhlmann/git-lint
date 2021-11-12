@@ -9,21 +9,21 @@ module Git
           {
             enabled: true,
             severity: :error,
-            length: 72
+            maximum: 72
           }
         end
 
-        def valid? = commit.subject.sub(/(fixup!|squash!)\s{1}/, "").size <= length
+        def valid? = commit.subject.sub(/(fixup!|squash!)\s{1}/, "").size <= maximum
 
         def issue
           return {} if valid?
 
-          {hint: "Use #{length} characters or less."}
+          {hint: "Use #{maximum} characters or less."}
         end
 
         private
 
-        def length = settings.fetch(:length)
+        def maximum = settings.fetch(:maximum)
       end
     end
   end
