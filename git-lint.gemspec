@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://www.alchemists.io/projects/git-lint"
   spec.summary = Git::Lint::Identity::SUMMARY
-  spec.license = "Apache-2.0"
+  spec.license = "Hippocratic-3.0"
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/bkuhlmann/git-lint/issues",
