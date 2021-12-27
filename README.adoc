@@ -550,38 +550,6 @@ Ensures commit body bullets are delimited by a space. Example:
 - An example bullet.
 ....
 
-=== Commit Body Issue Tracker Link
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | excludes: (see configuration)
-|===
-
-Ensures commit body doesn't contain a link to an issue tracker. The exclude list defaults to GitHub
-Issue links but can be customized for any issue tracker.
-
-There are several reasons for excluding issue tracker links from commit bodies:
-
-. Not all issue trackers preserve issues (meaning they can be deleted). This makes make reading
-  historic commits much harder to understand why the change was made when the link no longer works.
-. When not connected to the internet or working on a laggy connection, it's hard to understand why
-  a commit was made when all you have is a link to an issue with no other supporting context.
-. During the course of a repository's life, issue trackers can be replaced (rare but it does
-  happen). If the old issue tracker service is no longer paid for, none of the links within the
-  commit will be of any relevance.
-. An issue might span several commits in order to resolve it. Including a link in each commit is
-  tedious and can create noise within the issue's history which is distracting.
-
-Instead of linking to issues, take the time to write a short summary as to _why_ the commit was
-made. Doing this will make it easier to understand _why_ the commit was made, keeps the commit self-
-contained, and makes learning about/debugging the commit faster.
-
-Issue tracker links are best used at the code review level due to an issue usually spanning multiple
-commits in order to complete the work. When reading a code review, this is a great opportunity to
-link to an issue in order to provide a high level overview and reason why the code review was
-initiated in the first place.
-
 === Commit Body Leading Line
 
 [options="header"]

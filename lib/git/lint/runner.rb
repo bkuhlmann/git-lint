@@ -11,7 +11,6 @@ module Git
         Analyzers::CommitBodyBullet,
         Analyzers::CommitBodyBulletCapitalization,
         Analyzers::CommitBodyBulletDelimiter,
-        Analyzers::CommitBodyIssueTrackerLink,
         Analyzers::CommitBodyLeadingLine,
         Analyzers::CommitBodyLineLength,
         Analyzers::CommitBodyParagraphCapitalization,

@@ -23,14 +23,6 @@
     :enabled: true
     :severity: :error
     :includes: "\\-"
-  :commit_body_issue_tracker_link:
-    :enabled: true
-    :severity: :error
-    :excludes:
-      - "(f|F)ix(es|ed)?\\s\\#\\d+"
-      - "(c|C)lose(s|d)?\\s\\#\\d+"
-      - "(r|R)esolve(s|d)?\\s\\#\\d+"
-      - "github\\.com\\/.+\\/issues\\/\\d+"
   :commit_body_tracker_shorthand:
     :enabled: true
     :severity: :error
