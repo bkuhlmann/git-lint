@@ -42,7 +42,7 @@ module Git
         attr_reader :content, :handler, :setting
 
         def load_analyzer_settings defaults
-          defaults.fetch(:analyzers).map { |id, body| setting[id: id, **body] }
+          defaults.fetch(:analyzers).map { |id, body| setting[id:, **body] }
         end
       end
     end

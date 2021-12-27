@@ -11,8 +11,8 @@ RSpec.describe Git::Lint::Reporters::Style do
                    Git::Lint::Analyzers::CommitAuthorEmail,
                    label: "Commit Author Email"
                  ),
-                 severity: severity,
-                 issue: issue
+                 severity:,
+                 issue:
   end
 
   let(:severity) { :error }

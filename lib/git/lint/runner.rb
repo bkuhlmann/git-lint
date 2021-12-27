@@ -42,7 +42,7 @@ module Git
 
       def call commits: Commits::Loader.new.call
         process commits
-        a_reporter = reporter.new collector: collector
+        a_reporter = reporter.new(collector:)
         block_given? ? yield(collector, a_reporter) : [collector, a_reporter]
       end
 

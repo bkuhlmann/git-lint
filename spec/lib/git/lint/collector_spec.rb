@@ -10,7 +10,7 @@ RSpec.describe Git::Lint::Collector do
   let :valid_analyzer do
     instance_spy Git::Lint::Analyzers::CommitSubjectPrefix,
                  class: Git::Lint::Analyzers::CommitSubjectPrefix,
-                 commit: commit,
+                 commit:,
                  invalid?: false,
                  warning?: false,
                  error?: false
@@ -19,7 +19,7 @@ RSpec.describe Git::Lint::Collector do
   let :warn_analyzer do
     instance_spy Git::Lint::Analyzers::CommitSubjectPrefix,
                  class: Git::Lint::Analyzers::CommitSubjectPrefix,
-                 commit: commit,
+                 commit:,
                  invalid?: true,
                  warning?: true,
                  error?: false
@@ -28,7 +28,7 @@ RSpec.describe Git::Lint::Collector do
   let :error_analyzer do
     instance_spy Git::Lint::Analyzers::CommitSubjectPrefix,
                  class: Git::Lint::Analyzers::CommitSubjectPrefix,
-                 commit: commit,
+                 commit:,
                  invalid?: true,
                  warning?: false,
                  error?: true

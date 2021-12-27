@@ -29,7 +29,7 @@ module Git
 
         def invalid_line? line
           collaborator = parser.new line
-          collaborator.match? && !validator.new(collaborator.name.strip, minimum: minimum).valid?
+          collaborator.match? && !validator.new(collaborator.name.strip, minimum:).valid?
         end
 
         private

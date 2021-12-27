@@ -50,7 +50,7 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Branch do
     end
 
     context "with failure" do
-      subject(:action) { described_class.new runner: runner }
+      subject(:action) { described_class.new runner: }
 
       let(:runner) { instance_double Git::Lint::Runner }
 

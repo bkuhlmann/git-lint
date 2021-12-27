@@ -33,7 +33,7 @@ module Git
 
         def commit_report
           collector.to_h.reduce "" do |details, (commit, analyzers)|
-            details + Commit.new(commit: commit, analyzers: analyzers)
+            details + Commit.new(commit:, analyzers:)
           end
         end
 

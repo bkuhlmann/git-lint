@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Validators::Capitalization do
-  subject(:capitalization) { described_class.new text, delimiter: delimiter, pattern: pattern }
+  subject(:capitalization) { described_class.new text, delimiter:, pattern: }
 
   let(:delimiter) { Git::Lint::Validators::Name::DEFAULT_DELIMITER }
   let(:pattern) { described_class::DEFAULT_PATTERN }

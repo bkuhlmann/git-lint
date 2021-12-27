@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Validators::Name do
-  subject(:name) { described_class.new text, delimiter: delimiter, minimum: minimum }
+  subject(:name) { described_class.new text, delimiter:, minimum: }
 
   let(:text) { "Example Test" }
   let(:delimiter) { described_class::DEFAULT_DELIMITER }

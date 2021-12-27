@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Reporters::Branch do
-  subject(:reporter) { described_class.new collector: collector }
+  subject(:reporter) { described_class.new collector: }
 
   include_context "with Git commit"
 

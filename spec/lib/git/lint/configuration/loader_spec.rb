@@ -13,7 +13,7 @@ RSpec.describe Git::Lint::Configuration::Loader do
       action_hook: nil,
       action_version: nil,
       analyze_shas: nil,
-      analyzers: analyzers
+      analyzers:
     ]
   end
 
@@ -22,7 +22,7 @@ RSpec.describe Git::Lint::Configuration::Loader do
            .join("lib/git/lint/configuration/defaults.yml")
            .then { |path| YAML.load_file path }
            .then { |defaults| defaults.fetch :analyzers }
-           .map { |id, defaults| Git::Lint::Configuration::Setting[id: id, **defaults] }
+           .map { |id, defaults| Git::Lint::Configuration::Setting[id:, **defaults] }
   end
 
   describe ".call" do

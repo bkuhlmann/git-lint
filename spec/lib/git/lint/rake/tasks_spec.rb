@@ -4,7 +4,7 @@ require "spec_helper"
 require "git/lint/rake/tasks"
 
 RSpec.describe Git::Lint::Rake::Tasks do
-  subject(:tasks) { described_class.new shell: shell }
+  subject(:tasks) { described_class.new shell: }
 
   let(:shell) { instance_spy Git::Lint::CLI::Shell }
 

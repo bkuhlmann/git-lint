@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Reporters::Commit do
-  subject(:reporter) { described_class.new commit: git_commit, analyzers: analyzers }
+  subject(:reporter) { described_class.new commit: git_commit, analyzers: }
 
   include_context "with Git commit"
 
@@ -22,7 +22,7 @@ RSpec.describe Git::Lint::Reporters::Commit do
 
   describe "#to_s" do
     context "with invalid analyzer" do
-      subject(:reporter) { described_class.new commit: git_commit, analyzers: analyzers }
+      subject(:reporter) { described_class.new commit: git_commit, analyzers: }
 
       let(:invalid) { true }
 
