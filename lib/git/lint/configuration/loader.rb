@@ -15,31 +15,31 @@ module Git
         using ::Refinements::Structs
 
         DEFAULTS = YAML.load_file(Pathname(__dir__).join("defaults.yml")).freeze
-        HANDLER = Runcom::Config.new "#{Identity::NAME}/configuration.yml", defaults: DEFAULTS
+        CLIENT = Runcom::Config.new "#{Identity::NAME}/configuration.yml", defaults: DEFAULTS
 
         def self.call = new.call
 
-        def self.with_defaults = new(handler: DEFAULTS)
+        def self.with_defaults = new(client: DEFAULTS)
 
-        def initialize content: Content.new, handler: HANDLER, setting: Setting
+        def initialize content: Content.new, client: CLIENT, setting: Setting
           @content = content
-          @handler = handler
+          @client = client
           @setting = setting
         end
 
         def call
-          handler.to_h
-                 .then do |defaults|
-                   content.merge(
-                     **defaults.except(:analyzers).flatten_keys,
-                     analyzers: load_analyzer_settings(defaults)
-                   ).freeze
-                 end
+          client.to_h
+                .then do |defaults|
+                  content.merge(
+                    **defaults.except(:analyzers).flatten_keys,
+                    analyzers: load_analyzer_settings(defaults)
+                  ).freeze
+                end
         end
 
         private
 
-        attr_reader :content, :handler, :setting
+        attr_reader :content, :client, :setting
 
         def load_analyzer_settings defaults
           defaults.fetch(:analyzers).map { |id, body| setting[id:, **body] }
