@@ -18,6 +18,7 @@ module Git
         Analyzers::CommitBodyPhrase,
         Analyzers::CommitBodyPresence,
         Analyzers::CommitBodySingleBullet,
+        Analyzers::CommitBodyTrackerShorthand,
         Analyzers::CommitSubjectLength,
         Analyzers::CommitSubjectPrefix,
         Analyzers::CommitSubjectSuffix,
