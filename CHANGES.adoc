@@ -1,5 +1,81 @@
 = Changes
 
+== 3.0.0 (2021-12-27)
+
+* Fixed Commit Body Phrase analyzer defaults - Brooke Kuhlmann
+* Fixed Hippocratic license structure - Brooke Kuhlmann
+* Fixed README changes and credits sections - Brooke Kuhlmann
+* Fixed RSpec/Dialect issues - Brooke Kuhlmann
+* Fixed Reek IrresponsibleModule issues - Brooke Kuhlmann
+* Fixed contributing documentation - Brooke Kuhlmann
+* Added CLI analyze branch action - Brooke Kuhlmann
+* Added CLI analyze commit action - Brooke Kuhlmann
+* Added CLI analyze parser - Brooke Kuhlmann
+* Added CLI config action - Brooke Kuhlmann
+* Added CLI core parser - Brooke Kuhlmann
+* Added CLI hook action - Brooke Kuhlmann
+* Added CLI parser - Brooke Kuhlmann
+* Added CLI shell - Brooke Kuhlmann
+* Added Dry Container - Brooke Kuhlmann
+* Added Git Annex to general style guide - Brooke Kuhlmann
+* Added README community link - Brooke Kuhlmann
+* Added RSpec CLI parser shared example - Brooke Kuhlmann
+* Added RSpec gem vesion matcher - Brooke Kuhlmann
+* Added Rakefile Bundler gem tasks - Brooke Kuhlmann
+* Added Zeitwerk - Brooke Kuhlmann
+* Added application configuration content - Brooke Kuhlmann
+* Added application configuration defaults - Brooke Kuhlmann
+* Added application configuration loader - Brooke Kuhlmann
+* Added application container - Brooke Kuhlmann
+* Added collector clearing - Brooke Kuhlmann
+* Added commit body tracker shorthand analyzer - Brooke Kuhlmann
+* Added commits container - Brooke Kuhlmann
+* Added configuration content find by setting - Brooke Kuhlmann
+* Added configuration setting for analyzers - Brooke Kuhlmann
+* Added gemspec MFA opt in requirement - Brooke Kuhlmann
+* Added project citation information - Brooke Kuhlmann
+* Updated CLI analyze command to only accept a single SHA - Brooke Kuhlmann
+* Updated Commit Body Line Length analyzer to use maximum setting - Brooke Kuhlmann
+* Updated Commit Subject Length analyzer to use maximum setting - Brooke Kuhlmann
+* Updated GitHub issue template - Brooke Kuhlmann
+* Updated Rake tasks to use new CLI shell - Brooke Kuhlmann
+* Updated Rubocop sub-project gem dependencies - Brooke Kuhlmann
+* Updated branches namespace as commits namespace - Brooke Kuhlmann
+* Updated loader to load analyzer settings - Brooke Kuhlmann
+* Updated reporters to answer implicit string - Brooke Kuhlmann
+* Updated runner as analyzer - Brooke Kuhlmann
+* Updated runner to answer both collector and reporter - Brooke Kuhlmann
+* Updated runner to use container - Brooke Kuhlmann
+* Updated to Amazing Print 1.4.0 - Brooke Kuhlmann
+* Updated to Debug 1.4.0 - Brooke Kuhlmann
+* Updated to Git+ 0.8.0 - Brooke Kuhlmann
+* Updated to Git+ 1.0.0 - Brooke Kuhlmann
+* Updated to Hippocratic License 3.0.0 - Brooke Kuhlmann
+* Updated to Pastel 0.8.0 - Brooke Kuhlmann
+* Updated to Refinements 8.5.0 - Brooke Kuhlmann
+* Updated to Refinements 9.0.0 - Brooke Kuhlmann
+* Updated to Rubocop 1.24.0 - Brooke Kuhlmann
+* Updated to Ruby 3.0.3 - Brooke Kuhlmann
+* Updated to Ruby 3.1.0 - Brooke Kuhlmann
+* Updated to Runcom 8.0.0 - Brooke Kuhlmann
+* Updated to SimpleCov 0.21.2 - Brooke Kuhlmann
+* Removed Gemsmith depenendecy - Brooke Kuhlmann
+* Removed Reek configuration - Brooke Kuhlmann
+* Removed Thor support - Brooke Kuhlmann
+* Removed Travis CI integration - Brooke Kuhlmann
+* Removed abstract analyzer descendants method - Brooke Kuhlmann
+* Removed analyzer defaults - Brooke Kuhlmann
+* Removed commit body issue tracker link analyzer - Brooke Kuhlmann
+* Removed custom refinements - Brooke Kuhlmann
+* Removed hash refinement from collector - Brooke Kuhlmann
+* Removed notes from pull request template - Brooke Kuhlmann
+* Refactored RSpec parser shared example - Brooke Kuhlmann
+* Refactored binary to exe instead of bin directory - Brooke Kuhlmann
+* Refactored configuration loader to use client instead of handler - Brooke Kuhlmann
+* Refactored gemspec to use identity summary - Brooke Kuhlmann
+* Refactored implementation to use punning - Brooke Kuhlmann
+* Refactored implementation to use refinements - Brooke Kuhlmann
+
 == 2.4.0 (2021-10-03)
 
 * Fixed README link to Rakefile - Brooke Kuhlmann

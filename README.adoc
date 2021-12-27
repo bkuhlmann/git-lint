@@ -32,11 +32,6 @@ toc::[]
 * Provides Git Hook support for local use.
 * Provides Continuous Integration (CI) support.
 
-== Screencasts
-
-[link=https://www.alchemists.io/screencasts/git_lint]
-image::https://www.alchemists.io/images/screencasts/git_lint/cover.svg[Screencast,600,240,role=focal_point]
-
 == Requirements
 
 . link:https://www.ruby-lang.org[Ruby]
@@ -50,6 +45,23 @@ To install, run:
 gem install git-lint
 ----
 
+== Upgrade
+
+If upgrading from 2.0.0 to 3.0.0, you'll need to make the following changes:
+
+* The YAML configuration requires a top-level `:analyzers:` key for which all analyzer
+  configurations should be listed under. See the _Configuration_ section below for more details.
+* The `--config` command requires either an `edit` or `view` argument now.
+* The `--analyze` command can accept a `--sha` option for passing in the hash of the SHA you want to
+  analyze. If using this as a post commit Git Hook, you'll need to update your Bash script
+  accordingly.
+* The _Commit Body Line Length_ analyzer configuration has replaced `length` with `maximum` as the
+  key for defining maximum line length.
+* The _Commit Body Issue Tracker Link_ analyzer has been replaced with the _Commit Body Tracker
+  Shorthand_ analyzer. See documentation below for details.
+* The _Commit Subject Length_ analyzer has replaced `length` with `maximum` as the key for defining
+  maximum subject length.
+
 == Usage
 
 === Command Line Interface (CLI)
@@ -57,11 +69,15 @@ gem install git-lint
 From the command line, type: `git-lint --help`
 
 ....
-git-lint --hook                # Add Git Hook support.
-git-lint -a, [--analyze]       # Analyze feature branch for issues.
-git-lint -c, [--config]        # Manage gem configuration.
-git-lint -h, [--help=COMMAND]  # Show this message or get help for a command.
-git-lint -v, [--version]       # Show gem version.
+USAGE:
+  -a, --analyze [options]                  Analyze current branch commits.
+  -c, --config ACTION                      Manage gem configuration. Actions: edit or view.
+  -h, --help                               Show this message.
+      --hook PATH                          Hook for analyzing unsaved commits.
+  -v, --version                            Show gem version.
+
+ANALYZE OPTIONS:
+      --sha HASH                           Analyze specific commit SHA.
 ....
 
 To check if your Git commit history is clean, run: `git-lint --analyze`. It will exit with a failure
@@ -140,124 +156,124 @@ variables. The default configuration is:
 
 [source,yaml]
 ----
-:commit_author_capitalization:
-  :enabled: true
-  :severity: :error
-:commit_author_email:
-  :enabled: true
-  :severity: :error
-:commit_author_name:
-  :enabled: true
-  :severity: :error
-  :minimum: 2
-:commit_body_bullet:
-  :enabled: true
-  :severity: :error
-  :excludes:
-    - "\\*"
-    - "•"
-:commit_body_bullet_capitalization:
-  :enabled: true
-  :severity: :error
-  :includes: "\\-"
-:commit_body_bullet_delimiter:
-  :enabled: true
-  :severity: :error
-  :includes: "\\-"
-:commit_body_issue_tracker_link:
-  :enabled: true
-  :severity: :error
-  :excludes:
-    - "(f|F)ix(es|ed)?\\s\\#\\d+"
-    - "(c|C)lose(s|d)?\\s\\#\\d+"
-    - "(r|R)esolve(s|d)?\\s\\#\\d+"
-    - "github\\.com\\/.+\\/issues\\/\\d+"
-:commit_body_leading_line:
-  :enabled: false
-  :severity: :warn
-:commit_body_line_length:
-  :enabled: true
-  :severity: :error
-  :length: 72
-:commit_body_paragraph_capitalization:
-  :enabled: true
-  :severity: :error
-:commit_body_phrase:
-  :enabled: true
-  :severity: :error
-  :excludes:
-    - "absolutely"
-    - "actually"
-    - "all intents and purposes"
-    - "along the lines"
-    - "at this moment in time"
-    - "basically"
-    - "each and every one"
-    - "everyone knows"
-    - "fact of the matter"
-    - "furthermore"
-    - "however"
-    - "in due course"
-    - "in the end"
-    - "last but not least"
-    - "matter of fact"
-    - "obviously"
-    - "of course"
-    - "really"
-    - "simply"
-    - "things being equal"
-    - "would like to"
-    - "/\\beasy\\b/"
-    - "/\\bjust\\b/"
-    - "/\\bquite\\b/"
-    - "/as\\sfar\\sas\\s.+\\sconcerned/"
-    - "/of\\sthe\\s(fact|opinion)\\sthat/"
-:commit_body_presence:
-  :enabled: false
-  :severity: :warn
-  :minimum: 1
-:commit_body_single_bullet:
-  :enabled: true
-  :severity: :error
-  :includes: "\\-"
-:commit_subject_length:
-  :enabled: true
-  :severity: :error
-  :length: 72
-:commit_subject_prefix:
-  :enabled: true
-  :severity: :error
-  :includes:
-    - Fixed
-    - Added
-    - Updated
-    - Removed
-    - Refactored
-:commit_subject_suffix:
-  :enabled: true
-  :severity: :error
-  :excludes:
-    - "\\."
-    - "\\?"
-    - "\\!"
-:commit_trailer_collaborator_capitalization:
-  :enabled: true
-  :severity: :error
-:commit_trailer_collaborator_duplication:
-  :enabled: true
-  :severity: :error
-:commit_trailer_collaborator_email:
-  :enabled: true
-  :severity: :error
-:commit_trailer_collaborator_key:
-  :enabled: true
-  :severity: :error
-  :includes:
-    - "Co-Authored-By"
-:commit_trailer_collaborator_name:
-  :enabled: true
-  :severity: :error
-  :minimum: 2
+:analyzers:
+  :commit_author_capitalization:
+    :enabled: true
+    :severity: :error
+  :commit_author_email:
+    :enabled: true
+    :severity: :error
+  :commit_author_name:
+    :enabled: true
+    :severity: :error
+    :minimum: 2
+  :commit_body_bullet:
+    :enabled: true
+    :severity: :error
+    :excludes:
+      - "\\*"
+      - "•"
+  :commit_body_bullet_capitalization:
+    :enabled: true
+    :severity: :error
+    :includes: "\\-"
+  :commit_body_bullet_delimiter:
+    :enabled: true
+    :severity: :error
+    :includes: "\\-"
+  :commit_body_tracker_shorthand:
+    :enabled: true
+    :severity: :error
+    :excludes:
+      - "(f|F)ix(es|ed)?\\s\\#\\d+"
+      - "(c|C)lose(s|d)?\\s\\#\\d+"
+      - "(r|R)esolve(s|d)?\\s\\#\\d+"
+  :commit_body_leading_line:
+    :enabled: false
+    :severity: :warn
+  :commit_body_line_length:
+    :enabled: true
+    :severity: :error
+    :maximum: 72
+  :commit_body_paragraph_capitalization:
+    :enabled: true
+    :severity: :error
+  :commit_body_phrase:
+    :enabled: true
+    :severity: :error
+    :excludes:
+      - "absolutely"
+      - "actually"
+      - "all intents and purposes"
+      - "along the lines"
+      - "at this moment in time"
+      - "basically"
+      - "each and every one"
+      - "everyone knows"
+      - "fact of the matter"
+      - "furthermore"
+      - "however"
+      - "in due course"
+      - "in the end"
+      - "last but not least"
+      - "matter of fact"
+      - "obviously"
+      - "of course"
+      - "really"
+      - "simply"
+      - "things being equal"
+      - "would like to"
+      - "\\beasy\\b"
+      - "\\bjust\\b"
+      - "\\bquite\\b"
+      - "as\\sfar\\sas\\s.+\\sconcerned"
+      - "of\\sthe\\s(fact|opinion)\\sthat"
+  :commit_body_presence:
+    :enabled: false
+    :severity: :warn
+    :minimum: 1
+  :commit_body_single_bullet:
+    :enabled: true
+    :severity: :error
+    :includes: "\\-"
+  :commit_subject_length:
+    :enabled: true
+    :severity: :error
+    :maximum: 72
+  :commit_subject_prefix:
+    :enabled: true
+    :severity: :error
+    :includes:
+      - Fixed
+      - Added
+      - Updated
+      - Removed
+      - Refactored
+  :commit_subject_suffix:
+    :enabled: true
+    :severity: :error
+    :excludes:
+      - "\\."
+      - "\\?"
+      - "\\!"
+  :commit_trailer_collaborator_capitalization:
+    :enabled: true
+    :severity: :error
+  :commit_trailer_collaborator_duplication:
+    :enabled: true
+    :severity: :error
+  :commit_trailer_collaborator_email:
+    :enabled: true
+    :severity: :error
+  :commit_trailer_collaborator_key:
+    :enabled: true
+    :severity: :error
+    :includes:
+      - "Co-Authored-By"
+  :commit_trailer_collaborator_name:
+    :enabled: true
+    :severity: :error
+    :minimum: 2
 ----
 
 Feel free to take this default configuration, modify, and save as your own custom
@@ -313,18 +329,15 @@ any of the scripts within the `.git/hooks` directory of the repository.
 
 ==== Commit Message
 
-The _commit-msg_ hook, which is the best way to use this gem as a Git Hook, is provided as a
-`--hook` option. Run `git-lint --help --hook` for usage:
+The _commit-msg_ hook -- which is the best way to use this gem as a Git Hook -- is provided as a
+`--hook` option. Usage:
 
-    Usage:
-      git-lint --hook
+[source,bash]
+----
+git-lint --hook PATH
+----
 
-    Options:
-      [--commit-message=PATH]  # Check commit message.
-
-    Add Git Hook support.
-
-As shown above, the `--commit-message` option accepts a file path (i.e. `.git/COMMIT_EDITMSG`) which
+As shown above, the `--hook` command accepts a file path (i.e. `.git/COMMIT_EDITMSG`) which
 is provided to you by Git within the `.git/hooks/commit-msg` script. Here is a working example of
 what that script might look like:
 
@@ -342,27 +355,22 @@ if ! command -v git-lint > /dev/null; then
    exit 1
 fi
 
-git-lint --hook --commit-message "${BASH_ARGV[0]}"
+git-lint --hook "${BASH_ARGV[0]}"
 ----
 
 Whenever you attempt to add a commit, Git Lint will check your commit for issues prior to saving it.
 
 ==== Post Commit
 
-The _post-commit_ hook is possible via the `--analyze --commits` option. Usage:
+The _post-commit_ hook is possible via the `--analyze` command. Usage:
 
-....
-Usage:
-  git-lint -a, [--analyze]
+[source,bash]
+----
+git-lint --analyze --shas SHA
+----
 
-Options:
-  -c, [--commits=one two three]  # Analyze specific commit SHA(s).
-
-Analyze feature branch for issues.
-....
-
-The _post-commit_ hook can be used multiple ways but, if you want it to check each commit after it
-has been made, here is a working example which can be used as a `.git/hooks/post-commit` script:
+The _post-commit_ hook can be used multiple ways but, generally, you'll want to check the last
+commit made. Here is a working example which can be used as a `.git/hooks/post-commit` script:
 
 [source,bash]
 ----
@@ -378,7 +386,7 @@ if ! command -v git-lint > /dev/null; then
    exit 1
 fi
 
-git-lint --analyze --commits $(git log --pretty=format:%H -1)
+git-lint --analyze --shas $(git log --pretty=format:%H -1)
 ----
 
 Whenever a commit has been saved, this script will run Git Lint to check for issues.
@@ -586,13 +594,12 @@ ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, orn 
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | length: 72
+| true    | error    | maximum: 72
 |===
 
-Ensures each line of the commit body is no longer than 72 characters in length for consistent
-readability and word-wrap prevention on smaller screen sizes. For further details, read Tim Pope's
-original link:http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html[article] on the
-subject.
+Ensures each line of the commit body doesn't force you to scroll horizontally to read the message.
+This allows commit messages to remain readable and is especially handy when commit messages are read
+via the command line or email clients.
 
 === Commit Body Paragraph Capitalization
 
@@ -702,7 +709,7 @@ commit self-contained, and makes learning about/debugging the commit faster.
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | length: 72
+| true    | error    | maximum: 72
 |===
 
 Ensures the commit subject length is no more than 72 characters in length. This default is more
