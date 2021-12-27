@@ -19,7 +19,7 @@ module Git
 
           def call arguments = []
             client.separator "\nANALYZE OPTIONS:\n"
-            add_shas
+            add_sha
             client.parse arguments
             configuration
           end
@@ -28,9 +28,9 @@ module Git
 
           attr_reader :configuration, :client
 
-          def add_shas
-            client.on "--shas a,b,c", Array, "Analyze specific commit SHAs." do |shas|
-              configuration.merge! analyze_shas: shas
+          def add_sha
+            client.on "--sha HASH", "Analyze specific commit SHA." do |sha|
+              configuration.merge! analyze_sha: sha
             end
           end
         end

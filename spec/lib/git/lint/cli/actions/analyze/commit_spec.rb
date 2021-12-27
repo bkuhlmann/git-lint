@@ -11,19 +11,19 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
   include_context "with Git repository"
 
   describe "#call" do
-    it "reports zero issues with valid commit" do
+    it "reports zero issues with valid SHA" do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
         `touch b.txt && git add . && git commit --no-verify --message "Added A" --message "Test."`
         sha = `git log --pretty=format:%h -1`
 
-        action.call [sha]
+        action.call sha
 
         expect(kernel).to have_received(:puts).with(/.+1 commit inspected.*0 issues.+detected/m)
       end
     end
 
-    it "reports issue with invalid commit" do
+    it "reports issue with invalid SHA" do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
         `touch a.txt && git add . && git commit --no-verify --message "Add A"`
@@ -37,26 +37,7 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
       end
     end
 
-    # rubocop:disable RSpec/ExampleLength
-    it "reports issue with valid and invalid commits" do
-      pending "Needs Git+ show command support for handling multiple commits"
-
-      git_repo_dir.change_dir do
-        `touch a.txt && git add . && git commit --no-verify --message "Added A" --message "Test."`
-        good = `git log --pretty=format:%h -1`
-        `touch b.txt && git add . && git commit --no-verify --message "Add B"`
-        bad = `git log --pretty=format:%h -1`
-
-        action.call [good, bad]
-
-        expect(kernel).to have_received(:puts).with(
-          /Commit Subject Prefix Error.+2 commits inspected.*1 issue.+detected/m
-        )
-      end
-    end
-    # rubocop:enable RSpec/ExampleLength
-
-    it "reports zero issues with given no SHAs" do
+    it "reports zero issues when given no SHAs" do
       git_repo_dir.change_dir do
         `rm -rf .git && git init`
         action.call
@@ -64,13 +45,13 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
       end
     end
 
-    it "aborts with invalid commits" do
+    it "aborts with invalid SHA" do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
         `touch test.txt && git add . && git commit --no-verify --message "Add test file"`
         sha = `git log --pretty=format:%h -1`
 
-        action.call [sha]
+        action.call sha
 
         expect(kernel).to have_received(:abort)
       end

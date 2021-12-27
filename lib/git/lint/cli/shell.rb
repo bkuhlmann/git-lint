@@ -30,8 +30,8 @@ module Git
 
         def perform configuration
           case configuration
-            in action_analyze: true, analyze_shas: nil then analyze_branch
-            in action_analyze: true, analyze_shas: Array => shas then analyze_commit shas
+            in action_analyze: true, analyze_sha: nil then analyze_branch
+            in action_analyze: true, analyze_sha: String => sha then analyze_commit sha
             in action_config: Symbol => action then config action
             in action_hook: Pathname => path then hook path
             in action_version: String => version then logger.info version
@@ -41,7 +41,7 @@ module Git
 
         def analyze_branch = actions.fetch(__method__).call
 
-        def analyze_commit(shas) = actions.fetch(__method__).call(shas)
+        def analyze_commit(sha) = actions.fetch(__method__).call(sha)
 
         def config(action) = actions.fetch(__method__).call(action)
 

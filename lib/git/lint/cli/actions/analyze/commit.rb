@@ -15,8 +15,8 @@ module Git
               @container = container
             end
 
-            def call shas = []
-              process shas
+            def call sha = nil
+              process sha
             rescue Errors::Base => error
               logger.error { error.message }
               kernel.abort
@@ -26,8 +26,8 @@ module Git
 
             attr_reader :analyzer, :parser, :container
 
-            def process shas
-              analyzer.call commits: parser.call(*shas) do |collector, reporter|
+            def process sha
+              analyzer.call commits: parser.call(*sha) do |collector, reporter|
                 kernel.puts reporter
                 kernel.abort if collector.errors?
               end

@@ -15,7 +15,7 @@ RSpec.describe Git::Lint::Configuration::Content do
         action_help: nil,
         action_hook: nil,
         action_version: nil,
-        analyze_shas: nil,
+        analyze_sha: nil,
         analyzers: nil
       }
     end

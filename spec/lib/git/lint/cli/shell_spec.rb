@@ -57,7 +57,7 @@ RSpec.describe Git::Lint::CLI::Shell do
         `git commit --no-verify --message "Added test file"`
         sha = `git log --pretty=format:%h -1`
 
-        shell.call ["--analyze", "--shas", sha]
+        shell.call ["--analyze", "--sha", sha]
 
         expect(kernel).to have_received(:puts).with(/1 commit inspected.*0 issues.+detected/m)
       end
@@ -71,7 +71,7 @@ RSpec.describe Git::Lint::CLI::Shell do
         `git commit --no-verify --message "Add test"`
         sha = `git log --pretty=format:%h -1`
 
-        shell.call ["--analyze", "--shas", sha]
+        shell.call ["--analyze", "--sha", sha]
 
         expect(kernel).to have_received(:puts).with(/1 commit inspected.*1 issue.+detected/m)
       end

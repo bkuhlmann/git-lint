@@ -10,7 +10,7 @@ module Git
         :action_help,
         :action_hook,
         :action_version,
-        :analyze_shas,
+        :analyze_sha,
         :analyzers,
         keyword_init: true
       ) do
