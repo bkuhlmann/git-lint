@@ -7,10 +7,10 @@ module Git
         module Analyze
           # Handles analyze action for commit(s) by SHA.
           class Commit
-            def initialize runner: Runner.new,
+            def initialize analyzer: Analyzer.new,
                            parser: GitPlus::Parsers::Commits::Saved::History.with_show,
                            container: Container
-              @runner = runner
+              @analyzer = analyzer
               @parser = parser
               @container = container
             end
@@ -24,10 +24,10 @@ module Git
 
             private
 
-            attr_reader :runner, :parser, :container
+            attr_reader :analyzer, :parser, :container
 
             def process shas
-              runner.call commits: parser.call(*shas) do |collector, reporter|
+              analyzer.call commits: parser.call(*shas) do |collector, reporter|
                 kernel.puts reporter
                 kernel.abort if collector.errors?
               end

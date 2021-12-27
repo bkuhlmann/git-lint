@@ -50,11 +50,11 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Branch do
     end
 
     context "with failure" do
-      subject(:action) { described_class.new runner: }
+      subject(:action) { described_class.new analyzer: }
 
-      let(:runner) { instance_double Git::Lint::Runner }
+      let(:analyzer) { instance_double Git::Lint::Analyzer }
 
-      before { allow(runner).to receive(:call).and_raise(Git::Lint::Errors::Base, "Danger!") }
+      before { allow(analyzer).to receive(:call).and_raise(Git::Lint::Errors::Base, "Danger!") }
 
       it "logs error" do
         result = proc { action.call }

@@ -7,8 +7,8 @@ module Git
         module Analyze
           # Handles analyze action for branch.
           class Branch
-            def initialize runner: Runner.new, container: Container
-              @runner = runner
+            def initialize analyzer: Analyzer.new, container: Container
+              @analyzer = analyzer
               @container = container
             end
 
@@ -21,10 +21,10 @@ module Git
 
             private
 
-            attr_reader :runner, :container
+            attr_reader :analyzer, :container
 
             def parse
-              runner.call do |collector, reporter|
+              analyzer.call do |collector, reporter|
                 kernel.puts reporter
                 kernel.abort if collector.errors?
               end

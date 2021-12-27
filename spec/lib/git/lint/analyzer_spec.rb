@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Git::Lint::Runner do
+RSpec.describe Git::Lint::Analyzer do
   using Refinements::Pathnames
 
   subject(:runner) { described_class.new }

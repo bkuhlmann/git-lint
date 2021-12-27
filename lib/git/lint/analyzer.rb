@@ -3,7 +3,7 @@
 module Git
   module Lint
     # Runs all analyzers.
-    class Runner
+    class Analyzer
       ANALYZERS = [
         Analyzers::CommitAuthorCapitalization,
         Analyzers::CommitAuthorEmail,

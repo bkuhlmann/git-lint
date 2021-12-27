@@ -6,13 +6,13 @@ module Git
       module Actions
         # Handles unsaved Git commit action.
         class Hook
-          def initialize runner: Runner.new, container: Container
-            @runner = runner
+          def initialize analyzer: Analyzer.new, container: Container
+            @analyzer = analyzer
             @container = container
           end
 
           def call path
-            runner.call commits: [repository.unsaved(path)] do |collector, reporter|
+            analyzer.call commits: [repository.unsaved(path)] do |collector, reporter|
               kernel.puts reporter
               kernel.abort if collector.errors?
             end
@@ -20,7 +20,7 @@ module Git
 
           private
 
-          attr_reader :runner, :container
+          attr_reader :analyzer, :container
 
           def repository = container[__method__]
 
