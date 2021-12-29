@@ -56,7 +56,7 @@ module Git
 
           def add_version
             client.on "-v", "--version", "Show gem version." do
-              configuration.merge! action_version: Identity::VERSION_LABEL
+              configuration.merge! action_version: true
             end
           end
 

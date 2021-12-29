@@ -56,12 +56,12 @@ RSpec.describe Git::Lint::CLI::Parsers::Core do
 
     it "answers version (short)" do
       configuration = parser.call %w[-v]
-      expect(configuration.action_version).to match_gem_version
+      expect(configuration.action_version).to eq(true)
     end
 
     it "answers version (long)" do
       configuration = parser.call %w[--version]
-      expect(configuration.action_version).to match_gem_version
+      expect(configuration.action_version).to eq(true)
     end
 
     it "enables help (short)" do

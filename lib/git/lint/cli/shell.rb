@@ -34,7 +34,7 @@ module Git
             in action_analyze: true, analyze_sha: String => sha then analyze_commit sha
             in action_config: Symbol => action then config action
             in action_hook: Pathname => path then hook path
-            in action_version: String => version then logger.info version
+            in action_version: true then logger.info Identity::VERSION_LABEL
             else usage
           end
         end
