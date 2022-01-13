@@ -1,5 +1,9 @@
 = Versions
 
+== 3.0.2 (2022-01-13)
+
+* Updated Zeitwerk configuration to ignore all Rake related code - Brooke Kuhlmann
+
 == 3.0.1 (2022-01-01)
 
 * Updated README policy section links - Brooke Kuhlmann

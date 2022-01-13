@@ -6,7 +6,7 @@ module Git
     module Identity
       NAME = "git-lint"
       LABEL = "Git Lint"
-      VERSION = "3.0.1"
+      VERSION = "3.0.2"
       VERSION_LABEL = "#{LABEL} #{VERSION}".freeze
       SUMMARY = "A command line interface for linting Git commits."
     end
