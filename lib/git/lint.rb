@@ -10,7 +10,7 @@ Zeitwerk::Loader.new.then do |loader|
                            "netlify_ci" => "NetlifyCI",
                            "travis_ci" => "TravisCI"
   loader.push_dir "#{__dir__}/.."
-  loader.ignore "#{__dir__}/lint/rake/setup.rb"
+  loader.ignore "#{__dir__}/lint/rake"
   loader.setup
 end
 
