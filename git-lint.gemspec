@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "dry-container", "~> 0.9.0"
   spec.add_dependency "git_plus", "~> 1.0"
   spec.add_dependency "pastel", "~> 0.8"
-  spec.add_dependency "refinements", "~> 9.0"
+  spec.add_dependency "refinements", "~> 9.1"
   spec.add_dependency "runcom", "~> 8.0"
   spec.add_dependency "zeitwerk", "~> 2.5"
 
