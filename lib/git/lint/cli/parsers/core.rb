@@ -12,13 +12,16 @@ module Git
 
           def self.call(...) = new(...).call
 
-          def initialize configuration = Container[:configuration], client: Parser::CLIENT
+          def initialize configuration = Container[:configuration],
+                         client: Parser::CLIENT,
+                         container: Container
             @configuration = configuration
             @client = client
+            @container = container
           end
 
           def call arguments = []
-            client.banner = "#{Identity::LABEL} - #{Identity::SUMMARY}"
+            client.banner = "Git Lint - #{specification.summary}"
             client.separator "\nUSAGE:\n"
             collate
             client.parse arguments
@@ -27,7 +30,7 @@ module Git
 
           private
 
-          attr_reader :configuration, :client
+          attr_reader :configuration, :client, :container
 
           def collate = private_methods.sort.grep(/add_/).each { |method| __send__ method }
 
@@ -65,6 +68,8 @@ module Git
               configuration.merge! action_help: true
             end
           end
+
+          def specification = container[__method__]
         end
       end
     end

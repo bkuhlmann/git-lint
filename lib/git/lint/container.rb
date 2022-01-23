@@ -11,8 +11,11 @@ module Git
     module Container
       extend Dry::Container::Mixin
 
+      SPEC_PATH = "#{__dir__}/../../../git-lint.gemspec".freeze
+
       register(:configuration) { Configuration::Loader.call }
       register(:repository) { GitPlus::Repository.new }
+      register(:specification) { Gem::Specification.load SPEC_PATH }
       register(:colorizer) { Pastel.new enabled: $stdout.tty? }
       register(:kernel) { Kernel }
 

@@ -1,21 +1,20 @@
 # frozen_string_literal: true
 
-require_relative "lib/git/lint/identity"
-
 Gem::Specification.new do |spec|
-  spec.name = Git::Lint::Identity::NAME
-  spec.version = Git::Lint::Identity::VERSION
+  spec.name = "git-lint"
+  spec.version = "3.0.2"
   spec.platform = Gem::Platform::RUBY
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://www.alchemists.io/projects/git-lint"
-  spec.summary = Git::Lint::Identity::SUMMARY
+  spec.summary = "A command line interface for linting Git commits."
   spec.license = "Hippocratic-3.0"
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/bkuhlmann/git-lint/issues",
     "changelog_uri" => "https://www.alchemists.io/projects/git-lint/versions",
     "documentation_uri" => "https://www.alchemists.io/projects/git-lint",
+    "label" => "Git Lint",
     "rubygems_mfa_required" => "true",
     "source_code_uri" => "https://github.com/bkuhlmann/git-lint"
   }
@@ -34,6 +33,6 @@ Gem::Specification.new do |spec|
   spec.bindir = "exe"
   spec.executables << "git-lint"
   spec.extra_rdoc_files = Dir["README*", "LICENSE*"]
-  spec.files = Dir["lib/**/*"]
+  spec.files = Dir["*.gemspec", "lib/**/*"]
   spec.require_paths = ["lib"]
 end

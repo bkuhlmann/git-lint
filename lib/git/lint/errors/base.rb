@@ -5,7 +5,7 @@ module Git
     module Errors
       # The root class of gem related errors.
       class Base < StandardError
-        def initialize message = "Invalid #{Identity::LABEL} action."
+        def initialize message = "Invalid Git Lint action."
           super message
         end
       end

@@ -3,5 +3,4 @@
 
 require "git/lint"
 
-Process.setproctitle Git::Lint::Identity::VERSION_LABEL
 Git::Lint::CLI::Shell.new.call ARGV
