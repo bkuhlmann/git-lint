@@ -3,7 +3,6 @@
 Gem::Specification.new do |spec|
   spec.name = "git-lint"
   spec.version = "3.1.0"
-  spec.platform = Gem::Platform::RUBY
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://www.alchemists.io/projects/git-lint"
@@ -34,5 +33,4 @@ Gem::Specification.new do |spec|
   spec.executables << "git-lint"
   spec.extra_rdoc_files = Dir["README*", "LICENSE*"]
   spec.files = Dir["*.gemspec", "lib/**/*"]
-  spec.require_paths = ["lib"]
 end
