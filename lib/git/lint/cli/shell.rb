@@ -34,7 +34,7 @@ module Git
             in action_analyze: true, analyze_sha: String => sha then analyze_commit sha
             in action_config: Symbol => action then config action
             in action_hook: Pathname => path then hook path
-            in action_version: true then logger.info { "Git Lint #{specification.version}" }
+            in action_version: true then logger.info { specification.labeled_version }
             else usage
           end
         end
