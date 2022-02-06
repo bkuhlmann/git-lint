@@ -1,5 +1,13 @@
 = Versions
 
+== 3.2.0 (2022-02-06)
+
+* Added Spek gem - Brooke Kuhlmann
+* Updated implementation to leverage Spek presenter - Brooke Kuhlmann
+* Updated to Runcom 8.2.0 - Brooke Kuhlmann
+* Removed README badges - Brooke Kuhlmann
+* Removed gemspec safe defaults - Brooke Kuhlmann
+
 == 3.1.0 (2022-01-23)
 
 * Added Ruby version to Gemfile - Brooke Kuhlmann
