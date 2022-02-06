@@ -6,15 +6,6 @@
 
 = Git Lint
 
-[link=http://badge.fury.io/rb/git-lint]
-image::https://badge.fury.io/rb/git-lint.svg[Gem Version]
-[link=https://www.alchemists.io/projects/code_quality]
-image::https://img.shields.io/badge/code_style-alchemists-brightgreen.svg[Alchemists Style Guide]
-[link=https://circleci.com/gh/bkuhlmann/git-lint]
-image::https://circleci.com/gh/bkuhlmann/git-lint.svg?style=svg[Circle CI Status]
-[link=https://app.netlify.com/sites/git-lint/deploys]
-image::https://api.netlify.com/api/v1/badges/7e23b422-3412-4e7f-b654-65c0417a0b1f/deploy-status[Netlify CI Status]
-
 Git Lint is a command line interface for linting Git commits by ensuring you maintain a clean, easy
 to read, debuggable, and maintainable project history. Having a consistent commit history leads to
 improved code reviews and is a perfect companion to tools like
