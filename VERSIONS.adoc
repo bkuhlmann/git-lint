@@ -1,5 +1,11 @@
 = Versions
 
+== 3.3.0 (2022-02-12)
+
+* Added Caliber - Brooke Kuhlmann
+* Updated to RSpec 3.11.0 - Brooke Kuhlmann
+* Updated to Refinements 9.2.0 - Brooke Kuhlmann
+
 == 3.2.0 (2022-02-06)
 
 * Added Spek gem - Brooke Kuhlmann
