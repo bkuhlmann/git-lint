@@ -414,7 +414,8 @@ jobs:
     container:
       image: ruby:latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           fetch-depth: '0'
           ref: ${{github.head_ref}}
