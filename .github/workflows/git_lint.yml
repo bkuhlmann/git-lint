@@ -19,3 +19,5 @@ jobs:
         run: |
           git config --global --add init.defaultBranch main
           git-lint --analyze
+      - name: Commits
+        run: git log --pretty=format:"<sha>%H</sha>%n<author_name>%an</author_name>%n<author_email>%ae</author_email>%n<author_date_relative>%ar</author_date_relative>%n<subject>%s</subject>%n<body>%b</body>%n<message>%B</message>%n<trailers>%(trailers)</trailers>%n" origin/main..origin/actions
