@@ -1,2 +1,6 @@
 inherit_gem:
   caliber: config/all.yml
+
+Lint/Void:
+  Exclude:
+    - "lib/git/lint/commits/container.rb"

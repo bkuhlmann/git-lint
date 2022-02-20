@@ -10,9 +10,11 @@ module Git
       module Container
         extend Dry::Container::Mixin
 
-        register(:repository) { GitPlus::Repository.new }
+        config.registry = ->(container, key, value, _options) { container[key.to_s] = value }
+
+        merge Git::Lint::Container
+
         register(:shell) { Open3 }
-        register(:environment) { ENV }
       end
     end
   end
