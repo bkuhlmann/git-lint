@@ -6,7 +6,7 @@ module Git
       # Analyzes commit subject uses standard prefix.
       class CommitSubjectPrefix < Abstract
         def valid?
-          return true if commit.prefix?
+          return true if locally_prefixed?
           return true if filter_list.empty?
 
           commit.subject.match?(/\A#{Regexp.union filter_list.to_regexp}/)
@@ -21,6 +21,10 @@ module Git
         protected
 
         def load_filter_list = Kit::FilterList.new(settings.includes)
+
+        def locally_prefixed? = !ci? && commit.prefix?
+
+        def ci? = container[:environment]["CI"] == "true"
       end
     end
   end

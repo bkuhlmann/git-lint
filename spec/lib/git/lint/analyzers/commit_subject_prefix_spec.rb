@@ -68,6 +68,15 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       end
     end
 
+    context "with amend in CI" do
+      let(:commit) { GitPlus::Commit[subject: "amend! Added specs"] }
+      let(:environment) { {"CI" => "true"} }
+
+      it "answers false" do
+        expect(analyzer.valid?).to eq(false)
+      end
+    end
+
     context "with fixup" do
       let(:commit) { GitPlus::Commit[subject: "fixup! Added specs"] }
 
@@ -76,11 +85,29 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       end
     end
 
+    context "with fixup in CI" do
+      let(:commit) { GitPlus::Commit[subject: "fixup! Added specs"] }
+      let(:environment) { {"CI" => "true"} }
+
+      it "answers false" do
+        expect(analyzer.valid?).to eq(false)
+      end
+    end
+
     context "with squash" do
       let(:commit) { GitPlus::Commit[subject: "squash! Added specs"] }
 
       it "answers true" do
         expect(analyzer.valid?).to eq(true)
+      end
+    end
+
+    context "with squash in CI" do
+      let(:commit) { GitPlus::Commit[subject: "squash! Added specs"] }
+      let(:environment) { {"CI" => "true"} }
+
+      it "answers false" do
+        expect(analyzer.valid?).to eq(false)
       end
     end
 
