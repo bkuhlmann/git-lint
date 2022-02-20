@@ -13,6 +13,7 @@ module Git
       extend Dry::Container::Mixin
 
       register(:configuration) { Configuration::Loader.call }
+      register(:environment) { ENV }
       register(:repository) { GitPlus::Repository.new }
       register(:specification) { Spek::Loader.call "#{__dir__}/../../../git-lint.gemspec" }
       register(:colorizer) { Pastel.new enabled: $stdout.tty? }
