@@ -24,7 +24,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       let(:commit) { GitPlus::Commit[subject: "Added specs"] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       end
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       end
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -64,7 +64,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       let(:commit) { GitPlus::Commit[subject: "amend! Added specs"] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       let(:environment) { {"CI" => "true"} }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -81,7 +81,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       let(:commit) { GitPlus::Commit[subject: "fixup! Added specs"] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -90,7 +90,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       let(:environment) { {"CI" => "true"} }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -98,7 +98,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       let(:commit) { GitPlus::Commit[subject: "squash! Added specs"] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -107,7 +107,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       let(:environment) { {"CI" => "true"} }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -115,7 +115,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       let(:commit) { GitPlus::Commit[subject: "Bogus"] }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
   end

@@ -14,7 +14,7 @@ RSpec.describe Git::Lint::Validators::Name do
     let(:text) { "Text-Example" }
 
     it "answers true" do
-      expect(name.valid?).to eq(true)
+      expect(name.valid?).to be(true)
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe Git::Lint::Validators::Name do
     let(:text) { "Example" }
 
     it "answers true" do
-      expect(name.valid?).to eq(true)
+      expect(name.valid?).to be(true)
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe Git::Lint::Validators::Name do
     let(:text) { " Example Test" }
 
     it "answers false" do
-      expect(name.valid?).to eq(false)
+      expect(name.valid?).to be(false)
     end
   end
 
@@ -39,13 +39,13 @@ RSpec.describe Git::Lint::Validators::Name do
     let(:text) { "Example Test " }
 
     it "answers true" do
-      expect(name.valid?).to eq(true)
+      expect(name.valid?).to be(true)
     end
   end
 
   context "with exact minimum" do
     it "answers true" do
-      expect(name.valid?).to eq(true)
+      expect(name.valid?).to be(true)
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.describe Git::Lint::Validators::Name do
     let(:text) { "Example Test Tester" }
 
     it "answers true" do
-      expect(name.valid?).to eq(true)
+      expect(name.valid?).to be(true)
     end
   end
 
@@ -61,7 +61,7 @@ RSpec.describe Git::Lint::Validators::Name do
     let(:text) { "Example" }
 
     it "answers false" do
-      expect(name.valid?).to eq(false)
+      expect(name.valid?).to be(false)
     end
   end
 
@@ -69,7 +69,7 @@ RSpec.describe Git::Lint::Validators::Name do
     let(:text) { "" }
 
     it "answers false" do
-      expect(name.valid?).to eq(false)
+      expect(name.valid?).to be(false)
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe Git::Lint::Validators::Name do
     let(:text) { nil }
 
     it "answers false" do
-      expect(name.valid?).to eq(false)
+      expect(name.valid?).to be(false)
     end
   end
 end

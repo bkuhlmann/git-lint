@@ -14,7 +14,7 @@ RSpec.describe Git::Lint::Validators::Capitalization do
       let(:text) { "Text-Example" }
 
       it "answers true" do
-        expect(capitalization.valid?).to eq(true)
+        expect(capitalization.valid?).to be(true)
       end
     end
 
@@ -23,7 +23,7 @@ RSpec.describe Git::Lint::Validators::Capitalization do
       let(:text) { "Test Example" }
 
       it "answers true" do
-        expect(capitalization.valid?).to eq(true)
+        expect(capitalization.valid?).to be(true)
       end
     end
 
@@ -31,7 +31,7 @@ RSpec.describe Git::Lint::Validators::Capitalization do
       let(:text) { " Example" }
 
       it "answers false" do
-        expect(capitalization.valid?).to eq(false)
+        expect(capitalization.valid?).to be(false)
       end
     end
 
@@ -39,7 +39,7 @@ RSpec.describe Git::Lint::Validators::Capitalization do
       let(:text) { "Example" }
 
       it "answers true" do
-        expect(capitalization.valid?).to eq(true)
+        expect(capitalization.valid?).to be(true)
       end
     end
 
@@ -47,7 +47,7 @@ RSpec.describe Git::Lint::Validators::Capitalization do
       let(:text) { "example" }
 
       it "answers false" do
-        expect(capitalization.valid?).to eq(false)
+        expect(capitalization.valid?).to be(false)
       end
     end
 
@@ -55,7 +55,7 @@ RSpec.describe Git::Lint::Validators::Capitalization do
       let(:text) { "E" }
 
       it "answers true" do
-        expect(capitalization.valid?).to eq(true)
+        expect(capitalization.valid?).to be(true)
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe Git::Lint::Validators::Capitalization do
       let(:text) { "e" }
 
       it "answers false" do
-        expect(capitalization.valid?).to eq(false)
+        expect(capitalization.valid?).to be(false)
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe Git::Lint::Validators::Capitalization do
       let(:text) { "Example Tester" }
 
       it "answers true" do
-        expect(capitalization.valid?).to eq(true)
+        expect(capitalization.valid?).to be(true)
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe Git::Lint::Validators::Capitalization do
       let(:text) { "Example tester" }
 
       it "answers false" do
-        expect(capitalization.valid?).to eq(false)
+        expect(capitalization.valid?).to be(false)
       end
     end
 
@@ -87,7 +87,7 @@ RSpec.describe Git::Lint::Validators::Capitalization do
       let(:text) { nil }
 
       it "answers true" do
-        expect(capitalization.valid?).to eq(true)
+        expect(capitalization.valid?).to be(true)
       end
     end
   end

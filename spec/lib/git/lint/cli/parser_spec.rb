@@ -13,7 +13,7 @@ RSpec.describe Git::Lint::CLI::Parser do
     end
 
     it "answers frozen configuration" do
-      expect(parser.call(%w[--help]).frozen?).to eq(true)
+      expect(parser.call(%w[--help]).frozen?).to be(true)
     end
 
     it "fails with invalid option" do

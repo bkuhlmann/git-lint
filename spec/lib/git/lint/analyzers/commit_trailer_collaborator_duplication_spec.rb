@@ -26,7 +26,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication do
       end
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -34,7 +34,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication do
       let(:commit) { GitPlus::Commit[trailers: ["Unknown: value"]] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -49,7 +49,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication do
       end
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -64,7 +64,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication do
       end
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
   end

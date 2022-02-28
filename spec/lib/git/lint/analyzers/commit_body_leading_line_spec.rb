@@ -24,7 +24,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
       let(:commit) { GitPlus::Commit[message: "Subject\n\nBody.\n"] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
       let(:commit) { GitPlus::Commit[message: "Subject"] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
       let(:commit) { GitPlus::Commit[message: "Subject\n\n"] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -48,7 +48,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
       let(:commit) { GitPlus::Commit[message: "Subject\n\n# Comment.\n"] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
       let(:commit) { GitPlus::Commit[message: "Subject\nBody\n"] }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -64,7 +64,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
       let(:commit) { GitPlus::Commit[message: ""] }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
   end

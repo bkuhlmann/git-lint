@@ -63,7 +63,7 @@ RSpec.describe Git::Lint::Collector do
     it "clears collection of all entries" do
       collector.add valid_analyzer
       collector.clear
-      expect(collector.empty?).to eq(true)
+      expect(collector.empty?).to be(true)
     end
 
     it "answers itself" do
@@ -73,12 +73,12 @@ RSpec.describe Git::Lint::Collector do
 
   describe "#empty?" do
     it "answers true without data" do
-      expect(collector.empty?).to eq(true)
+      expect(collector.empty?).to be(true)
     end
 
     it "answers false with data" do
       collector.add valid_analyzer
-      expect(collector.empty?).to eq(false)
+      expect(collector.empty?).to be(false)
     end
   end
 
@@ -88,14 +88,14 @@ RSpec.describe Git::Lint::Collector do
       collector.add warn_analyzer
       collector.add error_analyzer
 
-      expect(collector.warnings?).to eq(true)
+      expect(collector.warnings?).to be(true)
     end
 
     it "answers false with no invalid analyzers at warn severity" do
       collector.add valid_analyzer
       collector.add error_analyzer
 
-      expect(collector.warnings?).to eq(false)
+      expect(collector.warnings?).to be(false)
     end
   end
 
@@ -105,14 +105,14 @@ RSpec.describe Git::Lint::Collector do
       collector.add warn_analyzer
       collector.add error_analyzer
 
-      expect(collector.errors?).to eq(true)
+      expect(collector.errors?).to be(true)
     end
 
     it "answers false with no invalid analyzers at error severity" do
       collector.add valid_analyzer
       collector.add warn_analyzer
 
-      expect(collector.errors?).to eq(false)
+      expect(collector.errors?).to be(false)
     end
   end
 
@@ -122,12 +122,12 @@ RSpec.describe Git::Lint::Collector do
       collector.add warn_analyzer
       collector.add error_analyzer
 
-      expect(collector.issues?).to eq(true)
+      expect(collector.issues?).to be(true)
     end
 
     it "answers false with valid analyzers" do
       collector.add valid_analyzer
-      expect(collector.issues?).to eq(false)
+      expect(collector.issues?).to be(false)
     end
   end
 

@@ -80,7 +80,7 @@ RSpec.describe Git::Lint::Parsers::Trailers::Collaborator do
   describe "#match?" do
     context "with valid text" do
       it "answers true" do
-        expect(collaborator.match?).to eq(true)
+        expect(collaborator.match?).to be(true)
       end
     end
 
@@ -88,7 +88,7 @@ RSpec.describe Git::Lint::Parsers::Trailers::Collaborator do
       let(:text) { "Co-Authored-By" }
 
       it "answers true" do
-        expect(collaborator.match?).to eq(true)
+        expect(collaborator.match?).to be(true)
       end
     end
 
@@ -96,7 +96,7 @@ RSpec.describe Git::Lint::Parsers::Trailers::Collaborator do
       let(:text) { "cO-AuThOrEd-bY" }
 
       it "answers true" do
-        expect(collaborator.match?).to eq(true)
+        expect(collaborator.match?).to be(true)
       end
     end
 
@@ -104,7 +104,7 @@ RSpec.describe Git::Lint::Parsers::Trailers::Collaborator do
       let(:text) { "CoAuthored  By" }
 
       it "answers true" do
-        expect(collaborator.match?).to eq(true)
+        expect(collaborator.match?).to be(true)
       end
     end
 
@@ -112,7 +112,7 @@ RSpec.describe Git::Lint::Parsers::Trailers::Collaborator do
       let(:text) { " Co-authored-by" }
 
       it "answers false" do
-        expect(collaborator.match?).to eq(false)
+        expect(collaborator.match?).to be(false)
       end
     end
 
@@ -120,7 +120,7 @@ RSpec.describe Git::Lint::Parsers::Trailers::Collaborator do
       let(:text) { "Co-authored" }
 
       it "answers false" do
-        expect(collaborator.match?).to eq(false)
+        expect(collaborator.match?).to be(false)
       end
     end
 
@@ -128,7 +128,7 @@ RSpec.describe Git::Lint::Parsers::Trailers::Collaborator do
       let(:text) { "Some random text." }
 
       it "answers false" do
-        expect(collaborator.match?).to eq(false)
+        expect(collaborator.match?).to be(false)
       end
     end
 
@@ -136,7 +136,7 @@ RSpec.describe Git::Lint::Parsers::Trailers::Collaborator do
       let(:text) { "" }
 
       it "answers false" do
-        expect(collaborator.match?).to eq(false)
+        expect(collaborator.match?).to be(false)
       end
     end
 
@@ -144,7 +144,7 @@ RSpec.describe Git::Lint::Parsers::Trailers::Collaborator do
       let(:text) { nil }
 
       it "answers false" do
-        expect(collaborator.match?).to eq(false)
+        expect(collaborator.match?).to be(false)
       end
     end
 
@@ -152,7 +152,7 @@ RSpec.describe Git::Lint::Parsers::Trailers::Collaborator do
       let(:text) { 123 }
 
       it "answers false" do
-        expect(collaborator.match?).to eq(false)
+        expect(collaborator.match?).to be(false)
       end
     end
   end

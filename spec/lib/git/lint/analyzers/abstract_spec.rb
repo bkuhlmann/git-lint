@@ -50,7 +50,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
   describe "#enabled?" do
     it "answers true when enabled" do
-      expect(analyzer.enabled?).to eq(true)
+      expect(analyzer.enabled?).to be(true)
     end
 
     context "when disabled" do
@@ -61,7 +61,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
       end
 
       it "answers false" do
-        expect(analyzer.enabled?).to eq(false)
+        expect(analyzer.enabled?).to be(false)
       end
     end
   end
@@ -107,11 +107,11 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
   describe "#invalid?" do
     it "answers true when not valid" do
-      expect(invalid_analyzer.new(git_commit).invalid?).to eq(true)
+      expect(invalid_analyzer.new(git_commit).invalid?).to be(true)
     end
 
     it "answers false when valid" do
-      expect(valid_analyzer.new(git_commit).invalid?).to eq(false)
+      expect(valid_analyzer.new(git_commit).invalid?).to be(false)
     end
 
     it "fails with NotImplementedError when not implemented" do
@@ -130,11 +130,11 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
     end
 
     it "answers true when invalid" do
-      expect(invalid_analyzer.new(git_commit).warning?).to eq(true)
+      expect(invalid_analyzer.new(git_commit).warning?).to be(true)
     end
 
     it "answers false when valid" do
-      expect(valid_analyzer.new(git_commit).warning?).to eq(false)
+      expect(valid_analyzer.new(git_commit).warning?).to be(false)
     end
 
     it "fails with NotImplementedError when not implemented" do
@@ -145,11 +145,11 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
   describe "#error?" do
     it "answers true when invalid" do
-      expect(invalid_analyzer.new(git_commit).error?).to eq(true)
+      expect(invalid_analyzer.new(git_commit).error?).to be(true)
     end
 
     it "answers false when valid" do
-      expect(valid_analyzer.new(git_commit).error?).to eq(false)
+      expect(valid_analyzer.new(git_commit).error?).to be(false)
     end
 
     it "fails with NotImplementedError when not implemented" do

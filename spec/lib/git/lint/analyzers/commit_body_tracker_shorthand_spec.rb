@@ -24,7 +24,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
       let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -33,7 +33,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
         let(:commit) { GitPlus::Commit[body_lines: [line]] }
 
         it "answers false" do
-          expect(analyzer.valid?).to eq(false)
+          expect(analyzer.valid?).to be(false)
         end
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
         let(:commit) { GitPlus::Commit[body_lines: [line]] }
 
         it "answers false" do
-          expect(analyzer.valid?).to eq(false)
+          expect(analyzer.valid?).to be(false)
         end
       end
     end
@@ -60,7 +60,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
         let(:commit) { GitPlus::Commit[body_lines: [line]] }
 
         it "answers false" do
-          expect(analyzer.valid?).to eq(false)
+          expect(analyzer.valid?).to be(false)
         end
       end
     end

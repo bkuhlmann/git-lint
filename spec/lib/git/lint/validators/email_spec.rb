@@ -12,7 +12,7 @@ RSpec.describe Git::Lint::Validators::Email do
       let(:text) { "test@example.com" }
 
       it "answers true" do
-        expect(email.valid?).to eq(true)
+        expect(email.valid?).to be(true)
       end
     end
 
@@ -20,7 +20,7 @@ RSpec.describe Git::Lint::Validators::Email do
       let(:text) { "a@b.c" }
 
       it "answers true" do
-        expect(email.valid?).to eq(true)
+        expect(email.valid?).to be(true)
       end
     end
 
@@ -28,7 +28,7 @@ RSpec.describe Git::Lint::Validators::Email do
       let(:text) { "test@sub.example.com" }
 
       it "answers true" do
-        expect(email.valid?).to eq(true)
+        expect(email.valid?).to be(true)
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe Git::Lint::Validators::Email do
       let(:text) { "test@invalid!~#$%^&*(){}[].com" }
 
       it "answers false" do
-        expect(email.valid?).to eq(false)
+        expect(email.valid?).to be(false)
       end
     end
 
@@ -44,7 +44,7 @@ RSpec.describe Git::Lint::Validators::Email do
       let(:text) { "example.com" }
 
       it "answers false" do
-        expect(email.valid?).to eq(false)
+        expect(email.valid?).to be(false)
       end
     end
   end

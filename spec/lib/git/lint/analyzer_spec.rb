@@ -80,7 +80,7 @@ RSpec.describe Git::Lint::Analyzer do
         `git commit --no-verify --message "Added one.txt" --message "- For testing purposes"`
         collector, _reporter = runner.call
 
-        expect(collector.issues?).to eq(false)
+        expect(collector.issues?).to be(false)
       end
     end
 
@@ -89,7 +89,7 @@ RSpec.describe Git::Lint::Analyzer do
         `git commit --no-verify --message "Add one.txt" --message "- A test bullet"`
         collector, _reporter = runner.call
 
-        expect(collector.issues?).to eq(true)
+        expect(collector.issues?).to be(true)
       end
     end
 
@@ -111,7 +111,7 @@ RSpec.describe Git::Lint::Analyzer do
           `git commit --no-verify --message "Bogus commit message"`
           collector, _reporter = runner.call
 
-          expect(collector.issues?).to eq(false)
+          expect(collector.issues?).to be(false)
         end
       end
     end
@@ -141,7 +141,7 @@ RSpec.describe Git::Lint::Analyzer do
 
       it "processes commit" do
         collector, _reporter = runner.call commits: [git_commit]
-        expect(collector.issues?).to eq(true)
+        expect(collector.issues?).to be(true)
       end
     end
   end

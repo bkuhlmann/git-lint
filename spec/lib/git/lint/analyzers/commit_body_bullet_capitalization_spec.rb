@@ -24,7 +24,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
       let(:commit) { GitPlus::Commit[body_lines: ["- Test bullet."]] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
       let(:commit) { GitPlus::Commit[body_lines: ["a test line."]] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
       let(:commit) { GitPlus::Commit[body_lines: []] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -48,7 +48,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
       let(:commit) { GitPlus::Commit[body_lines: ["-test bullet."]] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
       let(:commit) { GitPlus::Commit[body_lines: ["- test bullet."]] }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -64,7 +64,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
       let(:commit) { GitPlus::Commit[body_lines: ["  - test bullet."]] }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
   end

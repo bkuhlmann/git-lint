@@ -24,7 +24,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -32,7 +32,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       let(:commit) { GitPlus::Commit[body_lines: ["This will fail, obviously."]] }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       let(:commit) { GitPlus::Commit[body_lines: ["This will fail, Obviously."]] }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -48,7 +48,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       let(:commit) { GitPlus::Commit[body_lines: ["This will fail, of course."]] }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       let(:commit) { GitPlus::Commit[body_lines: ["This will fail, Of Course."]] }
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
         let(:commit) { GitPlus::Commit[body_lines: [phrase]] }
 
         it %(answers false for "#{phrase}") do
-          expect(analyzer.valid?).to eq(false)
+          expect(analyzer.valid?).to be(false)
         end
       end
     end
@@ -113,7 +113,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -131,7 +131,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -149,7 +149,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -167,7 +167,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
 
       it "answers true" do
-        expect(analyzer.valid?).to eq(true)
+        expect(analyzer.valid?).to be(true)
       end
     end
 
@@ -188,7 +188,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
 
       it "answers false" do
-        expect(analyzer.valid?).to eq(false)
+        expect(analyzer.valid?).to be(false)
       end
     end
   end

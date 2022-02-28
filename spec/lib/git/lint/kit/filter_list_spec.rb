@@ -54,7 +54,7 @@ RSpec.describe Git::Lint::Kit::FilterList do
       let(:list) { [] }
 
       it "answers true" do
-        expect(filter_list.empty?).to eq(true)
+        expect(filter_list.empty?).to be(true)
       end
     end
 
@@ -62,7 +62,7 @@ RSpec.describe Git::Lint::Kit::FilterList do
       let(:list) { ["test"] }
 
       it "answers false" do
-        expect(filter_list.empty?).to eq(false)
+        expect(filter_list.empty?).to be(false)
       end
     end
   end
