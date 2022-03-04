@@ -10,7 +10,7 @@ jobs:
       - restore_cache:
           name: Bundler Restore
           keys:
-            - gem-cache-{{.Branch}}-{{checksum "git-lint.gemspec"}}
+            - gem-cache-{{.Branch}}-{{checksum "Gemfile"}}-{{checksum "git-lint.gemspec"}}
             - gem-cache-
 
       - run:
@@ -22,7 +22,7 @@ jobs:
 
       - save_cache:
           name: Bundler Store
-          key: gem-cache-{{.Branch}}-{{checksum "git-lint.gemspec"}}
+          key: gem-cache-{{.Branch}}-{{checksum "Gemfile"}}-{{checksum "git-lint.gemspec"}}
           paths:
             - vendor/bundle
 
