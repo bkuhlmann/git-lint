@@ -91,23 +91,23 @@ RSpec.describe Git::Lint::CLI::Shell do
     end
 
     it "prints help" do
-      result = proc { shell.call %w[--help] }
-      expect(&result).to output(/Git Lint.+USAGE.+/m).to_stdout
+      shell.call %w[--help]
+      expect(logger.reread).to match(/Git Lint.+USAGE.+/m)
     end
 
     it "prints usage when no options are given" do
-      result = proc { shell.call }
-      expect(&result).to output(/Git Lint.+USAGE.+/m).to_stdout
+      shell.call
+      expect(logger.reread).to match(/Git Lint.+USAGE.+/m)
     end
 
     it "prints error with invalid option" do
-      result = proc { shell.call %w[--bogus] }
-      expect(&result).to output(/invalid option.+bogus/).to_stdout
+      shell.call %w[--bogus]
+      expect(logger.reread).to match(/invalid option.+bogus/)
     end
 
     it "prints version" do
-      result = proc { shell.call %w[--version] }
-      expect(&result).to output(/Git Lint\s\d+\.\d+\.\d+/).to_stdout
+      shell.call %w[--version]
+      expect(logger.reread).to match(/Git Lint\s\d+\.\d+\.\d+/)
     end
   end
 end

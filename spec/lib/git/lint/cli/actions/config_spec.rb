@@ -19,8 +19,8 @@ RSpec.describe Git::Lint::CLI::Actions::Config do
     end
 
     it "logs error with invalid action" do
-      result = proc { action.call :bogus }
-      expect(&result).to output("Invalid configuration action: bogus.\n").to_stdout
+      action.call :bogus
+      expect(logger.reread).to eq("Invalid configuration action: bogus.\n")
     end
   end
 end

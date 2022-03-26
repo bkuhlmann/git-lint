@@ -57,8 +57,8 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Branch do
       before { allow(analyzer).to receive(:call).and_raise(Git::Lint::Errors::Base, "Danger!") }
 
       it "logs error" do
-        result = proc { action.call }
-        expect(&result).to output("Danger!\n").to_stdout
+        action.call
+        expect(logger.reread).to eq("Danger!\n")
       end
 
       it "aborts" do
