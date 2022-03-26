@@ -5,17 +5,18 @@ module Git
     module CLI
       # The main Command Line Interface (CLI) object.
       class Shell
-        ACTIONS = {
-          analyze_branch: Actions::Analyze::Branch.new,
-          analyze_commit: Actions::Analyze::Commit.new,
-          config: Actions::Config.new,
-          hook: Actions::Hook.new
-        }.freeze
+        include Actions::Import[
+          :analyze_branch,
+          :analyze_commit,
+          :config,
+          :hook,
+          :specification,
+          :logger
+        ]
 
-        def initialize parser: Parser.new, actions: ACTIONS, container: Container
+        def initialize parser: Parser.new, **dependencies
+          super(**dependencies)
           @parser = parser
-          @actions = actions
-          @container = container
         end
 
         def call arguments = []
@@ -26,32 +27,18 @@ module Git
 
         private
 
-        attr_reader :parser, :actions, :container
+        attr_reader :parser
 
         def perform configuration
           case configuration
-            in action_analyze: true, analyze_sha: nil then analyze_branch
-            in action_analyze: true, analyze_sha: String => sha then analyze_commit sha
-            in action_config: Symbol => action then config action
-            in action_hook: Pathname => path then hook path
+            in action_analyze: true, analyze_sha: nil then analyze_branch.call
+            in action_analyze: true, analyze_sha: String => sha then analyze_commit.call sha
+            in action_config: Symbol => action then config.call action
+            in action_hook: Pathname => path then hook.call path
             in action_version: true then logger.info { specification.labeled_version }
-            else usage
+            else logger.any { parser.to_s }
           end
         end
-
-        def analyze_branch = actions.fetch(__method__).call
-
-        def analyze_commit(sha) = actions.fetch(__method__).call(sha)
-
-        def config(action) = actions.fetch(__method__).call(action)
-
-        def hook(path) = actions.fetch(__method__).call(path)
-
-        def usage = logger.unknown { parser.to_s }
-
-        def specification = container[__method__]
-
-        def logger = container[__method__]
       end
     end
   end

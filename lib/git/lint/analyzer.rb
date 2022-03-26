@@ -4,6 +4,8 @@ module Git
   module Lint
     # Runs all analyzers.
     class Analyzer
+      include Import[:configuration]
+
       ANALYZERS = [
         Analyzers::CommitAuthorCapitalization,
         Analyzers::CommitAuthorEmail,
@@ -32,11 +34,11 @@ module Git
       def initialize analyzers: ANALYZERS,
                      collector: Collector.new,
                      reporter: Reporters::Branch,
-                     container: Container
+                     **dependencies
+        super(**dependencies)
         @analyzers = analyzers
         @collector = collector
         @reporter = reporter
-        @container = container
       end
       # rubocop:enable Metrics/ParameterLists
 
@@ -48,7 +50,7 @@ module Git
 
       private
 
-      attr_reader :analyzers, :collector, :reporter, :container
+      attr_reader :analyzers, :collector, :reporter
 
       def process commits
         collector.clear
@@ -70,7 +72,7 @@ module Git
                  end
       end
 
-      def settings = container[:configuration].analyzers
+      def settings = configuration.analyzers
     end
   end
 end

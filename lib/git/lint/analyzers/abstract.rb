@@ -7,6 +7,8 @@ module Git
     module Analyzers
       # An abstract class which provides basic functionality from which all analyzers inherit from.
       class Abstract
+        include Import[:configuration, :environment]
+
         using ::Refinements::Strings
 
         LEVELS = %i[warn error].freeze
@@ -20,9 +22,9 @@ module Git
 
         attr_reader :commit
 
-        def initialize commit, container: Container
+        def initialize commit, **dependencies
+          super(**dependencies)
           @commit = commit
-          @container = container
           @filter_list = load_filter_list
         end
 
@@ -50,7 +52,7 @@ module Git
 
         protected
 
-        attr_reader :container, :filter_list
+        attr_reader :filter_list
 
         def load_filter_list = []
 
@@ -74,7 +76,7 @@ module Git
           fail NotImplementedError, "The `.#{__method__}` method must be implemented."
         end
 
-        def settings = container[:configuration].find_setting(self.class.id)
+        def settings = configuration.find_setting(self.class.id)
       end
     end
   end

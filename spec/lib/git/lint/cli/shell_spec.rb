@@ -4,11 +4,16 @@ require "spec_helper"
 
 RSpec.describe Git::Lint::CLI::Shell do
   using ::Refinements::Pathnames
+  using AutoInjector::Stub
 
   subject(:shell) { described_class.new }
 
   include_context "with Git repository"
   include_context "with application container"
+
+  before { Git::Lint::CLI::Actions::Import.stub configuration:, kernel:, logger: }
+
+  after { Git::Lint::CLI::Actions::Import.unstub :configuration, :kernel, :logger }
 
   describe "#call" do
     it "edits configuration" do

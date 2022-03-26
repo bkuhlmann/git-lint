@@ -4,11 +4,16 @@ require "spec_helper"
 
 RSpec.describe Git::Lint::Commits::Loader do
   using Refinements::Pathnames
+  using AutoInjector::Stub
 
   subject(:loader) { described_class.new }
 
   include_context "with Git repository"
   include_context "with commits container"
+
+  before { Git::Lint::Commits::Systems::Import.stub repository:, environment: }
+
+  after { Git::Lint::Commits::Systems::Import.unstub :repository, :environment }
 
   describe "#call" do
     context "with Circle CI environment" do

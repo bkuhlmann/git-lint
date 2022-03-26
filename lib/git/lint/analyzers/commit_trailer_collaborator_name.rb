@@ -5,14 +5,16 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator name construction.
       class CommitTrailerCollaboratorName < Abstract
+        # rubocop:disable Metrics/ParameterLists
         def initialize commit,
                        parser: Parsers::Trailers::Collaborator,
-                       validator: Validators::Name
-
-          super commit
+                       validator: Validators::Name,
+                       **dependencies
+          super commit, **dependencies
           @parser = parser
           @validator = validator
         end
+        # rubocop:enable Metrics/ParameterLists
 
         def valid? = affected_commit_trailers.empty?
 

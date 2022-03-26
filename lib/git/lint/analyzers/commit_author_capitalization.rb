@@ -5,8 +5,8 @@ module Git
     module Analyzers
       # Analyzes author for proper capitalization of author name.
       class CommitAuthorCapitalization < Abstract
-        def initialize commit, validator: Validators::Capitalization
-          super commit
+        def initialize commit, validator: Validators::Capitalization, **dependencies
+          super commit, **dependencies
           @validator = validator
         end
 

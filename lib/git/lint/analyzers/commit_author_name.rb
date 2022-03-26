@@ -5,8 +5,8 @@ module Git
     module Analyzers
       # Analyzes author name for minimum parts of name.
       class CommitAuthorName < Abstract
-        def initialize commit, validator: Validators::Name
-          super commit
+        def initialize commit, validator: Validators::Name, **dependencies
+          super commit, **dependencies
           @validator = validator
         end
 

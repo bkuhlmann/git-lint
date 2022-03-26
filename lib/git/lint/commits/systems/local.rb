@@ -6,19 +6,13 @@ module Git
       module Systems
         # Provides local build environment feature branch information.
         class Local
-          def initialize container: Container
-            @container = container
-          end
+          include Git::Lint::Import[:repository]
 
           def call = repository.commits("#{repository.branch_default}..#{name}")
 
           private
 
-          attr_reader :container
-
           def name = repository.branch_name
-
-          def repository = container[__method__]
         end
       end
     end

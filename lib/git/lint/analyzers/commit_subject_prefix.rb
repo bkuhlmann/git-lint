@@ -24,7 +24,7 @@ module Git
 
         def locally_prefixed? = !ci? && commit.prefix?
 
-        def ci? = container[:environment]["CI"] == "true"
+        def ci? = environment["CI"] == "true"
       end
     end
   end

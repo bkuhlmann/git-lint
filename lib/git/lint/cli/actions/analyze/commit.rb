@@ -7,12 +7,14 @@ module Git
         module Analyze
           # Handles analyze action for commit(s) by SHA.
           class Commit
+            include Git::Lint::Import[:kernel, :logger]
+
             def initialize analyzer: Analyzer.new,
                            parser: GitPlus::Parsers::Commits::Saved::History.with_show,
-                           container: Container
+                           **dependencies
+              super(**dependencies)
               @analyzer = analyzer
               @parser = parser
-              @container = container
             end
 
             def call sha = nil
@@ -24,7 +26,7 @@ module Git
 
             private
 
-            attr_reader :analyzer, :parser, :container
+            attr_reader :analyzer, :parser
 
             def process sha
               analyzer.call commits: parser.call(*sha) do |collector, reporter|
@@ -32,10 +34,6 @@ module Git
                 kernel.abort if collector.errors?
               end
             end
-
-            def kernel = container[__method__]
-
-            def logger = container[__method__]
           end
         end
       end

@@ -7,9 +7,11 @@ module Git
         module Analyze
           # Handles analyze action for branch.
           class Branch
-            def initialize analyzer: Analyzer.new, container: Container
+            include Git::Lint::Import[:repository, :kernel, :logger]
+
+            def initialize analyzer: Analyzer.new, **dependencies
+              super(**dependencies)
               @analyzer = analyzer
-              @container = container
             end
 
             def call
@@ -21,7 +23,7 @@ module Git
 
             private
 
-            attr_reader :analyzer, :container
+            attr_reader :analyzer
 
             def parse
               analyzer.call do |collector, reporter|
@@ -29,12 +31,6 @@ module Git
                 kernel.abort if collector.errors?
               end
             end
-
-            def repository = container[__method__]
-
-            def kernel = container[__method__]
-
-            def logger = container[__method__]
           end
         end
       end

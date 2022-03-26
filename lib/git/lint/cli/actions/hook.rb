@@ -6,9 +6,11 @@ module Git
       module Actions
         # Handles unsaved Git commit action.
         class Hook
-          def initialize analyzer: Analyzer.new, container: Container
+          include Git::Lint::Import[:repository, :kernel, :logger]
+
+          def initialize analyzer: Analyzer.new, **dependencies
+            super(**dependencies)
             @analyzer = analyzer
-            @container = container
           end
 
           def call path
@@ -20,13 +22,7 @@ module Git
 
           private
 
-          attr_reader :analyzer, :container
-
-          def repository = container[__method__]
-
-          def kernel = container[__method__]
-
-          def logger = container[__method__]
+          attr_reader :analyzer
         end
       end
     end
