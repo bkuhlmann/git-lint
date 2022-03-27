@@ -3,7 +3,7 @@
 RSpec.shared_context "with commits container" do
   using AutoInjector::Stub
 
-  include_context "with application container"
+  include_context "with application dependencies"
 
   let(:repository) { instance_spy GitPlus::Repository, branch_default: "main", branch_name: "test" }
   let(:executor) { class_spy Open3 }

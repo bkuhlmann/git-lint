@@ -8,7 +8,7 @@ RSpec.describe Git::Lint::Analyzer do
   subject(:runner) { described_class.new }
 
   include_context "with Git repository"
-  include_context "with application container"
+  include_context "with application dependencies"
 
   let :configuration do
     Git::Lint::Configuration::Content[

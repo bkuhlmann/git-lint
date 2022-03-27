@@ -7,7 +7,7 @@ RSpec.describe Git::Lint::CLI::Actions::Hook do
 
   subject(:action) { described_class.new }
 
-  include_context "with application container"
+  include_context "with application dependencies"
   include_context "with Git repository"
 
   describe "#call" do

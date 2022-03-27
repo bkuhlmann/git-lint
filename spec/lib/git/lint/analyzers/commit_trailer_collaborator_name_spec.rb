@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
   subject(:analyzer) { described_class.new commit }
 
-  include_context "with application container"
+  include_context "with application dependencies"
 
   describe ".id" do
     it "answers class ID" do
