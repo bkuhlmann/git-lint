@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Git::Lint::Commits::Systems::NetlifyCI do
   subject(:system) { described_class.new }
 
-  include_context "with commits container"
+  include_context "with commit system dependencies"
 
   let(:environment) { {"HEAD" => "test", "REPOSITORY_URL" => "https://www.example.com/test.git"} }
 

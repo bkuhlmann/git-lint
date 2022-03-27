@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Commits::Loader do
   subject(:loader) { described_class.new }
 
   include_context "with Git repository"
-  include_context "with commits container"
+  include_context "with commit system dependencies"
 
   before { Git::Lint::Commits::Systems::Import.stub repository:, environment: }
 

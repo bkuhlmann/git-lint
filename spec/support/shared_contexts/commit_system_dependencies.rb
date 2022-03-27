@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_context "with commits container" do
+RSpec.shared_context "with commit system dependencies" do
   using AutoInjector::Stub
 
   include_context "with application dependencies"
@@ -10,5 +10,5 @@ RSpec.shared_context "with commits container" do
 
   before { Git::Lint::Import.stub repository:, executor: }
 
-  after { Git::Lint::Import.unstub repository:, executor: }
+  after { Git::Lint::Import.unstub :repository, :executor }
 end
