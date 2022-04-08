@@ -24,5 +24,5 @@ end
 
 group :tools do
   gem "amazing_print", "~> 1.4"
-  gem "debug", "~> 1.4"
+  gem "debug", "~> 1.5"
 end
