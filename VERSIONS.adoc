@@ -1,5 +1,24 @@
 = Versions
 
+== 4.0.0 (2022-04-10)
+
+* Fixed Circle CI configuration to check Gemfile and gemspec - Brooke Kuhlmann
+* Added Auto Injector gem - Brooke Kuhlmann
+* Added Auto Injector import - Brooke Kuhlmann
+* Added CLI actions container - Brooke Kuhlmann
+* Added CLI actions import - Brooke Kuhlmann
+* Added Cogger gem - Brooke Kuhlmann
+* Added commit systems container - Brooke Kuhlmann
+* Added commit systems import - Brooke Kuhlmann
+* Updated implementation to auto-inject dependencies - Brooke Kuhlmann
+* Updated to Caliber 0.5.0 - Brooke Kuhlmann
+* Updated to Debug 1.5.0 - Brooke Kuhlmann
+* Removed Travis CI configuration - Brooke Kuhlmann
+* Removed commits container - Brooke Kuhlmann
+* Refactored RSpec application container as dependencies - Brooke Kuhlmann
+* Refactored RSpec commit system shared context as dependencies - Brooke Kuhlmann
+* Refactored specs to cogger - Brooke Kuhlmann
+
 == 3.3.2 (2022-03-03)
 
 * Fixed Hippocratic License to be 2.1.0 version - Brooke Kuhlmann
