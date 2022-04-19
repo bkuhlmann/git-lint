@@ -36,7 +36,7 @@ RSpec.describe Git::Lint::Configuration::Content do
     end
 
     it "answers nil when ID isn't found" do
-      expect(content.find_setting(:mystery)).to be_nil
+      expect(content.find_setting(:mystery)).to be(nil)
     end
   end
 end
