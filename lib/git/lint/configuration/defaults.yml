@@ -85,6 +85,7 @@
   :commit_subject_prefix:
     :enabled: true
     :severity: :error
+    :delimiter: " "
     :includes:
       - Fixed
       - Added
