@@ -5,6 +5,7 @@ module Git
     module Configuration
       # Defines analyzer specific settings.
       Setting = Struct.new(
+        :delimiter,
         :enabled,
         :excludes,
         :id,

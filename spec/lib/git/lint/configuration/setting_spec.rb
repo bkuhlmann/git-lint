@@ -8,6 +8,7 @@ RSpec.describe Git::Lint::Configuration::Setting do
   describe "#initialize" do
     let :proof do
       {
+        delimiter: nil,
         enabled: nil,
         excludes: nil,
         id: nil,
