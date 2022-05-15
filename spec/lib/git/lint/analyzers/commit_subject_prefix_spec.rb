@@ -20,11 +20,27 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
   end
 
   describe "#valid?" do
-    context "with valid prefix" do
+    context "with valid prefix and delimiter" do
       let(:commit) { GitPlus::Commit[subject: "Added specs"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with invalid delimiter" do
+      let(:commit) { GitPlus::Commit[subject: "Added: specs"] }
+
+      it "answers false" do
+        expect(analyzer.valid?).to be(false)
+      end
+    end
+
+    context "with no delimiter" do
+      let(:commit) { GitPlus::Commit[subject: "Addedspecs"] }
+
+      it "answers false" do
+        expect(analyzer.valid?).to be(false)
       end
     end
 
@@ -51,6 +67,26 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
         Git::Lint::Configuration::Content[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_subject_prefix, includes: []]
+          ]
+        ]
+      end
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with custom delimiter" do
+      let(:commit) { GitPlus::Commit[subject: "Added - specs"] }
+
+      let :configuration do
+        Git::Lint::Configuration::Content[
+          analyzers: [
+            Git::Lint::Configuration::Setting[
+              id: :commit_subject_prefix,
+              includes: ["Added"],
+              delimiter: " - "
+            ]
           ]
         ]
       end
@@ -135,7 +171,9 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       let(:commit) { GitPlus::Commit[subject: "Bogus"] }
 
       it "answres issue hint" do
-        expect(issue[:hint]).to eq("Use: /Fixed/, /Added/, /Updated/, /Removed/, /Refactored/.")
+        expect(issue[:hint]).to eq(
+          "Use: /Fixed /, /Added /, /Updated /, /Removed /, /Refactored /."
+        )
       end
     end
   end

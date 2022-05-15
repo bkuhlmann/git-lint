@@ -20,7 +20,11 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.includes)
+        def load_filter_list
+          settings.includes
+                  .map { |prefix| "#{prefix}#{settings.delimiter}" }
+                  .then { |list| Kit::FilterList.new list }
+        end
 
         def locally_prefixed? = !ci? && commit.prefix?
 
