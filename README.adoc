@@ -25,6 +25,7 @@ toc::[]
 
 == Requirements
 
+. link:https://git-scm.com[Git]
 . link:https://www.ruby-lang.org[Ruby]
 
 == Setup
@@ -35,23 +36,6 @@ To install, run:
 ----
 gem install git-lint
 ----
-
-== Upgrade
-
-If upgrading from 2.0.0 to 3.0.0, you'll need to make the following changes:
-
-* The YAML configuration requires a top-level `:analyzers:` key for which all analyzer
-  configurations should be listed under. See the _Configuration_ section below for more details.
-* The `--config` command requires either an `edit` or `view` argument now.
-* The `--analyze` command can accept a `--sha` option for passing in the hash of the SHA you want to
-  analyze. If using this as a post commit Git Hook, you'll need to update your Bash script
-  accordingly.
-* The _Commit Body Line Length_ analyzer configuration has replaced `length` with `maximum` as the
-  key for defining maximum line length.
-* The _Commit Body Issue Tracker Link_ analyzer has been replaced with the _Commit Body Tracker
-  Shorthand_ analyzer. See documentation below for details.
-* The _Commit Subject Length_ analyzer has replaced `length` with `maximum` as the key for defining
-  maximum subject length.
 
 == Usage
 
@@ -234,6 +218,7 @@ variables. The default configuration is:
   :commit_subject_prefix:
     :enabled: true
     :severity: :error
+    :delimiter: " "
     :includes:
       - Fixed
       - Added
@@ -717,6 +702,7 @@ Automatically ignores _fixup!_ or _squash!_ commit prefixes when calculating sub
 |===
 | Enabled | Severity | Defaults
 | true    | error    | includes: (see below)
+|         |          | delimiter: " "
 |===
 
 Ensures each commit subject uses consistent prefixes that explain _what_ is being committed. The
@@ -750,6 +736,10 @@ link:https://www.alchemists.io/projects/milestoner[Milestoner], for producing co
 milestones and Git tag histories. For a deeper dive on subject prefixes and good commit messages in
 general, please read about link:https://www.alchemists.io/articles/git_commit_anatomy[commit anatomy
 ] to learn more. 🎉
+
+Each prefix is delimited by a space which is the default setting but can be customized if desired.
+Whatever you choose for a delimiter will not affect Git's special bang prefixes as described in the
+tip below.
 
 💡 This analyzer automatically ignores _amend!_, _fixup!_, or _squash!_ commit prefixes when used as
 a Git Hook in order to not disturb interactive rebase workflows.

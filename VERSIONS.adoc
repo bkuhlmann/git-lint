@@ -1,5 +1,11 @@
 = Versions
 
+== 4.2.0 (2022-05-15)
+
+* Fixed commit subject prefix from having no or invalid delimiters - Brooke Kuhlmann
+* Added configuration settings delimiter - Brooke Kuhlmann
+* Added default configuration for commit subject prefix delimiter - Brooke Kuhlmann
+
 == 4.1.0 (2022-05-07)
 
 * Added gemspec funding URI - Brooke Kuhlmann
