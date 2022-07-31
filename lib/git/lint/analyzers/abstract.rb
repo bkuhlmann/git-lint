@@ -58,7 +58,6 @@ module Git
 
         def affected_commit_body_lines
           commit.body_lines.each.with_object([]).with_index do |(line, lines), index|
-            yield if block_given?
             lines << self.class.build_issue_line(index, line) if invalid_line? line
           end
         end
@@ -67,7 +66,6 @@ module Git
           commit.trailers
                 .each.with_object([])
                 .with_index(commit.trailers_index) do |(line, lines), index|
-                  yield if block_given?
                   lines << self.class.build_issue_line(index, line) if invalid_line? line
                 end
         end
