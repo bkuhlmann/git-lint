@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "pastel", "~> 0.8"
   spec.add_dependency "refinements", "~> 9.6"
   spec.add_dependency "runcom", "~> 8.5"
-  spec.add_dependency "spek", "~> 0.4"
+  spec.add_dependency "spek", "~> 0.5"
   spec.add_dependency "zeitwerk", "~> 2.5"
 
   spec.bindir = "exe"
