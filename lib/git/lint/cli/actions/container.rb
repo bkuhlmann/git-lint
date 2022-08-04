@@ -10,8 +10,6 @@ module Git
         module Container
           extend Dry::Container::Mixin
 
-          config.registry = ->(container, key, value, _options) { container[key.to_s] = value }
-
           merge Git::Lint::Container
 
           register(:analyze_branch) { Analyze::Branch.new }
