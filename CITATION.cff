@@ -4,7 +4,7 @@ title: Git Lint
 abstract: A command line interface for linting Git commits.
 version: 4.3.0
 license: Hippocratic-2.1
-date-released: 2022-07-17
+date-released: 2022-08-13
 authors:
   - family-names: Kuhlmann
     given-names: Brooke
