@@ -4,7 +4,7 @@ require "spec_helper"
 
 RSpec.describe Git::Lint::CLI::Shell do
   using ::Refinements::Pathnames
-  using AutoInjector::Stub
+  using Infusible::Stub
 
   subject(:shell) { described_class.new }
 

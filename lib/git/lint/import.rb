@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "auto_injector"
+require "infusible"
 
 module Git
   module Lint
-    Import = AutoInjector[Container]
+    Import = Infusible.with Container
   end
 end

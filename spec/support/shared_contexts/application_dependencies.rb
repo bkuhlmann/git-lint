@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require "dry/container/stub"
-require "auto_injector/stub"
+require "infusible/stub"
 
 RSpec.shared_context "with application dependencies" do
-  using AutoInjector::Stub
+  using Infusible::Stub
 
   let(:configuration) { Git::Lint::Configuration::Loader.with_defaults.call }
   let(:environment) { Hash.new }

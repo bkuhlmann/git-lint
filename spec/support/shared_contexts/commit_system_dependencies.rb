@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.shared_context "with commit system dependencies" do
-  using AutoInjector::Stub
+  using Infusible::Stub
 
   include_context "with application dependencies"
 
