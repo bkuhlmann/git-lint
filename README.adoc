@@ -88,36 +88,6 @@ Running Git Lint...
 1 commit inspected. 4 issues detected (1 warning, 3 errors).
 ....
 
-=== Rake
-
-This gem provides optional Rake tasks. They can be added to your project by adding the following
-requirement to the top of your `Rakefile`:
-
-[source,ruby]
-----
-require "git/lint/rake/setup"
-----
-
-Now, when running `bundle exec rake -T`, you'll see `git_lint` included in the list.
-
-If you need a concrete example, check out the
-link:https://github.com/bkuhlmann/git-lint/blob/main/Rakefile[Rakefile] of this project for details.
-
-=== Default Branch
-
-Your default branch configuration is respected no matter if it is set globally or locally. If the
-default branch is _not set_ then Git Lint will fall back to `master` for backwards compatibility.
-When the next major version is released, the default branch fallback will change from `master` to
-`main`. You can set your default branch at any time by running the following from the command line:
-
-[source,bash]
-----
-git config --add init.defaultBranch main
-----
-
-💡 When setting your default branch, ensure you use a consistent Git configuration across all of
-your environments.
-
 === Configuration
 
 This gem can be configured via a global configuration:
@@ -255,12 +225,12 @@ variables. The default configuration is:
 Feel free to take this default configuration, modify, and save as your own custom
 `configuration.yml`.
 
-=== Enablement
+==== Enablement
 
 By default, most analyzers are enabled. Accepted values are `true` or `false`. If you wish to
 disable a analyzer, set it to `false`.
 
-==== Severity Levels
+==== Severity
 
 By default, most analyzers are set to `error` severity. If you wish to reduce the severity level of
 a analyzer, you can set it to `warn` instead. Here are the accepted values and what each means:
@@ -283,7 +253,456 @@ want to turn into regular expressions. _For purposes of the YAML configuration, 
 expressed as strings with special characters escaped properly for internal conversion to a regular
 expression._
 
-=== Git Hooks
+=== Analyzers
+
+The following details the various analyzers provided by this gem to ensure a high standard of
+commits for your project.
+
+==== Commit Author Capitalization
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures author name is properly capitalized. Example:
+
+....
+# Disallowed
+jayne cobb
+dr. simon tam
+
+# Allowed
+Jayne Cobb
+Dr. Simon Tam
+....
+
+==== Commit Author Email
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures author email address exists. Git requires an author email when you use it for the first time
+too. This takes it a step further to ensure the email address loosely resembles an email address.
+
+....
+# Disallowed
+mudder_man
+
+# Allowed
+jayne@serenity.com
+....
+
+==== Commit Author Name
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | minimum: 2
+|===
+
+Ensures author name consists of, at least, a first and last name. Example:
+
+....
+# Disallowed
+Kaylee
+
+# Allowed
+Kaywinnet Lee Frye
+....
+
+==== Commit Body Bullet
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | excludes: `["\\*", "•"]`
+|===
+
+Ensures commit message bodies use a standard Markdown syntax for bullet points. Markdown supports
+the following syntax for bullets:
+
+....
+*
+-
+....
+
+It's best to use dashes for bullet point syntax as stars are easier to read when used for
+_emphasis_. This makes parsing the Markdown syntax easier when reviewing a Git commit as the syntax
+used for bullet points and _emphasis_ are now, distinctly, unique.
+
+==== Commit Body Bullet Capitalization
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["\\-"]`
+|===
+
+Ensures commit body bullet lines are capitalized. Example:
+
+....
+# Disallowed
+- an example bullet.
+
+# Allowed
+- An example bullet.
+....
+
+==== Commit Body Bullet Delimiter
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["\\-"]`
+|===
+
+Ensures commit body bullets are delimited by a space. Example:
+
+....
+# Disallowed
+-An example bullet.
+
+# Allowed
+- An example bullet.
+....
+
+==== Commit Body Leading Line
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures there is a leading, empty line, between the commit subject and body. Generally, this isn't
+an issue but sometimes the Git CLI can be misused or a misconfigured Git editor will smash the
+subject line and start of the body as one run-on paragraph. Example:
+
+....
+# Disallowed
+
+Curabitur eleifend wisi iaculis ipsum.
+Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
+quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam
+egestas semper. Aenean ultricies mi vitae est. Mauris placerat's eleifend leo. Quisque et sapien
+ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, orn si amt wit.
+
+# Allowed
+
+Curabitur eleifend wisi iaculis ipsum.
+
+Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
+quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam
+egestas semper. Aenean ultricies mi vitae est. Mauris placerat's eleifend leo. Quisque et sapien
+ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, orn si amt wit.
+....
+
+==== Commit Body Line Length
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | maximum: 72
+|===
+
+Ensures each line of the commit body doesn't force you to scroll horizontally to read the message.
+This allows commit messages to remain readable and is especially handy when commit messages are read
+via the command line or email clients.
+
+==== Commit Body Paragraph Capitalization
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures each paragraph of the commit body is capitalized. Example:
+
+....
+# Disallowed
+curabitur eleifend wisi iaculis ipsum.
+
+# Allowed
+Curabitur eleifend wisi iaculis ipsum.
+....
+
+==== Commit Body Phrase
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | excludes: (see configuration)
+|===
+
+Ensures non-descriptive words/phrases are avoided in order to keep commit message bodies informative
+and specific. The exclude list is case insensitive. Detection of excluded words/phrases is case
+insensitive as well. Example:
+
+....
+# Disallowed
+
+Obviously, the existing implementation was too simple for my tastes. Of course, this couldn't be
+allowed. Everyone knows the correct way to implement this code is to do just what I've added in
+this commit. Easy!
+
+# Allowed
+
+Necessary to fix due to a bug detected in production. The included implementation fixes the bug
+and provides the missing spec to ensure this doesn't happen again.
+....
+
+==== Commit Body Presence
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | warn     | minimum: 1
+|===
+
+Ensures a minimum number of lines are present within the commit body. Lines with empty characters
+(i.e. whitespace, carriage returns, etc.) are considered to be empty.
+
+Automatically ignores _fixup!_ commits as they are not meant to have bodies.
+
+==== Commit Body Single Bullet
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `"\\-"`
+|===
+
+Ensures a single bullet is never used when a paragraph could be used instead. Example:
+
+....
+# Disallowed
+
+- Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
+  quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam.
+
+# Allowed
+
+Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
+quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam.
+....
+
+==== Commit Body Tracker Shorthand
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | excludes: (see configuration)
+|===
+
+Ensures commit body doesn't use issue tracker shorthand. The exclude list defaults to GitHub Issues
+but can be customized for any issue tracker.
+
+There are several reasons for excluding issue tracker links from commit bodies:
+
+. Not all issue trackers preserve issues (meaning they can be deleted). This makes make reading
+  historic commits harder to understand why the change was made when the reference no longer works.
+. When disconnected from the internet or working on a laggy connection, it's hard to understand why
+  a commit was made when all you have is a shorthand issue reference with no supporting context.
+. During the course of a repository's life, issue trackers can be replaced (rare but does happen).
+  If the old issue tracker service is no longer in use, none of the commit body shorthand will
+  be of any relevance.
+
+Instead of using tracker shorthand syntax, take the time to write a short summary as to _why_ the
+commit was made. Doing this will make it easier to understand _why_ the commit was made, keeps the
+commit self-contained, and makes learning about/debugging the commit faster.
+
+==== Commit Subject Length
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | maximum: 72
+|===
+
+Ensures the commit subject length is no more than 72 characters in length. This default is more
+lenient than the link:http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html[50/72
+rule] as it gives one the ability to formulate a more descriptive subject line without being too
+wordy or suffer being word wrapped.
+
+Automatically ignores _fixup!_ or _squash!_ commit prefixes when calculating subject length.
+
+==== Commit Subject Prefix
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: (see below)
+|         |          | delimiter: " "
+|===
+
+Ensures each commit subject uses consistent prefixes that explain _what_ is being committed. The
+`includes` are _case sensitive_ and default to the following prefixes:
+
+* *Fixed* - Identifies what was fixed. The commit should be as small as possible and consist of
+  changes to implementation and spec only. In some cases this might be a single line change. The
+  important point is the change is applied to existing code which corrects behavior that wasn't
+  properly implemented earlier.
+* *Removed* - Identifies what was removed. The commit should be as small as possible and consist
+  only of removed lines/files from the existing implementation. This might also mean breaking
+  changes requiring the publishing of a _major_ version release in the future.
+* *Added* - Identifies what was added. The commit should be as small as possible and consist of
+  implementation and spec. Otherwise, it might be a change to an existing file which adds new
+  behavior.
+* *Updated* - Identifies what was updated. The commit should be as small as possible and _not add
+  or fix_ existing behavior. This can sometimes be a grey area but is typically reserved for updates
+  to documentation, code comments, dependencies, etc.
+* *Refactored* - Identifies what was refactored.
+  link:https://thoughtbot.com/blog/lets-not-misuse-refactoring[_Refactoring is for changing code
+  structure without changing observable behavior_]. The commit should be as small as possible and
+  not mix multiple kinds of changes at once. Refactored code should never break existing
+  implementation behavior or corresponding specs because, if that happens, then one of the other
+  four prefixes is what you want to use instead.
+
+In practice, it is quite rare to need a prefix other than what has been detailed above to explain
+_what_ is being committed. These prefixes are not only short and easy to remember but also have the
+added benefit of categorizing the commits for building release notes, change logs, etc. This becomes
+handy when coupled with another tool,
+link:https://www.alchemists.io/projects/milestoner[Milestoner], for producing consistent project
+milestones and Git tag histories. For a deeper dive on subject prefixes and good commit messages in
+general, please read about link:https://www.alchemists.io/articles/git_commit_anatomy[commit anatomy
+] to learn more. 🎉
+
+Each prefix is delimited by a space which is the default setting but can be customized if desired.
+Whatever you choose for a delimiter will not affect Git's special bang prefixes as described in the
+tip below.
+
+💡 This analyzer automatically ignores _amend!_, _fixup!_, or _squash!_ commit prefixes when used as
+a Git Hook in order to not disturb interactive rebase workflows.
+
+==== Commit Subject Suffix
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | excludes: `["\\.", "\\?", "\\!"]`
+|===
+
+Ensures commit subjects are suffixed consistently. The exclude list _is_ case sensitive and prevents
+the use of punctuation. This is handy when coupled with a tool, like
+link:https://www.alchemists.io/projects/milestoner[Milestoner], which automates project milestone
+releases.
+
+==== Commit Trailer Collaborator Capitalization
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | error    | none
+|===
+
+Ensures collaborator name is properly capitalized. Example:
+
+....
+# Disallowed
+shepherd derrial book
+
+# Allowed
+Shepherd Derrial Book
+....
+
+==== Commit Trailer Collaborator Duplication
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | error    | none
+|===
+
+Ensures collaborator trailers are not duplicated. Example:
+
+....
+# Disallowed
+Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+
+# Allowed
+Co-Authored-By: Malcolm Reynolds <malcolm@firefly.com>
+Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+....
+
+==== Commit Trailer Collaborator Email
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | error    | none
+|===
+
+Ensures collaborator email address is valid for commit trailer.
+
+....
+# Disallowed
+Co-Authored-By: River Tam <invalid>
+
+# Allowed
+Co-Authored-By: River Tam <river@firefly.com>
+....
+
+==== Commit Trailer Collaborator Key
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | error    | includes: `["Co-Authored-By"]`
+|===
+
+Ensures collaborator trailer key is correct format.
+
+....
+# Disallowed
+Co-authored-by: River Tam <river@firefly.com>
+
+# Allowed
+Co-Authored-By: River Tam <river@firefly.com>
+....
+
+==== Commit Trailer Collaborator Name
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| false   | error    | minimum: 2
+|===
+
+Ensures collaborator name consists of, at least, a first and last name. Example:
+
+....
+# Disallowed
+Co-Authored-By: River <river@firefly.com>
+
+# Allowed
+Co-Authored-By: River Tam <river@firefly.com>
+....
+
+=== Git
+
+==== Default Branch
+
+Your default branch configuration is respected no matter if it is set globally or locally. If the
+default branch is _not set_ then Git Lint will fall back to `master` for backwards compatibility.
+When the next major version is released, the default branch fallback will change from `master` to
+`main`. You can set your default branch at any time by running the following from the command line:
+
+[source,bash]
+----
+git config --add init.defaultBranch main
+----
+
+💡 When setting your default branch, ensure you use a consistent Git configuration across all of
+your environments.
+
+==== Hooks
 
 This gem supports link:https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks[Git Hooks].
 
@@ -303,7 +722,7 @@ examples].
 If a global configuration is not desired, you can add Git Hooks at a per project level by editing
 any of the scripts within the `.git/hooks` directory of the repository.
 
-==== Commit Message
+===== Commit Message
 
 The _commit-msg_ hook -- which is the best way to use this gem as a Git Hook -- is provided as a
 `--hook` option. Usage:
@@ -336,7 +755,7 @@ git-lint --hook "${BASH_ARGV[0]}"
 
 Whenever you attempt to add a commit, Git Lint will check your commit for issues prior to saving it.
 
-==== Post Commit
+===== Post Commit
 
 The _post-commit_ hook is possible via the `--analyze` command. Usage:
 
@@ -366,6 +785,21 @@ git-lint --analyze --shas $(git log --pretty=format:%H -1)
 ----
 
 Whenever a commit has been saved, this script will run Git Lint to check for issues.
+
+=== Rake
+
+This gem provides optional Rake tasks. They can be added to your project by adding the following
+requirement to the top of your `Rakefile`:
+
+[source,ruby]
+----
+require "git/lint/rake/setup"
+----
+
+Now, when running `bundle exec rake -T`, you'll see `git_lint` included in the list.
+
+If you need a concrete example, check out the
+link:https://github.com/bkuhlmann/git-lint/blob/main/Rakefile[Rakefile] of this project for details.
 
 === Continuous Integration (CI)
 
@@ -416,438 +850,6 @@ The above will ensure Git Lint runs as an additional check on each Pull Request.
 
 Detection and configuration happens automatically by checking the `NETLIFY` environment variable. No
 additional setup required!
-
-== Analyzers
-
-The following details the various analyzers provided by this gem to ensure a high standard of
-commits for your project.
-
-=== Commit Author Capitalization
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | none
-|===
-
-Ensures author name is properly capitalized. Example:
-
-....
-# Disallowed
-jayne cobb
-dr. simon tam
-
-# Allowed
-Jayne Cobb
-Dr. Simon Tam
-....
-
-=== Commit Author Email
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | none
-|===
-
-Ensures author email address exists. Git requires an author email when you use it for the first time
-too. This takes it a step further to ensure the email address loosely resembles an email address.
-
-....
-# Disallowed
-mudder_man
-
-# Allowed
-jayne@serenity.com
-....
-
-=== Commit Author Name
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | minimum: 2
-|===
-
-Ensures author name consists of, at least, a first and last name. Example:
-
-....
-# Disallowed
-Kaylee
-
-# Allowed
-Kaywinnet Lee Frye
-....
-
-=== Commit Body Bullet
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | excludes: `["\\*", "•"]`
-|===
-
-Ensures commit message bodies use a standard Markdown syntax for bullet points. Markdown supports
-the following syntax for bullets:
-
-....
-*
--
-....
-
-It's best to use dashes for bullet point syntax as stars are easier to read when used for
-_emphasis_. This makes parsing the Markdown syntax easier when reviewing a Git commit as the syntax
-used for bullet points and _emphasis_ are now, distinctly, unique.
-
-=== Commit Body Bullet Capitalization
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | includes: `["\\-"]`
-|===
-
-Ensures commit body bullet lines are capitalized. Example:
-
-....
-# Disallowed
-- an example bullet.
-
-# Allowed
-- An example bullet.
-....
-
-=== Commit Body Bullet Delimiter
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | includes: `["\\-"]`
-|===
-
-Ensures commit body bullets are delimited by a space. Example:
-
-....
-# Disallowed
--An example bullet.
-
-# Allowed
-- An example bullet.
-....
-
-=== Commit Body Leading Line
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | none
-|===
-
-Ensures there is a leading, empty line, between the commit subject and body. Generally, this isn't
-an issue but sometimes the Git CLI can be misused or a misconfigured Git editor will smash the
-subject line and start of the body as one run-on paragraph. Example:
-
-....
-# Disallowed
-
-Curabitur eleifend wisi iaculis ipsum.
-Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
-quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam
-egestas semper. Aenean ultricies mi vitae est. Mauris placerat's eleifend leo. Quisque et sapien
-ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, orn si amt wit.
-
-# Allowed
-
-Curabitur eleifend wisi iaculis ipsum.
-
-Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
-quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam
-egestas semper. Aenean ultricies mi vitae est. Mauris placerat's eleifend leo. Quisque et sapien
-ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, orn si amt wit.
-....
-
-=== Commit Body Line Length
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | maximum: 72
-|===
-
-Ensures each line of the commit body doesn't force you to scroll horizontally to read the message.
-This allows commit messages to remain readable and is especially handy when commit messages are read
-via the command line or email clients.
-
-=== Commit Body Paragraph Capitalization
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | none
-|===
-
-Ensures each paragraph of the commit body is capitalized. Example:
-
-....
-# Disallowed
-curabitur eleifend wisi iaculis ipsum.
-
-# Allowed
-Curabitur eleifend wisi iaculis ipsum.
-....
-
-=== Commit Body Phrase
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | excludes: (see configuration)
-|===
-
-Ensures non-descriptive words/phrases are avoided in order to keep commit message bodies informative
-and specific. The exclude list is case insensitive. Detection of excluded words/phrases is case
-insensitive as well. Example:
-
-....
-# Disallowed
-
-Obviously, the existing implementation was too simple for my tastes. Of course, this couldn't be
-allowed. Everyone knows the correct way to implement this code is to do just what I've added in
-this commit. Easy!
-
-# Allowed
-
-Necessary to fix due to a bug detected in production. The included implementation fixes the bug
-and provides the missing spec to ensure this doesn't happen again.
-....
-
-=== Commit Body Presence
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| false   | warn     | minimum: 1
-|===
-
-Ensures a minimum number of lines are present within the commit body. Lines with empty characters
-(i.e. whitespace, carriage returns, etc.) are considered to be empty.
-
-Automatically ignores _fixup!_ commits as they are not meant to have bodies.
-
-=== Commit Body Single Bullet
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | includes: `"\\-"`
-|===
-
-Ensures a single bullet is never used when a paragraph could be used instead. Example:
-
-....
-# Disallowed
-
-- Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
-  quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam.
-
-# Allowed
-
-Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
-quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam.
-....
-
-=== Commit Body Tracker Shorthand
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | excludes: (see configuration)
-|===
-
-Ensures commit body doesn't use issue tracker shorthand. The exclude list defaults to GitHub Issues
-but can be customized for any issue tracker.
-
-There are several reasons for excluding issue tracker links from commit bodies:
-
-. Not all issue trackers preserve issues (meaning they can be deleted). This makes make reading
-  historic commits harder to understand why the change was made when the reference no longer works.
-. When disconnected from the internet or working on a laggy connection, it's hard to understand why
-  a commit was made when all you have is a shorthand issue reference with no supporting context.
-. During the course of a repository's life, issue trackers can be replaced (rare but does happen).
-  If the old issue tracker service is no longer in use, none of the commit body shorthand will
-  be of any relevance.
-
-Instead of using tracker shorthand syntax, take the time to write a short summary as to _why_ the
-commit was made. Doing this will make it easier to understand _why_ the commit was made, keeps the
-commit self-contained, and makes learning about/debugging the commit faster.
-
-=== Commit Subject Length
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | maximum: 72
-|===
-
-Ensures the commit subject length is no more than 72 characters in length. This default is more
-lenient than the link:http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html[50/72
-rule] as it gives one the ability to formulate a more descriptive subject line without being too
-wordy or suffer being word wrapped.
-
-Automatically ignores _fixup!_ or _squash!_ commit prefixes when calculating subject length.
-
-=== Commit Subject Prefix
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | includes: (see below)
-|         |          | delimiter: " "
-|===
-
-Ensures each commit subject uses consistent prefixes that explain _what_ is being committed. The
-`includes` are _case sensitive_ and default to the following prefixes:
-
-* *Fixed* - Identifies what was fixed. The commit should be as small as possible and consist of
-  changes to implementation and spec only. In some cases this might be a single line change. The
-  important point is the change is applied to existing code which corrects behavior that wasn't
-  properly implemented earlier.
-* *Removed* - Identifies what was removed. The commit should be as small as possible and consist
-  only of removed lines/files from the existing implementation. This might also mean breaking
-  changes requiring the publishing of a _major_ version release in the future.
-* *Added* - Identifies what was added. The commit should be as small as possible and consist of
-  implementation and spec. Otherwise, it might be a change to an existing file which adds new
-  behavior.
-* *Updated* - Identifies what was updated. The commit should be as small as possible and _not add
-  or fix_ existing behavior. This can sometimes be a grey area but is typically reserved for updates
-  to documentation, code comments, dependencies, etc.
-* *Refactored* - Identifies what was refactored.
-  link:https://thoughtbot.com/blog/lets-not-misuse-refactoring[_Refactoring is for changing code
-  structure without changing observable behavior_]. The commit should be as small as possible and
-  not mix multiple kinds of changes at once. Refactored code should never break existing
-  implementation behavior or corresponding specs because, if that happens, then one of the other
-  four prefixes is what you want to use instead.
-
-In practice, it is quite rare to need a prefix other than what has been detailed above to explain
-_what_ is being committed. These prefixes are not only short and easy to remember but also have the
-added benefit of categorizing the commits for building release notes, change logs, etc. This becomes
-handy when coupled with another tool,
-link:https://www.alchemists.io/projects/milestoner[Milestoner], for producing consistent project
-milestones and Git tag histories. For a deeper dive on subject prefixes and good commit messages in
-general, please read about link:https://www.alchemists.io/articles/git_commit_anatomy[commit anatomy
-] to learn more. 🎉
-
-Each prefix is delimited by a space which is the default setting but can be customized if desired.
-Whatever you choose for a delimiter will not affect Git's special bang prefixes as described in the
-tip below.
-
-💡 This analyzer automatically ignores _amend!_, _fixup!_, or _squash!_ commit prefixes when used as
-a Git Hook in order to not disturb interactive rebase workflows.
-
-=== Commit Subject Suffix
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | excludes: `["\\.", "\\?", "\\!"]`
-|===
-
-Ensures commit subjects are suffixed consistently. The exclude list _is_ case sensitive and prevents
-the use of punctuation. This is handy when coupled with a tool, like
-link:https://www.alchemists.io/projects/milestoner[Milestoner], which automates project milestone
-releases.
-
-=== Commit Trailer Collaborator Capitalization
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| false   | error    | none
-|===
-
-Ensures collaborator name is properly capitalized. Example:
-
-....
-# Disallowed
-shepherd derrial book
-
-# Allowed
-Shepherd Derrial Book
-....
-
-=== Commit Trailer Collaborator Duplication
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| false   | error    | none
-|===
-
-Ensures collaborator trailers are not duplicated. Example:
-
-....
-# Disallowed
-Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
-Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
-
-# Allowed
-Co-Authored-By: Malcolm Reynolds <malcolm@firefly.com>
-Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
-....
-
-=== Commit Trailer Collaborator Email
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| false   | error    | none
-|===
-
-Ensures collaborator email address is valid for commit trailer.
-
-....
-# Disallowed
-Co-Authored-By: River Tam <invalid>
-
-# Allowed
-Co-Authored-By: River Tam <river@firefly.com>
-....
-
-=== Commit Trailer Collaborator Key
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| false   | error    | includes: `["Co-Authored-By"]`
-|===
-
-Ensures collaborator trailer key is correct format.
-
-....
-# Disallowed
-Co-authored-by: River Tam <river@firefly.com>
-
-# Allowed
-Co-Authored-By: River Tam <river@firefly.com>
-....
-
-=== Commit Trailer Collaborator Name
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| false   | error    | minimum: 2
-|===
-
-Ensures collaborator name consists of, at least, a first and last name. Example:
-
-....
-# Disallowed
-Co-Authored-By: River <river@firefly.com>
-
-# Allowed
-Co-Authored-By: River Tam <river@firefly.com>
-....
 
 == Style Guide
 
@@ -966,7 +968,7 @@ To contribute, run:
 
 [source,bash]
 ----
-git clone https://github.com/bkuhlmann/git-lint.git
+git clone https://github.com/bkuhlmann/git-lint
 cd git-lint
 bin/setup
 ----
