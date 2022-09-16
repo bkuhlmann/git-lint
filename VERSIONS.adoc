@@ -1,5 +1,13 @@
 = Versions
 
+== 4.5.0 (2022-09-16)
+
+* Added Infusible gem - Brooke Kuhlmann
+* Updated README sections - Brooke Kuhlmann
+* Updated to Dry Container 0.11.0 - Brooke Kuhlmann
+* Removed Auto Injector - Brooke Kuhlmann
+* Refactored implementation to use Infusible syntax - Brooke Kuhlmann
+
 == 4.4.0 (2022-08-13)
 
 * Fixed RuboCop Style/StabbyLambdaParentheses issues - Brooke Kuhlmann
