@@ -5,15 +5,16 @@ Bundler.require :tools
 
 require "simplecov"
 
-SimpleCov.start do
-  enable_coverage :branch
-  add_filter %r(^/spec/)
-  minimum_coverage_by_file line: 95, branch: 95
+unless ENV["NO_COVERAGE"]
+  SimpleCov.start do
+    enable_coverage :branch
+    add_filter %r(^/spec/)
+    minimum_coverage_by_file line: 95, branch: 95
+  end
 end
 
 require "git/lint"
 require "refinements"
-
 require "git_plus/spec/shared_contexts/temp_dir"
 require "git_plus/spec/shared_contexts/git_commit"
 require "git_plus/spec/shared_contexts/git_repo"
