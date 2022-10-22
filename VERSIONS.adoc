@@ -1,5 +1,18 @@
 = Versions
 
+== 4.6.0 (2022-10-22)
+
+* Fixed Rakefile RSpec initialization - Brooke Kuhlmann
+* Fixed SimpleCov Guard interaction - Brooke Kuhlmann
+* Fixed SimpleCov gem requirement to not be required by default - Brooke Kuhlmann
+* Updated to Caliber 0.16.0 - Brooke Kuhlmann
+* Updated to Cogger 0.4.0 - Brooke Kuhlmann
+* Updated to Git+ 1.7.0 - Brooke Kuhlmann
+* Updated to Infusible 0.2.0 - Brooke Kuhlmann
+* Updated to Refinements 9.7.0 - Brooke Kuhlmann
+* Updated to Runcom 8.7.0 - Brooke Kuhlmann
+* Updated to Spek 0.6.0 - Brooke Kuhlmann
+
 == 4.5.0 (2022-09-16)
 
 * Added Infusible gem - Brooke Kuhlmann
