@@ -35,6 +35,7 @@ module Git
         Analyzers::CommitTrailerSignerCapitalization,
         Analyzers::CommitTrailerSignerEmail,
         Analyzers::CommitTrailerSignerKey,
+        Analyzers::CommitTrailerSignerName,
         Analyzers::CommitTrailerTrackerKey,
         Analyzers::CommitTrailerTrackerValue
       ].freeze

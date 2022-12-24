@@ -144,6 +144,10 @@
     :enabled: true
     :severity: :error
     :includes: Signed-By
+  :commit_trailer_signer_name:
+    :enabled: true
+    :severity: :error
+    :minimum: 2
   :commit_trailer_tracker_key:
     :enabled: true
     :severity: :error

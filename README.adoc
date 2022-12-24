@@ -809,6 +809,24 @@ Signed-By: Jayne Cobb <invalid>
 Signed-By: Jayne Cobb <jcobb@firefly.com>
 ....
 
+==== Commit Trailer Signer Name
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | minimum: 2
+|===
+
+Ensures signer name consists of, at least, a first and last name.
+
+....
+# Disallowed
+Signed-By: Jayne
+
+# Allowed
+Signed-By: Jayne Cobb
+....
+
 ==== Commit Trailer Tracker Key
 
 [options="header"]
