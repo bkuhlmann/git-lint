@@ -124,3 +124,7 @@
     :enabled: true
     :severity: :error
     :includes: "[\\w-]+"
+  :commit_trailer_tracker_key:
+    :enabled: true
+    :severity: :error
+    :includes: Tracker

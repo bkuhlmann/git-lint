@@ -719,6 +719,24 @@ Issue: 123+45
 Issue: 123
 ....
 
+==== Commit Trailer Tracker Key
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["Tracker"]`
+|===
+
+Ensures tracker trailer key is correct format.
+
+....
+# Disallowed
+tracker: Linear
+
+# Allowed
+Tracker: Linear
+....
+
 === Git
 
 ==== Default Branch
