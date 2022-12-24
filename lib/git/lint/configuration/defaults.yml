@@ -30,6 +30,10 @@
       - "(f|F)ix(es|ed)?\\s\\#\\d+"
       - "(c|C)lose(s|d)?\\s\\#\\d+"
       - "(r|R)esolve(s|d)?\\s\\#\\d+"
+  :commit_signature:
+    :enabled: true
+    :severity: :error
+    :includes: Good
   :commit_body_leading_line:
     :enabled: false
     :severity: :warn

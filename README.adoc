@@ -515,6 +515,27 @@ Instead of using tracker shorthand syntax, take the time to write a short summar
 commit was made. Doing this will make it easier to understand _why_ the commit was made, keeps the
 commit self-contained, and makes learning about/debugging the commit faster.
 
+==== Commit Signature
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["Good"]`
+|===
+
+Ensures all commit signatures are properly signed for improved security and validity of code being committed by various authors. By default, only "Good" signatures are allowed but you can expand this list if desired (although not recommended for security reasons). Valid options are:
+
+* *Bad* (_B_)
+* *Error* (_E_)
+* *Good* (_G_)
+* *None* (_N_)
+* *Revoked* (_R_)
+* *Unknown* (_U_)
+* *Expired* (_X_)
+* *Expired Key* (_Y_)
+
+All of the above obtained when using the pretty formats as provided by link:https://git-scm.com/docs/git-log#Documentation/git-log.txt-emGem[Git Log].
+
 ==== Commit Subject Length
 
 [options="header"]

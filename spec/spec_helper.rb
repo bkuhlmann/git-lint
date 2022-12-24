@@ -53,6 +53,7 @@ RSpec.configure do |config|
            .then { |path| YAML.load_file path }
            .then do |settings|
              settings[:analyzers][:commit_body_presence][:enabled] = false
+             settings[:analyzers][:commit_signature][:includes] = %w[Good Invalid]
 
              Bundler.root.join("tmp/defaults.yml").make_ancestors.write settings.to_yaml
            end
