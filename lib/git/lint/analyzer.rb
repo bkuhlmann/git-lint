@@ -28,6 +28,7 @@ module Git
         Analyzers::CommitTrailerCollaboratorKey,
         Analyzers::CommitTrailerCollaboratorName,
         Analyzers::CommitTrailerDuplicate,
+        Analyzers::CommitTrailerFormatKey,
         Analyzers::CommitTrailerIssueKey,
         Analyzers::CommitTrailerIssueValue,
         Analyzers::CommitTrailerTrackerKey,

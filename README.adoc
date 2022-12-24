@@ -683,6 +683,24 @@ Co-Authored-By: Malcolm Reynolds <malcolm@firefly.com>
 Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
 ....
 
+==== Commit Trailer Format Key
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["Format"]`
+|===
+
+Ensures format trailer key is correct format.
+
+....
+# Disallowed
+format: ASCII
+
+# Allowed
+Format: ASCII
+....
+
 ==== Commit Trailer Issue Key
 
 [options="header"]

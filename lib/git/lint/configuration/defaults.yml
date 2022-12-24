@@ -116,6 +116,10 @@
   :commit_trailer_duplicate:
     :enabled: true
     :severity: :error
+  :commit_trailer_format_key:
+    :enabled: true
+    :severity: :error
+    :includes: Format
   :commit_trailer_issue_key:
     :enabled: true
     :severity: :error
