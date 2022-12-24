@@ -128,3 +128,7 @@
     :enabled: true
     :severity: :error
     :includes: Tracker
+  :commit_trailer_tracker_value:
+    :enabled: true
+    :severity: :error
+    :includes: "[\\w\\-\\s]+"

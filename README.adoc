@@ -737,6 +737,24 @@ tracker: Linear
 Tracker: Linear
 ....
 
+==== Commit Trailer Tracker Value
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["[\\w\\-\\s]+"]`
+|===
+
+Ensures tracker trailer key is correct format.
+
+....
+# Disallowed
+Tracker: *ACME$
+
+# Allowed
+Tracker: ACME Issues
+....
+
 === Git
 
 ==== Default Branch
