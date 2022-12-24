@@ -701,6 +701,24 @@ format: ASCII
 Format: ASCII
 ....
 
+==== Commit Trailer Format Value
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["ASCII", "Markdown"]`
+|===
+
+Ensures format trailer value is a valid value.
+
+....
+# Disallowed
+Format: Plain
+
+# Allowed
+Format: ASCII
+....
+
 ==== Commit Trailer Issue Key
 
 [options="header"]

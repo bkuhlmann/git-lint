@@ -120,6 +120,12 @@
     :enabled: true
     :severity: :error
     :includes: Format
+  :commit_trailer_format_value:
+    :enabled: true
+    :severity: :error
+    :includes:
+      - ASCII
+      - Markdown
   :commit_trailer_issue_key:
     :enabled: true
     :severity: :error
