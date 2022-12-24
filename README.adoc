@@ -683,6 +683,24 @@ Co-Authored-By: Malcolm Reynolds <malcolm@firefly.com>
 Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
 ....
 
+==== Commit Trailer Issue Key
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["Issue"]`
+|===
+
+Ensures issue trailer key is correct format.
+
+....
+# Disallowed
+issue: 123
+
+# Allowed
+Issue: 123
+....
+
 === Git
 
 ==== Default Branch

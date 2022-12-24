@@ -108,8 +108,7 @@
   :commit_trailer_collaborator_key:
     :enabled: true
     :severity: :error
-    :includes:
-      - "Co-Authored-By"
+    :includes: Co-Authored-By
   :commit_trailer_collaborator_name:
     :enabled: true
     :severity: :error
@@ -117,3 +116,7 @@
   :commit_trailer_duplicate:
     :enabled: true
     :severity: :error
+  :commit_trailer_issue_key:
+    :enabled: true
+    :severity: :error
+    :includes: Issue

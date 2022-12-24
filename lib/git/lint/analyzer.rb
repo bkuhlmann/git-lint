@@ -27,7 +27,8 @@ module Git
         Analyzers::CommitTrailerCollaboratorEmail,
         Analyzers::CommitTrailerCollaboratorKey,
         Analyzers::CommitTrailerCollaboratorName,
-        Analyzers::CommitTrailerDuplicate
+        Analyzers::CommitTrailerDuplicate,
+        Analyzers::CommitTrailerIssueKey
       ].freeze
 
       # rubocop:disable Metrics/ParameterLists
