@@ -134,6 +134,9 @@
     :enabled: true
     :severity: :error
     :includes: "[\\w-]+"
+  :commit_trailer_signer_capitalization:
+    :enabled: true
+    :severity: :error
   :commit_trailer_signer_key:
     :enabled: true
     :severity: :error

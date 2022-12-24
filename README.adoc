@@ -773,6 +773,24 @@ signed-by: Jayne Cobb
 Signed-By: Jayne Cobb
 ....
 
+==== Commit Trailer Signer Capitalization
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures commit signer trailer name is properly capitalized.
+
+....
+# Disallowed
+Signed-By: jayne cobb
+
+# Allowed
+Signed-By: Jayne Cobb
+....
+
 ==== Commit Trailer Tracker Key
 
 [options="header"]
