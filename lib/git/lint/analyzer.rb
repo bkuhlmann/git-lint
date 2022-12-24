@@ -24,7 +24,6 @@ module Git
         Analyzers::CommitSubjectPrefix,
         Analyzers::CommitSubjectSuffix,
         Analyzers::CommitTrailerCollaboratorCapitalization,
-        Analyzers::CommitTrailerCollaboratorDuplication,
         Analyzers::CommitTrailerCollaboratorEmail,
         Analyzers::CommitTrailerCollaboratorKey,
         Analyzers::CommitTrailerCollaboratorName,

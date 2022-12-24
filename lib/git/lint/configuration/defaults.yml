@@ -102,9 +102,6 @@
   :commit_trailer_collaborator_capitalization:
     :enabled: true
     :severity: :error
-  :commit_trailer_collaborator_duplication:
-    :enabled: true
-    :severity: :error
   :commit_trailer_collaborator_email:
     :enabled: true
     :severity: :error

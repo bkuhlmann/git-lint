@@ -609,26 +609,6 @@ shepherd derrial book
 Shepherd Derrial Book
 ....
 
-==== Commit Trailer Collaborator Duplication
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| false   | error    | none
-|===
-
-Ensures collaborator trailers are not duplicated. Example:
-
-....
-# Disallowed
-Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
-Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
-
-# Allowed
-Co-Authored-By: Malcolm Reynolds <malcolm@firefly.com>
-Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
-....
-
 ==== Commit Trailer Collaborator Email
 
 [options="header"]
