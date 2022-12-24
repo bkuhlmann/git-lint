@@ -33,6 +33,7 @@ module Git
         Analyzers::CommitTrailerIssueKey,
         Analyzers::CommitTrailerIssueValue,
         Analyzers::CommitTrailerSignerCapitalization,
+        Analyzers::CommitTrailerSignerEmail,
         Analyzers::CommitTrailerSignerKey,
         Analyzers::CommitTrailerTrackerKey,
         Analyzers::CommitTrailerTrackerValue

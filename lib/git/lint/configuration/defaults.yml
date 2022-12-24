@@ -137,6 +137,9 @@
   :commit_trailer_signer_capitalization:
     :enabled: true
     :severity: :error
+  :commit_trailer_signer_email:
+    :enabled: true
+    :severity: :error
   :commit_trailer_signer_key:
     :enabled: true
     :severity: :error

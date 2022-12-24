@@ -791,6 +791,24 @@ Signed-By: jayne cobb
 Signed-By: Jayne Cobb
 ....
 
+==== Commit Trailer Signer Email
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures commit signer trailer email is properly capitalized.
+
+....
+# Disallowed
+Signed-By: Jayne Cobb <invalid>
+
+# Allowed
+Signed-By: Jayne Cobb <jcobb@firefly.com>
+....
+
 ==== Commit Trailer Tracker Key
 
 [options="header"]
