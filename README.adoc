@@ -683,6 +683,26 @@ Co-Authored-By: River <river@firefly.com>
 Co-Authored-By: River Tam <river@firefly.com>
 ....
 
+==== Commit Trailer Duplicate
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures commit trailer keys are not duplicated. Example:
+
+....
+# Disallowed
+Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+
+# Allowed
+Co-Authored-By: Malcolm Reynolds <malcolm@firefly.com>
+Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+....
+
 === Git
 
 ==== Default Branch

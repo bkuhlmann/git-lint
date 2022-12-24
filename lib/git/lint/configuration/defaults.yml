@@ -117,3 +117,6 @@
     :enabled: true
     :severity: :error
     :minimum: 2
+  :commit_trailer_duplicate:
+    :enabled: true
+    :severity: :error
