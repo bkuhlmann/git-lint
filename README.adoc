@@ -407,12 +407,10 @@ ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, orn 
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | maximum: 72
+| false   | error    | maximum: 72
 |===
 
-Ensures each line of the commit body doesn't force you to scroll horizontally to read the message.
-This allows commit messages to remain readable and is especially handy when commit messages are read
-via the command line or email clients.
+Ensures each line of the commit body doesn't extend beyond the maximum column limit.
 
 ==== Commit Body Paragraph Capitalization
 

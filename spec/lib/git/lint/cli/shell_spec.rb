@@ -91,7 +91,7 @@ RSpec.describe Git::Lint::CLI::Shell do
       shell.call ["--hook", Bundler.root.join("spec/support/fixtures/commit-invalid.txt").to_s]
 
       expect(kernel).to have_received(:puts).with(
-        /1 commit inspected.+4 issues.+0 warnings.+4 errors/m
+        /1 commit inspected.+2 issues.+0 warnings.+2 errors/m
       )
     end
 

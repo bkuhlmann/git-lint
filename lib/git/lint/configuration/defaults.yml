@@ -34,7 +34,7 @@
     :enabled: false
     :severity: :warn
   :commit_body_line_length:
-    :enabled: true
+    :enabled: false
     :severity: :error
     :maximum: 72
   :commit_body_paragraph_capitalization:

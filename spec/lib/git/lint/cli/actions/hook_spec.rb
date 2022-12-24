@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::CLI::Actions::Hook do
     it "answers invalid commit results" do
       git_repo_dir.change_dir do
         action.call Bundler.root.join("spec/support/fixtures/commit-invalid.txt")
-        expect(kernel).to have_received(:puts).with(/1 commit.+4 issues/m)
+        expect(kernel).to have_received(:puts).with(/1 commit.+2 issues/m)
       end
     end
 
