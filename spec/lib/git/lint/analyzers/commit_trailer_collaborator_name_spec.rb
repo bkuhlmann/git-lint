@@ -22,7 +22,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
   describe "#valid?" do
     context "when valid" do
       let :commit do
-        GitPlus::Commit[trailers: ["Co-Authored-By: Test Example <test@example.com>"]]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example <test@example.com>")]
+        ]
       end
 
       it "answers true" do
@@ -31,7 +34,12 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
     end
 
     context "with no matching key" do
-      let(:commit) { GitPlus::Commit[trailers: ["Unknown: value"]] }
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Unknown: value")]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -39,8 +47,11 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
     end
 
     context "with custom minimum" do
-      subject :analyzer do
-        described_class.new GitPlus::Commit[trailers: ["Co-Authored-By: Test <test@example.com>"]]
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test <test@example.com>")]
+        ]
       end
 
       let :configuration do
@@ -57,7 +68,12 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
     end
 
     context "with missing email" do
-      let(:commit) { GitPlus::Commit[trailers: ["Co-Authored-By: Test Example"]] }
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example")]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -65,7 +81,12 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
     end
 
     context "with missing name" do
-      let(:commit) { GitPlus::Commit[trailers: ["Co-Authored-By: <test@example.com>"]] }
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: <test@example.com>")]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -78,7 +99,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
 
     context "when valid" do
       let :commit do
-        GitPlus::Commit[trailers: ["Co-Authored-By: Test Example <test@example.com>"]]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example <test@example.com>")]
+        ]
       end
 
       it "answers empty hash" do
@@ -88,7 +112,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
 
     context "when invalid" do
       let :commit do
-        GitPlus::Commit[trailers: ["Co-Authored-By: <test@example.com>"], trailers_index: 2]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: <test@example.com>")]
+        ]
       end
 
       it "answers issue" do
@@ -97,7 +124,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
           lines: [
             {
               content: "Co-Authored-By: <test@example.com>",
-              number: 4
+              number: 3
             }
           ]
         )

@@ -7,7 +7,7 @@ module Git
         module Analyze
           # Handles analyze action for branch.
           class Branch
-            include Git::Lint::Import[:repository, :kernel, :logger]
+            include Git::Lint::Import[:kernel, :logger]
 
             def initialize analyzer: Analyzer.new, **dependencies
               super(**dependencies)

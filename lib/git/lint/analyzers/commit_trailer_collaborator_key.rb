@@ -5,10 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator key usage.
       class CommitTrailerCollaboratorKey < Abstract
-        def initialize commit, parser: Parsers::Trailers::Collaborator, **dependencies
-          super commit, **dependencies
-          @parser = parser
-        end
+        include Import[pattern: "trailers.collaborator"]
 
         def valid? = affected_commit_trailers.empty?
 
@@ -25,18 +22,11 @@ module Git
 
         def load_filter_list = Kit::FilterList.new(settings.includes)
 
-        def invalid_line? line
-          collaborator = parser.new line
-          key = collaborator.key
-
-          collaborator.match? && !key.empty? && !key.match?(
-            /\A#{Regexp.union filter_list.to_regexp}\Z/
-          )
+        def invalid_line? trailer
+          trailer.key.then do |key|
+            key.match?(pattern) && !key.match?(/\A#{Regexp.union filter_list.to_regexp}\Z/)
+          end
         end
-
-        private
-
-        attr_reader :parser
       end
     end
   end

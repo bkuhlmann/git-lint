@@ -12,13 +12,13 @@ module Git
         using ::Refinements::Strings
 
         LEVELS = %i[warn error].freeze
-        ISSUE_LINE_OFFSET = 2
+        BODY_OFFSET = 3
 
         def self.id = to_s.delete_prefix("Git::Lint::Analyzers").snakecase.to_sym
 
         def self.label = to_s.delete_prefix("Git::Lint::Analyzers").titleize
 
-        def self.build_issue_line(index, line) = {number: index + ISSUE_LINE_OFFSET, content: line}
+        def self.build_issue_line(index, line) = {number: index + BODY_OFFSET, content: line}
 
         attr_reader :commit
 
@@ -64,9 +64,12 @@ module Git
 
         def affected_commit_trailers
           commit.trailers
-                .each.with_object([])
-                .with_index(commit.trailers_index) do |(line, lines), index|
-                  lines << self.class.build_issue_line(index, line) if invalid_line? line
+                .each
+                .with_object([])
+                .with_index(commit.body_lines.size) do |(trailer, trailers), index|
+                  next unless invalid_line? trailer
+
+                  trailers << self.class.build_issue_line(index, trailer.to_s)
                 end
         end
 

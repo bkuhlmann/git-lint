@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
 
   describe "#valid?" do
     context "with multiple bullets" do
-      let(:commit) { GitPlus::Commit[body_lines: ["- One.", "- Two."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- One.", "- Two."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
     end
 
     context "with no bullets" do
-      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
     end
 
     context "with empty lines" do
-      let(:commit) { GitPlus::Commit[body_lines: []] }
+      let(:commit) { Gitt::Models::Commit[body_lines: []] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -45,7 +45,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
     end
 
     context "with single bullet (indented)" do
-      let(:commit) { GitPlus::Commit[body_lines: ["  - Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["  - Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -53,7 +53,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
     end
 
     context "with single bullet (no trailing space)" do
-      let(:commit) { GitPlus::Commit[body_lines: ["-Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["-Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -61,7 +61,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
     end
 
     context "with single bullet" do
-      let(:commit) { GitPlus::Commit[body_lines: ["- Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- Test."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -73,7 +73,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[body_lines: ["- One.", "- Two."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- One.", "- Two."]] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -81,14 +81,14 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
     end
 
     context "when invalid" do
-      let(:commit) { GitPlus::Commit[body_lines: ["- Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- Test."]] }
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq("Use paragraph instead of single bullet.")
       end
 
       it "answers issue affected lines" do
-        expect(issue[:lines]).to contain_exactly(number: 2, content: "- Test.")
+        expect(issue[:lines]).to contain_exactly(number: 3, content: "- Test.")
       end
     end
   end

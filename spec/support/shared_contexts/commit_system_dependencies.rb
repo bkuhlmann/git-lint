@@ -1,14 +1,22 @@
 # frozen_string_literal: true
 
+require "dry/monads"
+
 RSpec.shared_context "with commit system dependencies" do
+  include Dry::Monads[:result]
+
   using Infusible::Stub
 
   include_context "with application dependencies"
 
-  let(:repository) { instance_spy GitPlus::Repository, branch_default: "main", branch_name: "test" }
-  let(:executor) { class_spy Open3 }
+  let :git do
+    instance_spy Gitt::Repository,
+                 call: Success(),
+                 branch_default: Success("main"),
+                 branch_name: Success("test")
+  end
 
-  before { Git::Lint::Import.stub repository:, executor: }
+  before { Git::Lint::Import.stub git: }
 
-  after { Git::Lint::Import.unstub :repository, :executor }
+  after { Git::Lint::Import.unstub :git }
 end

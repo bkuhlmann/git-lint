@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Git::Lint::Collector do
   subject(:collector) { described_class.new }
 
-  let(:commit) { GitPlus::Commit.new }
+  let(:commit) { Gitt::Models::Commit.new }
 
   let :valid_analyzer do
     instance_spy Git::Lint::Analyzers::CommitSubjectPrefix,

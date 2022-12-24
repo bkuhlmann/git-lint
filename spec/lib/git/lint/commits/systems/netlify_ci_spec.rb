@@ -13,19 +13,19 @@ RSpec.describe Git::Lint::Commits::Systems::NetlifyCI do
     it "adds remote origin branch" do
       system.call
 
-      expect(executor).to have_received(:capture3).with(
-        "git remote add -f origin https://www.example.com/test.git"
+      expect(git).to have_received(:call).with(
+        "remote", "add", "-f", "origin", "https://www.example.com/test.git"
       )
     end
 
     it "fetches feature branch" do
       system.call
-      expect(executor).to have_received(:capture3).with("git fetch origin test:test")
+      expect(git).to have_received(:call).with("fetch", "origin", "test:test")
     end
 
     it "uses specific start and finish range" do
       system.call
-      expect(repository).to have_received(:commits).with("origin/main..origin/test")
+      expect(git).to have_received(:commits).with("origin/main..origin/test")
     end
   end
 end

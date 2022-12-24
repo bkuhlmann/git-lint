@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
 
   describe "#valid?" do
     context "when valid" do
-      let(:commit) { GitPlus::Commit[body_lines: ["- Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
     end
 
     context "without bullet" do
-      let(:commit) { GitPlus::Commit[body_lines: ["Test message."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["Test message."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
     end
 
     context "with empty lines" do
-      let(:commit) { GitPlus::Commit[body_lines: ["", " ", "\n"]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["", " ", "\n"]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -45,7 +45,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
     end
 
     context "with excluded bullet" do
-      let(:commit) { GitPlus::Commit[body_lines: ["* Test message."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["* Test message."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -53,7 +53,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
     end
 
     context "with excluded bullet followed by multiple spaces" do
-      let(:commit) { GitPlus::Commit[body_lines: ["•   Test message."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["•   Test message."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -61,7 +61,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
     end
 
     context "with excluded, indented bullet" do
-      let(:commit) { GitPlus::Commit[body_lines: ["  • Test message."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["  • Test message."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -73,7 +73,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[body_lines: ["- Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- Test."]] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -82,7 +82,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
 
     context "when invalid" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
           body_lines: [
             "* Invalid bullet.",
             "- Valid bullet.",
@@ -98,8 +98,8 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
       it "answers issue lines" do
         expect(issue[:lines]).to eq(
           [
-            {number: 2, content: "* Invalid bullet."},
-            {number: 4, content: "• Invalid bullet."}
+            {number: 3, content: "* Invalid bullet."},
+            {number: 5, content: "• Invalid bullet."}
           ]
         )
       end

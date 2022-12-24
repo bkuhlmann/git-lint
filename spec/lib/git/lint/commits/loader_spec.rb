@@ -11,9 +11,9 @@ RSpec.describe Git::Lint::Commits::Loader do
   include_context "with Git repository"
   include_context "with commit system dependencies"
 
-  before { Git::Lint::Commits::Systems::Import.stub repository:, environment: }
+  before { Git::Lint::Commits::Systems::Import.stub git:, environment: }
 
-  after { Git::Lint::Commits::Systems::Import.unstub :repository, :environment }
+  after { Git::Lint::Commits::Systems::Import.unstub :git, :environment }
 
   describe "#call" do
     context "with Circle CI environment" do
@@ -28,7 +28,7 @@ RSpec.describe Git::Lint::Commits::Loader do
 
       it "computes correct commit range" do
         loader.call
-        expect(repository).to have_received(:commits).with("origin/main..origin/test")
+        expect(git).to have_received(:commits).with("origin/main..origin/test")
       end
     end
 
@@ -44,7 +44,7 @@ RSpec.describe Git::Lint::Commits::Loader do
 
       it "computes correct commit range" do
         loader.call
-        expect(repository).to have_received(:commits).with("origin/main..origin/test")
+        expect(git).to have_received(:commits).with("origin/main..origin/test")
       end
     end
 
@@ -61,12 +61,12 @@ RSpec.describe Git::Lint::Commits::Loader do
 
       it "computes correct commit range" do
         loader.call
-        expect(repository).to have_received(:commits).with("origin/main..origin/test")
+        expect(git).to have_received(:commits).with("origin/main..origin/test")
       end
     end
 
     context "with local environment" do
-      let(:repository) { GitPlus::Repository.new }
+      let(:git) { Gitt::Repository.new }
 
       before do
         git_repo_dir.change_dir do
@@ -77,13 +77,13 @@ RSpec.describe Git::Lint::Commits::Loader do
 
       it "answers commits" do
         git_repo_dir.change_dir do
-          expect(loader.call.map(&:subject)).to contain_exactly("Added test file")
+          expect(loader.call.success.map(&:subject)).to contain_exactly("Added test file")
         end
       end
     end
 
     context "when Git repository doesn't exist" do
-      let(:repository) { instance_spy GitPlus::Repository, exist?: false }
+      let(:git) { instance_spy Gitt::Repository, exist?: false }
 
       it "fails with base error" do
         expectation = -> { loader.call }

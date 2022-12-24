@@ -13,7 +13,7 @@ module Git
         def to_s
           return "" if analyzers.empty?
 
-          "#{commit.sha} (#{commit.author_name}, #{commit.author_date_relative}): " \
+          "#{commit.sha} (#{commit.author_name}, #{commit.authored_relative_at}): " \
           "#{commit.subject}\n#{report}\n"
         end
 

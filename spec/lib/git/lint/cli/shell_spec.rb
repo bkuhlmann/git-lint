@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::CLI::Shell do
-  using ::Refinements::Pathnames
+  using Refinements::Pathnames
   using Infusible::Stub
 
   subject(:shell) { described_class.new }

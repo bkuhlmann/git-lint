@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
 
   describe "#valid?" do
     context "when valid" do
-      let(:commit) { GitPlus::Commit[subject: "Test", body_lines: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[subject: "Test", body_lines: ["Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -30,7 +30,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
 
     context "when valid (custom minimum)" do
       subject :analyzer do
-        described_class.new GitPlus::Commit[
+        described_class.new Gitt::Models::Commit[
                               subject: "Test",
                               body_lines: ["One.", "Two.", "Three."]
                             ]
@@ -50,7 +50,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
     end
 
     context "when valid (fixup!)" do
-      let(:commit) { GitPlus::Commit[subject: "fixup! Test", body_lines: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[subject: "fixup! Test", body_lines: ["Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -58,7 +58,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
     end
 
     context "when invalid (empty)" do
-      let(:commit) { GitPlus::Commit[subject: "Test", body_lines: [""]] }
+      let(:commit) { Gitt::Models::Commit[subject: "Test", body_lines: [""]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -67,7 +67,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
 
     context "when invalid (custom minimum and not enough non-empty lines)" do
       subject :analyzer do
-        described_class.new GitPlus::Commit[
+        described_class.new Gitt::Models::Commit[
                               subject: "Test",
                               body_lines: ["One.", "\r", "", "\t", "Two."]
                             ]
@@ -91,7 +91,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[subject: "Test", body_lines: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[subject: "Test", body_lines: ["Test."]] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -100,7 +100,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
 
     context "when invalid" do
       subject :analyzer do
-        described_class.new GitPlus::Commit[
+        described_class.new Gitt::Models::Commit[
                               subject: "Test",
                               body_lines: ["One.", "\r", " ", "\t", "Two."]
                             ]

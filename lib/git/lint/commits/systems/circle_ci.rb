@@ -6,13 +6,15 @@ module Git
       module Systems
         # Provides Circle CI build environment feature branch information.
         class CircleCI
-          include Git::Lint::Import[:repository]
+          include Git::Lint::Import[:git]
 
-          def call = repository.commits("origin/#{repository.branch_default}..#{name}")
+          def call = git.commits("origin/#{branch_default}..#{branch_name}")
 
           private
 
-          def name = "origin/#{repository.branch_name}"
+          def branch_default = git.branch_default.value_or nil
+
+          def branch_name = "origin/#{git.branch_name.value_or nil}"
         end
       end
     end

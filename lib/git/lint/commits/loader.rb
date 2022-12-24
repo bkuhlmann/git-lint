@@ -9,10 +9,10 @@ module Git
       class Loader
         include Systems::Import[
           :circle_ci,
+          :git,
           :git_hub_action,
           :netlify_ci,
           :local,
-          :repository,
           :environment
         ]
 
@@ -20,7 +20,7 @@ module Git
 
         def call
           message = "Invalid repository. Are you within a Git repository?"
-          fail Errors::Base, message unless repository.exist?
+          fail Errors::Base, message unless git.exist?
 
           load_system.call
         end

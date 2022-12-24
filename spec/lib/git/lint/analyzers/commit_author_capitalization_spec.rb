@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
 
   describe "#valid?" do
     context "with capitalization" do
-      let(:commit) { GitPlus::Commit[author_name: "Example Test"] }
+      let(:commit) { Gitt::Models::Commit[author_name: "Example Test"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
     end
 
     context "without capitalization" do
-      let(:commit) { GitPlus::Commit[author_name: "Example test"] }
+      let(:commit) { Gitt::Models::Commit[author_name: "example Test"] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
     end
 
     context "with custom minimum" do
-      let(:commit) { GitPlus::Commit[author_name: "Example"] }
+      let(:commit) { Gitt::Models::Commit[author_name: "Example"] }
 
       let :configuration do
         Git::Lint::Configuration::Content[
@@ -57,7 +57,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[author_name: "Example Test"] }
+      let(:commit) { Gitt::Models::Commit[author_name: "Example Test"] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -65,7 +65,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
     end
 
     context "when invalid" do
-      let(:commit) { GitPlus::Commit[author_name: "example"] }
+      let(:commit) { Gitt::Models::Commit[author_name: "example"] }
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq(%(Capitalize each part of name: "example".))

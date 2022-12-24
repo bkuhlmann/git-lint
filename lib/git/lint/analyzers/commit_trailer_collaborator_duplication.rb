@@ -5,11 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator duplication.
       class CommitTrailerCollaboratorDuplication < Abstract
-        def initialize commit, parser: Parsers::Trailers::Collaborator, **dependencies
-          super commit, **dependencies
-          @parser = parser
-          @tally = build_tally
-        end
+        include Import[pattern: "trailers.collaborator"]
 
         def valid? = affected_commit_trailers.empty?
 
@@ -24,21 +20,8 @@ module Git
 
         protected
 
-        def invalid_line? line
-          collaborator = parser.new line
-          collaborator.match? && tally[line] != 1
-        end
-
-        private
-
-        attr_reader :parser, :tally
-
-        def build_tally
-          zeros = Hash.new { |new_hash, missing_key| new_hash[missing_key] = 0 }
-
-          zeros.tap do |collection|
-            commit.trailers.each { |line| collection[line] += 1 if parser.new(line).match? }
-          end
+        def invalid_line? trailer
+          trailer.key.match?(pattern) && commit.trailers.tally[trailer] != 1
         end
       end
     end

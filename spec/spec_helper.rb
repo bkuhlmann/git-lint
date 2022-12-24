@@ -14,10 +14,10 @@ unless ENV["NO_COVERAGE"]
 end
 
 require "git/lint"
+require "gitt/shared_contexts/git_commit"
+require "gitt/shared_contexts/git_repo"
+require "gitt/shared_contexts/temp_dir"
 require "refinements"
-require "git_plus/spec/shared_contexts/temp_dir"
-require "git_plus/spec/shared_contexts/git_commit"
-require "git_plus/spec/shared_contexts/git_repo"
 
 using Refinements::Pathnames
 

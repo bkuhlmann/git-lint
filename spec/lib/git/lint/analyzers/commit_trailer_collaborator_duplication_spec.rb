@@ -22,7 +22,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication do
   describe "#valid?" do
     context "when valid" do
       let :commit do
-        GitPlus::Commit[trailers: ["Co-Authored-By: Test One <one@example.com>"]]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test One <one@example.com>")]
+        ]
       end
 
       it "answers true" do
@@ -31,19 +34,25 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication do
     end
 
     context "with no matching key" do
-      let(:commit) { GitPlus::Commit[trailers: ["Unknown: value"]] }
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Unknown: value")]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
       end
     end
 
-    context "with unique trailers" do
+    context "when unique" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
+          body_lines: [],
           trailers: [
-            "Co-Authored-By: Test One <one@example.com>",
-            "Co-Authored-By: Test Two <two@example.com>"
+            Gitt::Models::Trailer.for("Co-Authored-By: Test One <one@example.com>"),
+            Gitt::Models::Trailer.for("Co-Authored-By: Test Two <two@example.com>")
           ]
         ]
       end
@@ -53,12 +62,13 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication do
       end
     end
 
-    context "with duplicate trailers" do
+    context "when duplicated" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
+          body_lines: [],
           trailers: [
-            "Co-Authored-By: Test Example <test@example.com>",
-            "Co-Authored-By: Test Example <test@example.com>"
+            Gitt::Models::Trailer.for("Co-Authored-By: Test Example <test@example.com>"),
+            Gitt::Models::Trailer.for("Co-Authored-By: Test Example <test@example.com>")
           ]
         ]
       end
@@ -74,7 +84,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication do
 
     context "when valid" do
       let :commit do
-        GitPlus::Commit[trailers: ["Co-Authored-By: Test One <one@example.com>"]]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test One <one@example.com>")]
+        ]
       end
 
       it "answers empty hash" do
@@ -84,13 +97,13 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication do
 
     context "when invalid" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
+          body_lines: [],
           trailers: [
-            "Co-Authored-By: Test One <one@example.com>",
-            "Co-Authored-By: Test Two <two@example.com>",
-            "Co-Authored-By: Test Two <two@example.com>"
-          ],
-          trailers_index: 2
+            Gitt::Models::Trailer.for("Co-Authored-By: Test One <one@example.com>"),
+            Gitt::Models::Trailer.for("Co-Authored-By: Test Two <two@example.com>"),
+            Gitt::Models::Trailer.for("Co-Authored-By: Test Two <two@example.com>")
+          ]
         ]
       end
 
@@ -98,8 +111,8 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorDuplication do
         expect(issue).to eq(
           hint: "Avoid duplication.",
           lines: [
-            {number: 5, content: "Co-Authored-By: Test Two <two@example.com>"},
-            {number: 6, content: "Co-Authored-By: Test Two <two@example.com>"}
+            {number: 4, content: "Co-Authored-By: Test Two <two@example.com>"},
+            {number: 5, content: "Co-Authored-By: Test Two <two@example.com>"}
           ]
         )
       end

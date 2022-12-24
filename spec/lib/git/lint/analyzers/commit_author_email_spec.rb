@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorEmail do
 
   describe "#valid?" do
     context "with valid email" do
-      let(:commit) { GitPlus::Commit[author_email: "test@example.com"] }
+      let(:commit) { Gitt::Models::Commit[author_email: "test@example.com"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorEmail do
     end
 
     context "with invalid email" do
-      let(:commit) { GitPlus::Commit[author_email: "bogus"] }
+      let(:commit) { Gitt::Models::Commit[author_email: "bogus"] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -41,7 +41,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorEmail do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[author_email: "test@example.com"] }
+      let(:commit) { Gitt::Models::Commit[author_email: "test@example.com"] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -49,7 +49,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorEmail do
     end
 
     context "when invalid" do
-      let(:commit) { GitPlus::Commit[author_email: "bogus"] }
+      let(:commit) { Gitt::Models::Commit[author_email: "bogus"] }
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq(%(Use "<name>@<server>.<domain>" instead of "bogus".))

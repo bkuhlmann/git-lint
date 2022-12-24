@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-require "open3"
-
 module Git
   module Lint
     module Commits
       module Systems
         # Provides Netlify CI build environment feature branch information.
         class NetlifyCI
-          include Git::Lint::Import[:repository, :executor, :environment]
+          include Git::Lint::Import[:git, :environment]
 
           def call
-            executor.capture3 "git remote add -f origin #{environment["REPOSITORY_URL"]}"
-            executor.capture3 "git fetch origin #{name}:#{name}"
-            repository.commits "origin/#{repository.branch_default}..origin/#{name}"
+            git.call("remote", "add", "-f", "origin", environment["REPOSITORY_URL"])
+               .bind { git.call "fetch", "origin", "#{branch_name}:#{branch_name}" }
+               .bind { git.commits "origin/#{branch_default}..origin/#{branch_name}" }
           end
 
           private
 
-          def name = environment["HEAD"]
+          def branch_default = git.branch_default.value_or nil
+
+          def branch_name = environment["HEAD"]
         end
       end
     end

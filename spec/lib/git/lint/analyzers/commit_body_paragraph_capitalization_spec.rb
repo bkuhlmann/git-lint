@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
 
   describe "#valid?" do
     context "with uppercase paragraph" do
-      let(:commit) { GitPlus::Commit[body_paragraphs: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,23 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
     end
 
     context "with empty paragraphs" do
-      let(:commit) { GitPlus::Commit[body_paragraphs: []] }
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: []] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with blank paragraphs" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["", ""]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with commented paragraphs" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["# One", "# Two"]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -37,7 +53,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
     end
 
     context "with lowercase paragraph" do
-      let(:commit) { GitPlus::Commit[body_paragraphs: ["test."]] }
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["test."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -49,7 +65,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[body_paragraphs: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["Test."]] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -58,7 +74,14 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
 
     context "when invalid" do
       let :commit do
-        GitPlus::Commit[body_paragraphs: ["an invalid paragraph.\nwhich has\nmultiple lines."]]
+        Gitt::Models::Commit[
+          body_lines: [
+            "an invalid paragraph.",
+            "which has",
+            "multiple lines."
+          ],
+          body_paragraphs: ["an invalid paragraph.\nwhich has\nmultiple lines."]
+        ]
       end
 
       it "answers issue hint" do
@@ -67,7 +90,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
 
       it "answers issue affected lines" do
         expect(issue[:lines]).to contain_exactly(
-          number: 2, content: "an invalid paragraph.\nwhich has\nmultiple lines."
+          number: 3, content: "an invalid paragraph.\nwhich has\nmultiple lines."
         )
       end
     end

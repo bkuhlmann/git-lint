@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
 
   describe "#valid?" do
     context "with valid prefix and delimiter" do
-      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added specs"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with invalid delimiter" do
-      let(:commit) { GitPlus::Commit[subject: "Added: specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added: specs"] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with no delimiter" do
-      let(:commit) { GitPlus::Commit[subject: "Addedspecs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Addedspecs"] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -45,7 +45,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with custom include list" do
-      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "One"] }
+      subject(:analyzer) { described_class.new Gitt::Models::Commit[subject: "One"] }
 
       let :configuration do
         Git::Lint::Configuration::Content[
@@ -61,7 +61,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with empty include list" do
-      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "Test"] }
+      subject(:analyzer) { described_class.new Gitt::Models::Commit[subject: "Test"] }
 
       let :configuration do
         Git::Lint::Configuration::Content[
@@ -77,7 +77,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with custom delimiter" do
-      let(:commit) { GitPlus::Commit[subject: "Added - specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added - specs"] }
 
       let :configuration do
         Git::Lint::Configuration::Content[
@@ -97,7 +97,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with amend" do
-      let(:commit) { GitPlus::Commit[subject: "amend! Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "amend! Added specs"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -105,7 +105,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with amend in CI" do
-      let(:commit) { GitPlus::Commit[subject: "amend! Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "amend! Added specs"] }
       let(:environment) { {"CI" => "true"} }
 
       it "answers false" do
@@ -114,7 +114,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with fixup" do
-      let(:commit) { GitPlus::Commit[subject: "fixup! Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "fixup! Added specs"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -122,7 +122,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with fixup in CI" do
-      let(:commit) { GitPlus::Commit[subject: "fixup! Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "fixup! Added specs"] }
       let(:environment) { {"CI" => "true"} }
 
       it "answers false" do
@@ -131,7 +131,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with squash" do
-      let(:commit) { GitPlus::Commit[subject: "squash! Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "squash! Added specs"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -139,7 +139,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with squash in CI" do
-      let(:commit) { GitPlus::Commit[subject: "squash! Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "squash! Added specs"] }
       let(:environment) { {"CI" => "true"} }
 
       it "answers false" do
@@ -148,7 +148,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "with invalid prefix" do
-      let(:commit) { GitPlus::Commit[subject: "Bogus"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Bogus"] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -160,7 +160,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added specs"] }
 
       it "answers empty string" do
         expect(issue).to eq({})
@@ -168,7 +168,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     end
 
     context "when invalid" do
-      let(:commit) { GitPlus::Commit[subject: "Bogus"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Bogus"] }
 
       it "answres issue hint" do
         expect(issue[:hint]).to eq(

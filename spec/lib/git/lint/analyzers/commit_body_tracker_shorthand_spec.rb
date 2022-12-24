@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
 
   describe "#valid?" do
     context "with no links" do
-      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -30,7 +30,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
 
     ["fix #1", "Fix #12", "fixes #3", "Fixes #4", "fixed #5", "Fixed #6"].each do |line|
       context %(with "#{line}" link) do
-        let(:commit) { GitPlus::Commit[body_lines: [line]] }
+        let(:commit) { Gitt::Models::Commit[body_lines: [line]] }
 
         it "answers false" do
           expect(analyzer.valid?).to be(false)
@@ -40,7 +40,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
 
     ["close #1", "Close #12", "closes #3", "Closes #4", "closed #5", "Closed #6"].each do |line|
       context %(with "#{line}" link) do
-        let(:commit) { GitPlus::Commit[body_lines: [line]] }
+        let(:commit) { Gitt::Models::Commit[body_lines: [line]] }
 
         it "answers false" do
           expect(analyzer.valid?).to be(false)
@@ -57,7 +57,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
       "Resolved #6"
     ].each do |line|
       context %(with "#{line}" link) do
-        let(:commit) { GitPlus::Commit[body_lines: [line]] }
+        let(:commit) { Gitt::Models::Commit[body_lines: [line]] }
 
         it "answers false" do
           expect(analyzer.valid?).to be(false)
@@ -70,7 +70,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["Test."]] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -79,7 +79,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
 
     context "when invalid" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
           body_lines: [
             "An example paragraph.",
             "This work fixes #22 using suggestions from team.",
@@ -99,7 +99,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
       it "answers issue affected lines" do
         expect(issue[:lines]).to eq(
           [
-            {number: 3, content: "This work fixes #22 using suggestions from team."}
+            {number: 4, content: "This work fixes #22 using suggestions from team."}
           ]
         )
       end

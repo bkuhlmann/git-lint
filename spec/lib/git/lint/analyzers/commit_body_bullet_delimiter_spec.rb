@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
 
   describe "#valid?" do
     context "with space after bullet" do
-      let(:commit) { GitPlus::Commit[body_lines: ["- Test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- Test bullet."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "with indented bullet and trailing space" do
-      let(:commit) { GitPlus::Commit[body_lines: ["  - test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["  - test bullet."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -37,7 +37,9 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "with repeated bullet" do
-      let(:commit) { GitPlus::Commit[body_lines: ["--", "--test", " --test", "-- test"]] }
+      let :commit do
+        Gitt::Models::Commit[body_lines: ["--", "--test", " --test", "-- test"]]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -45,7 +47,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "without space after bullet" do
-      let(:commit) { GitPlus::Commit[body_lines: ["-Test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["-Test bullet."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -53,7 +55,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "with indented bullet without trailing space" do
-      let(:commit) { GitPlus::Commit[body_lines: ["  -test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["  -test bullet."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -61,7 +63,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "with no bullet lines" do
-      let(:commit) { GitPlus::Commit[body_lines: ["a test line."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["a test line."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -69,7 +71,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "with empty lines" do
-      let(:commit) { GitPlus::Commit[body_lines: []] }
+      let(:commit) { Gitt::Models::Commit[body_lines: []] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -81,7 +83,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[body_lines: []] }
+      let(:commit) { Gitt::Models::Commit[body_lines: []] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -90,7 +92,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
 
     context "when invalid" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
           body_lines: ["A normal line.", "- A valid bullet line.", "-An invalid bullet line."]
         ]
       end
@@ -100,7 +102,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
       end
 
       it "answers issue affected lines" do
-        expect(issue[:lines]).to contain_exactly(number: 4, content: "-An invalid bullet line.")
+        expect(issue[:lines]).to contain_exactly(number: 5, content: "-An invalid bullet line.")
       end
     end
   end

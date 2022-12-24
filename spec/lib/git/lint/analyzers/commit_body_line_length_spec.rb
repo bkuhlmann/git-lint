@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
 
   describe "#valid?" do
     context "when valid" do
-      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -30,7 +30,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
 
     context "when invalid (single line)" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
           body_lines: ["Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egest."]
         ]
       end
@@ -42,7 +42,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
 
     context "when invalid (multiple lines)" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
           body_lines: [
             "- Curabitur eleifend wisi iaculis ipsum.",
             "- Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.",
@@ -61,7 +61,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["Test."]] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -70,7 +70,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
 
     context "when invalid" do
       subject :analyzer do
-        described_class.new GitPlus::Commit[
+        described_class.new Gitt::Models::Commit[
                               body_lines: [
                                 "- Curabitur eleifend wisi iaculis ipsum.",
                                 "- Vestibulum tortor quam, feugiat vitae, ultricies eget bon.",
@@ -94,8 +94,8 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
       it "answers issue lines" do
         expect(issue[:lines]).to eq(
           [
-            {number: 3, content: "- Vestibulum tortor quam, feugiat vitae, ultricies eget bon."},
-            {number: 4, content: "- Donec eu_libero sit amet quam egestas semper. Aenean ultr."}
+            {number: 4, content: "- Vestibulum tortor quam, feugiat vitae, ultricies eget bon."},
+            {number: 5, content: "- Donec eu_libero sit amet quam egestas semper. Aenean ultr."}
           ]
         )
       end

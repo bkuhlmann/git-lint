@@ -5,16 +5,11 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator name capitalization.
       class CommitTrailerCollaboratorCapitalization < Abstract
-        # rubocop:disable Metrics/ParameterLists
-        def initialize commit,
-                       parser: Parsers::Trailers::Collaborator,
-                       validator: Validators::Capitalization,
-                       **dependencies
-          super commit, **dependencies
-          @parser = parser
-          @validator = validator
-        end
-        # rubocop:enable Metrics/ParameterLists
+        include Import[
+          pattern: "trailers.collaborator",
+          parser: "parsers.person",
+          validator: "validators.capitalization"
+        ]
 
         def valid? = affected_commit_trailers.empty?
 
@@ -29,14 +24,11 @@ module Git
 
         protected
 
-        def invalid_line? line
-          collaborator = parser.new line
-          collaborator.match? && !validator.new(collaborator.name.strip).valid?
+        def invalid_line? trailer
+          parser.call(trailer.value).then do |person|
+            trailer.key.match?(pattern) && !validator.new(person.name).valid?
+          end
         end
-
-        private
-
-        attr_reader :parser, :validator
       end
     end
   end

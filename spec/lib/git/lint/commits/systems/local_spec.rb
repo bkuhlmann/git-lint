@@ -10,7 +10,7 @@ RSpec.describe Git::Lint::Commits::Systems::Local do
   describe "#call" do
     it "uses specific start and finish range" do
       system.call
-      expect(repository).to have_received(:commits).with("main..test")
+      expect(git).to have_received(:commits).with("main..test")
     end
   end
 end

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "zeitwerk"
-require "git_plus"
 
 Zeitwerk::Loader.new.then do |loader|
   loader.inflector.inflect "cli" => "CLI",

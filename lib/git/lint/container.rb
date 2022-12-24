@@ -2,8 +2,7 @@
 
 require "cogger"
 require "dry-container"
-require "git_plus"
-require "open3"
+require "gitt"
 require "spek"
 
 module Git
@@ -14,10 +13,9 @@ module Git
 
       register(:configuration) { Configuration::Loader.call }
       register(:environment) { ENV }
-      register(:repository) { GitPlus::Repository.new }
+      register(:git) { Gitt::Repository.new }
       register(:specification) { Spek::Loader.call "#{__dir__}/../../../git-lint.gemspec" }
       register(:kernel) { Kernel }
-      register(:executor) { Open3 }
       register(:logger) { Cogger::Client.new }
 
       namespace :trailers do

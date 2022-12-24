@@ -7,7 +7,12 @@ module Git
       class CommitBodyParagraphCapitalization < Abstract
         def self.invalid?(line) = line.match?(/\A[[:lower:]].+\Z/m)
 
-        def valid? = lowercased_lines.empty?
+        def initialize(...)
+          super
+          @invalids = commit.body_paragraphs.select { |line| self.class.invalid? line }
+        end
+
+        def valid? = invalids.empty?
 
         def issue
           return {} if valid?
@@ -20,13 +25,11 @@ module Git
 
         private
 
-        def lowercased_lines = commit.body_paragraphs.select { |line| self.class.invalid? line }
+        attr_reader :invalids
 
         def affected_lines
-          klass = self.class
-
-          commit.body_paragraphs.each.with_object([]).with_index do |(line, lines), index|
-            lines << klass.build_issue_line(index, line)
+          invalids.each.with_object [] do |line, lines|
+            lines << self.class.build_issue_line(commit.body_lines.index(line[/.+/]), line)
           end
         end
       end

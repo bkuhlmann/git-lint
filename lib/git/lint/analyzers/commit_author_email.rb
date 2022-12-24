@@ -5,10 +5,7 @@ module Git
     module Analyzers
       # Analyzes author email address for proper format.
       class CommitAuthorEmail < Abstract
-        def initialize commit, validator: Validators::Email, **dependencies
-          super commit, **dependencies
-          @validator = validator
-        end
+        include Import[validator: "validators.email"]
 
         def valid? = validator.new(commit.author_email).valid?
 
@@ -17,10 +14,6 @@ module Git
 
           {hint: %(Use "<name>@<server>.<domain>" instead of "#{commit.author_email}".)}
         end
-
-        private
-
-        attr_reader :validator
       end
     end
   end

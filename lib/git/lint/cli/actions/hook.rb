@@ -6,7 +6,7 @@ module Git
       module Actions
         # Handles unsaved Git commit action.
         class Hook
-          include Git::Lint::Import[:repository, :kernel, :logger]
+          include Git::Lint::Import[:git, :kernel, :logger]
 
           def initialize analyzer: Analyzer.new, **dependencies
             super(**dependencies)
@@ -14,7 +14,7 @@ module Git
           end
 
           def call path
-            analyzer.call commits: [repository.unsaved(path)] do |collector, reporter|
+            analyzer.call commits: commits(path) do |collector, reporter|
               kernel.puts reporter
               kernel.abort if collector.errors?
             end
@@ -23,6 +23,8 @@ module Git
           private
 
           attr_reader :analyzer
+
+          def commits(path) = git.uncommitted(path).fmap { |commit| [commit] }
         end
       end
     end

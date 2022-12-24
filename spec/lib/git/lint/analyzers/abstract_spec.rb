@@ -44,7 +44,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
   describe ".build_issue_line" do
     it "answers isuse line" do
-      expect(described_class.build_issue_line(1, "Test.")).to eq(number: 3, content: "Test.")
+      expect(described_class.build_issue_line(1, "Test.")).to eq(number: 4, content: "Test.")
     end
   end
 

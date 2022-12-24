@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
   describe "#valid?" do
     context "when valid" do
-      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     end
 
     context "with excluded word in body" do
-      let(:commit) { GitPlus::Commit[body_lines: ["This will fail, obviously."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["This will fail, obviously."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     end
 
     context "with excluded word in body (mixed case)" do
-      let(:commit) { GitPlus::Commit[body_lines: ["This will fail, Obviously."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["This will fail, Obviously."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -45,7 +45,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     end
 
     context "with excluded phrase in body" do
-      let(:commit) { GitPlus::Commit[body_lines: ["This will fail, of course."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["This will fail, of course."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -53,7 +53,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     end
 
     context "with excluded phrase in body (mixed case)" do
-      let(:commit) { GitPlus::Commit[body_lines: ["This will fail, Of Course."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["This will fail, Of Course."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -91,7 +91,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
         "of the fact that",
         "of the opinion that"
       ].each do |phrase|
-        let(:commit) { GitPlus::Commit[body_lines: [phrase]] }
+        let(:commit) { Gitt::Models::Commit[body_lines: [phrase]] }
 
         it %(answers false for "#{phrase}") do
           expect(analyzer.valid?).to be(false)
@@ -101,7 +101,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
     context "with excluded word (mixed case)" do
       subject :analyzer do
-        described_class.new GitPlus::Commit[body_lines: ["This will fail, basically."]]
+        described_class.new Gitt::Models::Commit[body_lines: ["This will fail, basically."]]
       end
 
       let :configuration do
@@ -119,7 +119,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
     context "with excluded phrase (mixed case)" do
       subject :analyzer do
-        described_class.new GitPlus::Commit[body_lines: ["This will fail, of course."]]
+        described_class.new Gitt::Models::Commit[body_lines: ["This will fail, of course."]]
       end
 
       let :configuration do
@@ -137,7 +137,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
     context "with excluded boundary word (regular expression)" do
       subject :analyzer do
-        described_class.new GitPlus::Commit[body_lines: ["Just for test purposes."]]
+        described_class.new Gitt::Models::Commit[body_lines: ["Just for test purposes."]]
       end
 
       let :configuration do
@@ -155,7 +155,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
     context "with excluded, embedded boundary word (regular expression)" do
       subject :analyzer do
-        described_class.new GitPlus::Commit[body_lines: ["Adjusted for testing purposes."]]
+        described_class.new Gitt::Models::Commit[body_lines: ["Adjusted for testing purposes."]]
       end
 
       let :configuration do
@@ -173,7 +173,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
     context "with excluded phrase (regular expression)" do
       subject :analyzer do
-        described_class.new GitPlus::Commit[body_lines: ["This will fail, of course."]]
+        described_class.new Gitt::Models::Commit[body_lines: ["This will fail, of course."]]
       end
 
       let :configuration do
@@ -197,7 +197,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[body_lines: ["Test."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["Test."]] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -206,7 +206,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
     context "when invalid" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
           body_lines: [
             "Obviously, this can't work.",
             "...and, of course, this won't work either."
@@ -228,8 +228,8 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       it "answers issue lines" do
         expect(issue[:lines]).to eq(
           [
-            {number: 2, content: "Obviously, this can't work."},
-            {number: 3, content: "...and, of course, this won't work either."}
+            {number: 3, content: "Obviously, this can't work."},
+            {number: 4, content: "...and, of course, this won't work either."}
           ]
         )
       end

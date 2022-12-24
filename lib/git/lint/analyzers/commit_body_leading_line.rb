@@ -6,12 +6,12 @@ module Git
       # Analyzes leading line between commit subject and start of body.
       class CommitBodyLeadingLine < Abstract
         def valid?
-          message = commit.message
-          subject, body = message.split "\n", 2
+          raw = commit.raw
+          subject, body = raw.split "\n", 2
 
           return true if !String(subject).empty? && String(body).strip.empty?
 
-          message.match?(/\A.+(\n\n|\#).+/m)
+          raw.match?(/\A.+(\n\n|\#).+/m)
         end
 
         def issue

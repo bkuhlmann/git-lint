@@ -5,16 +5,12 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator email address format.
       class CommitTrailerCollaboratorEmail < Abstract
-        # rubocop:disable Metrics/ParameterLists
-        def initialize commit,
-                       parser: Parsers::Trailers::Collaborator,
-                       validator: Validators::Email,
-                       **dependencies
-          super commit, **dependencies
-          @parser = parser
-          @validator = validator
-        end
-        # rubocop:enable Metrics/ParameterLists
+        include Import[
+          pattern: "trailers.collaborator",
+          parser: "parsers.person",
+          sanitizer: "sanitizers.email",
+          validator: "validators.email"
+        ]
 
         def valid? = affected_commit_trailers.empty?
 
@@ -29,9 +25,9 @@ module Git
 
         protected
 
-        def invalid_line? line
-          collaborator = parser.new line
-          collaborator.match? && !validator.new(collaborator.email).valid?
+        def invalid_line? trailer
+          email = sanitizer.call parser.call(trailer.value).email
+          trailer.key.match?(pattern) && !validator.new(email).valid?
         end
 
         private

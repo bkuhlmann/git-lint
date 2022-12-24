@@ -21,7 +21,12 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorCapitalization do
 
   describe "#valid?" do
     context "with no matching key" do
-      let(:commit) { GitPlus::Commit[trailers: ["Unknown: value"]] }
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Unknown: value")]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -30,7 +35,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorCapitalization do
 
     context "with valid capitalization" do
       let :commit do
-        GitPlus::Commit[trailers: ["Co-Authored-By: Test Example <test@example.com>"]]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example <test@example.com>")]
+        ]
       end
 
       it "answers true" do
@@ -39,7 +47,12 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorCapitalization do
     end
 
     context "with invalid capitalization" do
-      let(:commit) { GitPlus::Commit[trailers: ["Co-Authored-By: test <test@example.com>"]] }
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: test <test@example.com>")]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -47,7 +60,12 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorCapitalization do
     end
 
     context "with missing name" do
-      let(:commit) { GitPlus::Commit[trailers: ["Co-Authored-By: <example.com>"]] }
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: <example.com>")]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -60,7 +78,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorCapitalization do
 
     context "when valid" do
       let :commit do
-        GitPlus::Commit[trailers: ["Co-Authored-By: Test Example <test@example.com>"]]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example <test@example.com>")]
+        ]
       end
 
       it "answers empty hash" do
@@ -70,9 +91,9 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorCapitalization do
 
     context "when invalid" do
       let :commit do
-        GitPlus::Commit[
-          trailers: ["Co-Authored-By: Test example <test@example.com>"],
-          trailers_index: 2
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: test Example <test@example.com>")]
         ]
       end
 
@@ -81,8 +102,8 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorCapitalization do
           hint: "Name must be capitalized.",
           lines: [
             {
-              content: "Co-Authored-By: Test example <test@example.com>",
-              number: 4
+              content: "Co-Authored-By: test Example <test@example.com>",
+              number: 3
             }
           ]
         )

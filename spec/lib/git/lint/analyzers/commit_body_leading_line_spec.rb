@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
 
   describe "#valid?" do
     context "when valid" do
-      let(:commit) { GitPlus::Commit[message: "Subject\n\nBody.\n"] }
+      let(:commit) { Gitt::Models::Commit[raw: "Subject\n\nBody.\n"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
     end
 
     context "with subject only" do
-      let(:commit) { GitPlus::Commit[message: "Subject"] }
+      let(:commit) { Gitt::Models::Commit[raw: "Subject"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
     end
 
     context "with subject and no body" do
-      let(:commit) { GitPlus::Commit[message: "Subject\n\n"] }
+      let(:commit) { Gitt::Models::Commit[raw: "Subject\n\n"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -45,7 +45,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
     end
 
     context "with subject and comments" do
-      let(:commit) { GitPlus::Commit[message: "Subject\n\n# Comment.\n"] }
+      let(:commit) { Gitt::Models::Commit[raw: "Subject\n\n# Comment.\n"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -53,7 +53,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
     end
 
     context "with no space between subject and body" do
-      let(:commit) { GitPlus::Commit[message: "Subject\nBody\n"] }
+      let(:commit) { Gitt::Models::Commit[raw: "Subject\nBody\n"] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -61,7 +61,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
     end
 
     context "with no content" do
-      let(:commit) { GitPlus::Commit[message: ""] }
+      let(:commit) { Gitt::Models::Commit[raw: ""] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -73,7 +73,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[message: "Subject\n\nBody.\n"] }
+      let(:commit) { Gitt::Models::Commit[raw: "Subject\n\nBody.\n"] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -81,7 +81,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
     end
 
     context "when invalid" do
-      let(:commit) { GitPlus::Commit[message: "Subject\nBody."] }
+      let(:commit) { Gitt::Models::Commit[raw: "Subject\nBody."] }
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq("Use blank line between subject and body.")

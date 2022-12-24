@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
+require "dry/monads"
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzer do
+  include Dry::Monads[:result]
+
   using Refinements::Pathnames
 
   subject(:runner) { described_class.new }
@@ -140,7 +143,7 @@ RSpec.describe Git::Lint::Analyzer do
       include_context "with Git commit"
 
       it "processes commit" do
-        collector, _reporter = runner.call commits: [git_commit]
+        collector, _reporter = runner.call commits: Success([git_commit])
         expect(collector.issues?).to be(true)
       end
     end

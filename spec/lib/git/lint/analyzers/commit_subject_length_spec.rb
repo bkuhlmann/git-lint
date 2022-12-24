@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
 
   describe "#valid?" do
     context "when valid" do
-      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added specs"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -30,7 +30,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
 
     context "with fixup prefix and max subject length" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
           subject: "fixup! Added Curabitur eleifend wisi iaculis ipsum iaculis inia wazlouth tik mx"
         ]
       end
@@ -42,7 +42,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
 
     context "with squash prefix and max subject length" do
       let :commit do
-        GitPlus::Commit[
+        Gitt::Models::Commit[
           subject: "squash! Added Curabitur eleifend wisi iaculis ipsum iaculis inia wazlouth " \
                    "tik mx"
         ]
@@ -54,7 +54,9 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     end
 
     context "with invalid length" do
-      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "Added specs"] }
+      subject :analyzer do
+        described_class.new Gitt::Models::Commit[subject: "Added specs"]
+      end
 
       let :configuration do
         Git::Lint::Configuration::Content[
@@ -74,7 +76,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added specs"] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -82,7 +84,9 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     end
 
     context "when invalid" do
-      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "Added specs"] }
+      subject :analyzer do
+        described_class.new Gitt::Models::Commit[subject: "Added specs"]
+      end
 
       let :configuration do
         Git::Lint::Configuration::Content[

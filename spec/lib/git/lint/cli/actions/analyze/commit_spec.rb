@@ -15,9 +15,8 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
         `touch b.txt && git add . && git commit --no-verify --message "Added A" --message "Test."`
-        sha = `git log --pretty=format:%h -1`
 
-        action.call sha
+        action.call "-1"
 
         expect(kernel).to have_received(:puts).with(/.+1 commit inspected.*0 issues.+detected/m)
       end
@@ -27,9 +26,8 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
         `touch a.txt && git add . && git commit --no-verify --message "Add A"`
-        sha = `git log --pretty=format:%h -1`
 
-        action.call sha
+        action.call "-1"
 
         expect(kernel).to have_received(:puts).with(
           /Commit Subject Prefix Error.+1 commit inspected.*1 issue.+detected/m

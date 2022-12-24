@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
 
   describe "#valid?" do
     context "when valid" do
-      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added specs"] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     end
 
     context "with period" do
-      let(:commit) { GitPlus::Commit[subject: "Added specs."] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added specs."] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     end
 
     context "with question mark" do
-      let(:commit) { GitPlus::Commit[subject: "Added specs?"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added specs?"] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -45,7 +45,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     end
 
     context "with exclamation mark" do
-      let(:commit) { GitPlus::Commit[subject: "Added specs!"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added specs!"] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -53,7 +53,9 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     end
 
     context "with custom exclude list" do
-      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "Added specs 😅"] }
+      subject :analyzer do
+        described_class.new Gitt::Models::Commit[subject: "Added specs 😅"]
+      end
 
       let :configuration do
         Git::Lint::Configuration::Content[
@@ -69,7 +71,9 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     end
 
     context "with empty exclude list" do
-      subject(:analyzer) { described_class.new GitPlus::Commit[subject: "Added specs?"] }
+      subject :analyzer do
+        described_class.new Gitt::Models::Commit[subject: "Added specs?"]
+      end
 
       let :configuration do
         Git::Lint::Configuration::Content[
@@ -89,7 +93,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     let(:issue) { analyzer.issue }
 
     context "when valid" do
-      let(:commit) { GitPlus::Commit[subject: "Added specs"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added specs"] }
 
       it "answers empty hash" do
         expect(issue).to eq({})
@@ -97,7 +101,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     end
 
     context "when invalid" do
-      let(:commit) { GitPlus::Commit[subject: "Added specs?"] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added specs?"] }
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq("Avoid: /\\./, /\\?/, /\\!/.")

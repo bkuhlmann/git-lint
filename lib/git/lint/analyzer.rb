@@ -54,7 +54,7 @@ module Git
 
       def process commits
         collector.clear
-        commits.map { |commit| analyze commit }
+        commits.value_or([]).map { |commit| analyze commit }
       end
 
       def analyze commit

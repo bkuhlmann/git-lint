@@ -22,7 +22,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
   describe "#valid?" do
     context "when valid" do
       let :commit do
-        GitPlus::Commit[trailers: ["Co-Authored-By: Test Example <test@example.com>"]]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example <test@example.com>")]
+        ]
       end
 
       it "answers true" do
@@ -31,7 +34,12 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
     end
 
     context "with no matching key" do
-      let(:commit) { GitPlus::Commit[trailers: ["Unknown: value"]] }
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Unknown: value")]
+        ]
+      end
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -39,7 +47,12 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
     end
 
     context "with malformed email address" do
-      let(:commit) { GitPlus::Commit[trailers: ["Co-Authored-By: Test Example <invalid>"]] }
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example <invalid>")]
+        ]
+      end
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -52,7 +65,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
 
     context "when valid" do
       let :commit do
-        GitPlus::Commit[trailers: ["Co-Authored-By: Test Example <test@example.com>"]]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example <test@example.com>")]
+        ]
       end
 
       it "answers empty hash" do
@@ -62,7 +78,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
 
     context "when invalid" do
       let :commit do
-        GitPlus::Commit[trailers: ["Co-Authored-By: Test Example <invalid>"], trailers_index: 2]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example <invalid>")]
+        ]
       end
 
       it "answers issue" do
@@ -71,7 +90,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
           lines: [
             {
               content: "Co-Authored-By: Test Example <invalid>",
-              number: 4
+              number: 3
             }
           ]
         )
