@@ -701,6 +701,24 @@ issue: 123
 Issue: 123
 ....
 
+==== Commit Trailer Issue Value
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["[\\w-]+"]`
+|===
+
+Ensures issue trailer value is correct format.
+
+....
+# Disallowed
+Issue: 123+45
+
+# Allowed
+Issue: 123
+....
+
 === Git
 
 ==== Default Branch

@@ -120,3 +120,7 @@
     :enabled: true
     :severity: :error
     :includes: Issue
+  :commit_trailer_issue_value:
+    :enabled: true
+    :severity: :error
+    :includes: "[\\w-]+"
