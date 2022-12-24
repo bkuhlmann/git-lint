@@ -755,6 +755,24 @@ Issue: 123+45
 Issue: 123
 ....
 
+==== Commit Trailer Signer Key
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["Signed-By"]`
+|===
+
+Ensures signer trailer key is correct format.
+
+....
+# Disallowed
+signed-by: Jayne Cobb
+
+# Allowed
+Signed-By: Jayne Cobb
+....
+
 ==== Commit Trailer Tracker Key
 
 [options="header"]

@@ -32,6 +32,7 @@ module Git
         Analyzers::CommitTrailerFormatValue,
         Analyzers::CommitTrailerIssueKey,
         Analyzers::CommitTrailerIssueValue,
+        Analyzers::CommitTrailerSignerKey,
         Analyzers::CommitTrailerTrackerKey,
         Analyzers::CommitTrailerTrackerValue
       ].freeze
