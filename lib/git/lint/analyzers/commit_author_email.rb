@@ -7,7 +7,7 @@ module Git
       class CommitAuthorEmail < Abstract
         include Import[validator: "validators.email"]
 
-        def valid? = validator.new(commit.author_email).valid?
+        def valid? = validator.call commit.author_email
 
         def issue
           return {} if valid?

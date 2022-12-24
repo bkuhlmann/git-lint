@@ -1,26 +1,29 @@
 # frozen_string_literal: true
 
+require "refinements/strings"
+
 module Git
   module Lint
     module Validators
       # Validates the format of names.
       class Name
-        DEFAULT_DELIMITER = /\s{1}/
-        DEFAULT_MINIMUM = 2
+        using Refinements::Strings
 
-        def initialize text, delimiter: DEFAULT_DELIMITER, minimum: DEFAULT_MINIMUM
-          @text = text
+        DELIMITER = /\s{1}/
+        MINIMUM = 2
+
+        def initialize delimiter: DELIMITER
           @delimiter = delimiter
-          @minimum = minimum
         end
 
-        def valid? = parts.size >= minimum && parts.all? { |name| !String(name).empty? }
+        def call content, minimum: MINIMUM
+          parts = String(content).split delimiter
+          parts.size >= minimum && parts.all? { |name| !name.blank? }
+        end
 
         private
 
-        attr_reader :text, :delimiter, :minimum
-
-        def parts = String(text).split(delimiter)
+        attr_reader :delimiter
       end
     end
   end

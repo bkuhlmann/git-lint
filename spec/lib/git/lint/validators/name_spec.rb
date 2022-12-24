@@ -3,81 +3,46 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Validators::Name do
-  subject(:name) { described_class.new text, delimiter:, minimum: }
+  subject(:validator) { described_class.new }
 
-  let(:text) { "Example Test" }
-  let(:delimiter) { described_class::DEFAULT_DELIMITER }
-  let(:minimum) { described_class::DEFAULT_MINIMUM }
-
-  context "with custom delimiter" do
-    let(:delimiter) { "-" }
-    let(:text) { "Text-Example" }
-
-    it "answers true" do
-      expect(name.valid?).to be(true)
-    end
+  it "answers true with custom delimiter" do
+    validator = described_class.new delimiter: "-"
+    expect(validator.call("Text-Example")).to be(true)
   end
 
-  context "with custom minimum" do
-    let(:minimum) { 1 }
-    let(:text) { "Example" }
-
-    it "answers true" do
-      expect(name.valid?).to be(true)
-    end
+  it "answers true with custom minimum" do
+    expect(validator.call("Example", minimum: 1)).to be(true)
   end
 
-  context "with leading space" do
-    let(:text) { " Example Test" }
-
-    it "answers false" do
-      expect(name.valid?).to be(false)
-    end
+  it "answers false with leading space" do
+    expect(validator.call(" Example Test")).to be(false)
   end
 
-  context "with trailing space" do
-    let(:text) { "Example Test " }
-
-    it "answers true" do
-      expect(name.valid?).to be(true)
-    end
+  it "answers false with multiple spaces between parts" do
+    expect(validator.call("Example  Test")).to be(false)
   end
 
-  context "with exact minimum" do
-    it "answers true" do
-      expect(name.valid?).to be(true)
-    end
+  it "answers true with trailing space" do
+    expect(validator.call("Example Test ")).to be(true)
   end
 
-  context "when greater than minimum" do
-    let(:text) { "Example Test Tester" }
-
-    it "answers true" do
-      expect(name.valid?).to be(true)
-    end
+  it "answers true with exact minimum" do
+    expect(validator.call("Example Test")).to be(true)
   end
 
-  context "when less than minimum" do
-    let(:text) { "Example" }
-
-    it "answers false" do
-      expect(name.valid?).to be(false)
-    end
+  it "answers true when greater than minimum" do
+    expect(validator.call("Example Test Tester")).to be(true)
   end
 
-  context "with empty text" do
-    let(:text) { "" }
-
-    it "answers false" do
-      expect(name.valid?).to be(false)
-    end
+  it "answers false when less than minimum" do
+    expect(validator.call("Example")).to be(false)
   end
 
-  context "with nil text" do
-    let(:text) { nil }
+  it "answers false with empty content" do
+    expect(validator.call("")).to be(false)
+  end
 
-    it "answers false" do
-      expect(name.valid?).to be(false)
-    end
+  it "answers false with nil content" do
+    expect(validator.call(nil)).to be(false)
   end
 end

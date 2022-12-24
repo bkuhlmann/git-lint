@@ -27,7 +27,7 @@ module Git
 
         def invalid_line? trailer
           email = sanitizer.call parser.call(trailer.value).email
-          trailer.key.match?(pattern) && !validator.new(email).valid?
+          trailer.key.match?(pattern) && !validator.call(email)
         end
 
         private

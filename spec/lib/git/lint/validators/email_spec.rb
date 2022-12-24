@@ -3,49 +3,27 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Validators::Email do
-  subject(:email) { described_class.new text }
-
-  let(:text) { "test@example.com" }
+  subject(:validator) { described_class.new }
 
   describe "#valid?" do
-    context "with valid email" do
-      let(:text) { "test@example.com" }
-
-      it "answers true" do
-        expect(email.valid?).to be(true)
-      end
+    it "answers true with valid validator" do
+      expect(validator.call("test@example.com")).to be(true)
     end
 
-    context "with minimum requirements" do
-      let(:text) { "a@b.c" }
-
-      it "answers true" do
-        expect(email.valid?).to be(true)
-      end
+    it "answers true with minimum requirements" do
+      expect(validator.call("a@b.c")).to be(true)
     end
 
-    context "with subdomain" do
-      let(:text) { "test@sub.example.com" }
-
-      it "answers true" do
-        expect(email.valid?).to be(true)
-      end
+    it "answers true with subdomain" do
+      expect(validator.call("test@sub.example.com")).to be(true)
     end
 
-    context "with special characters" do
-      let(:text) { "test@invalid!~#$%^&*(){}[].com" }
-
-      it "answers false" do
-        expect(email.valid?).to be(false)
-      end
+    it "answers false with special characters" do
+      expect(validator.call("test@invalid!~#$%^&*(){}[].com")).to be(false)
     end
 
-    context "with missing '@' symbol" do
-      let(:text) { "example.com" }
-
-      it "answers false" do
-        expect(email.valid?).to be(false)
-      end
+    it "answers false with missing '@' symbol" do
+      expect(validator.call("example.com")).to be(false)
     end
   end
 end

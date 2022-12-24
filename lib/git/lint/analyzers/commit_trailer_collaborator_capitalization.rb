@@ -26,7 +26,7 @@ module Git
 
         def invalid_line? trailer
           parser.call(trailer.value).then do |person|
-            trailer.key.match?(pattern) && !validator.new(person.name).valid?
+            trailer.key.match?(pattern) && !validator.call(person.name)
           end
         end
       end

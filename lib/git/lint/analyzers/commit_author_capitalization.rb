@@ -7,7 +7,7 @@ module Git
       class CommitAuthorCapitalization < Abstract
         include Import[validator: "validators.capitalization"]
 
-        def valid? = validator.new(commit.author_name).valid?
+        def valid? = validator.call commit.author_name
 
         def issue
           return {} if valid?

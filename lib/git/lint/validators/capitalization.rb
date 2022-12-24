@@ -5,21 +5,18 @@ module Git
     module Validators
       # Validates the capitalizationn of text.
       class Capitalization
-        DEFAULT_PATTERN = /\A[[:upper:]].*\Z/
+        PATTERN = /\A[[:upper:]].*\Z/
 
-        def initialize text, delimiter: Name::DEFAULT_DELIMITER, pattern: DEFAULT_PATTERN
-          @text = String text
+        def initialize delimiter: Name::DELIMITER, pattern: PATTERN
           @delimiter = delimiter
           @pattern = pattern
         end
 
-        def valid? = parts.all? { |name| String(name).match? pattern }
+        def call(content) = String(content).split(delimiter).all? { |name| name.match? pattern }
 
         private
 
-        attr_reader :text, :delimiter, :pattern
-
-        def parts = text.split(delimiter)
+        attr_reader :delimiter, :pattern
       end
     end
   end

@@ -7,7 +7,7 @@ module Git
       class CommitAuthorName < Abstract
         include Import[validator: "validators.name"]
 
-        def valid? = validator.new(commit.author_name, minimum:).valid?
+        def valid? = validator.call(commit.author_name, minimum:)
 
         def issue
           return {} if valid?

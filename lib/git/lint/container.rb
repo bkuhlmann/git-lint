@@ -36,9 +36,9 @@ module Git
       end
 
       namespace :validators do
-        register(:capitalization) { Validators::Capitalization }
-        register(:email) { Validators::Email }
-        register(:name) { Validators::Name }
+        register(:capitalization) { Validators::Capitalization.new }
+        register(:email) { Validators::Email.new }
+        register(:name) { Validators::Name.new }
       end
     end
   end

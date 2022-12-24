@@ -3,92 +3,61 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Validators::Capitalization do
-  subject(:capitalization) { described_class.new text, delimiter:, pattern: }
-
-  let(:delimiter) { Git::Lint::Validators::Name::DEFAULT_DELIMITER }
-  let(:pattern) { described_class::DEFAULT_PATTERN }
+  subject(:validator) { described_class.new }
 
   describe "#valid?" do
-    context "with custom delimiter" do
-      let(:delimiter) { "-" }
-      let(:text) { "Text-Example" }
-
-      it "answers true" do
-        expect(capitalization.valid?).to be(true)
-      end
+    it "answers true with custom delimiter" do
+      validator = described_class.new delimiter: "-"
+      expect(validator.call("Text-Example")).to be(true)
     end
 
-    context "with custom pattern" do
-      let(:pattern) { /[[:upper:]].+/ }
-      let(:text) { "Test Example" }
-
-      it "answers true" do
-        expect(capitalization.valid?).to be(true)
-      end
+    it "answers true with custom pattern" do
+      validator = described_class.new pattern: /[[:upper:]].+/
+      expect(validator.call("Test Example")).to be(true)
     end
 
-    context "with leading space, capitalized" do
-      let(:text) { " Example" }
-
-      it "answers false" do
-        expect(capitalization.valid?).to be(false)
-      end
+    it "answers false with leading space" do
+      expect(validator.call(" Example")).to be(false)
     end
 
-    context "with single name, capitalized" do
-      let(:text) { "Example" }
-
-      it "answers true" do
-        expect(capitalization.valid?).to be(true)
-      end
+    it "answers true with single name capitalized" do
+      expect(validator.call("Example")).to be(true)
     end
 
-    context "with single name, uncapitalized" do
-      let(:text) { "example" }
-
-      it "answers false" do
-        expect(capitalization.valid?).to be(false)
-      end
+    it "answers false with single name lowercased" do
+      expect(validator.call("example")).to be(false)
     end
 
-    context "with single letter, capitalized" do
-      let(:text) { "E" }
-
-      it "answers true" do
-        expect(capitalization.valid?).to be(true)
-      end
+    it "answers false with single name that starts with a number" do
+      expect(validator.call("1Example")).to be(false)
     end
 
-    context "with single letter, uncapitalized" do
-      let(:text) { "e" }
-
-      it "answers false" do
-        expect(capitalization.valid?).to be(false)
-      end
+    it "answers false with single name that starts with a special character" do
+      expect(validator.call("@Example")).to be(false)
     end
 
-    context "with multiple parts, all capitalized" do
-      let(:text) { "Example Tester" }
-
-      it "answers true" do
-        expect(capitalization.valid?).to be(true)
-      end
+    it "answers true with single letter capitalized" do
+      expect(validator.call("E")).to be(true)
     end
 
-    context "with multiple parts, mixed capitalized" do
-      let(:text) { "Example tester" }
-
-      it "answers false" do
-        expect(capitalization.valid?).to be(false)
-      end
+    it "answers false with single letter lowercased" do
+      expect(validator.call("e")).to be(false)
     end
 
-    context "with nil text" do
-      let(:text) { nil }
+    it "answers true with multiple parts capitalized" do
+      expect(validator.call("Example Tester")).to be(true)
+    end
 
-      it "answers true" do
-        expect(capitalization.valid?).to be(true)
-      end
+    it "answers false with multiple parts and only first capitalized" do
+      expect(validator.call("Example tester")).to be(false)
+    end
+
+    it "answers false with multiple parts and without last capitalized" do
+      expect(validator.call("example Tester")).to be(false)
+    end
+
+    it "answers true with nil text" do
+      expect(validator.call(nil)).to be(true)
     end
   end
 end
