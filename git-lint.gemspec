@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "dry-container", "~> 0.11"
   spec.add_dependency "dry-monads", "~> 1.6"
   spec.add_dependency "gitt", "~> 1.0"
-  spec.add_dependency "infusible", "~> 0.2"
+  spec.add_dependency "infusible", "~> 1.0"
   spec.add_dependency "pastel", "~> 0.8"
   spec.add_dependency "refinements", "~> 10.0"
   spec.add_dependency "runcom", "~> 9.0"
