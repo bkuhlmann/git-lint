@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "gitt", "~> 1.0"
   spec.add_dependency "infusible", "~> 0.2"
   spec.add_dependency "pastel", "~> 0.8"
-  spec.add_dependency "refinements", "~> 9.7"
+  spec.add_dependency "refinements", "~> 10.0"
   spec.add_dependency "runcom", "~> 8.7"
   spec.add_dependency "spek", "~> 0.6"
   spec.add_dependency "zeitwerk", "~> 2.6"
