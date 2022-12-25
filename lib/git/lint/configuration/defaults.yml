@@ -23,19 +23,8 @@
     :enabled: true
     :severity: :error
     :includes: "\\-"
-  :commit_body_tracker_shorthand:
-    :enabled: true
-    :severity: :error
-    :excludes:
-      - "(f|F)ix(es|ed)?\\s\\#\\d+"
-      - "(c|C)lose(s|d)?\\s\\#\\d+"
-      - "(r|R)esolve(s|d)?\\s\\#\\d+"
-  :commit_signature:
-    :enabled: true
-    :severity: :error
-    :includes: Good
   :commit_body_leading_line:
-    :enabled: false
+    :enabled: true
     :severity: :warn
   :commit_body_line_length:
     :enabled: false
@@ -82,6 +71,17 @@
     :enabled: true
     :severity: :error
     :includes: "\\-"
+  :commit_body_tracker_shorthand:
+    :enabled: true
+    :severity: :error
+    :excludes:
+      - "(f|F)ix(es|ed)?\\s\\#\\d+"
+      - "(c|C)lose(s|d)?\\s\\#\\d+"
+      - "(r|R)esolve(s|d)?\\s\\#\\d+"
+  :commit_signature:
+    :enabled: false
+    :severity: :error
+    :includes: Good
   :commit_subject_length:
     :enabled: true
     :severity: :error

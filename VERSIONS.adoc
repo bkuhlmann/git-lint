@@ -1,5 +1,41 @@
 = Versions
 
+== 5.0.0 (2022-12-27)
+
+* Added Dry Monads gem - Brooke Kuhlmann
+* Added Gitt gem - Brooke Kuhlmann
+* Added RSpec binstub - Brooke Kuhlmann
+* Added Rake register - Brooke Kuhlmann
+* Added commit signature analyzer - Brooke Kuhlmann
+* Added commit trailer duplicate analyzer - Brooke Kuhlmann
+* Added commit trailer format key analyzer - Brooke Kuhlmann
+* Added commit trailer format value analyzer - Brooke Kuhlmann
+* Added commit trailer issue key analyzer - Brooke Kuhlmann
+* Added commit trailer issue value analyzer - Brooke Kuhlmann
+* Added commit trailer signer capitalization analyzer - Brooke Kuhlmann
+* Added commit trailer signer email analyzer - Brooke Kuhlmann
+* Added commit trailer signer key analyzer - Brooke Kuhlmann
+* Added commit trailer signer name analyzer - Brooke Kuhlmann
+* Added commit trailer tracker key analyzer - Brooke Kuhlmann
+* Added commit trailer tracker value analyzer - Brooke Kuhlmann
+* Added container namespaces - Brooke Kuhlmann
+* Updated Commit Body Line Length analyzer to be disabled by default - Brooke Kuhlmann
+* Updated default configuration to enable Commit Body Presence analyzer - Brooke Kuhlmann
+* Updated implementation to use Gitt functionality - Brooke Kuhlmann
+* Updated to Cogger 0.5.0 - Brooke Kuhlmann
+* Updated to Debug 1.7.0 - Brooke Kuhlmann
+* Updated to Infusible 1.0.0 - Brooke Kuhlmann
+* Updated to RSpec 3.12.0 - Brooke Kuhlmann
+* Updated to Refinements 10.0.0 - Brooke Kuhlmann
+* Updated to Ruby 3.1.3 - Brooke Kuhlmann
+* Updated to Ruby 3.2.0 - Brooke Kuhlmann
+* Updated to Runcom 9.0.0 - Brooke Kuhlmann
+* Updated to Spek 1.0.0 - Brooke Kuhlmann
+* Updated validators to be commands - Brooke Kuhlmann
+* Removed Git+ gem - Brooke Kuhlmann
+* Removed Rake setup and corresponding tasks - Brooke Kuhlmann
+* Removed commit trailer collaborator duplication analyzer - Brooke Kuhlmann
+
 == 4.6.0 (2022-10-22)
 
 * Fixed Rakefile RSpec initialization - Brooke Kuhlmann

@@ -460,7 +460,7 @@ and provides the missing spec to ensure this doesn't happen again.
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| false   | warn     | minimum: 1
+| true    | warn     | minimum: 1
 |===
 
 Ensures a minimum number of lines are present within the commit body. Lines with empty characters
@@ -520,7 +520,7 @@ commit self-contained, and makes learning about/debugging the commit faster.
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | includes: `["Good"]`
+| false   | error    | includes: `["Good"]`
 |===
 
 Ensures all commit signatures are properly signed for improved security and validity of code being committed by various authors. By default, only "Good" signatures are allowed but you can expand this list if desired (although not recommended for security reasons). Valid options are:
@@ -617,7 +617,7 @@ releases.
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| false   | error    | none
+| true    | error    | none
 |===
 
 Ensures collaborator name is properly capitalized. Example:
@@ -635,7 +635,7 @@ Shepherd Derrial Book
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| false   | error    | none
+| true    | error    | none
 |===
 
 Ensures collaborator email address is valid for commit trailer.
@@ -653,7 +653,7 @@ Co-Authored-By: River Tam <river@firefly.com>
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| false   | error    | includes: `["Co-Authored-By"]`
+| true   | error    | includes: `["Co-Authored-By"]`
 |===
 
 Ensures collaborator trailer key is correct format.
@@ -671,7 +671,7 @@ Co-Authored-By: River Tam <river@firefly.com>
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| false   | error    | minimum: 2
+| true    | error    | minimum: 2
 |===
 
 Ensures collaborator name consists of, at least, a first and last name. Example:
@@ -689,7 +689,7 @@ Co-Authored-By: River Tam <river@firefly.com>
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | none
+| true    | error    | minimum: 2
 |===
 
 Ensures commit trailer keys are not duplicated. Example:
@@ -776,24 +776,6 @@ Issue: 123+45
 Issue: 123
 ....
 
-==== Commit Trailer Signer Key
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | includes: `["Signed-By"]`
-|===
-
-Ensures signer trailer key is correct format.
-
-....
-# Disallowed
-signed-by: Jayne Cobb
-
-# Allowed
-Signed-By: Jayne Cobb
-....
-
 ==== Commit Trailer Signer Capitalization
 
 [options="header"]
@@ -828,6 +810,24 @@ Signed-By: Jayne Cobb <invalid>
 
 # Allowed
 Signed-By: Jayne Cobb <jcobb@firefly.com>
+....
+
+==== Commit Trailer Signer Key
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["Signed-By"]`
+|===
+
+Ensures signer trailer key is correct format.
+
+....
+# Disallowed
+signed-by: Jayne Cobb
+
+# Allowed
+Signed-By: Jayne Cobb
 ....
 
 ==== Commit Trailer Signer Name
