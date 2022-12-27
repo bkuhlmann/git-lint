@@ -71,7 +71,7 @@
       - "as\\sfar\\sas\\s.+\\sconcerned"
       - "of\\sthe\\s(fact|opinion)\\sthat"
   :commit_body_presence:
-    :enabled: false
+    :enabled: true
     :severity: :warn
     :minimum: 1
   :commit_body_single_bullet:

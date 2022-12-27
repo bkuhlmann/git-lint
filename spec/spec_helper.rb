@@ -46,4 +46,15 @@ RSpec.configure do |config|
     mocks.verify_doubled_constant_names = true
     mocks.verify_partial_doubles = true
   end
+
+  config.before :suite do
+    Bundler.root
+           .join("lib/git/lint/configuration/defaults.yml")
+           .then { |path| YAML.load_file path }
+           .then do |settings|
+             settings[:analyzers][:commit_body_presence][:enabled] = false
+
+             Bundler.root.join("tmp/defaults.yml").make_ancestors.write settings.to_yaml
+           end
+  end
 end

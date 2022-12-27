@@ -6,7 +6,12 @@ require "infusible/stub"
 RSpec.shared_context "with application dependencies" do
   using Infusible::Stub
 
-  let(:configuration) { Git::Lint::Configuration::Loader.with_defaults.call }
+  let :configuration do
+    YAML.load_file(Bundler.root.join("tmp/defaults.yml")).then do |settings|
+      Git::Lint::Configuration::Loader.new(client: settings).call
+    end
+  end
+
   let(:environment) { Hash.new }
   let(:kernel) { class_spy Kernel }
 
