@@ -9,7 +9,7 @@ gemspec
 group :code_quality do
   gem "caliber", "~> 0.21"
   gem "reek", "~> 6.1"
-  gem "simplecov", "~> 0.21", require: false
+  gem "simplecov", "~> 0.22", require: false
 end
 
 group :development do
