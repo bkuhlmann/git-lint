@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit body for proper capitalization of bullet sentences.
       class CommitBodyBulletCapitalization < Abstract
-        def valid? = lowercased_bullets.size.zero?
+        def valid? = lowercased_bullets.empty?
 
         def issue
           return {} if valid?
