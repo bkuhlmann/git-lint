@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
+require "core"
+
 module Git
   module Lint
     module Reporters
       module Lines
         # Reports sentence details.
         class Sentence
-          def initialize data = {}
+          def initialize data = Core::EMPTY_HASH
             @data = data
           end
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "core"
+
 module Git
   module Lint
     module CLI
@@ -19,7 +21,7 @@ module Git
           @parser = parser
         end
 
-        def call arguments = []
+        def call arguments = Core::EMPTY_ARRAY
           perform parser.call(arguments)
         rescue OptionParser::ParseError, Errors::Base => error
           logger.error { error.message }

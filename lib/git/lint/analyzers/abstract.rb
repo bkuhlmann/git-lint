@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "core"
 require "refinements/strings"
 
 module Git
@@ -54,7 +55,7 @@ module Git
 
         attr_reader :filter_list
 
-        def load_filter_list = []
+        def load_filter_list = Core::EMPTY_ARRAY
 
         def affected_commit_body_lines
           commit.body_lines.each.with_object([]).with_index do |(line, lines), index|

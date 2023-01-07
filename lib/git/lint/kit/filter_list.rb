@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+require "core"
+
 module Git
   module Lint
     module Kit
       # Represents an regular expression list which may be used as an analyzer setting.
       class FilterList
-        def initialize list = []
+        def initialize list = Core::EMPTY_ARRAY
           @list = Array list
         end
 

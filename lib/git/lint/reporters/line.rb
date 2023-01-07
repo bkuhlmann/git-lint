@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "core"
+
 module Git
   module Lint
     module Reporters
@@ -7,7 +9,7 @@ module Git
       class Line
         DEFAULT_INDENT = "    "
 
-        def initialize data = {}
+        def initialize data = Core::EMPTY_HASH
           @data = data
         end
 

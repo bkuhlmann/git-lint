@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "core"
 require "refinements/structs"
 
 module Git
@@ -17,7 +18,7 @@ module Git
             @client = client
           end
 
-          def call arguments = []
+          def call arguments = ::Core::EMPTY_ARRAY
             client.separator "\nANALYZE OPTIONS:\n"
             add_sha
             client.parse arguments
