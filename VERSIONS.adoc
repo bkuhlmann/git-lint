@@ -1,5 +1,15 @@
 = Versions
 
+== 5.1.0 (2023-01-08)
+
+* Fixed Style/ZeroLengthPredicate issue - Brooke Kuhlmann
+* Fixed spec helper loading of YAML library - Brooke Kuhlmann
+* Added Core gem - Brooke Kuhlmann
+* Updated to Caliber 0.21.0 - Brooke Kuhlmann
+* Updated to Gitt 1.1.0 - Brooke Kuhlmann
+* Updated to SimpleCov 0.22.0 - Brooke Kuhlmann
+* Refactored implementation to use empty core instances - Brooke Kuhlmann
+
 == 5.0.0 (2022-12-27)
 
 * Added Dry Monads gem - Brooke Kuhlmann
