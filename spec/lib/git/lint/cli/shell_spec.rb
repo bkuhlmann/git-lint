@@ -83,12 +83,12 @@ RSpec.describe Git::Lint::CLI::Shell do
     end
 
     it "analyzes hook for valid commit" do
-      shell.call ["--hook", Bundler.root.join("spec/support/fixtures/commit-valid.txt").to_s]
+      shell.call ["--hook", SPEC_ROOT.join("support/fixtures/commit-valid.txt").to_s]
       expect(kernel).to have_received(:puts).with(/1 commit inspected.*0 issues.+detected/m)
     end
 
     it "analyzes hook for invalid commit" do
-      shell.call ["--hook", Bundler.root.join("spec/support/fixtures/commit-invalid.txt").to_s]
+      shell.call ["--hook", SPEC_ROOT.join("support/fixtures/commit-invalid.txt").to_s]
 
       expect(kernel).to have_received(:puts).with(
         /1 commit inspected.+2 issues.+0 warnings.+2 errors/m
