@@ -22,7 +22,7 @@ module Git
         end
 
         def call arguments = Core::EMPTY_ARRAY
-          perform parser.call(arguments)
+          act_on parser.call(arguments)
         rescue OptionParser::ParseError, Errors::Base => error
           logger.error { error.message }
         end
@@ -31,7 +31,7 @@ module Git
 
         attr_reader :parser
 
-        def perform configuration
+        def act_on configuration
           case configuration
             in action_analyze: true, analyze_sha: nil then analyze_branch.call
             in action_analyze: true, analyze_sha: String => sha then analyze_commit.call sha
