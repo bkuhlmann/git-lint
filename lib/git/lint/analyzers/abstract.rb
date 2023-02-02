@@ -23,8 +23,8 @@ module Git
 
         attr_reader :commit
 
-        def initialize commit, **dependencies
-          super(**dependencies)
+        def initialize(commit, **)
+          super(**)
           @commit = commit
           @filter_list = load_filter_list
         end

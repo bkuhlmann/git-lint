@@ -8,8 +8,8 @@ module Git
         class Hook
           include Git::Lint::Import[:git, :kernel, :logger]
 
-          def initialize analyzer: Analyzer.new, **dependencies
-            super(**dependencies)
+          def initialize(analyzer: Analyzer.new, **)
+            super(**)
             @analyzer = analyzer
           end
 

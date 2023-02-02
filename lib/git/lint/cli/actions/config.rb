@@ -8,8 +8,8 @@ module Git
         class Config
           include Git::Lint::Import[:kernel, :logger]
 
-          def initialize configuration: Configuration::Loader::CLIENT, **dependencies
-            super(**dependencies)
+          def initialize(configuration: Configuration::Loader::CLIENT, **)
+            super(**)
             @configuration = configuration
           end
 

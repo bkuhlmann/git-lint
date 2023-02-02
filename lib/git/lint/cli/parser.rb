@@ -13,8 +13,8 @@ module Git
         CLIENT = OptionParser.new nil, 40, "  "
         SECTIONS = [Parsers::Core, Parsers::Analyze].freeze # Order matters.
 
-        def initialize sections: SECTIONS, client: CLIENT, **dependencies
-          super(**dependencies)
+        def initialize(sections: SECTIONS, client: CLIENT, **)
+          super(**)
           @sections = sections
           @client = client
           @configuration_duplicate = configuration.dup

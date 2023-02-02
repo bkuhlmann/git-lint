@@ -42,11 +42,13 @@ module Git
       ].freeze
 
       # rubocop:disable Metrics/ParameterLists
-      def initialize analyzers: ANALYZERS,
-                     collector: Collector.new,
-                     reporter: Reporters::Branch,
-                     **dependencies
-        super(**dependencies)
+      def initialize(
+        analyzers: ANALYZERS,
+        collector: Collector.new,
+        reporter: Reporters::Branch,
+        **
+      )
+        super(**)
         @analyzers = analyzers
         @collector = collector
         @reporter = reporter

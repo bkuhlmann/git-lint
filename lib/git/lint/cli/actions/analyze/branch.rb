@@ -9,8 +9,8 @@ module Git
           class Branch
             include Git::Lint::Import[:kernel, :logger]
 
-            def initialize analyzer: Analyzer.new, **dependencies
-              super(**dependencies)
+            def initialize(analyzer: Analyzer.new, **)
+              super(**)
               @analyzer = analyzer
             end
 
