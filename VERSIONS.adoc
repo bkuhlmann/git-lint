@@ -1,5 +1,14 @@
 = Versions
 
+== 5.1.1 (2023-02-05)
+
+* Fixed Guardfile to use RSpec binstub - Brooke Kuhlmann
+* Added Rake binstub - Brooke Kuhlmann
+* Updated to Caliber 0.25.0 - Brooke Kuhlmann
+* Refactored CLI shell act on configuration when pattern matching - Brooke Kuhlmann
+* Refactored RSpec helper to use spec root constant - Brooke Kuhlmann
+* Refactored implementation to forward splatted arguments - Brooke Kuhlmann
+
 == 5.1.0 (2023-01-08)
 
 * Fixed Style/ZeroLengthPredicate issue - Brooke Kuhlmann
