@@ -2,14 +2,14 @@
 :toclevels: 5
 :figure-caption!:
 
-:git_rebase_workflow_link: link:https://www.alchemists.io/articles/git_rebase[Git Rebase Workflow]
+:git_rebase_workflow_link: link:https://alchemists.io/articles/git_rebase[Git Rebase Workflow]
 
 = Git Lint
 
 Git Lint is a command line interface for linting Git commits by ensuring you maintain a clean, easy
 to read, debuggable, and maintainable project history. Having a consistent commit history leads to
 improved code reviews and is a perfect companion to tools like
-link:https://www.alchemists.io/projects/milestoner[Milestoner] for versioning and producing
+link:https://alchemists.io/projects/milestoner[Milestoner] for versioning and producing
 automated release notes of your deploys.
 
 toc::[]
@@ -96,7 +96,7 @@ This gem can be configured via a global configuration:
 $HOME/.config/git-lint/configuration.yml
 ....
 
-It can also be configured via link:https://www.alchemists.io/projects/xdg[XDG] environment
+It can also be configured via link:https://alchemists.io/projects/xdg[XDG] environment
 variables. The default configuration is:
 
 [source,yaml]
@@ -587,9 +587,9 @@ In practice, it is quite rare to need a prefix other than what has been detailed
 _what_ is being committed. These prefixes are not only short and easy to remember but also have the
 added benefit of categorizing the commits for building release notes, change logs, etc. This becomes
 handy when coupled with another tool,
-link:https://www.alchemists.io/projects/milestoner[Milestoner], for producing consistent project
+link:https://alchemists.io/projects/milestoner[Milestoner], for producing consistent project
 milestones and Git tag histories. For a deeper dive on subject prefixes and good commit messages in
-general, please read about link:https://www.alchemists.io/articles/git_commit_anatomy[commit anatomy
+general, please read about link:https://alchemists.io/articles/git_commit_anatomy[commit anatomy
 ] to learn more. 🎉
 
 Each prefix is delimited by a space which is the default setting but can be customized if desired.
@@ -609,7 +609,7 @@ a Git Hook in order to not disturb interactive rebase workflows.
 
 Ensures commit subjects are suffixed consistently. The exclude list _is_ case sensitive and prevents
 the use of punctuation. This is handy when coupled with a tool, like
-link:https://www.alchemists.io/projects/milestoner[Milestoner], which automates project milestone
+link:https://alchemists.io/projects/milestoner[Milestoner], which automates project milestone
 releases.
 
 ==== Commit Trailer Collaborator Capitalization
@@ -1139,7 +1139,7 @@ configuration disabled.
 
 === Tags
 
-* Use tags to denote link:https://www.alchemists.io/projects/milestoner[milestones]/releases:
+* Use tags to denote link:https://alchemists.io/projects/milestoner[milestones]/releases:
 ** Makes it easier to record milestones and capture associated release notes.
 ** Makes it easier to compare differences between versions.
 ** Provides a starting point for debugging production issues (if any).
@@ -1165,7 +1165,7 @@ configuration disabled.
 === Code Reviews
 
 For an in depth look at how to conduct code reviews, please read my
-link:https://www.alchemists.io/articles/code_reviews[article] on this subject to learn more.
+link:https://alchemists.io/articles/code_reviews[article] on this subject to learn more.
 
 == Development
 
@@ -1194,19 +1194,19 @@ To test, run:
 bin/rake
 ----
 
-== link:https://www.alchemists.io/policies/license[License]
+== link:https://alchemists.io/policies/license[License]
 
-== link:https://www.alchemists.io/policies/security[Security]
+== link:https://alchemists.io/policies/security[Security]
 
-== link:https://www.alchemists.io/policies/code_of_conduct[Code of Conduct]
+== link:https://alchemists.io/policies/code_of_conduct[Code of Conduct]
 
-== link:https://www.alchemists.io/policies/contributions[Contributions]
+== link:https://alchemists.io/policies/contributions[Contributions]
 
-== link:https://www.alchemists.io/projects/git-lint/versions[Versions]
+== link:https://alchemists.io/projects/git-lint/versions[Versions]
 
-== link:https://www.alchemists.io/community[Community]
+== link:https://alchemists.io/community[Community]
 
 == Credits
 
-* Built with link:https://www.alchemists.io/projects/gemsmith[Gemsmith].
-* Engineered by link:https://www.alchemists.io/team/brooke_kuhlmann[Brooke Kuhlmann].
+* Built with link:https://alchemists.io/projects/gemsmith[Gemsmith].
+* Engineered by link:https://alchemists.io/team/brooke_kuhlmann[Brooke Kuhlmann].

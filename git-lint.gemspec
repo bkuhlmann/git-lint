@@ -5,14 +5,14 @@ Gem::Specification.new do |spec|
   spec.version = "5.1.1"
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
-  spec.homepage = "https://www.alchemists.io/projects/git-lint"
+  spec.homepage = "https://alchemists.io/projects/git-lint"
   spec.summary = "A command line interface for linting Git commits."
   spec.license = "Hippocratic-2.1"
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/bkuhlmann/git-lint/issues",
-    "changelog_uri" => "https://www.alchemists.io/projects/git-lint/versions",
-    "documentation_uri" => "https://www.alchemists.io/projects/git-lint",
+    "changelog_uri" => "https://alchemists.io/projects/git-lint/versions",
+    "documentation_uri" => "https://alchemists.io/projects/git-lint",
     "funding_uri" => "https://github.com/sponsors/bkuhlmann",
     "label" => "Git Lint",
     "rubygems_mfa_required" => "true",

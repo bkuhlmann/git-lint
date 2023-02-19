@@ -17,5 +17,5 @@ keywords:
  - linter
  - code quality
  - consistency
-repository-code: https://www.alchemists.io/projects/git-lint
+repository-code: https://alchemists.io/projects/git-lint
 repository-artifact: https://rubygems.org/gems/git-lint
