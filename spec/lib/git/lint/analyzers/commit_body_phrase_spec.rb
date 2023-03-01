@@ -61,36 +61,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     end
 
     context "with default exclude list" do
-      [
-        "absolutely",
-        "actually",
-        "all intents and purposes",
-        "along the lines",
-        "at this moment in time",
-        "basically",
-        "each and every one",
-        "everyone knows",
-        "fact of the matter",
-        "furthermore",
-        "however",
-        "in due course",
-        "in the end",
-        "last but not least",
-        "matter of fact",
-        "obviously",
-        "of course",
-        "really",
-        "simply",
-        "things being equal",
-        "would like to",
-        "easy",
-        "just",
-        "quite",
-        "as far as I am concerned",
-        "as far as I'm concerned",
-        "of the fact that",
-        "of the opinion that"
-      ].each do |phrase|
+      SPEC_ROOT.join("support/fixtures/invalid_phrases.txt").each_line(chomp: true) do |phrase|
         let(:commit) { Gitt::Models::Commit[body_lines: [phrase]] }
 
         it %(answers false for "#{phrase}") do
