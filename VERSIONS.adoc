@@ -1,5 +1,13 @@
 = Versions
 
+== 5.1.2 (2023-03-22)
+
+* Fixed Metrics/CollectionLiteralLength issues - Brooke Kuhlmann
+* Updated Reek dependency to not be required - Brooke Kuhlmann
+* Updated site URLs to use bare domain - Brooke Kuhlmann
+* Updated to Ruby 3.2.1 - Brooke Kuhlmann
+* Refactored Pathname require tree refinement to pass single argument - Brooke Kuhlmann
+
 == 5.1.1 (2023-02-05)
 
 * Fixed Guardfile to use RSpec binstub - Brooke Kuhlmann

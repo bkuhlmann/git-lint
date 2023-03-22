@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "git-lint"
-  spec.version = "5.1.1"
+  spec.version = "5.1.2"
   spec.authors = ["Brooke Kuhlmann"]
   spec.email = ["brooke@alchemists.io"]
   spec.homepage = "https://alchemists.io/projects/git-lint"
