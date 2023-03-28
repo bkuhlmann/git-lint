@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
-require "pastel"
-
 module Git
   module Lint
     module Reporters
       # Reports issues related to a single style.
       class Style
-        def initialize analyzer, colorizer: Pastel.new
+        include Import[:color]
+
+        def initialize(analyzer, **)
+          super(**)
           @analyzer = analyzer
           @issue = analyzer.issue
-          @colorizer = colorizer
         end
 
-        def to_s = colorizer.public_send(color, message)
+        def to_s = color[message, style]
 
         alias to_str to_s
 
         private
 
-        attr_reader :analyzer, :issue, :colorizer
+        attr_reader :analyzer, :issue
 
         def message
           "  #{analyzer.class.label}#{severity_suffix}. " \
@@ -35,7 +35,7 @@ module Git
           end
         end
 
-        def color
+        def style
           case analyzer.severity
             when :warn then :yellow
             when :error then :red

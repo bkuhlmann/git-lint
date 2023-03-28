@@ -4,6 +4,7 @@ require "cogger"
 require "dry-container"
 require "gitt"
 require "spek"
+require "tone"
 
 module Git
   module Lint
@@ -17,6 +18,7 @@ module Git
       register(:specification) { Spek::Loader.call "#{__dir__}/../../../git-lint.gemspec" }
       register(:kernel) { Kernel }
       register(:logger) { Cogger::Client.new }
+      register(:color) { Tone.new }
 
       namespace :trailers do
         register(:collaborator) { /\ACo.*Authored.*By.*\Z/i }

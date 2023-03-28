@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
-require "pastel"
-
 module Git
   module Lint
     module Reporters
       # Reports issues related to a single branch.
       class Branch
+        include Import[:color]
         using ::Refinements::Strings
 
-        def initialize collector: Collector.new, colorizer: Pastel.new
+        def initialize(collector: Collector.new, **)
+          super(**)
           @collector = collector
-          @colorizer = colorizer
         end
 
         def to_s
@@ -23,7 +22,7 @@ module Git
 
         private
 
-        attr_reader :collector, :colorizer
+        attr_reader :collector
 
         def branch_report
           return "" unless collector.issues?
@@ -46,26 +45,26 @@ module Git
           if collector.issues?
             "#{issue_total} detected (#{warning_total}, #{error_total})"
           else
-            colorizer.green("0 issues") + " detected"
+            color["0 issues", :green] + " detected"
           end
         end
 
         def issue_total
-          color = collector.errors? ? :red : :yellow
+          style = collector.errors? ? :red : :yellow
           total = collector.total_issues
-          colorizer.public_send color, "#{total} issue".pluralize("s", count: total)
+          color["#{total} issue".pluralize("s", count: total), style]
         end
 
         def warning_total
-          color = collector.warnings? ? :yellow : :green
+          style = collector.warnings? ? :yellow : :green
           total = collector.total_warnings
-          colorizer.public_send color, "#{total} warning".pluralize("s", count: total)
+          color["#{total} warning".pluralize("s", count: total), style]
         end
 
         def error_total
-          color = collector.errors? ? :red : :green
+          style = collector.errors? ? :red : :green
           total = collector.total_errors
-          colorizer.public_send color, "#{total} error".pluralize("s", count: total)
+          color["#{total} error".pluralize("s", count: total), style]
         end
       end
     end
