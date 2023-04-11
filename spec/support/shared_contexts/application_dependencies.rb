@@ -14,11 +14,7 @@ RSpec.shared_context "with application dependencies" do
 
   let(:environment) { Hash.new }
   let(:kernel) { class_spy Kernel }
-
-  let :logger do
-    Cogger::Client.new Logger.new(StringIO.new),
-                       formatter: -> _severity, _name, _at, message { "#{message}\n" }
-  end
+  let(:logger) { Cogger.new io: StringIO.new, formatter: :emoji }
 
   before { Git::Lint::Import.stub configuration:, environment:, kernel:, logger: }
 

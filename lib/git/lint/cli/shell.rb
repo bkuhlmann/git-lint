@@ -12,8 +12,9 @@ module Git
           :analyze_commit,
           :config,
           :hook,
-          :specification,
-          :logger
+          :kernel,
+          :logger,
+          :specification
         ]
 
         def initialize(parser: Parser.new, **)
@@ -37,8 +38,8 @@ module Git
             in action_analyze: true, analyze_sha: String => sha then analyze_commit.call sha
             in action_config: Symbol => action then config.call action
             in action_hook: Pathname => path then hook.call path
-            in action_version: true then logger.info { specification.labeled_version }
-            else logger.any { parser.to_s }
+            in action_version: true then kernel.puts specification.labeled_version
+            else kernel.puts parser.to_s
           end
         end
       end

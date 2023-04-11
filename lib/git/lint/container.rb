@@ -17,7 +17,7 @@ module Git
       register(:git) { Gitt::Repository.new }
       register(:specification) { Spek::Loader.call "#{__dir__}/../../../git-lint.gemspec" }
       register(:kernel) { Kernel }
-      register(:logger) { Cogger::Client.new }
+      register(:logger) { Cogger.new formatter: :emoji }
       register(:color) { Tone.new }
 
       namespace :trailers do

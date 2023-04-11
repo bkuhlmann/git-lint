@@ -97,22 +97,22 @@ RSpec.describe Git::Lint::CLI::Shell do
 
     it "prints help" do
       shell.call %w[--help]
-      expect(logger.reread).to match(/Git Lint.+USAGE.+/m)
+      expect(kernel).to have_received(:puts).with(/Git Lint.+USAGE.+/m)
     end
 
     it "prints usage when no options are given" do
       shell.call
-      expect(logger.reread).to match(/Git Lint.+USAGE.+/m)
+      expect(kernel).to have_received(:puts).with(/Git Lint.+USAGE.+/m)
     end
 
     it "prints error with invalid option" do
       shell.call %w[--bogus]
-      expect(logger.reread).to match(/invalid option.+bogus/)
+      expect(logger.reread).to match(/🛑.+invalid option.+bogus/)
     end
 
     it "prints version" do
       shell.call %w[--version]
-      expect(logger.reread).to match(/Git Lint\s\d+\.\d+\.\d+/)
+      expect(kernel).to have_received(:puts).with(/Git Lint\s\d+\.\d+\.\d+/)
     end
   end
 end

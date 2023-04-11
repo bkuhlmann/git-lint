@@ -64,7 +64,7 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
 
       it "logs error" do
         action.call
-        expect(logger.reread).to eq("Danger!\n")
+        expect(logger.reread).to match(/🛑.+Danger!/)
       end
 
       it "aborts" do
