@@ -1,5 +1,10 @@
 = Versions
 
+== 5.3.0 (2023-04-12)
+
+* Updated to Caliber 0.30.0 - Brooke Kuhlmann
+* Updated to Cogger 0.8.0 - Brooke Kuhlmann
+
 == 5.2.0 (2023-04-10)
 
 * Added Tone gem - Brooke Kuhlmann
