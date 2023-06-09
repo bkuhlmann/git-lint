@@ -54,7 +54,7 @@ RSpec.configure do |config|
   config.before :suite do
     Bundler.root
            .join("lib/git/lint/configuration/defaults.yml")
-           .then { |path| YAML.load_file path }
+           .then { |path| YAML.load_file path, symbolize_names: true }
            .then do |settings|
              settings[:analyzers][:commit_body_presence][:enabled] = false
              settings[:analyzers][:commit_signature][:includes] = %w[Good Invalid]

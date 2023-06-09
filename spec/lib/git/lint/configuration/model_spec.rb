@@ -8,24 +8,12 @@ RSpec.describe Git::Lint::Configuration::Model do
   let(:setting) { Git::Lint::Configuration::Setting[id: :commit_subject_prefix, enabled: true] }
 
   describe "#initialize" do
-    let :proof do
-      {
-        action_analyze: nil,
-        action_config: nil,
-        action_help: nil,
-        action_hook: nil,
-        action_version: nil,
-        analyze_sha: nil,
-        analyzers: nil
-      }
-    end
-
     it "answers default attributes" do
-      expect(described_class.new).to have_attributes(proof)
+      expect(described_class.new).to have_attributes(analyzers: nil)
     end
 
     it "fails when attempting to modify a frozen attribute" do
-      expecation = proc { described_class.new.action_help = "danger" }
+      expecation = proc { described_class.new.analyzers = "danger" }
       expect(&expecation).to raise_error(FrozenError)
     end
   end
