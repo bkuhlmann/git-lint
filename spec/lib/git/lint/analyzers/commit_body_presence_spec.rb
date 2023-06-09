@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_body_presence, minimum: 3]
           ]
@@ -74,7 +74,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_body_presence, minimum: 3]
           ]
@@ -107,7 +107,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_body_presence, minimum: 3]
           ]

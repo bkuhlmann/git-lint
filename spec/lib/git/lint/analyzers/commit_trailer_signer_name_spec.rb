@@ -55,7 +55,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_trailer_signer_name, minimum: 1]
           ]

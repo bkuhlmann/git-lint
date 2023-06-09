@@ -42,7 +42,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_author_name, minimum: 1]
           ]

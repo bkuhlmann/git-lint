@@ -80,7 +80,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_body_line_length, maximum: 55]
           ]

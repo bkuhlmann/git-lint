@@ -59,7 +59,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_subject_length, maximum: 10]
           ]
@@ -89,7 +89,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_subject_length, maximum: 10]
           ]

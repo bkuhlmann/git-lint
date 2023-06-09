@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
   include_context "with Git commit"
 
   let :configuration do
-    Git::Lint::Configuration::Content[
+    Git::Lint::Configuration::Model[
       analyzers: [Git::Lint::Configuration::Setting[id: :abstract, enabled: true, severity: :error]]
     ]
   end
@@ -55,7 +55,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
     context "when disabled" do
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [Git::Lint::Configuration::Setting[id: :abstract, enabled: false]]
         ]
       end
@@ -73,7 +73,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
     context "without severity" do
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [Git::Lint::Configuration::Setting[id: :abstract]]
         ]
       end
@@ -86,7 +86,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
     context "with invalid severity" do
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [Git::Lint::Configuration::Setting[id: :abstract, severity: :bogus]]
         ]
       end
@@ -122,7 +122,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
 
   describe "#warning?" do
     let :configuration do
-      Git::Lint::Configuration::Content[
+      Git::Lint::Configuration::Model[
         analyzers: [
           Git::Lint::Configuration::Setting[id: :abstract, enabled: true, severity: :warn]
         ]

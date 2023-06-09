@@ -21,7 +21,7 @@ module Git
 
         def self.with_defaults = new(client: DEFAULTS)
 
-        def initialize content: Content.new, client: CLIENT, setting: Setting
+        def initialize content: Model.new, client: CLIENT, setting: Setting
           @content = content
           @client = client
           @setting = setting

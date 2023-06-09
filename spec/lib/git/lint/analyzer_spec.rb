@@ -14,7 +14,7 @@ RSpec.describe Git::Lint::Analyzer do
   include_context "with application dependencies"
 
   let :configuration do
-    Git::Lint::Configuration::Content[
+    Git::Lint::Configuration::Model[
       analyzers: [
         Git::Lint::Configuration::Setting[
           id: :commit_body_leading_line,
@@ -98,7 +98,7 @@ RSpec.describe Git::Lint::Analyzer do
 
     context "with disabled analyzer" do
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[
               id: :commit_subject_prefix,
@@ -121,7 +121,7 @@ RSpec.describe Git::Lint::Analyzer do
 
     context "with invalid analyzer ID" do
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [Git::Lint::Configuration::Setting[id: :bogus]]
         ]
       end

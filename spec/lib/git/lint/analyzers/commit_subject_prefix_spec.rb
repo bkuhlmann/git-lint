@@ -48,7 +48,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       subject(:analyzer) { described_class.new Gitt::Models::Commit[subject: "One"] }
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_subject_prefix, includes: %w[One Two]]
           ]
@@ -64,7 +64,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       subject(:analyzer) { described_class.new Gitt::Models::Commit[subject: "Test"] }
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_subject_prefix, includes: []]
           ]
@@ -80,7 +80,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       let(:commit) { Gitt::Models::Commit[subject: "Added - specs"] }
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[
               id: :commit_subject_prefix,

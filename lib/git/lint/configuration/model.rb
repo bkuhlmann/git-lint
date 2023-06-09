@@ -4,7 +4,7 @@ module Git
   module Lint
     module Configuration
       # Defines configuration content as the primary source of truth for use throughout the gem.
-      Content = Struct.new(
+      Model = Struct.new(
         :action_analyze,
         :action_config,
         :action_help,

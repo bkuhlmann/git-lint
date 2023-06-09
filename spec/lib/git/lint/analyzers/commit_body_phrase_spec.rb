@@ -76,7 +76,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["BasicaLLy"]]
           ]
@@ -94,7 +94,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["OF CoursE"]]
           ]
@@ -112,7 +112,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["\\bjust\\b"]]
           ]
@@ -130,7 +130,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["\\bjust\\b"]]
           ]
@@ -148,7 +148,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[
               id: :commit_body_phrase,

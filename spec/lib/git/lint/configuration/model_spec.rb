@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Git::Lint::Configuration::Content do
+RSpec.describe Git::Lint::Configuration::Model do
   subject(:content) { described_class[analyzers: [setting]] }
 
   let(:setting) { Git::Lint::Configuration::Setting[id: :commit_subject_prefix, enabled: true] }

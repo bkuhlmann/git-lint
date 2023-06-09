@@ -6,7 +6,7 @@ RSpec.describe Git::Lint::Configuration::Loader do
   subject(:loader) { described_class.with_defaults }
 
   let :configuration do
-    Git::Lint::Configuration::Content[
+    Git::Lint::Configuration::Model[
       action_analyze: nil,
       action_config: nil,
       action_help: nil,
@@ -27,7 +27,7 @@ RSpec.describe Git::Lint::Configuration::Loader do
 
   describe ".call" do
     it "answers default configuration" do
-      expect(described_class.call).to be_a(Git::Lint::Configuration::Content)
+      expect(described_class.call).to be_a(Git::Lint::Configuration::Model)
     end
   end
 

@@ -40,7 +40,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
       let(:commit) { Gitt::Models::Commit[author_name: "Example"] }
 
       let :configuration do
-        Git::Lint::Configuration::Content[
+        Git::Lint::Configuration::Model[
           analyzers: [
             Git::Lint::Configuration::Setting[id: :commit_author_capitalization, minimum: 1]
           ]
