@@ -1,162 +1,177 @@
-:analyzers:
-  :commit_author_capitalization:
-    :enabled: true
-    :severity: :error
-  :commit_author_email:
-    :enabled: true
-    :severity: :error
-  :commit_author_name:
-    :enabled: true
-    :severity: :error
-    :minimum: 2
-  :commit_body_bullet:
-    :enabled: true
-    :severity: :error
-    :excludes:
-      - "\\*"
-      - "•"
-  :commit_body_bullet_capitalization:
-    :enabled: true
-    :severity: :error
-    :includes: "\\-"
-  :commit_body_bullet_delimiter:
-    :enabled: true
-    :severity: :error
-    :includes: "\\-"
-  :commit_body_leading_line:
-    :enabled: true
-    :severity: :warn
-  :commit_body_line_length:
-    :enabled: false
-    :severity: :error
-    :maximum: 72
-  :commit_body_paragraph_capitalization:
-    :enabled: true
-    :severity: :error
-  :commit_body_phrase:
-    :enabled: true
-    :severity: :error
-    :excludes:
-      - "absolutely"
-      - "actually"
-      - "all intents and purposes"
-      - "along the lines"
-      - "at this moment in time"
-      - "basically"
-      - "each and every one"
-      - "everyone knows"
-      - "fact of the matter"
-      - "furthermore"
-      - "however"
-      - "in due course"
-      - "in the end"
-      - "last but not least"
-      - "matter of fact"
-      - "obviously"
-      - "of course"
-      - "really"
-      - "simply"
-      - "things being equal"
-      - "would like to"
-      - "\\beasy\\b"
-      - "\\bjust\\b"
-      - "\\bquite\\b"
-      - "as\\sfar\\sas\\s.+\\sconcerned"
-      - "of\\sthe\\s(fact|opinion)\\sthat"
-  :commit_body_presence:
-    :enabled: true
-    :severity: :warn
-    :minimum: 1
-  :commit_body_single_bullet:
-    :enabled: true
-    :severity: :error
-    :includes: "\\-"
-  :commit_body_tracker_shorthand:
-    :enabled: true
-    :severity: :error
-    :excludes:
-      - "(f|F)ix(es|ed)?\\s\\#\\d+"
-      - "(c|C)lose(s|d)?\\s\\#\\d+"
-      - "(r|R)esolve(s|d)?\\s\\#\\d+"
-  :commit_signature:
-    :enabled: false
-    :severity: :error
-    :includes: Good
-  :commit_subject_length:
-    :enabled: true
-    :severity: :error
-    :maximum: 72
-  :commit_subject_prefix:
-    :enabled: true
-    :severity: :error
-    :delimiter: " "
-    :includes:
-      - Fixed
-      - Added
-      - Updated
-      - Removed
-      - Refactored
-  :commit_subject_suffix:
-    :enabled: true
-    :severity: :error
-    :excludes:
-      - "\\."
-      - "\\?"
-      - "\\!"
-  :commit_trailer_collaborator_capitalization:
-    :enabled: true
-    :severity: :error
-  :commit_trailer_collaborator_email:
-    :enabled: true
-    :severity: :error
-  :commit_trailer_collaborator_key:
-    :enabled: true
-    :severity: :error
-    :includes: Co-Authored-By
-  :commit_trailer_collaborator_name:
-    :enabled: true
-    :severity: :error
-    :minimum: 2
-  :commit_trailer_duplicate:
-    :enabled: true
-    :severity: :error
-  :commit_trailer_format_key:
-    :enabled: true
-    :severity: :error
-    :includes: Format
-  :commit_trailer_format_value:
-    :enabled: true
-    :severity: :error
-    :includes:
-      - ASCII
-      - Markdown
-  :commit_trailer_issue_key:
-    :enabled: true
-    :severity: :error
-    :includes: Issue
-  :commit_trailer_issue_value:
-    :enabled: true
-    :severity: :error
-    :includes: "[\\w-]+"
-  :commit_trailer_signer_capitalization:
-    :enabled: true
-    :severity: :error
-  :commit_trailer_signer_email:
-    :enabled: true
-    :severity: :error
-  :commit_trailer_signer_key:
-    :enabled: true
-    :severity: :error
-    :includes: Signed-By
-  :commit_trailer_signer_name:
-    :enabled: true
-    :severity: :error
-    :minimum: 2
-  :commit_trailer_tracker_key:
-    :enabled: true
-    :severity: :error
-    :includes: Tracker
-  :commit_trailer_tracker_value:
-    :enabled: true
-    :severity: :error
-    :includes: "[\\w\\-\\s]+"
+commits:
+  author:
+    capitalization:
+      enabled: true
+      severity: error
+    email:
+      enabled: true
+      severity: error
+    name:
+      enabled: true
+      severity: error
+      minimum: 2
+  body:
+    bullet:
+      enabled: true
+      severity: error
+      excludes:
+        - "\\*"
+        - "•"
+    bullet_capitalization:
+      enabled: true
+      severity: error
+      includes:
+        - "\\-"
+    bullet_delimiter:
+      enabled: true
+      severity: error
+      includes:
+        - "\\-"
+    leading_line:
+      enabled: true
+      severity: warn
+    line_length:
+      enabled: false
+      severity: error
+      maximum: 72
+    paragraph_capitalization:
+      enabled: true
+      severity: error
+    phrase:
+      enabled: true
+      severity: error
+      excludes:
+        - "absolutely"
+        - "actually"
+        - "all intents and purposes"
+        - "along the lines"
+        - "at this moment in time"
+        - "basically"
+        - "each and every one"
+        - "everyone knows"
+        - "fact of the matter"
+        - "furthermore"
+        - "however"
+        - "in due course"
+        - "in the end"
+        - "last but not least"
+        - "matter of fact"
+        - "obviously"
+        - "of course"
+        - "really"
+        - "simply"
+        - "things being equal"
+        - "would like to"
+        - "\\beasy\\b"
+        - "\\bjust\\b"
+        - "\\bquite\\b"
+        - "as\\sfar\\sas\\s.+\\sconcerned"
+        - "of\\sthe\\s(fact|opinion)\\sthat"
+    presence:
+      enabled: true
+      severity: warn
+      minimum: 1
+    single_bullet:
+      enabled: true
+      severity: error
+      includes:
+        - "\\-"
+    tracker_shorthand:
+      enabled: true
+      severity: error
+      excludes:
+        - "(f|F)ix(es|ed)?\\s\\#\\d+"
+        - "(c|C)lose(s|d)?\\s\\#\\d+"
+        - "(r|R)esolve(s|d)?\\s\\#\\d+"
+  signature:
+    enabled: false
+    severity: error
+    includes:
+      - Good
+  subject:
+    length:
+      enabled: true
+      severity: error
+      maximum: 72
+    prefix:
+      enabled: true
+      severity: error
+      delimiter: " "
+      includes:
+        - Fixed
+        - Added
+        - Updated
+        - Removed
+        - Refactored
+    suffix:
+      enabled: true
+      severity: error
+      excludes:
+        - "\\."
+        - "\\?"
+        - "\\!"
+  trailer:
+    collaborator_capitalization:
+      enabled: true
+      severity: error
+    collaborator_email:
+      enabled: true
+      severity: error
+    collaborator_key:
+      enabled: true
+      severity: error
+      includes:
+        - Co-Authored-By
+    collaborator_name:
+      enabled: true
+      severity: error
+      minimum: 2
+    duplicate:
+      enabled: true
+      severity: error
+    format_key:
+      enabled: true
+      severity: error
+      includes:
+        - Format
+    format_value:
+      enabled: true
+      severity: error
+      includes:
+        - ASCII
+        - Markdown
+    issue_key:
+      enabled: true
+      severity: error
+      includes:
+        - Issue
+    issue_value:
+      enabled: true
+      severity: error
+      includes:
+        - "[\\w-]+"
+    signer_capitalization:
+      enabled: true
+      severity: error
+    signer_email:
+      enabled: true
+      severity: error
+    signer_key:
+      enabled: true
+      severity: error
+      includes:
+        - Signed-By
+    signer_name:
+      enabled: true
+      severity: error
+      minimum: 2
+    tracker_key:
+      enabled: true
+      severity: error
+      includes:
+        - Tracker
+    tracker_value:
+      enabled: true
+      severity: error
+      includes:
+        - "[\\w\\-\\s]+"
