@@ -15,6 +15,7 @@ unless ENV["NO_COVERAGE"]
 end
 
 require "git/lint"
+require "gitt"
 require "gitt/shared_contexts/git_commit"
 require "gitt/shared_contexts/git_repo"
 require "gitt/shared_contexts/temp_dir"
@@ -26,7 +27,6 @@ SPEC_ROOT = Pathname(__dir__).realpath.freeze
 using Refinements::Pathnames
 
 Pathname.require_tree SPEC_ROOT.join("support/shared_contexts")
-Pathname.require_tree SPEC_ROOT.join("support/shared_examples")
 
 # Ensure CI environments are disabled for local testing purposes.
 ENV["CIRCLECI"] = "false"
@@ -49,17 +49,5 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_doubled_constant_names = true
     mocks.verify_partial_doubles = true
-  end
-
-  config.before :suite do
-    Bundler.root
-           .join("lib/git/lint/configuration/defaults.yml")
-           .then { |path| YAML.load_file path, symbolize_names: true }
-           .then do |settings|
-             settings[:analyzers][:commit_body_presence][:enabled] = false
-             settings[:analyzers][:commit_signature][:includes] = %w[Good Invalid]
-
-             Bundler.root.join("tmp/defaults.yml").make_ancestors.write settings.to_yaml
-           end
   end
 end

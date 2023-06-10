@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_subject_length)
+      expect(described_class.id).to eq("commit_subject_length")
     end
   end
 
@@ -53,22 +53,13 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
       end
     end
 
-    context "with invalid length" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[subject: "Added specs"]
-      end
+    it "answers false with invalid length" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[subject: "Added specs"],
+        configuration: configuration.with(commits_subject_length_maximum: 10)
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_subject_length, maximum: 10]
-          ]
-        ]
-      end
-
-      it "answers false" do
-        expect(analyzer.valid?).to be(false)
-      end
+      expect(analyzer.valid?).to be(false)
     end
   end
 
@@ -85,15 +76,10 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
 
     context "when invalid" do
       subject :analyzer do
-        described_class.new Gitt::Models::Commit[subject: "Added specs"]
-      end
-
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_subject_length, maximum: 10]
-          ]
-        ]
+        described_class.new(
+          Gitt::Models::Commit[subject: "Added specs"],
+          configuration: configuration.with(commits_subject_length_maximum: 10)
+        )
       end
 
       it "answers issue hint" do

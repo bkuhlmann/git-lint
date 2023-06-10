@@ -18,7 +18,7 @@ module Git
 
         def call
           desc "Run Git Lint"
-          task(:git_lint) { shell.call ["--analyze"] }
+          task(:git_lint) { shell.call %w[analyze --branch] }
         end
 
         private

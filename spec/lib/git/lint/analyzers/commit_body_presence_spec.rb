@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_body_presence)
+      expect(described_class.id).to eq("commit_body_presence")
     end
   end
 
@@ -28,25 +28,13 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
       end
     end
 
-    context "when valid (custom minimum)" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[
-                              subject: "Test",
-                              body_lines: ["One.", "Two.", "Three."]
-                            ]
-      end
+    it "answers true when valid (custom minimum)" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[subject: "Test", body_lines: ["One.", "Two.", "Three."]],
+        configuration: configuration.with(commits_body_presence_minimum: 3)
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_body_presence, minimum: 3]
-          ]
-        ]
-      end
-
-      it "answers true" do
-        expect(analyzer.valid?).to be(true)
-      end
+      expect(analyzer.valid?).to be(true)
     end
 
     context "when valid (fixup!)" do
@@ -65,25 +53,13 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
       end
     end
 
-    context "when invalid (custom minimum and not enough non-empty lines)" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[
-                              subject: "Test",
-                              body_lines: ["One.", "\r", "", "\t", "Two."]
-                            ]
-      end
+    it "answers false when invalid (custom minimum and not enough non-empty lines)" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[subject: "Test", body_lines: ["One.", "\r", "", "\t", "Two."]],
+        configuration: configuration.with(commits_body_presence_minimum: 3)
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_body_presence, minimum: 3]
-          ]
-        ]
-      end
-
-      it "answers false" do
-        expect(analyzer.valid?).to be(false)
-      end
+      expect(analyzer.valid?).to be(false)
     end
   end
 
@@ -99,19 +75,11 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
     end
 
     context "when invalid" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[
-                              subject: "Test",
-                              body_lines: ["One.", "\r", " ", "\t", "Two."]
-                            ]
-      end
-
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_body_presence, minimum: 3]
-          ]
-        ]
+      let :analyzer do
+        described_class.new(
+          Gitt::Models::Commit[subject: "Test", body_lines: ["One.", "\r", " ", "\t", "Two."]],
+          configuration: configuration.with(commits_body_presence_minimum: 3)
+        )
       end
 
       it "answers issue hint" do

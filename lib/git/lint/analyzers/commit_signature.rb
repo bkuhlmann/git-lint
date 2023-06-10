@@ -15,7 +15,9 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.includes)
+        def load_filter_list
+          Kit::FilterList.new configuration.commits_signature_includes
+        end
       end
     end
   end

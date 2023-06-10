@@ -1,12 +1,19 @@
 # frozen_string_literal: true
 
+require "sod"
+require "sod/types/pathname"
+
 module Git
   module Lint
     module CLI
       module Actions
         # Handles unsaved Git commit action.
-        class Hook
+        class Hook < Sod::Action
           include Git::Lint::Import[:git, :kernel, :logger]
+
+          description "Hook for analyzing unsaved commits."
+
+          on "--hook", argument: "PATH", type: Pathname
 
           def initialize(analyzer: Analyzer.new, **)
             super(**)

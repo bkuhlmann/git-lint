@@ -18,7 +18,9 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.includes)
+        def load_filter_list
+          Kit::FilterList.new configuration.commits_body_bullet_delimiter_includes
+        end
 
         def invalid_line?(line) = line.match?(/\A\s*#{pattern}(?!(#{pattern}|\s)).+\Z/)
 

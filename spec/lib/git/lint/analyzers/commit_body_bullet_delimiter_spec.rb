@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_body_bullet_delimiter)
+      expect(described_class.id).to eq("commit_body_bullet_delimiter")
     end
   end
 

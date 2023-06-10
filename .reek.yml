@@ -1,0 +1,8 @@
+exclude_paths:
+  - tmp
+  - vendor
+
+detectors:
+  TooManyStatements:
+    exclude:
+      - "Git::Lint::CLI::Shell#cli"

@@ -32,7 +32,7 @@ module Git
 
         private
 
-        def minimum = settings.minimum
+        def minimum = configuration.commits_trailer_collaborator_name_minimum
       end
     end
   end

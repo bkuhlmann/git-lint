@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerDuplicate do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_trailer_duplicate)
+      expect(described_class.id).to eq("commit_trailer_duplicate")
     end
   end
 

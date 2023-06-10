@@ -17,7 +17,7 @@ RSpec.describe Git::Lint::Reporters::Branch do
                      label: "Commit Author Email"
                    ),
                    commit: git_commit,
-                   severity: :warn,
+                   severity: "warn",
                    invalid?: true,
                    warning?: true,
                    error?: false,
@@ -48,7 +48,7 @@ RSpec.describe Git::Lint::Reporters::Branch do
                        label: "Commit Author Email"
                      ),
                      commit: git_commit,
-                     severity: :error,
+                     severity: "error",
                      invalid?: true,
                      warning?: false,
                      error?: true,

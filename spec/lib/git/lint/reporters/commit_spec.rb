@@ -15,7 +15,7 @@ RSpec.describe Git::Lint::Reporters::Commit do
                    Git::Lint::Analyzers::CommitAuthorEmail,
                    label: "Commit Author Email"
                  ),
-                 severity: :warn,
+                 severity: "warn",
                  invalid?: invalid,
                  issue: {hint: "A test hint."}
   end

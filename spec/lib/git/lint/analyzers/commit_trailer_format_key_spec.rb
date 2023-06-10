@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerFormatKey do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_trailer_format_key)
+      expect(described_class.id).to eq("commit_trailer_format_key")
     end
   end
 

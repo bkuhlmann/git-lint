@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_author_name)
+      expect(described_class.id).to eq("commit_author_name")
     end
   end
 
@@ -36,22 +36,13 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
       end
     end
 
-    context "with custom minimum" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[author_name: "Example"]
-      end
+    it "answers true with custom minimum" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[author_name: "Example"],
+        configuration: configuration.with(commits_author_name_minimum: 1)
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_author_name, minimum: 1]
-          ]
-        ]
-      end
-
-      it "answers true" do
-        expect(analyzer.valid?).to be(true)
-      end
+      expect(analyzer.valid?).to be(true)
     end
   end
 

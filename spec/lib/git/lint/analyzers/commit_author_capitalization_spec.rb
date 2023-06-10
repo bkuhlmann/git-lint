@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_author_capitalization)
+      expect(described_class.id).to eq("commit_author_capitalization")
     end
   end
 
@@ -33,22 +33,6 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorCapitalization do
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
-      end
-    end
-
-    context "with custom minimum" do
-      let(:commit) { Gitt::Models::Commit[author_name: "Example"] }
-
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_author_capitalization, minimum: 1]
-          ]
-        ]
-      end
-
-      it "answers true" do
-        expect(analyzer.valid?).to be(true)
       end
     end
   end

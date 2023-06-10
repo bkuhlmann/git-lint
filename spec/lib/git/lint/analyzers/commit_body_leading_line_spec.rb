@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLeadingLine do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_body_leading_line)
+      expect(described_class.id).to eq("commit_body_leading_line")
     end
   end
 

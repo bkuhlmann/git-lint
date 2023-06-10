@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSignature do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_signature)
+      expect(described_class.id).to eq("commit_signature")
     end
   end
 

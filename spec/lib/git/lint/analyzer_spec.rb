@@ -8,40 +8,10 @@ RSpec.describe Git::Lint::Analyzer do
 
   using Refinements::Pathnames
 
-  subject(:runner) { described_class.new }
+  subject(:analyzer) { described_class.new }
 
   include_context "with Git repository"
   include_context "with application dependencies"
-
-  let :configuration do
-    Git::Lint::Configuration::Model[
-      analyzers: [
-        Git::Lint::Configuration::Setting[
-          id: :commit_body_leading_line,
-          enabled: true,
-          severity: :error
-        ],
-        Git::Lint::Configuration::Setting[
-          id: :commit_subject_length,
-          enabled: true,
-          severity: :error,
-          maximum: 50
-        ],
-        Git::Lint::Configuration::Setting[
-          id: :commit_subject_prefix,
-          enabled: true,
-          severity: :error,
-          includes: %w[Fixed Added]
-        ],
-        Git::Lint::Configuration::Setting[
-          id: :commit_subject_suffix,
-          enabled: true,
-          severity: :error,
-          excludes: ["\\.", "\\?", "\\!"]
-        ]
-      ]
-    ]
-  end
 
   let(:branch) { "test" }
 
@@ -58,7 +28,7 @@ RSpec.describe Git::Lint::Analyzer do
       git_repo_dir.change_dir do
         `git commit --no-verify --message "Added one.txt" --message "- For testing purposes"`
 
-        expect(runner.call).to contain_exactly(
+        expect(analyzer.call).to contain_exactly(
           kind_of(Git::Lint::Collector),
           kind_of(Git::Lint::Reporters::Branch)
         )
@@ -69,7 +39,7 @@ RSpec.describe Git::Lint::Analyzer do
       git_repo_dir.change_dir do
         `git commit --no-verify --message "Added one.txt" --message "- For testing purposes"`
 
-        runner.call do |collector, reporter|
+        analyzer.call do |collector, reporter|
           expect([collector, reporter]).to contain_exactly(
             kind_of(Git::Lint::Collector),
             kind_of(Git::Lint::Reporters::Branch)
@@ -80,8 +50,8 @@ RSpec.describe Git::Lint::Analyzer do
 
     it "reports no issues with valid commits" do
       git_repo_dir.change_dir do
-        `git commit --no-verify --message "Added one.txt" --message "- For testing purposes"`
-        collector, _reporter = runner.call
+        `git commit --no-verify --message "Added one.txt" --message "For testing purposes"`
+        collector, _reporter = analyzer.call
 
         expect(collector.issues?).to be(false)
       end
@@ -90,52 +60,22 @@ RSpec.describe Git::Lint::Analyzer do
     it "reports issues with invalid commits" do
       git_repo_dir.change_dir do
         `git commit --no-verify --message "Add one.txt" --message "- A test bullet"`
-        collector, _reporter = runner.call
+        collector, _reporter = analyzer.call
 
         expect(collector.issues?).to be(true)
       end
     end
 
-    context "with disabled analyzer" do
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[
-              id: :commit_subject_prefix,
-              enabled: false,
-              includes: %w[Added]
-            ]
-          ]
-        ]
-      end
+    it "reports no issues with disabled analyzer" do
+      analyzer = described_class.new(
+        configuration: configuration.with(commits_subject_prefix_enabled: false)
+      )
 
-      it "reports no issues" do
-        git_repo_dir.change_dir do
-          `git commit --no-verify --message "Bogus commit message"`
-          collector, _reporter = runner.call
+      git_repo_dir.change_dir do
+        `git commit --no-verify --message "Bogus commit message"`
+        collector, _reporter = analyzer.call
 
-          expect(collector.issues?).to be(false)
-        end
-      end
-    end
-
-    context "with invalid analyzer ID" do
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [Git::Lint::Configuration::Setting[id: :bogus]]
-        ]
-      end
-
-      it "fails with errors" do
-        git_repo_dir.change_dir do
-          `git commit --no-verify --message "Updated one.txt" --message "- A test bullet"`
-          result = -> { runner.call }
-
-          expect(&result).to raise_error(
-            Git::Lint::Errors::Base,
-            /Invalid\sanalyzer detected:\sbogus/
-          )
-        end
+        expect(collector.issues?).to be(false)
       end
     end
 
@@ -143,7 +83,7 @@ RSpec.describe Git::Lint::Analyzer do
       include_context "with Git commit"
 
       it "processes commit" do
-        collector, _reporter = runner.call commits: Success([git_commit])
+        collector, _reporter = analyzer.call commits: Success([git_commit])
         expect(collector.issues?).to be(true)
       end
     end

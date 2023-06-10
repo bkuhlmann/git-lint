@@ -1,13 +1,19 @@
 # frozen_string_literal: true
 
+require "sod"
+
 module Git
   module Lint
     module CLI
       module Actions
         module Analyze
           # Handles analyze action for single commit SHA
-          class Commit
+          class Commit < Sod::Action
             include Git::Lint::Import[:git, :kernel, :logger]
+
+            description "Analyze specific commits."
+
+            on %w[-c --commit], argument: "a,b,c"
 
             def initialize(analyzer: Analyzer.new, **)
               super(**)

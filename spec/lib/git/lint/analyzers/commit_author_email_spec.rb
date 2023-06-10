@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorEmail do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_author_email)
+      expect(described_class.id).to eq("commit_author_email")
     end
   end
 

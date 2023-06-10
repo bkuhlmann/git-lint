@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_body_tracker_shorthand)
+      expect(described_class.id).to eq("commit_body_tracker_shorthand")
     end
   end
 

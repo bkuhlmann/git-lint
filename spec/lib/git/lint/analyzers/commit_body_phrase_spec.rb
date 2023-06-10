@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_body_phrase)
+      expect(described_class.id).to eq("commit_body_phrase")
     end
   end
 
@@ -70,97 +70,49 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
       end
     end
 
-    context "with excluded word (mixed case)" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[body_lines: ["This will fail, basically."]]
-      end
+    it "answers false with excluded word (mixed case)" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[body_lines: ["This will fail, basically."]],
+        configuration: configuration.with(commits_body_phrase_excludes: ["BasicaLLy"])
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["BasicaLLy"]]
-          ]
-        ]
-      end
-
-      it "answers false" do
-        expect(analyzer.valid?).to be(false)
-      end
+      expect(analyzer.valid?).to be(false)
     end
 
-    context "with excluded phrase (mixed case)" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[body_lines: ["This will fail, of course."]]
-      end
+    it "answers false with excluded phrase (mixed case)" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[body_lines: ["This will fail, of course."]],
+        configuration: configuration.with(commits_body_phrase_excludes: ["OF CoursE"])
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["OF CoursE"]]
-          ]
-        ]
-      end
-
-      it "answers false" do
-        expect(analyzer.valid?).to be(false)
-      end
+      expect(analyzer.valid?).to be(false)
     end
 
-    context "with excluded boundary word (regular expression)" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[body_lines: ["Just for test purposes."]]
-      end
+    it "answers false with excluded boundary word (regular expression)" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[body_lines: ["Just for test purposes."]],
+        configuration: configuration.with(commits_body_phrase_excludes: ["\\bjust\\b"])
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["\\bjust\\b"]]
-          ]
-        ]
-      end
-
-      it "answers false" do
-        expect(analyzer.valid?).to be(false)
-      end
+      expect(analyzer.valid?).to be(false)
     end
 
-    context "with excluded, embedded boundary word (regular expression)" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[body_lines: ["Adjusted for testing purposes."]]
-      end
+    it "answers true with excluded, embedded boundary word (regular expression)" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[body_lines: ["Adjusted for testing purposes."]],
+        configuration: configuration.with(commits_body_phrase_excludes: ["\\bjust\\b"])
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_body_phrase, excludes: ["\\bjust\\b"]]
-          ]
-        ]
-      end
-
-      it "answers true" do
-        expect(analyzer.valid?).to be(true)
-      end
+      expect(analyzer.valid?).to be(true)
     end
 
-    context "with excluded phrase (regular expression)" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[body_lines: ["This will fail, of course."]]
-      end
+    it "answers false with excluded phrase (regular expression)" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[body_lines: ["This will fail, of course."]],
+        configuration: configuration.with(commits_body_phrase_excludes: ["(o|O)f (c|C)ourse"])
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[
-              id: :commit_body_phrase,
-              excludes: ["(o|O)f (c|C)ourse"]
-            ]
-          ]
-        ]
-      end
-
-      it "answers false" do
-        expect(analyzer.valid?).to be(false)
-      end
+      expect(analyzer.valid?).to be(false)
     end
   end
 

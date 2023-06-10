@@ -29,16 +29,16 @@ module Git
 
         def severity_suffix
           case analyzer.severity
-            when :warn then " Warning"
-            when :error then " Error"
+            when "warn" then " Warning"
+            when "error" then " Error"
             else ""
           end
         end
 
         def style
           case analyzer.severity
-            when :warn then :yellow
-            when :error then :red
+            when "warn" then :yellow
+            when "error" then :red
             else :white
           end
         end

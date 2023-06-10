@@ -22,7 +22,7 @@ module Git
 
         private
 
-        def maximum = settings.maximum
+        def maximum = configuration.commits_body_line_length_maximum
       end
     end
   end

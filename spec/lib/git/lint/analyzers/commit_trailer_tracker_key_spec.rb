@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerTrackerKey do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_trailer_tracker_key)
+      expect(described_class.id).to eq("commit_trailer_tracker_key")
     end
   end
 

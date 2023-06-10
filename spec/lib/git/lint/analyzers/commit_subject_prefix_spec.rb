@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_subject_prefix)
+      expect(described_class.id).to eq("commit_subject_prefix")
     end
   end
 
@@ -44,56 +44,34 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
       end
     end
 
-    context "with custom include list" do
-      subject(:analyzer) { described_class.new Gitt::Models::Commit[subject: "One"] }
+    it "answers true with custom include list" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[subject: "One test"],
+        configuration: configuration.with(commits_subject_prefix_includes: %w[One Two])
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_subject_prefix, includes: %w[One Two]]
-          ]
-        ]
-      end
-
-      it "answers true" do
-        expect(analyzer.valid?).to be(true)
-      end
+      expect(analyzer.valid?).to be(true)
     end
 
-    context "with empty include list" do
-      subject(:analyzer) { described_class.new Gitt::Models::Commit[subject: "Test"] }
+    it "answers true with empty include list" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[subject: "Test"],
+        configuration: configuration.with(commits_subject_prefix_includes: [])
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_subject_prefix, includes: []]
-          ]
-        ]
-      end
-
-      it "answers true" do
-        expect(analyzer.valid?).to be(true)
-      end
+      expect(analyzer.valid?).to be(true)
     end
 
-    context "with custom delimiter" do
-      let(:commit) { Gitt::Models::Commit[subject: "Added - specs"] }
+    it "answers true with custom delimiter" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[subject: "Added - specs"],
+        configuration: configuration.with(
+          commits_subject_prefix_delimiter: " - ",
+          commits_subject_prefix_includes: ["Added"]
+        )
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[
-              id: :commit_subject_prefix,
-              includes: ["Added"],
-              delimiter: " - "
-            ]
-          ]
-        ]
-      end
-
-      it "answers true" do
-        expect(analyzer.valid?).to be(true)
-      end
+      expect(analyzer.valid?).to be(true)
     end
 
     context "with amend" do

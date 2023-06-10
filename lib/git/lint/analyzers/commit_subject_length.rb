@@ -15,7 +15,7 @@ module Git
 
         private
 
-        def maximum = settings.maximum
+        def maximum = configuration.commits_subject_length_maximum
       end
     end
   end

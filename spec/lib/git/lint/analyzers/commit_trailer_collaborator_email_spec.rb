@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_trailer_collaborator_email)
+      expect(described_class.id).to eq("commit_trailer_collaborator_email")
     end
   end
 

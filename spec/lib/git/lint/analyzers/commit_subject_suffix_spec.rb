@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_subject_suffix)
+      expect(described_class.id).to eq("commit_subject_suffix")
     end
   end
 
@@ -52,40 +52,22 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
       end
     end
 
-    context "with custom exclude list" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[subject: "Added specs 😅"]
-      end
+    it "answers false with custom exclude list" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[subject: "Added specs 😅"],
+        configuration: configuration.with(commits_subject_suffix_excludes: ["😅"])
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_subject_suffix, excludes: ["😅"]]
-          ]
-        ]
-      end
-
-      it "answers false" do
-        expect(analyzer.valid?).to be(false)
-      end
+      expect(analyzer.valid?).to be(false)
     end
 
-    context "with empty exclude list" do
-      subject :analyzer do
-        described_class.new Gitt::Models::Commit[subject: "Added specs?"]
-      end
+    it "answers true with empty exclude list" do
+      analyzer = described_class.new(
+        Gitt::Models::Commit[subject: "Added specs?"],
+        configuration: configuration.with(commits_subject_suffix_excludes: [])
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_subject_suffix, excludes: []]
-          ]
-        ]
-      end
-
-      it "answers true" do
-        expect(analyzer.valid?).to be(true)
-      end
+      expect(analyzer.valid?).to be(true)
     end
   end
 

@@ -20,7 +20,9 @@ module Git
 
         protected
 
-        def load_filter_list = Kit::FilterList.new(settings.includes)
+        def load_filter_list
+          Kit::FilterList.new configuration.commits_trailer_tracker_value_includes
+        end
 
         def invalid_line? trailer
           trailer.key.match?(pattern) && !trailer.value.match?(value_pattern)

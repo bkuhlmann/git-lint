@@ -11,19 +11,14 @@ RSpec.describe Git::Lint::CLI::Shell do
   include_context "with Git repository"
   include_context "with application dependencies"
 
-  before { Git::Lint::CLI::Actions::Import.stub configuration:, kernel:, logger: }
+  before { Sod::Import.stub kernel:, logger: }
 
-  after { Git::Lint::CLI::Actions::Import.unstub :configuration, :kernel, :logger }
+  after { Sod::Import.unstub :kernel, :logger }
 
   describe "#call" do
-    it "edits configuration" do
-      shell.call %w[--config edit]
-      expect(kernel).to have_received(:system).with(include("EDITOR"))
-    end
-
-    it "views configuration" do
-      shell.call %w[--config view]
-      expect(kernel).to have_received(:system).with(include("cat"))
+    it "prints configuration usage" do
+      shell.call %w[config]
+      expect(kernel).to have_received(:puts).with(/Manage configuration.+/m)
     end
 
     it "analyzes feature branch with valid commits and reports no issues" do
@@ -33,7 +28,7 @@ RSpec.describe Git::Lint::CLI::Shell do
         `git add .`
         `git commit --no-verify --message "Added test file"`
 
-        shell.call %w[--analyze]
+        shell.call %w[analyze --branch]
 
         expect(kernel).to have_received(:puts).with(/1 commit inspected.*0 issues.+detected/m)
       end
@@ -46,7 +41,7 @@ RSpec.describe Git::Lint::CLI::Shell do
         `git add .`
         `git commit --no-verify --message "Add test file"`
 
-        shell.call %w[--analyze]
+        shell.call %w[analyze --branch]
 
         expect(kernel).to have_received(:puts).with(
           /Commit Subject Prefix Error.+1 commit inspected.*1 issue.+detected/m
@@ -62,7 +57,7 @@ RSpec.describe Git::Lint::CLI::Shell do
         `git commit --no-verify --message "Added test file"`
         sha = `git log --pretty=format:%h -1`
 
-        shell.call ["--analyze", "--sha", sha]
+        shell.call ["analyze", "--commit", sha]
 
         expect(kernel).to have_received(:puts).with(/1 commit inspected.*0 issues.+detected/m)
       end
@@ -76,7 +71,7 @@ RSpec.describe Git::Lint::CLI::Shell do
         `git commit --no-verify --message "Add test"`
         sha = `git log --pretty=format:%h -1`
 
-        shell.call ["--analyze", "--sha", sha]
+        shell.call ["analyze", "--commit", sha]
 
         expect(kernel).to have_received(:puts).with(/1 commit inspected.*1 issue.+detected/m)
       end
@@ -95,24 +90,14 @@ RSpec.describe Git::Lint::CLI::Shell do
       )
     end
 
-    it "prints help" do
-      shell.call %w[--help]
-      expect(kernel).to have_received(:puts).with(/Git Lint.+USAGE.+/m)
-    end
-
-    it "prints usage when no options are given" do
-      shell.call
-      expect(kernel).to have_received(:puts).with(/Git Lint.+USAGE.+/m)
-    end
-
-    it "prints error with invalid option" do
-      shell.call %w[--bogus]
-      expect(logger.reread).to match(/🛑.+invalid option.+bogus/)
-    end
-
     it "prints version" do
       shell.call %w[--version]
       expect(kernel).to have_received(:puts).with(/Git Lint\s\d+\.\d+\.\d+/)
+    end
+
+    it "prints help" do
+      shell.call %w[--help]
+      expect(kernel).to have_received(:puts).with(/Git Lint.+USAGE.+/m)
     end
   end
 end

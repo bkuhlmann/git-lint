@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_body_line_length)
+      expect(described_class.id).to eq("commit_body_line_length")
     end
   end
 
@@ -76,15 +76,10 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
                                 "- Vestibulum tortor quam, feugiat vitae, ultricies eget bon.",
                                 "- Donec eu_libero sit amet quam egestas semper. Aenean ultr."
                               ]
-                            ]
-      end
-
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_body_line_length, maximum: 55]
-          ]
-        ]
+                            ],
+                            configuration: configuration.with(
+                              commits_body_line_length_maximum: 55
+                            )
       end
 
       it "answers issue hint" do

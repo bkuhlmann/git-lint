@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerCapitalization do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_trailer_signer_capitalization)
+      expect(described_class.id).to eq("commit_trailer_signer_capitalization")
     end
   end
 

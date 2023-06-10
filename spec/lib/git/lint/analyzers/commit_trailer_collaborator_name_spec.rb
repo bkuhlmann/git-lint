@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_trailer_collaborator_name)
+      expect(described_class.id).to eq("commit_trailer_collaborator_name")
     end
   end
 
@@ -46,25 +46,16 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
       end
     end
 
-    context "with custom minimum" do
-      let :commit do
+    it "answers true with custom minimum" do
+      analyzer = described_class.new(
         Gitt::Models::Commit[
           body_lines: [],
           trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test <test@example.com>")]
-        ]
-      end
+        ],
+        configuration: configuration.with(commits_trailer_collaborator_name_minimum: 1)
+      )
 
-      let :configuration do
-        Git::Lint::Configuration::Model[
-          analyzers: [
-            Git::Lint::Configuration::Setting[id: :commit_trailer_collaborator_name, minimum: 1]
-          ]
-        ]
-      end
-
-      it "answers true" do
-        expect(analyzer.valid?).to be(true)
-      end
+      expect(analyzer.valid?).to be(true)
     end
 
     context "with missing email" do

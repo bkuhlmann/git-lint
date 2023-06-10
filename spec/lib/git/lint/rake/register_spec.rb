@@ -22,7 +22,7 @@ RSpec.describe Git::Lint::Rake::Register do
 
     it "executes --analyze option via git_lint task" do
       Rake::Task["git_lint"].invoke
-      expect(shell).to have_received(:call).with(["--analyze"])
+      expect(shell).to have_received(:call).with(%w[analyze --branch])
     end
   end
 end

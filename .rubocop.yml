@@ -1,2 +1,6 @@
 inherit_gem:
   caliber: config/all.yml
+
+Metrics/MethodLength:
+  Exclude:
+    - "lib/git/lint/cli/shell.rb"

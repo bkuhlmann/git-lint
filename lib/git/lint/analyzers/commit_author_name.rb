@@ -17,7 +17,7 @@ module Git
 
         private
 
-        def minimum = settings.minimum
+        def minimum = configuration.commits_author_name_minimum
       end
     end
   end

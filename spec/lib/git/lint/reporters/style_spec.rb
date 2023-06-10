@@ -15,12 +15,12 @@ RSpec.describe Git::Lint::Reporters::Style do
                  issue:
   end
 
-  let(:severity) { :error }
+  let(:severity) { "error" }
   let(:issue) { {hint: "A test hint."} }
 
   describe "#to_s" do
     context "with warning" do
-      let(:severity) { :warn }
+      let(:severity) { "warn" }
 
       it "answers analyzer label and issue hint" do
         expect(reporter.to_s).to eq("\e[33m  Commit Author Email Warning. A test hint.\n\e[0m")
@@ -28,7 +28,7 @@ RSpec.describe Git::Lint::Reporters::Style do
     end
 
     context "with error" do
-      let(:severity) { :error }
+      let(:severity) { "error" }
 
       it "answers analyzer label and issue hint" do
         expect(reporter.to_s).to eq("\e[31m  Commit Author Email Error. A test hint.\n\e[0m")

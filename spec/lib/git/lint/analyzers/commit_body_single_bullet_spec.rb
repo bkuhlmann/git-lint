@@ -9,7 +9,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq(:commit_body_single_bullet)
+      expect(described_class.id).to eq("commit_body_single_bullet")
     end
   end
 

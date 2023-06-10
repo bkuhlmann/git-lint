@@ -72,22 +72,20 @@ module Git
         commits.value_or([]).map { |commit| analyze commit }
       end
 
-      def analyze commit
-        settings.map { |setting| load_analyzer commit, setting.id }
-                .select(&:enabled?)
-                .map { |analyzer| collector.add analyzer }
+      def analyze(commit) = enabled.map { |id| collector.add load_analyzer(commit, id) }
+
+      # :reek:FeatureEnvy
+      def enabled
+        configuration.to_h
+                     .select { |key, value| key.end_with?("enabled") && value == true }
+                     .keys
+                     .map { |key| key.to_s.sub!("commits_", "commit_").delete_suffix! "_enabled" }
       end
 
       def load_analyzer commit, id
         analyzers.find { |analyzer| analyzer.id == id }
-                 .then do |analyzer|
-                   fail Errors::Base, "Invalid analyzer detected: #{id}." unless analyzer
-
-                   analyzer.new commit
-                 end
+                 .then { |analyzer| analyzer.new commit }
       end
-
-      def settings = configuration.analyzers
     end
   end
 end

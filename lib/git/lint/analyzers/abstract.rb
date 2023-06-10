@@ -12,10 +12,10 @@ module Git
 
         using ::Refinements::Strings
 
-        LEVELS = %i[warn error].freeze
+        LEVELS = %w[warn error].freeze
         BODY_OFFSET = 3
 
-        def self.id = to_s.delete_prefix("Git::Lint::Analyzers").snakecase.to_sym
+        def self.id = to_s.delete_prefix!("Git::Lint::Analyzers").snakecase
 
         def self.label = to_s.delete_prefix("Git::Lint::Analyzers").titleize
 
@@ -29,12 +29,9 @@ module Git
           @filter_list = load_filter_list
         end
 
-        def enabled? = settings.enabled
-
         def severity
-          settings.severity.tap do |level|
-            fail Errors::Severity, level unless LEVELS.include? level
-          end
+          configuration.public_send("#{self.class.id}_severity".sub("commit_", "commits_"))
+                       .tap { |level| fail Errors::Severity, level unless LEVELS.include? level }
         end
 
         def valid?
@@ -43,9 +40,9 @@ module Git
 
         def invalid? = !valid?
 
-        def warning? = invalid? && severity == :warn
+        def warning? = invalid? && severity == "warn"
 
-        def error? = invalid? && severity == :error
+        def error? = invalid? && severity == "error"
 
         def issue
           fail NotImplementedError, "The `##{__method__}` method must be implemented."
@@ -77,8 +74,6 @@ module Git
         def invalid_line? _line
           fail NotImplementedError, "The `.#{__method__}` method must be implemented."
         end
-
-        def settings = configuration.find_setting(self.class.id)
       end
     end
   end
