@@ -16,9 +16,9 @@ end
 
 require "git/lint"
 require "gitt"
-require "gitt/shared_contexts/git_commit"
-require "gitt/shared_contexts/git_repo"
-require "gitt/shared_contexts/temp_dir"
+require "gitt/rspec/shared_contexts/git_commit"
+require "gitt/rspec/shared_contexts/git_repo"
+require "gitt/rspec/shared_contexts/temp_dir"
 require "refinements"
 require "yaml"
 
