@@ -10,7 +10,6 @@ require "tone"
 
 module Git
   module Lint
-    # :nocov:
     # Provides a global gem container for injection into other objects.
     module Container
       extend Dry::Container::Mixin
