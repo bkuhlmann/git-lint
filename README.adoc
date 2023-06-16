@@ -53,19 +53,22 @@ gem install git-lint
 From the command line, type: `git-lint --help`
 
 ....
-USAGE:
-  -a, --analyze [options]                  Analyze current branch commits.
-  -c, --config ACTION                      Manage gem configuration. Actions: edit or view.
-  -h, --help                               Show this message.
-      --hook PATH                          Hook for analyzing unsaved commits.
-  -v, --version                            Show gem version.
+USAGE
+  git-lint [OPTIONS]
+  git-lint COMMAND [OPTIONS]
 
-ANALYZE OPTIONS:
-      --sha HASH                           Analyze specific commit SHA.
+OPTIONS
+  --hook PATH              Hook for analyzing unsaved commits.
+  -v, --version            Show version.
+  -h, --help [COMMAND]     Show this message.
+
+COMMANDS
+  config                   Manage configuration.
+                           Path is dynamic per current directory.
+  analyze                  Analyze branch or commit(s).
 ....
 
-To check if your Git commit history is clean, run: `git-lint --analyze`. It will exit with a failure
-if at least one issue with error severity is detected.
+To check if your Git commit history is clean, run: `git-lint analyze --branch`. It will exit with a failure if at least one issue with error severity is detected.
 
 This gem does not check commits on your default branch (i.e. `main`). This is intentional as you
 would, generally, not want to rewrite or fix commits on the `main` branch. This gem is best used on
@@ -80,7 +83,7 @@ git checkout -b test
 touch text.txt
 git add --all .
 git commit --message "This is a bogus commit message that is also terribly long and will word wrap"
-git-lint --analyze
+git-lint analyze --branch
 ----
 
 Output:
@@ -110,129 +113,184 @@ variables. The default configuration is:
 
 [source,yaml]
 ----
-:analyzers:
-  :commit_author_capitalization:
-    :enabled: true
-    :severity: :error
-  :commit_author_email:
-    :enabled: true
-    :severity: :error
-  :commit_author_name:
-    :enabled: true
-    :severity: :error
-    :minimum: 2
-  :commit_body_bullet:
-    :enabled: true
-    :severity: :error
-    :excludes:
-      - "\\*"
-      - "•"
-  :commit_body_bullet_capitalization:
-    :enabled: true
-    :severity: :error
-    :includes: "\\-"
-  :commit_body_bullet_delimiter:
-    :enabled: true
-    :severity: :error
-    :includes: "\\-"
-  :commit_body_tracker_shorthand:
-    :enabled: true
-    :severity: :error
-    :excludes:
-      - "(f|F)ix(es|ed)?\\s\\#\\d+"
-      - "(c|C)lose(s|d)?\\s\\#\\d+"
-      - "(r|R)esolve(s|d)?\\s\\#\\d+"
-  :commit_body_leading_line:
-    :enabled: false
-    :severity: :warn
-  :commit_body_line_length:
-    :enabled: true
-    :severity: :error
-    :maximum: 72
-  :commit_body_paragraph_capitalization:
-    :enabled: true
-    :severity: :error
-  :commit_body_phrase:
-    :enabled: true
-    :severity: :error
-    :excludes:
-      - "absolutely"
-      - "actually"
-      - "all intents and purposes"
-      - "along the lines"
-      - "at this moment in time"
-      - "basically"
-      - "each and every one"
-      - "everyone knows"
-      - "fact of the matter"
-      - "furthermore"
-      - "however"
-      - "in due course"
-      - "in the end"
-      - "last but not least"
-      - "matter of fact"
-      - "obviously"
-      - "of course"
-      - "really"
-      - "simply"
-      - "things being equal"
-      - "would like to"
-      - "\\beasy\\b"
-      - "\\bjust\\b"
-      - "\\bquite\\b"
-      - "as\\sfar\\sas\\s.+\\sconcerned"
-      - "of\\sthe\\s(fact|opinion)\\sthat"
-  :commit_body_presence:
-    :enabled: false
-    :severity: :warn
-    :minimum: 1
-  :commit_body_single_bullet:
-    :enabled: true
-    :severity: :error
-    :includes: "\\-"
-  :commit_subject_length:
-    :enabled: true
-    :severity: :error
-    :maximum: 72
-  :commit_subject_prefix:
-    :enabled: true
-    :severity: :error
-    :delimiter: " "
-    :includes:
-      - Fixed
-      - Added
-      - Updated
-      - Removed
-      - Refactored
-  :commit_subject_suffix:
-    :enabled: true
-    :severity: :error
-    :excludes:
-      - "\\."
-      - "\\?"
-      - "\\!"
-  :commit_trailer_collaborator_capitalization:
-    :enabled: true
-    :severity: :error
-  :commit_trailer_collaborator_duplication:
-    :enabled: true
-    :severity: :error
-  :commit_trailer_collaborator_email:
-    :enabled: true
-    :severity: :error
-  :commit_trailer_collaborator_key:
-    :enabled: true
-    :severity: :error
-    :includes:
-      - "Co-Authored-By"
-  :commit_trailer_collaborator_name:
-    :enabled: true
-    :severity: :error
-    :minimum: 2
+commits:
+  author:
+    capitalization:
+      enabled: true
+      severity: error
+    email:
+      enabled: true
+      severity: error
+    name:
+      enabled: true
+      severity: error
+      minimum: 2
+  body:
+    bullet:
+      enabled: true
+      severity: error
+      excludes:
+        - "\\*"
+        - "•"
+    bullet_capitalization:
+      enabled: true
+      severity: error
+      includes:
+        - "\\-"
+    bullet_delimiter:
+      enabled: true
+      severity: error
+      includes:
+        - "\\-"
+    leading_line:
+      enabled: true
+      severity: warn
+    line_length:
+      enabled: false
+      severity: error
+      maximum: 72
+    paragraph_capitalization:
+      enabled: true
+      severity: error
+    phrase:
+      enabled: true
+      severity: error
+      excludes:
+        - "absolutely"
+        - "actually"
+        - "all intents and purposes"
+        - "along the lines"
+        - "at this moment in time"
+        - "basically"
+        - "each and every one"
+        - "everyone knows"
+        - "fact of the matter"
+        - "furthermore"
+        - "however"
+        - "in due course"
+        - "in the end"
+        - "last but not least"
+        - "matter of fact"
+        - "obviously"
+        - "of course"
+        - "really"
+        - "simply"
+        - "things being equal"
+        - "would like to"
+        - "\\beasy\\b"
+        - "\\bjust\\b"
+        - "\\bquite\\b"
+        - "as\\sfar\\sas\\s.+\\sconcerned"
+        - "of\\sthe\\s(fact|opinion)\\sthat"
+    presence:
+      enabled: true
+      severity: warn
+      minimum: 1
+    single_bullet:
+      enabled: true
+      severity: error
+      includes:
+        - "\\-"
+    tracker_shorthand:
+      enabled: true
+      severity: error
+      excludes:
+        - "(f|F)ix(es|ed)?\\s\\#\\d+"
+        - "(c|C)lose(s|d)?\\s\\#\\d+"
+        - "(r|R)esolve(s|d)?\\s\\#\\d+"
+  signature:
+    enabled: false
+    severity: error
+    includes:
+      - Good
+  subject:
+    length:
+      enabled: true
+      severity: error
+      maximum: 72
+    prefix:
+      enabled: true
+      severity: error
+      delimiter: " "
+      includes:
+        - Fixed
+        - Added
+        - Updated
+        - Removed
+        - Refactored
+    suffix:
+      enabled: true
+      severity: error
+      excludes:
+        - "\\."
+        - "\\?"
+        - "\\!"
+  trailer:
+    collaborator_capitalization:
+      enabled: true
+      severity: error
+    collaborator_email:
+      enabled: true
+      severity: error
+    collaborator_key:
+      enabled: true
+      severity: error
+      includes:
+        - Co-Authored-By
+    collaborator_name:
+      enabled: true
+      severity: error
+      minimum: 2
+    duplicate:
+      enabled: true
+      severity: error
+    format_key:
+      enabled: true
+      severity: error
+      includes:
+        - Format
+    format_value:
+      enabled: true
+      severity: error
+      includes:
+        - ASCII
+        - Markdown
+    issue_key:
+      enabled: true
+      severity: error
+      includes:
+        - Issue
+    issue_value:
+      enabled: true
+      severity: error
+      includes:
+        - "[\\w-]+"
+    signer_capitalization:
+      enabled: true
+      severity: error
+    signer_email:
+      enabled: true
+      severity: error
+    signer_key:
+      enabled: true
+      severity: error
+      includes:
+        - Signed-By
+    signer_name:
+      enabled: true
+      severity: error
+      minimum: 2
+    tracker_key:
+      enabled: true
+      severity: error
+      includes:
+        - Tracker
+    tracker_value:
+      enabled: true
+      severity: error
+      includes:
+        - "[\\w\\-\\s]+"
 ----
-
-Feel free to take this default configuration, modify, and save as your own custom
-`configuration.yml`.
 
 ==== Enablement
 
@@ -965,11 +1023,11 @@ Whenever you attempt to add a commit, Git Lint will check your commit for issues
 
 ===== Post Commit
 
-The _post-commit_ hook is possible via the `--analyze` command. Usage:
+The _post-commit_ hook is possible via the `analyze` command. Usage:
 
 [source,bash]
 ----
-git-lint --analyze --shas SHA
+git-lint analyze --commit SHA
 ----
 
 The _post-commit_ hook can be used multiple ways but, generally, you'll want to check the last
@@ -989,7 +1047,7 @@ if ! command -v git-lint > /dev/null; then
    exit 1
 fi
 
-git-lint --analyze --shas $(git log --pretty=format:%H -1)
+git-lint analyze --commit $(git log --pretty=format:%H -1)
 ----
 
 Whenever a commit has been saved, this script will run Git Lint to check for issues.
