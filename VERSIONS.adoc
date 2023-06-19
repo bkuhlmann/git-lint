@@ -1,5 +1,10 @@
 = Versions
 
+== 6.0.1 (2023-06-19)
+
+* Fixed SimpleCov coverage for primary container - Brooke Kuhlmann
+* Updated to Caliber 0.35.0 - Brooke Kuhlmann
+
 == 6.0.0 (2023-06-16)
 
 * Added Dry Schema gem - Brooke Kuhlmann
