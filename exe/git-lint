@@ -3,4 +3,4 @@
 
 require "git/lint"
 
-Git::Lint::CLI::Shell.new.call ARGV
+Git::Lint::CLI::Shell.new.call
