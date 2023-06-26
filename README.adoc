@@ -769,10 +769,10 @@ Ensures format trailer key is correct format.
 
 ....
 # Disallowed
-format: ASCII
+format: md
 
 # Allowed
-Format: ASCII
+Format: markdown
 ....
 
 ==== Commit Trailer Format Value
@@ -780,7 +780,7 @@ Format: ASCII
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | includes: `["ASCII", "Markdown"]`
+| true    | error    | includes: `["asciidoc", "markdown"]`
 |===
 
 Ensures format trailer value is a valid value.
@@ -790,7 +790,7 @@ Ensures format trailer value is a valid value.
 Format: Plain
 
 # Allowed
-Format: ASCII
+Format: asciidoc
 ....
 
 ==== Commit Trailer Issue Key

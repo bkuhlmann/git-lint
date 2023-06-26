@@ -138,8 +138,8 @@ commits:
       enabled: true
       severity: error
       includes:
-        - ASCII
-        - Markdown
+        - asciidoc
+        - markdown
     issue_key:
       enabled: true
       severity: error

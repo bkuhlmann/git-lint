@@ -24,7 +24,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerFormatValue do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Format: ASCII")]
+          trailers: [Gitt::Models::Trailer.for("Format: asciidoc")]
         ]
       end
 
@@ -80,7 +80,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerFormatValue do
         Gitt::Models::Commit[
           body_lines: [],
           trailers: [
-            Gitt::Models::Trailer.for("Format: ASCII")
+            Gitt::Models::Trailer.for("Format: asciidoc")
           ]
         ]
       end
@@ -97,7 +97,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerFormatValue do
 
       it "answers issue" do
         expect(issue).to eq(
-          hint: "Use format: /ASCII/, /Markdown/.",
+          hint: "Use format: /asciidoc/, /markdown/.",
           lines: [
             {
               content: "Format: +*&",
