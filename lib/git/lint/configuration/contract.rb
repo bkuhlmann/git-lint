@@ -78,6 +78,8 @@ module Git
         required(:commits_trailer_issue_value_enabled).filled :bool
         required(:commits_trailer_issue_value_severity).filled :string
         required(:commits_trailer_issue_value_includes).array :string
+        required(:commits_trailer_milestone_key_enabled).filled :bool
+        required(:commits_trailer_milestone_key_severity).filled :string
         required(:commits_trailer_signer_capitalization_enabled).filled :bool
         required(:commits_trailer_signer_capitalization_severity).filled :string
         required(:commits_trailer_signer_email_enabled).filled :bool

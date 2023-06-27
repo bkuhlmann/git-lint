@@ -809,6 +809,24 @@ Issue: 123+45
 Issue: 123
 ....
 
+==== Commit Trailer Milestone Key
+
+[options="header"]
+|===
+| Enabled | Severity
+| true    | error
+|===
+
+Ensures milestone trailer key is correct format.
+
+....
+# Disallowed
+milestone: patch
+
+# Allowed
+Milestone: patch
+....
+
 ==== Commit Trailer Signer Capitalization
 
 [options="header"]
@@ -897,24 +915,6 @@ tracker: Linear
 
 # Allowed
 Tracker: Linear
-....
-
-==== Commit Trailer Tracker Value
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | includes: `["[\\w\\-\\s]+"]`
-|===
-
-Ensures tracker trailer key is correct format.
-
-....
-# Disallowed
-Tracker: *ACME$
-
-# Allowed
-Tracker: ACME Issues
 ....
 
 === Git

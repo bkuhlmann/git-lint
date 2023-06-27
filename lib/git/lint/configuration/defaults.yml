@@ -149,6 +149,9 @@ commits:
       severity: error
       includes:
         - "[\\w-]+"
+    milestone_key:
+      enabled: true
+      severity: error
     signer_capitalization:
       enabled: true
       severity: error

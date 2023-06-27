@@ -18,6 +18,11 @@ module Git
         register(:collaborator, memoize: true) { /\ACo.*Authored.*By.*\Z/i }
         register(:format, memoize: true) { /\AFormat.*\Z/i }
         register(:issue, memoize: true) { /\AIssue.*\Z/i }
+
+        register :milestone, memoize: true do
+          Configuration::Trailer[name: "Milestone", pattern: /\AMilestone.*\Z/i]
+        end
+
         register(:signer, memoize: true) { /\ASigned.*By.*\Z/i }
         register(:tracker, memoize: true) { /\ATracker.*\Z/i }
       end
