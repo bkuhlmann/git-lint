@@ -152,6 +152,13 @@ commits:
     milestone_key:
       enabled: true
       severity: error
+    milestone_value:
+      enabled: true
+      severity: error
+      includes:
+        - major
+        - minor
+        - patch
     signer_capitalization:
       enabled: true
       severity: error

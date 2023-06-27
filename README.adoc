@@ -827,6 +827,24 @@ milestone: patch
 Milestone: patch
 ....
 
+==== Commit Trailer Milestone Value
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `[major, minor, patch]`
+|===
+
+Ensures milestone trailer value is correct format for link:https://semver.org[semantic versioning] purposes.
+
+....
+# Disallowed
+Milestone: bogus
+
+# Allowed
+Milestone: patch
+....
+
 ==== Commit Trailer Signer Capitalization
 
 [options="header"]
@@ -915,6 +933,24 @@ tracker: Linear
 
 # Allowed
 Tracker: Linear
+....
+
+==== Commit Trailer Tracker Value
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["[\\w\\-\\s]+"]`
+|===
+
+Ensures tracker trailer key is correct format.
+
+....
+# Disallowed
+Tracker: *ACME$
+
+# Allowed
+Tracker: ACME Issues
 ....
 
 === Git
