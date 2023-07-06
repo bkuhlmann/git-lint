@@ -22,7 +22,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerTrackerKey do
   describe "#valid?" do
     context "with valid key and value" do
       let :commit do
-        Gitt::Models::Commit[body_lines: [], trailers: [Gitt::Models::Trailer.for("Tracker: ACME")]]
+        Gitt::Models::Commit[body_lines: [], trailers: [Gitt::Models::Trailer.for("Tracker: acme")]]
       end
 
       it "answers true" do
@@ -68,7 +68,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerTrackerKey do
         Gitt::Models::Commit[
           body_lines: [],
           trailers: [
-            Gitt::Models::Trailer.for("Unknown: value")
+            Gitt::Models::Trailer.for("unknown: value")
           ]
         ]
       end
@@ -87,7 +87,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerTrackerKey do
         Gitt::Models::Commit[
           body_lines: [],
           trailers: [
-            Gitt::Models::Trailer.for("Tracker: ACME")
+            Gitt::Models::Trailer.for("Tracker: acme")
           ]
         ]
       end

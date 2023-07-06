@@ -24,7 +24,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: Test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test Example <test@example.com>")]
         ]
       end
 
@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: bogus")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: bogus")]
         ]
       end
 
@@ -48,7 +48,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerKey do
 
     context "with valid key only" do
       let :commit do
-        Gitt::Models::Commit[body_lines: [], trailers: [Gitt::Models::Trailer.for("Signed-By:")]]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by:")]
+        ]
       end
 
       it "answers true" do
@@ -58,7 +61,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerKey do
 
     context "with invalid key only" do
       let :commit do
-        Gitt::Models::Commit[body_lines: [], trailers: [Gitt::Models::Trailer.for("Signed-by:")]]
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("signed-off-by:")]
+        ]
       end
 
       it "answers false" do
@@ -70,7 +76,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Unknown: value")]
+          trailers: [Gitt::Models::Trailer.for("unknown: value")]
         ]
       end
 
@@ -87,7 +93,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: Test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test Example <test@example.com>")]
         ]
       end
 
@@ -100,16 +106,16 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-by: Test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("signed-off-by: Test Example <test@example.com>")]
         ]
       end
 
       it "answers issue" do
         expect(issue).to eq(
-          hint: "Use format: /Signed-By/.",
+          hint: "Use format: /Signed-off-by/.",
           lines: [
             {
-              content: "Signed-by: Test Example <test@example.com>",
+              content: "signed-off-by: Test Example <test@example.com>",
               number: 3
             }
           ]

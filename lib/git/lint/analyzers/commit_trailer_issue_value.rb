@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer issue value.
       class CommitTrailerIssueValue < Abstract
-        include Import[pattern: "trailers.issue"]
+        include Import[setting: "trailers.issue"]
 
         def valid? = affected_commit_trailers.empty?
 
@@ -25,7 +25,7 @@ module Git
         end
 
         def invalid_line? trailer
-          trailer.key.match?(pattern) && !trailer.value.match?(value_pattern)
+          trailer.key.match?(setting.pattern) && !trailer.value.match?(value_pattern)
         end
 
         def value_pattern = /\A#{Regexp.union filter_list}\Z/

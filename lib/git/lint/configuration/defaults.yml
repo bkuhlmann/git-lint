@@ -119,8 +119,6 @@ commits:
     collaborator_key:
       enabled: true
       severity: error
-      includes:
-        - Co-Authored-By
     collaborator_name:
       enabled: true
       severity: error
@@ -131,8 +129,6 @@ commits:
     format_key:
       enabled: true
       severity: error
-      includes:
-        - Format
     format_value:
       enabled: true
       severity: error
@@ -142,8 +138,6 @@ commits:
     issue_key:
       enabled: true
       severity: error
-      includes:
-        - Issue
     issue_value:
       enabled: true
       severity: error
@@ -184,8 +178,6 @@ commits:
     signer_key:
       enabled: true
       severity: error
-      includes:
-        - Signed-By
     signer_name:
       enabled: true
       severity: error
@@ -193,8 +185,6 @@ commits:
     tracker_key:
       enabled: true
       severity: error
-      includes:
-        - Tracker
     tracker_value:
       enabled: true
       severity: error

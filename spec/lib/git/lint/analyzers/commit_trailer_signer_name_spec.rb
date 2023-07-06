@@ -24,7 +24,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: Test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test Example <test@example.com>")]
         ]
       end
 
@@ -50,7 +50,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
       analyzer = described_class.new(
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: Test <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test <test@example.com>")]
         ],
         configuration: configuration.with(commits_trailer_signer_name_minimum: 1)
       )
@@ -62,7 +62,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: Test Example")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test Example")]
         ]
       end
 
@@ -75,7 +75,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: <test@example.com>")]
         ]
       end
 
@@ -92,7 +92,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: Test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test Example <test@example.com>")]
         ]
       end
 
@@ -105,7 +105,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: <test@example.com>")]
         ]
       end
 
@@ -114,7 +114,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
           hint: "Name must follow key and consist of 2 parts (minimum).",
           lines: [
             {
-              content: "Signed-By: <test@example.com>",
+              content: "Signed-off-by: <test@example.com>",
               number: 3
             }
           ]

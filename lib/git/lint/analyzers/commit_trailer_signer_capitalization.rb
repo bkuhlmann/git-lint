@@ -6,7 +6,7 @@ module Git
       # Analyzes commit trailer signer name capitalization.
       class CommitTrailerSignerCapitalization < Abstract
         include Import[
-          pattern: "trailers.signer",
+          setting: "trailers.signer",
           parser: "parsers.person",
           validator: "validators.capitalization"
         ]
@@ -26,7 +26,7 @@ module Git
 
         def invalid_line? trailer
           parser.call(trailer.value).then do |person|
-            trailer.key.match?(pattern) && !validator.call(person.name)
+            trailer.key.match?(setting.pattern) && !validator.call(person.name)
           end
         end
       end

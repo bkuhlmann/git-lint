@@ -68,7 +68,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerFormatKey do
         Gitt::Models::Commit[
           body_lines: [],
           trailers: [
-            Gitt::Models::Trailer.for("Unknown: value")
+            Gitt::Models::Trailer.for("unknown: value")
           ]
         ]
       end
@@ -87,7 +87,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerFormatKey do
         Gitt::Models::Commit[
           body_lines: [],
           trailers: [
-            Gitt::Models::Trailer.for("Tracker: ACME")
+            Gitt::Models::Trailer.for("Format: asciidoc")
           ]
         ]
       end

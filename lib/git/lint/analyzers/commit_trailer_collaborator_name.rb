@@ -6,7 +6,7 @@ module Git
       # Analyzes commit trailer collaborator name construction.
       class CommitTrailerCollaboratorName < Abstract
         include Import[
-          pattern: "trailers.collaborator",
+          setting: "trailers.collaborator",
           parser: "parsers.person",
           validator: "validators.name"
         ]
@@ -26,7 +26,7 @@ module Git
 
         def invalid_line? trailer
           parser.call(trailer.value).then do |person|
-            trailer.key.match?(pattern) && !validator.call(person.name, minimum:)
+            trailer.key.match?(setting.pattern) && !validator.call(person.name, minimum:)
           end
         end
 

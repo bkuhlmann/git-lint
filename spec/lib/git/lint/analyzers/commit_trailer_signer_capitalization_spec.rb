@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerCapitalization do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: Test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test Example <test@example.com>")]
         ]
       end
 
@@ -50,7 +50,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerCapitalization do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: test <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: test <test@example.com>")]
         ]
       end
 
@@ -63,7 +63,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerCapitalization do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: <example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: <example.com>")]
         ]
       end
 
@@ -80,7 +80,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerCapitalization do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: Test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test Example <test@example.com>")]
         ]
       end
 
@@ -93,7 +93,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerCapitalization do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: test Example <test@example.com>")]
         ]
       end
 
@@ -102,7 +102,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerCapitalization do
           hint: "Name must be capitalized.",
           lines: [
             {
-              content: "Signed-By: test Example <test@example.com>",
+              content: "Signed-off-by: test Example <test@example.com>",
               number: 3
             }
           ]

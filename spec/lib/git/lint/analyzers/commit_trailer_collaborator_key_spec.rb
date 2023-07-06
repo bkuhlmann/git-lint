@@ -20,11 +20,11 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorKey do
   end
 
   describe "#valid?" do
-    context "when valid key and value" do
+    context "with valid key and value" do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Co-authored-by: Test Example <test@example.com>")]
         ]
       end
 
@@ -37,7 +37,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: bogus")]
+          trailers: [Gitt::Models::Trailer.for("Co-authored-by: bogus")]
         ]
       end
 
@@ -50,7 +50,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Co-Authored-By:")]
+          trailers: [Gitt::Models::Trailer.for("Co-authored-by:")]
         ]
       end
 
@@ -63,7 +63,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Co-authored-by:")]
+          trailers: [Gitt::Models::Trailer.for("co-authored-by:")]
         ]
       end
 
@@ -76,7 +76,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Unknown: value")]
+          trailers: [Gitt::Models::Trailer.for("unknown: value")]
         ]
       end
 
@@ -93,7 +93,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("Co-authored-by: Test Example <test@example.com>")]
         ]
       end
 
@@ -106,16 +106,16 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorKey do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Co-authored-By: Test Example <test@example.com>")]
+          trailers: [Gitt::Models::Trailer.for("co-authored-by: Test Example <test@example.com>")]
         ]
       end
 
       it "answers issue" do
         expect(issue).to eq(
-          hint: "Use format: /Co-Authored-By/.",
+          hint: "Use format: /Co-authored-by/.",
           lines: [
             {
-              content: "Co-authored-By: Test Example <test@example.com>",
+              content: "co-authored-by: Test Example <test@example.com>",
               number: 3
             }
           ]

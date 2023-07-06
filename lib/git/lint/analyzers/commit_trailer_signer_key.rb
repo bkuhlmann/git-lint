@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer signer key usage.
       class CommitTrailerSignerKey < Abstract
-        include Import[pattern: "trailers.signer"]
+        include Import[setting: "trailers.signer"]
 
         def valid? = affected_commit_trailers.empty?
 
@@ -21,12 +21,12 @@ module Git
         protected
 
         def load_filter_list
-          Kit::FilterList.new configuration.commits_trailer_signer_key_includes
+          Kit::FilterList.new setting.name
         end
 
         def invalid_line? trailer
           trailer.key.then do |key|
-            key.match?(pattern) && !key.match?(/\A#{Regexp.union filter_list}\Z/)
+            key.match?(setting.pattern) && !key.match?(/\A#{Regexp.union filter_list}\Z/)
           end
         end
       end

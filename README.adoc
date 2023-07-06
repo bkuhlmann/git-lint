@@ -675,28 +675,28 @@ Ensures collaborator email address is valid for commit trailer.
 
 ....
 # Disallowed
-Co-Authored-By: River Tam <invalid>
+Co-authored-by: River Tam <invalid>
 
 # Allowed
-Co-Authored-By: River Tam <river@firefly.com>
+Co-authored-by: River Tam <river@firefly.com>
 ....
 
 ==== Commit Trailer Collaborator Key
 
 [options="header"]
 |===
-| Enabled | Severity | Defaults
-| true   | error    | includes: `["Co-Authored-By"]`
+| Enabled | Severity
+| true   | error
 |===
 
 Ensures collaborator trailer key is correct format.
 
 ....
 # Disallowed
-Co-authored-by: River Tam <river@firefly.com>
+co-authored-by: River Tam <river@firefly.com>
 
 # Allowed
-Co-Authored-By: River Tam <river@firefly.com>
+Co-authored-by: River Tam <river@firefly.com>
 ....
 
 ==== Commit Trailer Collaborator Name
@@ -711,10 +711,10 @@ Ensures collaborator name consists of, at least, a first and last name. Example:
 
 ....
 # Disallowed
-Co-Authored-By: River <river@firefly.com>
+Co-authored-by: River <river@firefly.com>
 
 # Allowed
-Co-Authored-By: River Tam <river@firefly.com>
+Co-authored-by: River Tam <river@firefly.com>
 ....
 
 ==== Commit Trailer Duplicate
@@ -729,27 +729,27 @@ Ensures commit trailer keys are not duplicated. Example:
 
 ....
 # Disallowed
-Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
-Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+Co-authored-by: Shepherd Derrial Book <shepherd@firefly.com>
+Co-authored-by: Shepherd Derrial Book <shepherd@firefly.com>
 
 # Allowed
-Co-Authored-By: Malcolm Reynolds <malcolm@firefly.com>
-Co-Authored-By: Shepherd Derrial Book <shepherd@firefly.com>
+Co-authored-by: Malcolm Reynolds <malcolm@firefly.com>
+Co-authored-by: Shepherd Derrial Book <shepherd@firefly.com>
 ....
 
 ==== Commit Trailer Format Key
 
 [options="header"]
 |===
-| Enabled | Severity | Defaults
-| true    | error    | includes: `["Format"]`
+| Enabled | Severity
+| true    | error
 |===
 
 Ensures format trailer key is correct format.
 
 ....
 # Disallowed
-format: md
+format: markdown
 
 # Allowed
 Format: markdown
@@ -767,7 +767,7 @@ Ensures format trailer value is a valid value.
 
 ....
 # Disallowed
-Format: Plain
+Format: plain
 
 # Allowed
 Format: asciidoc
@@ -777,8 +777,8 @@ Format: asciidoc
 
 [options="header"]
 |===
-| Enabled | Severity | Defaults
-| true    | error    | includes: `["Issue"]`
+| Enabled | Severity
+| true    | error
 |===
 
 Ensures issue trailer key is correct format.
@@ -915,10 +915,10 @@ Ensures commit signer trailer name is properly capitalized.
 
 ....
 # Disallowed
-Signed-By: jayne cobb
+Signed-off-by: jayne cobb
 
 # Allowed
-Signed-By: Jayne Cobb
+Signed-off-by: Jayne Cobb
 ....
 
 ==== Commit Trailer Signer Email
@@ -933,28 +933,28 @@ Ensures commit signer trailer email is properly capitalized.
 
 ....
 # Disallowed
-Signed-By: Jayne Cobb <invalid>
+Signed-off-by: Jayne Cobb <invalid>
 
 # Allowed
-Signed-By: Jayne Cobb <jcobb@firefly.com>
+Signed-off-by: Jayne Cobb <jcobb@firefly.com>
 ....
 
 ==== Commit Trailer Signer Key
 
 [options="header"]
 |===
-| Enabled | Severity | Defaults
-| true    | error    | includes: `["Signed-By"]`
+| Enabled | Severity
+| true    | error
 |===
 
 Ensures signer trailer key is correct format.
 
 ....
 # Disallowed
-signed-by: Jayne Cobb
+signed-off-by: Jayne Cobb
 
 # Allowed
-Signed-By: Jayne Cobb
+Signed-off-by: Jayne Cobb
 ....
 
 ==== Commit Trailer Signer Name
@@ -969,28 +969,28 @@ Ensures signer name consists of, at least, a first and last name.
 
 ....
 # Disallowed
-Signed-By: Jayne
+Signed-off-by: Jayne
 
 # Allowed
-Signed-By: Jayne Cobb
+Signed-off-by: Jayne Cobb
 ....
 
 ==== Commit Trailer Tracker Key
 
 [options="header"]
 |===
-| Enabled | Severity | Defaults
-| true    | error    | includes: `["Tracker"]`
+| Enabled | Severity
+| true    | error
 |===
 
 Ensures tracker trailer key is correct format.
 
 ....
 # Disallowed
-tracker: Linear
+tracker: linear
 
 # Allowed
-Tracker: Linear
+Tracker: linear
 ....
 
 ==== Commit Trailer Tracker Value

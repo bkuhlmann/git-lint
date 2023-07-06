@@ -50,7 +50,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerEmail do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: Test Example <invalid>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test Example <invalid>")]
         ]
       end
 
@@ -80,7 +80,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerEmail do
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
-          trailers: [Gitt::Models::Trailer.for("Signed-By: Test Example <invalid>")]
+          trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test Example <invalid>")]
         ]
       end
 
@@ -89,7 +89,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerEmail do
           hint: %(Email must follow name and use format: "<name@server.domain>".),
           lines: [
             {
-              content: "Signed-By: Test Example <invalid>",
+              content: "Signed-off-by: Test Example <invalid>",
               number: 3
             }
           ]

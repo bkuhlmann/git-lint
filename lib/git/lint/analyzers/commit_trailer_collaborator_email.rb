@@ -6,7 +6,7 @@ module Git
       # Analyzes commit trailer collaborator email address format.
       class CommitTrailerCollaboratorEmail < Abstract
         include Import[
-          pattern: "trailers.collaborator",
+          setting: "trailers.collaborator",
           parser: "parsers.person",
           validator: "validators.email"
         ]
@@ -26,7 +26,7 @@ module Git
 
         def invalid_line? trailer
           email = parser.call(trailer.value).email
-          trailer.key.match?(pattern) && !validator.call(email)
+          trailer.key.match?(setting.pattern) && !validator.call(email)
         end
 
         private

@@ -60,7 +60,6 @@ module Git
         required(:commits_trailer_collaborator_email_severity).filled :string
         required(:commits_trailer_collaborator_key_enabled).filled :bool
         required(:commits_trailer_collaborator_key_severity).filled :string
-        required(:commits_trailer_collaborator_key_includes).array :string
         required(:commits_trailer_collaborator_name_enabled).filled :bool
         required(:commits_trailer_collaborator_name_severity).filled :string
         required(:commits_trailer_collaborator_name_minimum).filled :integer
@@ -68,13 +67,11 @@ module Git
         required(:commits_trailer_duplicate_severity).filled :string
         required(:commits_trailer_format_key_enabled).filled :bool
         required(:commits_trailer_format_key_severity).filled :string
-        required(:commits_trailer_format_key_includes).array :string
         required(:commits_trailer_format_value_enabled).filled :bool
         required(:commits_trailer_format_value_severity).filled :string
         required(:commits_trailer_format_value_includes).array :string
         required(:commits_trailer_issue_key_enabled).filled :bool
         required(:commits_trailer_issue_key_severity).filled :string
-        required(:commits_trailer_issue_key_includes).array :string
         required(:commits_trailer_issue_value_enabled).filled :bool
         required(:commits_trailer_issue_value_severity).filled :string
         required(:commits_trailer_issue_value_includes).array :string
@@ -96,13 +93,11 @@ module Git
         required(:commits_trailer_signer_email_severity).filled :string
         required(:commits_trailer_signer_key_enabled).filled :bool
         required(:commits_trailer_signer_key_severity).filled :string
-        required(:commits_trailer_signer_key_includes).array :string
         required(:commits_trailer_signer_name_enabled).filled :bool
         required(:commits_trailer_signer_name_severity).filled :string
         required(:commits_trailer_signer_name_minimum).filled :integer
         required(:commits_trailer_tracker_key_enabled).filled :bool
         required(:commits_trailer_tracker_key_severity).filled :string
-        required(:commits_trailer_tracker_key_includes).array :string
         required(:commits_trailer_tracker_value_enabled).filled :bool
         required(:commits_trailer_tracker_value_severity).filled :string
         required(:commits_trailer_tracker_value_includes).array :string

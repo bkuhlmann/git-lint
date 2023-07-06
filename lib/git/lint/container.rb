@@ -15,9 +15,17 @@ module Git
       extend Dry::Container::Mixin
 
       namespace :trailers do
-        register(:collaborator, memoize: true) { /\ACo.*Authored.*By.*\Z/i }
-        register(:format, memoize: true) { /\AFormat.*\Z/i }
-        register(:issue, memoize: true) { /\AIssue.*\Z/i }
+        register :collaborator, memoize: true do
+          Configuration::Trailer[name: "Co-authored-by", pattern: /\ACo.*authored.*by.*\Z/i]
+        end
+
+        register :format, memoize: true do
+          Configuration::Trailer[name: "Format", pattern: /\AFormat.*\Z/i]
+        end
+
+        register :issue, memoize: true do
+          Configuration::Trailer[name: "Issue", pattern: /\AIssue.*\Z/i]
+        end
 
         register :milestone, memoize: true do
           Configuration::Trailer[name: "Milestone", pattern: /\AMilestone.*\Z/i]
@@ -27,8 +35,13 @@ module Git
           Configuration::Trailer[name: "Reviewer", pattern: /\AReviewer.*\Z/i]
         end
 
-        register(:signer, memoize: true) { /\ASigned.*By.*\Z/i }
-        register(:tracker, memoize: true) { /\ATracker.*\Z/i }
+        register :signer, memoize: true do
+          Configuration::Trailer[name: "Signed-off-by", pattern: /\ASigned.*off.*by.*\Z/i]
+        end
+
+        register :tracker, memoize: true do
+          Configuration::Trailer[name: "Tracker", pattern: /\ATracker.*\Z/i]
+        end
       end
 
       namespace :parsers do
