@@ -8,7 +8,6 @@ module Git
         include Import[
           pattern: "trailers.collaborator",
           parser: "parsers.person",
-          sanitizer: "sanitizers.email",
           validator: "validators.email"
         ]
 
@@ -26,7 +25,7 @@ module Git
         protected
 
         def invalid_line? trailer
-          email = sanitizer.call parser.call(trailer.value).email
+          email = parser.call(trailer.value).email
           trailer.key.match?(pattern) && !validator.call(email)
         end
 

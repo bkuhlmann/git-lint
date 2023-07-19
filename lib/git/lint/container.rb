@@ -27,7 +27,6 @@ module Git
       end
 
       namespace :sanitizers do
-        register(:email) { Gitt::Sanitizers::Email }
         register(:signature) { Gitt::Sanitizers::Signature }
       end
 

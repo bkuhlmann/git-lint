@@ -26,7 +26,7 @@ module Git
                        .then { |list| Kit::FilterList.new list }
         end
 
-        def locally_prefixed? = !ci? && commit.prefix?
+        def locally_prefixed? = !ci? && commit.directive?
 
         def ci? = environment["CI"] == "true"
 
