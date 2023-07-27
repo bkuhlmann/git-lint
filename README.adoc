@@ -52,21 +52,7 @@ gem install git-lint
 
 From the command line, type: `git-lint --help`
 
-....
-USAGE
-  git-lint [OPTIONS]
-  git-lint COMMAND [OPTIONS]
-
-OPTIONS
-  --hook PATH              Hook for analyzing unsaved commits.
-  -v, --version            Show version.
-  -h, --help [COMMAND]     Show this message.
-
-COMMANDS
-  config                   Manage configuration.
-                           Path is dynamic per current directory.
-  analyze                  Analyze branch or commit(s).
-....
+image:https://alchemists.io/images/projects/git-lint/screenshots/usage.png[Usage,width=588,height=353,role=focal_point]
 
 To check if your Git commit history is clean, run: `git-lint analyze --branch`. It will exit with a failure if at least one issue with error severity is detected.
 
