@@ -1,5 +1,13 @@
 = Versions
 
+== 6.0.2 (2023-07-27)
+
+* Fixed RuboCop Packaging/BundlerSetupInTests issues - Brooke Kuhlmann
+* Added container memoization to improve performance - Brooke Kuhlmann
+* Added usage screenshot - Brooke Kuhlmann
+* Updated Rake RSpec task configuration to not be verbose - Brooke Kuhlmann
+* Removed ARGV argument from CLI executable - Brooke Kuhlmann
+
 == 6.0.1 (2023-06-19)
 
 * Fixed SimpleCov coverage for primary container - Brooke Kuhlmann
