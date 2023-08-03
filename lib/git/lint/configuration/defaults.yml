@@ -159,6 +159,9 @@ commits:
         - major
         - minor
         - patch
+    reviewer_key:
+      enabled: true
+      severity: error
     signer_capitalization:
       enabled: true
       severity: error

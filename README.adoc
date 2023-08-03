@@ -845,6 +845,24 @@ Milestone: bogus
 Milestone: patch
 ....
 
+==== Commit Trailer Reviewer Key
+
+[options="header"]
+|===
+| Enabled | Severity
+| true    | error
+|===
+
+Ensures reviewer trailer key is correct format.
+
+....
+# Disallowed
+reviewer: tana
+
+# Allowed
+Reviewer: tana
+....
+
 ==== Commit Trailer Signer Capitalization
 
 [options="header"]

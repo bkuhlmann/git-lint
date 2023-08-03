@@ -78,6 +78,8 @@ module Git
                           :commits_trailer_milestone_value_enabled,
                           :commits_trailer_milestone_value_severity,
                           :commits_trailer_milestone_value_includes,
+                          :commits_trailer_reviewer_key_enabled,
+                          :commits_trailer_reviewer_key_severity,
                           :commits_trailer_signer_capitalization_enabled,
                           :commits_trailer_signer_capitalization_severity,
                           :commits_trailer_signer_email_enabled,

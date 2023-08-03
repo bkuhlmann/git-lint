@@ -23,6 +23,10 @@ module Git
           Configuration::Trailer[name: "Milestone", pattern: /\AMilestone.*\Z/i]
         end
 
+        register :reviewer, memoize: true do
+          Configuration::Trailer[name: "Reviewer", pattern: /\AReviewer.*\Z/i]
+        end
+
         register(:signer, memoize: true) { /\ASigned.*By.*\Z/i }
         register(:tracker, memoize: true) { /\ATracker.*\Z/i }
       end
