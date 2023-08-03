@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
+require "refinements/arrays"
+
 module Git
   module Lint
     module Errors
       # Categorizes severity errors.
       class Severity < Base
+        using Refinements::Arrays
+
         def initialize level
-          super %(Invalid severity level: #{level}. Use: #{Analyzers::Abstract::LEVELS.join ", "}.)
+          usage = Analyzers::Abstract::LEVELS.to_usage "or"
+          super %(Invalid severity level: #{level}. Use: #{usage}.)
         end
       end
     end

@@ -7,7 +7,9 @@ RSpec.describe Git::Lint::Errors::Severity do
     subject(:severity_error) { described_class.new :bogus }
 
     it "answers default message" do
-      expect(severity_error.message).to eq("Invalid severity level: bogus. Use: warn, error.")
+      expect(severity_error.message).to eq(
+        %(Invalid severity level: bogus. Use: "warn" or "error".)
+      )
     end
   end
 end
