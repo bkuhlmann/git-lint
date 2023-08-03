@@ -34,6 +34,7 @@ module Git
         Analyzers::CommitTrailerIssueValue,
         Analyzers::CommitTrailerMilestoneKey,
         Analyzers::CommitTrailerMilestoneValue,
+        Analyzers::CommitTrailerOrder,
         Analyzers::CommitTrailerReviewerKey,
         Analyzers::CommitTrailerReviewerValue,
         Analyzers::CommitTrailerSignerCapitalization,

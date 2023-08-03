@@ -845,6 +845,28 @@ Milestone: bogus
 Milestone: patch
 ....
 
+==== Commit Trailer Order
+
+[options="header"]
+|===
+| Enabled | Severity
+| true    | error
+|===
+
+Ensures milestone trailers are alphabetically sorted.
+
+....
+# Disallowed
+Issue: 123
+Milestone: patch
+Format: asciidoc
+
+# Allowed
+Format: asciidoc
+Issue: 123
+Milestone: patch
+....
+
 ==== Commit Trailer Reviewer Key
 
 [options="header"]

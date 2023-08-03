@@ -159,6 +159,9 @@ commits:
         - major
         - minor
         - patch
+    order:
+      enabled: true
+      severity: error
     reviewer_key:
       enabled: true
       severity: error
