@@ -16,9 +16,6 @@ module Git
         required(:commits_author_name_enabled).filled :bool
         required(:commits_author_name_severity).filled :string
         required(:commits_author_name_minimum).filled :integer
-        required(:commits_body_bullet_enabled).filled :bool
-        required(:commits_body_bullet_severity).filled :string
-        required(:commits_body_bullet_excludes).array :string
         required(:commits_body_bullet_capitalization_enabled).filled :bool
         required(:commits_body_bullet_capitalization_severity).filled :string
         required(:commits_body_bullet_capitalization_includes).array :string

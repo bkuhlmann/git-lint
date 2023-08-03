@@ -368,26 +368,6 @@ Kaylee
 Kaywinnet Lee Frye
 ....
 
-==== Commit Body Bullet
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | excludes: `["\\*", "•"]`
-|===
-
-Ensures commit message bodies use a standard Markdown syntax for bullet points. Markdown supports
-the following syntax for bullets:
-
-....
-*
--
-....
-
-It's best to use dashes for bullet point syntax as stars are easier to read when used for
-_emphasis_. This makes parsing the Markdown syntax easier when reviewing a Git commit as the syntax
-used for bullet points and _emphasis_ are now, distinctly, unique.
-
 ==== Commit Body Bullet Capitalization
 
 [options="header"]

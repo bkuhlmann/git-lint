@@ -10,7 +10,6 @@ module Git
         Analyzers::CommitAuthorCapitalization,
         Analyzers::CommitAuthorEmail,
         Analyzers::CommitAuthorName,
-        Analyzers::CommitBodyBullet,
         Analyzers::CommitBodyBulletCapitalization,
         Analyzers::CommitBodyBulletDelimiter,
         Analyzers::CommitBodyLeadingLine,

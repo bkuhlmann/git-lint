@@ -11,12 +11,6 @@ commits:
       severity: error
       minimum: 2
   body:
-    bullet:
-      enabled: true
-      severity: error
-      excludes:
-        - "\\*"
-        - "•"
     bullet_capitalization:
       enabled: true
       severity: error
