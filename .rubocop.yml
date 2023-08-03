@@ -1,6 +1,10 @@
 inherit_gem:
   caliber: config/all.yml
 
+Metrics/CollectionLiteralLength:
+  Exclude:
+    - "lib/git/lint/analyzer.rb"
+
 Metrics/MethodLength:
   Exclude:
     - "lib/git/lint/cli/shell.rb"

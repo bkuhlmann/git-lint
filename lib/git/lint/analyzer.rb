@@ -6,7 +6,6 @@ module Git
     class Analyzer
       include Import[:configuration]
 
-      # rubocop:todo Metrics/CollectionLiteralLength
       ANALYZERS = [
         Analyzers::CommitAuthorCapitalization,
         Analyzers::CommitAuthorEmail,
@@ -41,7 +40,6 @@ module Git
         Analyzers::CommitTrailerTrackerKey,
         Analyzers::CommitTrailerTrackerValue
       ].freeze
-      # rubocop:enable Metrics/CollectionLiteralLength
 
       # rubocop:disable Metrics/ParameterLists
       def initialize(
