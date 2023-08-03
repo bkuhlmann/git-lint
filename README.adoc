@@ -373,7 +373,7 @@ Kaywinnet Lee Frye
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | includes: `["\\-"]`
+| true    | error    | includes: `["\\-", "\\*"]`
 |===
 
 Ensures commit body bullet lines are capitalized. Example:
@@ -391,7 +391,7 @@ Ensures commit body bullet lines are capitalized. Example:
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | includes: `["\\-"]`
+| true    | error    | includes: `["\\-", "\\*"]`
 |===
 
 Ensures commit body bullets are delimited by a space. Example:

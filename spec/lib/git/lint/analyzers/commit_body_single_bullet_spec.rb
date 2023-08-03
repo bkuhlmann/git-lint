@@ -80,7 +80,19 @@ RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
       end
     end
 
-    context "when invalid" do
+    context "with invalid ASCII Doc" do
+      let(:commit) { Gitt::Models::Commit[body_lines: ["* Test."]] }
+
+      it "answers issue hint" do
+        expect(issue[:hint]).to eq("Use paragraph instead of single bullet.")
+      end
+
+      it "answers issue affected lines" do
+        expect(issue[:lines]).to contain_exactly(number: 3, content: "* Test.")
+      end
+    end
+
+    context "with invalid Markdown" do
       let(:commit) { Gitt::Models::Commit[body_lines: ["- Test."]] }
 
       it "answers issue hint" do

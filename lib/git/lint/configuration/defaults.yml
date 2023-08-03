@@ -16,11 +16,13 @@ commits:
       severity: error
       includes:
         - "\\-"
+        - "\\*"
     bullet_delimiter:
       enabled: true
       severity: error
       includes:
         - "\\-"
+        - "\\*"
     leading_line:
       enabled: true
       severity: warn
@@ -70,6 +72,7 @@ commits:
       severity: error
       includes:
         - "\\-"
+        - "\\*"
     tracker_shorthand:
       enabled: true
       severity: error

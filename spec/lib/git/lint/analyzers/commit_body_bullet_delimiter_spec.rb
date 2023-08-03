@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
 
   describe "#valid?" do
     context "with space after bullet" do
-      let(:commit) { Gitt::Models::Commit[body_lines: ["- Test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "with indented bullet and trailing space" do
-      let(:commit) { Gitt::Models::Commit[body_lines: ["  - test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["  - test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -47,7 +47,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "without space after bullet" do
-      let(:commit) { Gitt::Models::Commit[body_lines: ["-Test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["-Test."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -55,7 +55,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "with indented bullet without trailing space" do
-      let(:commit) { Gitt::Models::Commit[body_lines: ["  -test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["  -test."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -63,7 +63,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "with no bullet lines" do
-      let(:commit) { Gitt::Models::Commit[body_lines: ["a test line."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -91,18 +91,17 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
     end
 
     context "when invalid" do
-      let :commit do
-        Gitt::Models::Commit[
-          body_lines: ["A normal line.", "- A valid bullet line.", "-An invalid bullet line."]
-        ]
-      end
+      let(:commit) { Gitt::Models::Commit[body_lines: ["One.", "- Two.", "-three.", "*four."]] }
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq("Use space after bullet.")
       end
 
       it "answers issue affected lines" do
-        expect(issue[:lines]).to contain_exactly(number: 5, content: "-An invalid bullet line.")
+        expect(issue[:lines]).to contain_exactly(
+          {number: 5, content: "-three."},
+          {number: 6, content: "*four."}
+        )
       end
     end
   end

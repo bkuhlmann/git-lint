@@ -21,7 +21,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
 
   describe "#valid?" do
     context "with uppercase bullet" do
-      let(:commit) { Gitt::Models::Commit[body_lines: ["- Test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- Test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -29,7 +29,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     end
 
     context "with no bullet lines" do
-      let(:commit) { Gitt::Models::Commit[body_lines: ["a test line."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -45,7 +45,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     end
 
     context "with lowercase bullet (no trailing space)" do
-      let(:commit) { Gitt::Models::Commit[body_lines: ["-test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["-test."]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
@@ -53,7 +53,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     end
 
     context "with lowercase bullet" do
-      let(:commit) { Gitt::Models::Commit[body_lines: ["- test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- test."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -61,7 +61,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
     end
 
     context "with lowercase bullet (indented)" do
-      let(:commit) { Gitt::Models::Commit[body_lines: ["  - test bullet."]] }
+      let(:commit) { Gitt::Models::Commit[body_lines: ["  - test."]] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -82,7 +82,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
 
     context "when invalid" do
       let :commit do
-        Gitt::Models::Commit[body_lines: ["Examples:", "- a bullet.", "- Another bullet."]]
+        Gitt::Models::Commit[body_lines: ["Examples:", "- one.", "- Two.", "* three."]]
       end
 
       it "answers issue hint" do
@@ -90,7 +90,10 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
       end
 
       it "answers issue affected lines" do
-        expect(issue[:lines]).to contain_exactly(number: 4, content: "- a bullet.")
+        expect(issue[:lines]).to contain_exactly(
+          {number: 4, content: "- one."},
+          {number: 6, content: "* three."}
+        )
       end
     end
   end
