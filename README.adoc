@@ -863,6 +863,24 @@ reviewer: tana
 Reviewer: tana
 ....
 
+==== Commit Trailer Reviewer Value
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `[clickup, github, jira, linear, shortcut, tana]`
+|===
+
+Ensures reviewer trailer value is correct format for linking/referencing the code review system.
+
+....
+# Disallowed
+Reviewer: bogus
+
+# Allowed
+Reviewer: tana
+....
+
 ==== Commit Trailer Signer Capitalization
 
 [options="header"]

@@ -162,6 +162,16 @@ commits:
     reviewer_key:
       enabled: true
       severity: error
+    reviewer_value:
+      enabled: true
+      severity: error
+      includes:
+        - clickup
+        - github
+        - jira
+        - linear
+        - shortcut
+        - tana
     signer_capitalization:
       enabled: true
       severity: error
