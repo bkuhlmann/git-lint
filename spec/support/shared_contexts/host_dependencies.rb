@@ -2,7 +2,7 @@
 
 require "dry/monads"
 
-RSpec.shared_context "with commit system dependencies" do
+RSpec.shared_context "with host dependencies" do
   include Dry::Monads[:result]
 
   using Infusible::Stub

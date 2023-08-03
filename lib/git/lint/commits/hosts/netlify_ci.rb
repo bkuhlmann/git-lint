@@ -3,8 +3,8 @@
 module Git
   module Lint
     module Commits
-      module Systems
-        # Provides Netlify CI build environment feature branch information.
+      module Hosts
+        # Provides Netlify CI feature branch information.
         class NetlifyCI
           include Git::Lint::Import[:git, :environment]
 

@@ -5,7 +5,7 @@ require "infusible"
 module Git
   module Lint
     module Commits
-      module Systems
+      module Hosts
         Import = Infusible.with Container
       end
     end

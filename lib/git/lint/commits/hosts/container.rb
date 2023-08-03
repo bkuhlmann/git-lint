@@ -5,8 +5,8 @@ require "dry/container"
 module Git
   module Lint
     module Commits
-      module Systems
-        # Provides a single container with application and system specific dependencies.
+      module Hosts
+        # Provides a single container with application and host specific dependencies.
         module Container
           extend Dry::Container::Mixin
 

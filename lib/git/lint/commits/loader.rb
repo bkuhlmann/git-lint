@@ -5,9 +5,9 @@ require "refinements/strings"
 module Git
   module Lint
     module Commits
-      # Automatically detects and loads system.
+      # Automatically detects and loads host.
       class Loader
-        include Systems::Import[
+        include Hosts::Import[
           :circle_ci,
           :git,
           :git_hub_action,
@@ -22,12 +22,12 @@ module Git
           message = "Invalid repository. Are you within a Git repository?"
           fail Errors::Base, message unless git.exist?
 
-          load_system.call
+          host.call
         end
 
         private
 
-        def load_system
+        def host
           if key? "CIRCLECI" then circle_ci
           elsif key? "GITHUB_ACTIONS" then git_hub_action
           elsif key? "NETLIFY" then netlify_ci

@@ -3,8 +3,8 @@
 module Git
   module Lint
     module Commits
-      module Systems
-        # Provides local build environment feature branch information.
+      module Hosts
+        # Provides local feature branch information.
         class Local
           include Git::Lint::Import[:git]
 

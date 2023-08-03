@@ -3,8 +3,8 @@
 module Git
   module Lint
     module Commits
-      module Systems
-        # Provides Circle CI build environment feature branch information.
+      module Hosts
+        # Provides Circle CI feature branch information.
         class CircleCI
           include Git::Lint::Import[:git]
 

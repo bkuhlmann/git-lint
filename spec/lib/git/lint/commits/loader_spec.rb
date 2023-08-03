@@ -9,14 +9,14 @@ RSpec.describe Git::Lint::Commits::Loader do
   subject(:loader) { described_class.new }
 
   include_context "with Git repository"
-  include_context "with commit system dependencies"
+  include_context "with host dependencies"
 
-  before { Git::Lint::Commits::Systems::Import.stub git:, environment: }
+  before { Git::Lint::Commits::Hosts::Import.stub git:, environment: }
 
-  after { Git::Lint::Commits::Systems::Import.unstub :git, :environment }
+  after { Git::Lint::Commits::Hosts::Import.unstub :git, :environment }
 
   describe "#call" do
-    context "with Circle CI environment" do
+    context "with Circle CI" do
       let :environment do
         {
           "CIRCLECI" => "true",
@@ -32,7 +32,7 @@ RSpec.describe Git::Lint::Commits::Loader do
       end
     end
 
-    context "with GitHub Action environment" do
+    context "with GitHub Actions" do
       let :environment do
         {
           "CIRCLECI" => "false",
@@ -48,7 +48,7 @@ RSpec.describe Git::Lint::Commits::Loader do
       end
     end
 
-    context "with Netlify CI environment" do
+    context "with Netlify CI" do
       let :environment do
         {
           "CIRCLECI" => "false",
@@ -65,7 +65,7 @@ RSpec.describe Git::Lint::Commits::Loader do
       end
     end
 
-    context "with local environment" do
+    context "with local host" do
       let(:git) { Gitt::Repository.new }
 
       before do
