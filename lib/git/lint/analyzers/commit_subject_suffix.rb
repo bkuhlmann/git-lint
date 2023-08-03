@@ -8,13 +8,13 @@ module Git
         def valid?
           return true if filter_list.empty?
 
-          !commit.subject.match?(/#{Regexp.union filter_list.to_regexp}\Z/)
+          !commit.subject.match?(/#{Regexp.union filter_list}\Z/)
         end
 
         def issue
           return {} if valid?
 
-          {hint: %(Avoid: #{filter_list.to_hint}.)}
+          {hint: %(Avoid: #{filter_list.to_usage}.)}
         end
 
         protected

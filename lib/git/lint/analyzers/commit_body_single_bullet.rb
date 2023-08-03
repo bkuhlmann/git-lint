@@ -22,7 +22,7 @@ module Git
           Kit::FilterList.new configuration.commits_body_single_bullet_includes
         end
 
-        def invalid_line?(line) = line.match?(/\A#{Regexp.union filter_list.to_regexp}\s+/)
+        def invalid_line?(line) = line.match?(/\A#{Regexp.union filter_list}\s+/)
       end
     end
   end

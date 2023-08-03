@@ -92,7 +92,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBullet do
       end
 
       it "answers issue hint" do
-        expect(issue[:hint]).to eq("Avoid: /\\*/, /•/.")
+        expect(issue[:hint]).to eq("Avoid: /\\*/ or /•/.")
       end
 
       it "answers issue lines" do

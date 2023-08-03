@@ -13,7 +13,7 @@ module Git
           return {} if valid?
 
           {
-            hint: "Use format: #{filter_list.to_hint}.",
+            hint: "Use format: #{filter_list.to_usage}.",
             lines: affected_commit_trailers
           }
         end
@@ -28,7 +28,7 @@ module Git
           trailer.key.match?(pattern) && !trailer.value.match?(value_pattern)
         end
 
-        def value_pattern = /\A#{Regexp.union filter_list.to_regexp}\Z/
+        def value_pattern = /\A#{Regexp.union filter_list}\Z/
       end
     end
   end

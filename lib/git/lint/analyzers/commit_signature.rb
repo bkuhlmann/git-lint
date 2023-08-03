@@ -8,10 +8,10 @@ module Git
         include Import[sanitizer: "sanitizers.signature"]
 
         def valid?
-          sanitizer.call(commit.signature).match?(/\A#{Regexp.union filter_list.to_regexp}\Z/)
+          sanitizer.call(commit.signature).match?(/\A#{Regexp.union filter_list}\Z/)
         end
 
-        def issue = valid? ? {} : {hint: %(Use: #{filter_list.to_hint}.)}
+        def issue = valid? ? {} : {hint: %(Use: #{filter_list.to_usage "or"}.)}
 
         protected
 

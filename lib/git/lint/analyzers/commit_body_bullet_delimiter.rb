@@ -24,7 +24,7 @@ module Git
 
         def invalid_line?(line) = line.match?(/\A\s*#{pattern}(?!(#{pattern}|\s)).+\Z/)
 
-        def pattern = Regexp.union(filter_list.to_regexp)
+        def pattern = Regexp.union filter_list
       end
     end
   end

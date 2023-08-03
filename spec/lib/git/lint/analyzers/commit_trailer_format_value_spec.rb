@@ -97,7 +97,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerFormatValue do
 
       it "answers issue" do
         expect(issue).to eq(
-          hint: "Use format: /asciidoc/, /markdown/.",
+          hint: "Use format: /asciidoc/ or /markdown/.",
           lines: [
             {
               content: "Format: +*&",

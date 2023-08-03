@@ -11,7 +11,7 @@ module Git
           return {} if valid?
 
           {
-            hint: "Explain issue instead of using shorthand. Avoid: #{filter_list.to_hint}.",
+            hint: "Explain issue instead of using shorthand. Avoid: #{filter_list.to_usage}.",
             lines: affected_commit_body_lines
           }
         end
@@ -22,7 +22,7 @@ module Git
           Kit::FilterList.new configuration.commits_body_tracker_shorthand_excludes
         end
 
-        def invalid_line?(line) = line.match?(/.*#{Regexp.union filter_list.to_regexp}.*/)
+        def invalid_line?(line) = line.match?(/.*#{Regexp.union filter_list}.*/)
       end
     end
   end

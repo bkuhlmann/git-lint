@@ -11,7 +11,7 @@ module Git
           return {} if valid?
 
           {
-            hint: %(Avoid: #{filter_list.to_hint}.),
+            hint: %(Avoid: #{filter_list.to_usage "or"}.),
             lines: affected_commit_body_lines
           }
         end
@@ -26,7 +26,7 @@ module Git
         def invalid_line? line
           return false if line.strip.empty?
 
-          !line.match?(/\A(?!\s*#{Regexp.union filter_list.to_regexp}\s+).+\Z/)
+          !line.match?(/\A(?!\s*#{Regexp.union filter_list}\s+).+\Z/)
         end
       end
     end

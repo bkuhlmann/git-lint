@@ -52,7 +52,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSignature do
       let(:commit) { Gitt::Models::Commit[signature: "B"] }
 
       it "answers issue hint" do
-        expect(issue[:hint]).to eq("Use: /Good/, /Invalid/.")
+        expect(issue[:hint]).to eq("Use: /Good/ or /Invalid/.")
       end
     end
   end

@@ -1,21 +1,26 @@
 # frozen_string_literal: true
 
 require "core"
+require "refinements/arrays"
 
 module Git
   module Lint
     module Kit
       # Represents an regular expression list which may be used as an analyzer setting.
       class FilterList
+        using Refinements::Arrays
+
         def initialize list = Core::EMPTY_ARRAY
-          @list = Array list
+          @list = Array(list).map { |item| Regexp.new item }
         end
 
-        def to_hint = to_regexp.map(&:inspect).join(", ")
-
-        def to_regexp = list.map { |item| Regexp.new item }
-
         def empty? = list.empty?
+
+        def to_a = list
+
+        alias to_ary to_a
+
+        def to_usage(...) = list.to_usage(...)
 
         private
 

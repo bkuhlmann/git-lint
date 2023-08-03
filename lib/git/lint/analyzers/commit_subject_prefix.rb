@@ -9,13 +9,13 @@ module Git
           return true if locally_prefixed?
           return true if filter_list.empty?
 
-          commit.subject.match?(/\A#{Regexp.union filter_list.to_regexp}/)
+          commit.subject.match?(/\A#{Regexp.union filter_list}/)
         end
 
         def issue
           return {} if valid?
 
-          {hint: %(Use: #{filter_list.to_hint}.)}
+          {hint: %(Use: #{filter_list.to_usage "or"}.)}
         end
 
         protected

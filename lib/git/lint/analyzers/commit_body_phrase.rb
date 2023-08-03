@@ -11,7 +11,7 @@ module Git
           return {} if valid?
 
           {
-            hint: %(Avoid: #{filter_list.to_hint}.),
+            hint: %(Avoid: #{filter_list.to_usage}.),
             lines: affected_commit_body_lines
           }
         end
@@ -23,10 +23,7 @@ module Git
         end
 
         def invalid_line? line
-          line.downcase.match? Regexp.new(
-            Regexp.union(filter_list.to_regexp).source,
-            Regexp::IGNORECASE
-          )
+          line.downcase.match? Regexp.new(Regexp.union(filter_list).source, Regexp::IGNORECASE)
         end
       end
     end

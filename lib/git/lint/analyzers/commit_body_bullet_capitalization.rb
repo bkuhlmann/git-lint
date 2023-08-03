@@ -23,7 +23,7 @@ module Git
         end
 
         def invalid_line? line
-          line.match?(/\A\s*#{Regexp.union filter_list.to_regexp}\s[[:lower:]]+/)
+          line.match?(/\A\s*#{Regexp.union filter_list}\s[[:lower:]]+/)
         end
 
         private

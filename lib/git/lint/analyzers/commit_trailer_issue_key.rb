@@ -13,7 +13,7 @@ module Git
           return {} if valid?
 
           {
-            hint: "Use format: #{filter_list.to_hint}.",
+            hint: "Use format: #{filter_list.to_usage}.",
             lines: affected_commit_trailers
           }
         end
@@ -26,7 +26,7 @@ module Git
 
         def invalid_line? trailer
           trailer.key.then do |key|
-            key.match?(pattern) && !key.match?(/\A#{Regexp.union filter_list.to_regexp}\Z/)
+            key.match?(pattern) && !key.match?(/\A#{Regexp.union filter_list}\Z/)
           end
         end
       end

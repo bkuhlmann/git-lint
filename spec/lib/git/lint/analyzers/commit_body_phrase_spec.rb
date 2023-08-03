@@ -144,7 +144,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
           "/fact of the matter/, /furthermore/, /however/, /in due course/, /in the end/, " \
           "/last but not least/, /matter of fact/, /obviously/, /of course/, /really/, " \
           "/simply/, /things being equal/, /would like to/, /\\beasy\\b/, /\\bjust\\b/, " \
-          "/\\bquite\\b/, /as\\sfar\\sas\\s.+\\sconcerned/, /of\\sthe\\s(fact|opinion)\\sthat/."
+          "/\\bquite\\b/, /as\\sfar\\sas\\s.+\\sconcerned/, and /of\\sthe\\s(fact|opinion)\\sthat/."
         )
       end
 
