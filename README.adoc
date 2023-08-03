@@ -404,6 +404,28 @@ Ensures commit body bullets are delimited by a space. Example:
 - An example bullet.
 ....
 
+==== Commit Body Bullet Only
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | includes: `["\\-", "\\*"]`
+|===
+
+Ensures a single bullet is never used when a paragraph could be used instead. Example:
+
+....
+# Disallowed
+
+- Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
+  quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam.
+
+# Allowed
+
+Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
+quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam.
+....
+
 ==== Commit Body Leading Line
 
 [options="header"]
@@ -500,28 +522,6 @@ Ensures a minimum number of lines are present within the commit body. Lines with
 (i.e. whitespace, carriage returns, etc.) are considered to be empty.
 
 Automatically ignores _fixup!_ commits as they are not meant to have bodies.
-
-==== Commit Body Single Bullet
-
-[options="header"]
-|===
-| Enabled | Severity | Defaults
-| true    | error    | includes: `"\\-"`
-|===
-
-Ensures a single bullet is never used when a paragraph could be used instead. Example:
-
-....
-# Disallowed
-
-- Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
-  quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam.
-
-# Allowed
-
-Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
-quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu_libero sit amet quam.
-....
 
 ==== Commit Body Tracker Shorthand
 

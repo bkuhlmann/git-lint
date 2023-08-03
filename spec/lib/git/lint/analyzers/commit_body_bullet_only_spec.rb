@@ -2,20 +2,20 @@
 
 require "spec_helper"
 
-RSpec.describe Git::Lint::Analyzers::CommitBodySingleBullet do
+RSpec.describe Git::Lint::Analyzers::CommitBodyBulletOnly do
   subject(:analyzer) { described_class.new commit }
 
   include_context "with application dependencies"
 
   describe ".id" do
     it "answers class ID" do
-      expect(described_class.id).to eq("commit_body_single_bullet")
+      expect(described_class.id).to eq("commit_body_bullet_only")
     end
   end
 
   describe ".label" do
     it "answers class label" do
-      expect(described_class.label).to eq("Commit Body Single Bullet")
+      expect(described_class.label).to eq("Commit Body Bullet Only")
     end
   end
 

@@ -23,6 +23,12 @@ commits:
       includes:
         - "\\-"
         - "\\*"
+    bullet_only:
+      enabled: true
+      severity: error
+      includes:
+        - "\\-"
+        - "\\*"
     leading_line:
       enabled: true
       severity: warn
@@ -67,12 +73,6 @@ commits:
       enabled: true
       severity: warn
       minimum: 1
-    single_bullet:
-      enabled: true
-      severity: error
-      includes:
-        - "\\-"
-        - "\\*"
     tracker_shorthand:
       enabled: true
       severity: error

@@ -22,6 +22,9 @@ module Git
         required(:commits_body_bullet_delimiter_enabled).filled :bool
         required(:commits_body_bullet_delimiter_severity).filled :string
         required(:commits_body_bullet_delimiter_includes).array :string
+        required(:commits_body_bullet_only_enabled).filled :bool
+        required(:commits_body_bullet_only_severity).filled :string
+        required(:commits_body_bullet_only_includes).array :string
         required(:commits_body_leading_line_enabled).filled :bool
         required(:commits_body_leading_line_severity).filled :string
         required(:commits_body_line_length_enabled).filled :bool
@@ -35,9 +38,6 @@ module Git
         required(:commits_body_presence_enabled).filled :bool
         required(:commits_body_presence_severity).filled :string
         required(:commits_body_presence_minimum).filled :integer
-        required(:commits_body_single_bullet_enabled).filled :bool
-        required(:commits_body_single_bullet_severity).filled :string
-        required(:commits_body_single_bullet_includes).array :string
         required(:commits_body_tracker_shorthand_enabled).filled :bool
         required(:commits_body_tracker_shorthand_severity).filled :string
         required(:commits_body_tracker_shorthand_excludes).array :string
