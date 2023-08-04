@@ -645,6 +645,24 @@ the use of punctuation. This is handy when coupled with a tool, like
 link:https://alchemists.io/projects/milestoner[Milestoner], which automates project milestone
 releases.
 
+==== Commit Subject Word Repeat
+
+[options="header"]
+|===
+| Enabled | Severity
+| true    | error
+|===
+
+Ensures commit subjects don't contain repeated words. Example:
+
+....
+# Disallowed
+Added specs specs
+
+# Allowed
+Added specs
+....
+
 ==== Commit Trailer Collaborator Capitalization
 
 [options="header"]

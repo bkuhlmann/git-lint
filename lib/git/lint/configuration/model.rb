@@ -49,6 +49,8 @@ module Git
                           :commits_subject_suffix_enabled,
                           :commits_subject_suffix_severity,
                           :commits_subject_suffix_excludes,
+                          :commits_subject_word_repeat_enabled,
+                          :commits_subject_word_repeat_severity,
                           :commits_trailer_collaborator_capitalization_enabled,
                           :commits_trailer_collaborator_capitalization_severity,
                           :commits_trailer_collaborator_email_enabled,

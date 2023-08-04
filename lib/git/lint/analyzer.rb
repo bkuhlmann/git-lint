@@ -23,6 +23,7 @@ module Git
         Analyzers::CommitSubjectLength,
         Analyzers::CommitSubjectPrefix,
         Analyzers::CommitSubjectSuffix,
+        Analyzers::CommitSubjectWordRepeat,
         Analyzers::CommitTrailerCollaboratorCapitalization,
         Analyzers::CommitTrailerCollaboratorEmail,
         Analyzers::CommitTrailerCollaboratorKey,

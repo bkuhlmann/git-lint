@@ -54,6 +54,8 @@ module Git
         required(:commits_subject_suffix_enabled).filled :bool
         required(:commits_subject_suffix_severity).filled :string
         required(:commits_subject_suffix_excludes).array :string
+        required(:commits_subject_word_repeat_enabled).filled :bool
+        required(:commits_subject_word_repeat_severity).filled :string
         required(:commits_trailer_collaborator_capitalization_enabled).filled :bool
         required(:commits_trailer_collaborator_capitalization_severity).filled :string
         required(:commits_trailer_collaborator_email_enabled).filled :bool

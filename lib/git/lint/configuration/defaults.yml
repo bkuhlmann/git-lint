@@ -109,6 +109,9 @@ commits:
         - "\\."
         - "\\?"
         - "\\!"
+    word_repeat:
+      enabled: true
+      severity: error
   trailer:
     collaborator_capitalization:
       enabled: true
