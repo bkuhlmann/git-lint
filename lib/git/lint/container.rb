@@ -56,6 +56,7 @@ module Git
         register(:capitalization, memoize: true) { Validators::Capitalization.new }
         register(:email, memoize: true) { Validators::Email.new }
         register(:name, memoize: true) { Validators::Name.new }
+        register(:repeated_word, memoize: true) { Validators::RepeatedWord.new }
       end
 
       register :configuration, memoize: true do
