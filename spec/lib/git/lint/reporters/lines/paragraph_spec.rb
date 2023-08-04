@@ -6,7 +6,6 @@ RSpec.describe Git::Lint::Reporters::Lines::Paragraph do
   subject(:reporter) { described_class.new data }
 
   let(:data) { {number: 1, content: "One.\nTwo.\nThree."} }
-
   let(:proof) { %(    Line 1: "One.\n) + %(             Two.\n) + %(             Three."\n) }
 
   describe "#to_s" do

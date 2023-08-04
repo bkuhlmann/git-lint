@@ -5,7 +5,7 @@ require "spec_helper"
 RSpec.describe Git::Lint::Validators::Email do
   subject(:validator) { described_class.new }
 
-  describe "#valid?" do
+  describe "#call" do
     it "answers true with valid validator" do
       expect(validator.call("test@example.com")).to be(true)
     end

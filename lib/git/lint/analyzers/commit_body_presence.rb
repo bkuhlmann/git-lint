@@ -3,7 +3,7 @@
 module Git
   module Lint
     module Analyzers
-      # Analyzes pretense of commit body.
+      # Analyzes presence of commit body.
       class CommitBodyPresence < Abstract
         using ::Refinements::Strings
 

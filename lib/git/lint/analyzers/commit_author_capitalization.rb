@@ -3,7 +3,7 @@
 module Git
   module Lint
     module Analyzers
-      # Analyzes author for proper capitalization of author name.
+      # Analyzes author name for proper capitalization.
       class CommitAuthorCapitalization < Abstract
         include Import[validator: "validators.capitalization"]
 

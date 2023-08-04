@@ -6,7 +6,7 @@ require "refinements/strings"
 module Git
   module Lint
     module Analyzers
-      # An abstract class which provides basic functionality from which all analyzers inherit from.
+      # An abstract class which provides basic functionality for all analyzers to inherit from.
       class Abstract
         include Import[:configuration, :environment]
 
