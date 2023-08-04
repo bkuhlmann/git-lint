@@ -33,6 +33,8 @@ module Git
                           :commits_body_presence_enabled,
                           :commits_body_presence_severity,
                           :commits_body_presence_minimum,
+                          :commits_body_word_repeat_enabled,
+                          :commits_body_word_repeat_severity,
                           :commits_body_tracker_shorthand_enabled,
                           :commits_body_tracker_shorthand_severity,
                           :commits_body_tracker_shorthand_excludes,

@@ -38,6 +38,8 @@ module Git
         required(:commits_body_presence_enabled).filled :bool
         required(:commits_body_presence_severity).filled :string
         required(:commits_body_presence_minimum).filled :integer
+        required(:commits_body_word_repeat_enabled).filled :bool
+        required(:commits_body_word_repeat_severity).filled :string
         required(:commits_body_tracker_shorthand_enabled).filled :bool
         required(:commits_body_tracker_shorthand_severity).filled :string
         required(:commits_body_tracker_shorthand_excludes).array :string

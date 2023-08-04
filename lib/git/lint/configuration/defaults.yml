@@ -82,6 +82,9 @@ commits:
         - "(f|F)ix(es|ed)?\\s\\#\\d+"
         - "(c|C)lose(s|d)?\\s\\#\\d+"
         - "(r|R)esolve(s|d)?\\s\\#\\d+"
+    word_repeat:
+      enabled: true
+      severity: error
   signature:
     enabled: false
     severity: error

@@ -548,6 +548,24 @@ Instead of using tracker shorthand syntax, take the time to write a short summar
 commit was made. Doing this will make it easier to understand _why_ the commit was made, keeps the
 commit self-contained, and makes learning about/debugging the commit faster.
 
+==== Commit Body Word Repeat
+
+[options="header"]
+|===
+| Enabled | Severity
+| true    | error
+|===
+
+Ensures commit bodies don't contain repeated words. Example:
+
+....
+# Disallowed
+Necessary to to fix production error.
+
+# Allowed
+Necessary to fix production error.
+....
+
 ==== Commit Signature
 
 [options="header"]
