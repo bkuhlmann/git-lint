@@ -8,8 +8,9 @@ Zeitwerk::Loader.new.then do |loader|
                            "circle_ci" => "CircleCI",
                            "netlify_ci" => "NetlifyCI",
                            "travis_ci" => "TravisCI"
-  loader.push_dir "#{__dir__}/.."
+  loader.tag = "git-lint"
   loader.ignore "#{__dir__}/lint/rake"
+  loader.push_dir "#{__dir__}/.."
   loader.setup
 end
 
