@@ -17,5 +17,6 @@ end
 module Git
   # Main namespace.
   module Lint
+    def self.loader(registry = Zeitwerk::Registry) = registry.loader_for __FILE__
   end
 end
