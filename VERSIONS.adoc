@@ -1,5 +1,11 @@
 = Versions
 
+== 6.1.0 (2023-09-30)
+
+* Fixed Zeitwerk loader tag - Brooke Kuhlmann
+* Added gem loader - Brooke Kuhlmann
+* Updated GitHub issue template with simplified sections - Brooke Kuhlmann
+
 == 6.0.2 (2023-07-27)
 
 * Fixed RuboCop Packaging/BundlerSetupInTests issues - Brooke Kuhlmann
