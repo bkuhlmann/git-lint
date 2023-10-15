@@ -59,7 +59,7 @@ module Git
       register(:environment) { ENV }
       register(:git, memoize: true) { Gitt::Repository.new }
       register(:xdg_config, memoize: true) { Runcom::Config.new "git-lint/configuration.yml" }
-      register(:logger, memoize: true) { Cogger.new formatter: :emoji }
+      register(:logger, memoize: true) { Cogger.new id: "git-lint" }
       register :kernel, Kernel
     end
   end

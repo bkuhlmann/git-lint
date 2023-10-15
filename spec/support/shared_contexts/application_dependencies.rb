@@ -20,7 +20,7 @@ RSpec.shared_context "with application dependencies" do
   let(:environment) { Hash.new }
   let(:xdg_config) { Runcom::Config.new Git::Lint::Container[:defaults_path] }
   let(:kernel) { class_spy Kernel }
-  let(:logger) { Cogger.new io: StringIO.new, level: :debug, formatter: :emoji }
+  let(:logger) { Cogger.new id: "git-lint", io: StringIO.new, level: :debug }
 
   before { Git::Lint::Import.stub configuration:, environment:, xdg_config:, kernel:, logger: }
 
