@@ -112,22 +112,24 @@ commits:
       severity: error
       minimum: 2
   body:
-    bullet:
-      enabled: true
-      severity: error
-      excludes:
-        - "\\*"
-        - "•"
     bullet_capitalization:
       enabled: true
       severity: error
       includes:
         - "\\-"
+        - "\\*"
     bullet_delimiter:
       enabled: true
       severity: error
       includes:
         - "\\-"
+        - "\\*"
+    bullet_only:
+      enabled: true
+      severity: error
+      includes:
+        - "\\-"
+        - "\\*"
     leading_line:
       enabled: true
       severity: warn
@@ -148,6 +150,7 @@ commits:
         - "along the lines"
         - "at this moment in time"
         - "basically"
+        - "blacklist"
         - "each and every one"
         - "everyone knows"
         - "fact of the matter"
@@ -162,6 +165,7 @@ commits:
         - "really"
         - "simply"
         - "things being equal"
+        - "whitelist"
         - "would like to"
         - "\\beasy\\b"
         - "\\bjust\\b"
@@ -172,11 +176,6 @@ commits:
       enabled: true
       severity: warn
       minimum: 1
-    single_bullet:
-      enabled: true
-      severity: error
-      includes:
-        - "\\-"
     tracker_shorthand:
       enabled: true
       severity: error
@@ -184,6 +183,9 @@ commits:
         - "(f|F)ix(es|ed)?\\s\\#\\d+"
         - "(c|C)lose(s|d)?\\s\\#\\d+"
         - "(r|R)esolve(s|d)?\\s\\#\\d+"
+    word_repeat:
+      enabled: true
+      severity: error
   signature:
     enabled: false
     severity: error
@@ -211,6 +213,9 @@ commits:
         - "\\."
         - "\\?"
         - "\\!"
+    word_repeat:
+      enabled: true
+      severity: error
   trailer:
     collaborator_capitalization:
       enabled: true
@@ -221,8 +226,6 @@ commits:
     collaborator_key:
       enabled: true
       severity: error
-      includes:
-        - Co-Authored-By
     collaborator_name:
       enabled: true
       severity: error
@@ -233,24 +236,46 @@ commits:
     format_key:
       enabled: true
       severity: error
-      includes:
-        - Format
     format_value:
       enabled: true
       severity: error
       includes:
-        - ASCII
-        - Markdown
+        - asciidoc
+        - markdown
     issue_key:
       enabled: true
       severity: error
-      includes:
-        - Issue
     issue_value:
       enabled: true
       severity: error
       includes:
         - "[\\w-]+"
+    milestone_key:
+      enabled: true
+      severity: error
+    milestone_value:
+      enabled: true
+      severity: error
+      includes:
+        - major
+        - minor
+        - patch
+    order:
+      enabled: true
+      severity: error
+    reviewer_key:
+      enabled: true
+      severity: error
+    reviewer_value:
+      enabled: true
+      severity: error
+      includes:
+        - clickup
+        - github
+        - jira
+        - linear
+        - shortcut
+        - tana
     signer_capitalization:
       enabled: true
       severity: error
@@ -260,8 +285,6 @@ commits:
     signer_key:
       enabled: true
       severity: error
-      includes:
-        - Signed-By
     signer_name:
       enabled: true
       severity: error
@@ -269,8 +292,6 @@ commits:
     tracker_key:
       enabled: true
       severity: error
-      includes:
-        - Tracker
     tracker_value:
       enabled: true
       severity: error
@@ -1175,8 +1196,7 @@ This gem automatically configures itself for known CI build servers (see below f
 have a build server that is not listed, please log an issue or provide an implementation with
 support.
 
-Calculation of commits is done by reviewing all commits made on the feature branch since branching
-from `main`.
+Calculation of commits is done by analyzing all feature branch commits ahead of the default branch (i.e. "main"). In other words, `git log --oneline main..your_feature_branch`.
 
 ==== link:https://circleci.com[Circle CI]
 
@@ -1202,9 +1222,9 @@ jobs:
       image: ruby:latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          fetch-depth: '0'
+          fetch-depth: 0
           ref: ${{github.head_ref}}
       - name: Install
         run: gem install git-lint

@@ -1,5 +1,35 @@
 = Versions
 
+== 7.0.0 (2024-01-01)
+
+* Fixed RuboCop metrics collection literal length for analyzer - Brooke Kuhlmann
+* Fixed code comment types and cleaned up the specs - Brooke Kuhlmann
+* Added ASCII bullet configuration - Brooke Kuhlmann
+* Added commit body phrase whitelist and blacklist exclusions - Brooke Kuhlmann
+* Added commit body word repeat analyzer - Brooke Kuhlmann
+* Added commit subject word repeat analyzer - Brooke Kuhlmann
+* Added commit trailer milestone key analyzer - Brooke Kuhlmann
+* Added commit trailer milestone value analyzer - Brooke Kuhlmann
+* Added commit trailer order analyzer - Brooke Kuhlmann
+* Added commit trailer reviewer key analyzer - Brooke Kuhlmann
+* Added commit trailer reviewer value analyzer - Brooke Kuhlmann
+* Added repeated word validator - Brooke Kuhlmann
+* Added trailer configuration - Brooke Kuhlmann
+* Added version release notes - Brooke Kuhlmann
+* Updated Circle CI step names - Brooke Kuhlmann
+* Updated commit body single bullet as bullet only analyzer - Brooke Kuhlmann
+* Updated defaults to use MIME types for commit trailer format values - Brooke Kuhlmann
+* Updated filter list to use usage instead of hints - Brooke Kuhlmann
+* Updated gem dependencies - Brooke Kuhlmann
+* Updated severity error to show usage - Brooke Kuhlmann
+* Updated to Gitt 3.0.0 - Brooke Kuhlmann
+* Updated to Ruby 3.3.0 - Brooke Kuhlmann
+* Removed Gemfile code prefix from quality group - Brooke Kuhlmann
+* Removed Rakefile code prefix from quality task - Brooke Kuhlmann
+* Removed commit body bullet analyzer - Brooke Kuhlmann
+* Removed trailer key configuration for includes - Brooke Kuhlmann
+* Refactored commit systems as hosts - Brooke Kuhlmann
+
 == 6.2.1 (2023-11-15)
 
 * Fixed gem loader to find by tag and cache instance - Brooke Kuhlmann
