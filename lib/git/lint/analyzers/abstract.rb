@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "core"
-require "refinements/strings"
+require "refinements/string"
 
 module Git
   module Lint
@@ -10,7 +10,7 @@ module Git
       class Abstract
         include Import[:configuration, :environment]
 
-        using ::Refinements::Strings
+        using Refinements::String
 
         LEVELS = %w[warn error].freeze
         BODY_OFFSET = 3

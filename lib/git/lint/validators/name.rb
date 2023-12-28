@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require "refinements/strings"
+require "refinements/string"
 
 module Git
   module Lint
     module Validators
       # Validates the format of names.
       class Name
-        using Refinements::Strings
+        using Refinements::String
 
         DELIMITER = /\s{1}/
         MINIMUM = 2

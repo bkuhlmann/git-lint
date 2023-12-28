@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require "refinements/arrays"
+require "refinements/array"
 
 module Git
   module Lint
     module Errors
       # Categorizes severity errors.
       class Severity < Base
-        using Refinements::Arrays
+        using Refinements::Array
 
         def initialize level
           usage = Analyzers::Abstract::LEVELS.to_usage "or"

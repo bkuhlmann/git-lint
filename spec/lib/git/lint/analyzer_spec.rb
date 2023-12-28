@@ -6,7 +6,7 @@ require "spec_helper"
 RSpec.describe Git::Lint::Analyzer do
   include Dry::Monads[:result]
 
-  using Refinements::Pathnames
+  using Refinements::Pathname
 
   subject(:analyzer) { described_class.new }
 

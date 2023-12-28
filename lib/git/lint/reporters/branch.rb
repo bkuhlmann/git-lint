@@ -6,7 +6,7 @@ module Git
       # Reports issues related to a single branch.
       class Branch
         include Import[:color]
-        using ::Refinements::Strings
+        using Refinements::String
 
         def initialize(collector: Collector.new, **)
           super(**)
@@ -38,7 +38,7 @@ module Git
 
         def commit_total
           total = collector.total_commits
-          %(#{total} #{"commit".pluralize "s", count: total} inspected)
+          %(#{total} #{"commit".pluralize "s", total} inspected)
         end
 
         def issue_totals
@@ -52,19 +52,19 @@ module Git
         def issue_total
           style = collector.errors? ? :red : :yellow
           total = collector.total_issues
-          color["#{total} issue".pluralize("s", count: total), style]
+          color["#{total} issue".pluralize("s", total), style]
         end
 
         def warning_total
           style = collector.warnings? ? :yellow : :green
           total = collector.total_warnings
-          color["#{total} warning".pluralize("s", count: total), style]
+          color["#{total} warning".pluralize("s", total), style]
         end
 
         def error_total
           style = collector.errors? ? :red : :green
           total = collector.total_errors
-          color["#{total} error".pluralize("s", count: total), style]
+          color["#{total} error".pluralize("s", total), style]
         end
       end
     end

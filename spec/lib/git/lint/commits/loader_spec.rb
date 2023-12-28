@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Commits::Loader do
-  using Refinements::Pathnames
+  using Refinements::Pathname
   using Infusible::Stub
 
   subject(:loader) { described_class.new }

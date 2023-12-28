@@ -23,7 +23,7 @@ require "yaml"
 
 SPEC_ROOT = Pathname(__dir__).realpath.freeze
 
-using Refinements::Pathnames
+using Refinements::Pathname
 
 Pathname.require_tree SPEC_ROOT.join("support/shared_contexts")
 

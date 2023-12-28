@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "refinements/strings"
+require "refinements/string"
 
 module Git
   module Lint
@@ -16,7 +16,7 @@ module Git
           :environment
         ]
 
-        using ::Refinements::Strings
+        using Refinements::String
 
         def call
           message = "Invalid repository. Are you within a Git repository?"

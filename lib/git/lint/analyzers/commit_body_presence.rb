@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes presence of commit body.
       class CommitBodyPresence < Abstract
-        using ::Refinements::Strings
+        using Refinements::String
 
         def valid?
           return true if commit.fixup?
@@ -19,7 +19,7 @@ module Git
         def issue
           return {} if valid?
 
-          {hint: %(Use minimum of #{"#{minimum} line".pluralize "s", count: minimum} (non-empty).)}
+          {hint: %(Use minimum of #{"#{minimum} line".pluralize "s", minimum} (non-empty).)}
         end
       end
     end
