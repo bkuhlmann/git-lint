@@ -1176,12 +1176,12 @@ You can add Rake support by adding the following to your `Rakefile`:
 [source,ruby]
 ----
 begin
-  # require "git/lint/rake/register"
+  require "git/lint/rake/register"
 rescue LoadError => error
   puts error.message
 end
 
-# Git::Lint::Rake::Register.call
+Git::Lint::Rake::Register.call
 ----
 
 Once required and registered, the following tasks will be available (i.e. `bundle exec rake -T`):
