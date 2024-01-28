@@ -8,7 +8,7 @@ gemspec
 
 group :quality do
   gem "caliber", "~> 0.47"
-  gem "reek", "~> 6.2", require: false
+  gem "reek", "~> 6.3", require: false
   gem "simplecov", "~> 0.22", require: false
 end
 
