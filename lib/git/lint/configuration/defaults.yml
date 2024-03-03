@@ -15,20 +15,20 @@ commits:
       enabled: true
       severity: error
       includes:
-        - "\\-"
         - "\\*"
+        - "\\-"
     bullet_delimiter:
       enabled: true
       severity: error
       includes:
-        - "\\-"
         - "\\*"
+        - "\\-"
     bullet_only:
       enabled: true
       severity: error
       includes:
-        - "\\-"
         - "\\*"
+        - "\\-"
     leading_line:
       enabled: true
       severity: warn
@@ -79,8 +79,8 @@ commits:
       enabled: true
       severity: error
       excludes:
-        - "(f|F)ix(es|ed)?\\s\\#\\d+"
         - "(c|C)lose(s|d)?\\s\\#\\d+"
+        - "(f|F)ix(es|ed)?\\s\\#\\d+"
         - "(r|R)esolve(s|d)?\\s\\#\\d+"
     word_repeat:
       enabled: true
@@ -109,9 +109,9 @@ commits:
       enabled: true
       severity: error
       excludes:
+        - "\\!"
         - "\\."
         - "\\?"
-        - "\\!"
     word_repeat:
       enabled: true
       severity: error
