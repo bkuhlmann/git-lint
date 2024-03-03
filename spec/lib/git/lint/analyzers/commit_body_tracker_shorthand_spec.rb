@@ -90,8 +90,8 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyTrackerShorthand do
 
       it "answers issue hint" do
         expect(issue[:hint]).to eq(
-          "Explain issue instead of using shorthand. Avoid: /(f|F)ix(es|ed)?\\s\\#\\d+/, " \
-          "/(c|C)lose(s|d)?\\s\\#\\d+/, " \
+          "Explain issue instead of using shorthand. Avoid: /(c|C)lose(s|d)?\\s\\#\\d+/, " \
+          "/(f|F)ix(es|ed)?\\s\\#\\d+/, " \
           "and " \
           "/(r|R)esolve(s|d)?\\s\\#\\d+/."
         )

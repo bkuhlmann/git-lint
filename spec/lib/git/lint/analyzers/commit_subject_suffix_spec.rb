@@ -86,7 +86,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
       let(:commit) { Gitt::Models::Commit[subject: "Added specs?"] }
 
       it "answers issue hint" do
-        expect(issue[:hint]).to eq("Avoid: /\\./, /\\?/, and /\\!/.")
+        expect(issue[:hint]).to eq("Avoid: /\\!/, /\\./, and /\\?/.")
       end
     end
   end
