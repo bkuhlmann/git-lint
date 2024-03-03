@@ -394,7 +394,7 @@ Kaywinnet Lee Frye
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | includes: `["\\-", "\\*"]`
+| true    | error    | includes: `["\\*", "\\-"]`
 |===
 
 Ensures commit body bullet lines are capitalized. Example:
@@ -404,15 +404,22 @@ Ensures commit body bullet lines are capitalized. Example:
 - an example bullet.
 
 # Allowed
-- An example bullet.
+* An ASCII Doc bullet.
+* link:https://demo.com[Demo]
+* link:https://demo.com[demo]
+- A Markdown bullet.
+- [Demo](https://demo.com)
+- [demo](https://demo.com)
 ....
+
+In general, using ASCII Doc or Markdown syntax directly after a bullet will cause capitalization checks to be ignored because there can be valid reasons for wanting to avoid capitalization in those situations.
 
 ==== Commit Body Bullet Delimiter
 
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | includes: `["\\-", "\\*"]`
+| true    | error    | includes: `["\\*", "\\-"]`
 |===
 
 Ensures commit body bullets are delimited by a space. Example:
@@ -430,7 +437,7 @@ Ensures commit body bullets are delimited by a space. Example:
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | includes: `["\\-", "\\*"]`
+| true    | error    | includes: `["\\*", "\\-"]`
 |===
 
 Ensures a single bullet is never used when a paragraph could be used instead. Example:
@@ -676,7 +683,7 @@ a Git Hook in order to not disturb interactive rebase workflows.
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | excludes: `["\\.", "\\?", "\\!"]`
+| true    | error    | excludes: `["\\!", "\\.", "\\?"]`
 |===
 
 Ensures commit subjects are suffixed consistently. The exclude list _is_ case sensitive and prevents

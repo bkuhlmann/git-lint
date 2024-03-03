@@ -1,5 +1,18 @@
 = Versions
 
+== 7.1.0 (2024-03-03)
+
+* ✅ Fixed Rake requirements - Brooke Kuhlmann
+* ✅ Fixed default configuration include/exclude sort order - Brooke Kuhlmann
+* 🟢 Added repeated word validator support for code blocks - Brooke Kuhlmann
+* 🟢 Added repl_type_completor gem - Brooke Kuhlmann
+* 🔼 Updated Commit Body Bullet Capitalization analyzer to allow ASCII links - Brooke Kuhlmann
+* 🔼 Updated RuboCop to use XDG local configuration - Brooke Kuhlmann
+* 🔼 Updated to Caliber 0.50.0 - Brooke Kuhlmann
+* 🔼 Updated to Caliber 0.51.0 - Brooke Kuhlmann
+* 🔼 Updated to Gitt 3.2.0 - Brooke Kuhlmann
+* 🔼 Updated to Reek 6.3.0 - Brooke Kuhlmann
+
 == 7.0.0 (2024-01-01)
 
 * Fixed RuboCop metrics collection literal length for analyzer - Brooke Kuhlmann
