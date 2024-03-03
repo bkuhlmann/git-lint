@@ -6,8 +6,8 @@ RSpec.describe Git::Lint::Validators::RepeatedWord do
   subject(:validator) { described_class.new }
 
   describe "#call" do
-    it "answers repeats with custom pattern" do
-      validator = described_class.new pattern: /\d+/
+    it "answers repeats with custom word pattern" do
+      validator = described_class.new patterns: described_class::PATTERNS.merge(word: /\d+/)
       expect(validator.call("1 1 2")).to contain_exactly("1")
     end
 
@@ -37,6 +37,10 @@ RSpec.describe Git::Lint::Validators::RepeatedWord do
 
     it "answers empty array with word boundaries respected" do
       expect(validator.call("link:https://test.com/test[Test]")).to eq([])
+    end
+
+    it "answers empty array when content has code block of repeated words" do
+      expect(validator.call("Use: `pipe method(:one), method(:two)`.")).to eq([])
     end
 
     it "answers empty array when content has no words" do
