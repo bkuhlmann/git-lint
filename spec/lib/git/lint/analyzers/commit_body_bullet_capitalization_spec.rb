@@ -52,6 +52,14 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletCapitalization do
       end
     end
 
+    context "with capitalized ASCII Doc link" do
+      let(:commit) { Gitt::Models::Commit[body_lines: ["- link:https://test.com[Test]"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
     context "with lowercase bullet" do
       let(:commit) { Gitt::Models::Commit[body_lines: ["- test."]] }
 
