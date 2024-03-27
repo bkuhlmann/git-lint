@@ -5,6 +5,7 @@ ruby file: ".ruby-version"
 source "https://rubygems.org"
 
 gem "containable", path: "~/Engineering/OSS/containable"
+gem "sod", path: "~/Engineering/OSS/sod"
 
 gemspec
 
