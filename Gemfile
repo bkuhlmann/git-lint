@@ -4,6 +4,8 @@ ruby file: ".ruby-version"
 
 source "https://rubygems.org"
 
+gem "containable", path: "~/Engineering/OSS/containable"
+
 gemspec
 
 group :quality do
