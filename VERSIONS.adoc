@@ -1,5 +1,15 @@
 = Versions
 
+== 7.2.0 (2024-03-26)
+
+* ✅ Fixed failing specs due to configuration change - Brooke Kuhlmann
+* 🔼 Updated setup script as a Ruby script - Brooke Kuhlmann
+* 🔼 Updated to Amazing Print 1.6.0 - Brooke Kuhlmann
+* 🔼 Updated to GitHub Actions 4.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Infusible 3.4.0 - Brooke Kuhlmann
+* 🔼 Updated to RSpec 3.13.0 - Brooke Kuhlmann
+* 🔼 Updated to Refinements 12.1.0 - Brooke Kuhlmann
+
 == 7.1.0 (2024-03-03)
 
 * ✅ Fixed Rake requirements - Brooke Kuhlmann
