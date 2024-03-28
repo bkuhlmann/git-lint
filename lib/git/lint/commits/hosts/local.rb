@@ -8,7 +8,7 @@ module Git
         class Local
           include Git::Lint::Import[:git]
 
-          def call = git.commits("#{branch_default}..#{branch_name}")
+          def call = git.commits "#{branch_default}..#{branch_name}"
 
           private
 

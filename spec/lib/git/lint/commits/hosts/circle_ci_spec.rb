@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Commits::Hosts::CircleCI do
-  subject(:host) { described_class.new }
+  subject(:host) { described_class.new git: }
 
   include_context "with host dependencies"
 

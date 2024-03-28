@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "dry/container"
+require "containable"
 
 module Git
   module Lint
@@ -8,7 +8,7 @@ module Git
       module Hosts
         # Provides a single container with application and host specific dependencies.
         module Container
-          extend Dry::Container::Mixin
+          extend Containable
 
           merge Git::Lint::Container
 

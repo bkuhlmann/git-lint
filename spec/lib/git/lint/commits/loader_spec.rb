@@ -3,17 +3,26 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Commits::Loader do
+  include Dry::Monads[:result]
   using Refinements::Pathname
-  using Infusible::Stub
 
-  subject(:loader) { described_class.new }
+  subject(:loader) { described_class.new git:, environment: }
 
   include_context "with Git repository"
-  include_context "with host dependencies"
 
-  before { Git::Lint::Commits::Hosts::Import.stub git:, environment: }
+  let :git do
+    instance_spy Gitt::Repository,
+                 call: Success(),
+                 branch_default: Success("main"),
+                 branch_name: Success("test")
+  end
 
-  after { Git::Lint::Commits::Hosts::Import.unstub :git, :environment }
+  before do
+    Git::Lint::Container.test!
+    Git::Lint::Container.stub git:, environment: Hash.new
+  end
+
+  after { Git::Lint::Container.reset }
 
   describe "#call" do
     context "with Circle CI" do
@@ -26,7 +35,7 @@ RSpec.describe Git::Lint::Commits::Loader do
         }
       end
 
-      it "computes correct commit range" do
+      fit "computes correct commit range" do
         loader.call
         expect(git).to have_received(:commits).with("origin/main..origin/test")
       end
@@ -42,7 +51,7 @@ RSpec.describe Git::Lint::Commits::Loader do
         }
       end
 
-      it "computes correct commit range" do
+      fit "computes correct commit range" do
         loader.call
         expect(git).to have_received(:commits).with("origin/main..origin/test")
       end

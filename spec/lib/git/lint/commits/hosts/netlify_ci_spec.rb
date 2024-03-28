@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Commits::Hosts::NetlifyCI do
-  subject(:host) { described_class.new }
+  subject(:host) { described_class.new git:, environment: }
 
   include_context "with host dependencies"
 

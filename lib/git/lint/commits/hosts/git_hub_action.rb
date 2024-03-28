@@ -8,7 +8,7 @@ module Git
         class GitHubAction
           include Git::Lint::Import[:git]
 
-          def call = git.commits("origin/#{branch_default}..#{branch_name}")
+          def call = git.commits "origin/#{branch_default}..#{branch_name}"
 
           private
 

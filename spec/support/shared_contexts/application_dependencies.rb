@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
-require "dry/container/stub"
-require "infusible/stub"
-
 RSpec.shared_context "with application dependencies" do
-  using Infusible::Stub
-
   include_context "with temporary directory"
 
   let :configuration do
@@ -22,7 +17,10 @@ RSpec.shared_context "with application dependencies" do
   let(:kernel) { class_spy Kernel }
   let(:logger) { Cogger.new id: "git-lint", io: StringIO.new, level: :debug }
 
-  before { Git::Lint::Import.stub configuration:, environment:, xdg_config:, kernel:, logger: }
+  before do
+    Git::Lint::Container.test!
+    Git::Lint::Container.stub configuration:, environment:, xdg_config:, kernel:, logger:
+  end
 
-  after { Git::Lint::Import.unstub :configuration, :environment, :xdg_config, :kernel, :logger }
+  after { Git::Lint::Container.reset }
 end
