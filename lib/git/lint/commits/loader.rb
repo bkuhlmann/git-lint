@@ -7,13 +7,13 @@ module Git
     module Commits
       # Automatically detects and loads host.
       class Loader
-        include Hosts::Import[
-          :circle_ci,
+        include Import[
           :git,
-          :git_hub_action,
-          :netlify_ci,
-          :local,
-          :environment
+          :environment,
+          circle_ci: "hosts.circle_ci",
+          git_hub_action: "hosts.git_hub_action",
+          netlify_ci: "hosts.git_hub_action",
+          local: "hosts.local"
         ]
 
         using Refinements::String

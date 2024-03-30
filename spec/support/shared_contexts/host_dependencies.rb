@@ -5,8 +5,6 @@ require "dry/monads"
 RSpec.shared_context "with host dependencies" do
   include Dry::Monads[:result]
 
-  using Infusible::Stub
-
   include_context "with application dependencies"
 
   let :git do
@@ -15,8 +13,4 @@ RSpec.shared_context "with host dependencies" do
                  branch_default: Success("main"),
                  branch_name: Success("test")
   end
-
-  before { Git::Lint::Import.stub git: }
-
-  after { Git::Lint::Import.unstub :git }
 end

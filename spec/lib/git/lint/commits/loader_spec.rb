@@ -3,17 +3,23 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Commits::Loader do
+  include Dry::Monads[:result]
   using Refinements::Pathname
-  using Infusible::Stub
 
-  subject(:loader) { described_class.new }
+  subject(:loader) { described_class.new git:, environment: }
 
   include_context "with Git repository"
-  include_context "with host dependencies"
 
-  before { Git::Lint::Commits::Hosts::Import.stub git:, environment: }
+  let :git do
+    instance_spy Gitt::Repository,
+                 call: Success(),
+                 branch_default: Success("main"),
+                 branch_name: Success("test")
+  end
 
-  after { Git::Lint::Commits::Hosts::Import.unstub :git, :environment }
+  before { Git::Lint::Container.stub! git: }
+
+  after { Git::Lint::Container.restore }
 
   describe "#call" do
     context "with Circle CI" do
@@ -67,6 +73,7 @@ RSpec.describe Git::Lint::Commits::Loader do
 
     context "with local host" do
       let(:git) { Gitt::Repository.new }
+      let(:environment) { Hash.new }
 
       before do
         git_repo_dir.change_dir do
@@ -84,6 +91,7 @@ RSpec.describe Git::Lint::Commits::Loader do
 
     context "when Git repository doesn't exist" do
       let(:git) { instance_spy Gitt::Repository, exist?: false }
+      let(:environment) { Hash.new }
 
       it "fails with base error" do
         expectation = -> { loader.call }
