@@ -4,6 +4,6 @@ require "infusible"
 
 module Git
   module Lint
-    Import = Infusible.with Container
+    Import = Infusible[Container]
   end
 end
