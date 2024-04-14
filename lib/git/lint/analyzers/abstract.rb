@@ -34,9 +34,7 @@ module Git
                        .tap { |level| fail Errors::Severity, level unless LEVELS.include? level }
         end
 
-        def valid?
-          fail NotImplementedError, "The `##{__method__}` method must be implemented."
-        end
+        def valid? = fail NoMethodError, "The `##{__method__}` method must be implemented."
 
         def invalid? = !valid?
 
@@ -44,9 +42,7 @@ module Git
 
         def error? = invalid? && severity == "error"
 
-        def issue
-          fail NotImplementedError, "The `##{__method__}` method must be implemented."
-        end
+        def issue = fail NoMethodError, "The `##{__method__}` method must be implemented."
 
         protected
 
@@ -71,8 +67,8 @@ module Git
                 end
         end
 
-        def invalid_line? _line
-          fail NotImplementedError, "The `.#{__method__}` method must be implemented."
+        def invalid_line?(*)
+          fail NoMethodError, "The `.#{__method__}` method must be implemented."
         end
       end
     end

@@ -55,9 +55,9 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
   end
 
   describe "#valid?" do
-    it "fails with NotImplementedError" do
+    it "fails with no method error" do
       result = -> { analyzer.valid? }
-      expect(&result).to raise_error(NotImplementedError, /.+\#valid\?.+/)
+      expect(&result).to raise_error(NoMethodError, /.+\#valid\?.+/)
     end
   end
 
@@ -82,9 +82,9 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
       expect(valid_analyzer.new(git_commit).invalid?).to be(false)
     end
 
-    it "fails with NotImplementedError when not implemented" do
+    it "fails with no method error when not implemented" do
       result = -> { analyzer.invalid? }
-      expect(&result).to raise_error(NotImplementedError, /.+\#valid\?.+/)
+      expect(&result).to raise_error(NoMethodError, /.+\#valid\?.+/)
     end
   end
 
@@ -106,9 +106,9 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
       expect(analyzer.warning?).to be(false)
     end
 
-    it "fails with NotImplementedError when not implemented" do
+    it "fails with no method error when not implemented" do
       result = -> { described_class.new(git_commit).warning? }
-      expect(&result).to raise_error(NotImplementedError, /.+\#valid\?.+/)
+      expect(&result).to raise_error(NoMethodError, /.+\#valid\?.+/)
     end
   end
 
@@ -130,16 +130,16 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
       expect(analyzer.error?).to be(false)
     end
 
-    it "fails with NotImplementedError when not implemented" do
+    it "fails with no method error when not implemented" do
       result = -> { described_class.new(git_commit).error? }
-      expect(&result).to raise_error(NotImplementedError, /.+\#valid\?.+/)
+      expect(&result).to raise_error(NoMethodError, /.+\#valid\?.+/)
     end
   end
 
   describe "#issue" do
-    it "fails with NotImplementedError" do
+    it "fails with no method error" do
       result = -> { analyzer.issue }
-      expect(&result).to raise_error(NotImplementedError, /.+\#issue.+/)
+      expect(&result).to raise_error(NoMethodError, /.+\#issue.+/)
     end
   end
 end
