@@ -13,7 +13,7 @@ group :quality do
 end
 
 group :development do
-  gem "rake", "~> 13.1"
+  gem "rake", "~> 13.2"
 end
 
 group :test do
