@@ -6,7 +6,7 @@ module Git
       # The root class of gem related errors.
       class Base < StandardError
         def initialize message = "Invalid Git Lint action."
-          super message
+          super
         end
       end
     end
