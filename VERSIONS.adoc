@@ -1,5 +1,14 @@
 = Versions
 
+== 7.5.0 (2024-05-31)
+
+* ✅ Fixed RuboCop Style/SuperArguments issue - Brooke Kuhlmann
+* 🟢 Added IRB Kit gem - Brooke Kuhlmann
+* 🔼 Updated citation URLs - Brooke Kuhlmann
+* 🔼 Updated to Etcher 1.5.0 - Brooke Kuhlmann
+* 🔼 Updated to Etcher 1.6.0 - Brooke Kuhlmann
+* 🔼 Updated to Ruby 3.3.2 - Brooke Kuhlmann
+
 == 7.4.0 (2024-05-16)
 
 * ✅ Fixed not implemented errors to be no method errors instead - Brooke Kuhlmann
