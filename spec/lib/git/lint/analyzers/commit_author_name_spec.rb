@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
+  using Refinements::Struct
+
   subject(:analyzer) { described_class.new commit }
 
   include_context "with application dependencies"
@@ -39,7 +41,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
     it "answers true with custom minimum" do
       analyzer = described_class.new(
         Gitt::Models::Commit[author_name: "Example"],
-        configuration: configuration.with(commits_author_name_minimum: 1)
+        settings: settings.merge(commits_author_name_minimum: 1)
       )
 
       expect(analyzer.valid?).to be(true)

@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
+  using Refinements::Struct
+
   subject(:analyzer) { described_class.new commit }
 
   include_context "with application dependencies"
@@ -55,7 +57,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     it "answers false with custom exclude list" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Added specs 😅"],
-        configuration: configuration.with(commits_subject_suffix_excludes: ["😅"])
+        settings: settings.merge(commits_subject_suffix_excludes: ["😅"])
       )
 
       expect(analyzer.valid?).to be(false)
@@ -64,7 +66,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     it "answers true with empty exclude list" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Added specs?"],
-        configuration: configuration.with(commits_subject_suffix_excludes: [])
+        settings: settings.merge(commits_subject_suffix_excludes: [])
       )
 
       expect(analyzer.valid?).to be(true)

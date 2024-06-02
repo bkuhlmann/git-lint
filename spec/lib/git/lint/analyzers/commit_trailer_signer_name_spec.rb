@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
+  using Refinements::Struct
+
   subject(:analyzer) { described_class.new commit }
 
   include_context "with application dependencies"
@@ -52,7 +54,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
           body_lines: [],
           trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test <test@example.com>")]
         ],
-        configuration: configuration.with(commits_trailer_signer_name_minimum: 1)
+        settings: settings.merge(commits_trailer_signer_name_minimum: 1)
       )
 
       expect(analyzer.valid?).to be(true)

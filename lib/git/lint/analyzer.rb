@@ -4,7 +4,7 @@ module Git
   module Lint
     # Runs all analyzers.
     class Analyzer
-      include Import[:configuration]
+      include Import[:settings]
 
       ANALYZERS = [
         Analyzers::CommitAuthorCapitalization,
@@ -80,10 +80,10 @@ module Git
 
       # :reek:FeatureEnvy
       def enabled
-        configuration.to_h
-                     .select { |key, value| key.end_with?("enabled") && value == true }
-                     .keys
-                     .map { |key| key.to_s.sub!("commits_", "commit_").delete_suffix! "_enabled" }
+        settings.to_h
+                .select { |key, value| key.end_with?("enabled") && value == true }
+                .keys
+                .map { |key| key.to_s.sub!("commits_", "commit_").delete_suffix! "_enabled" }
       end
 
       def load_analyzer commit, id

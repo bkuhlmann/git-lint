@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
+  using Refinements::Struct
+
   subject(:analyzer) { described_class.new commit }
 
   include_context "with application dependencies"
@@ -31,7 +33,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
     it "answers true when valid (custom minimum)" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Test", body_lines: ["One.", "Two.", "Three."]],
-        configuration: configuration.with(commits_body_presence_minimum: 3)
+        settings: settings.merge(commits_body_presence_minimum: 3)
       )
 
       expect(analyzer.valid?).to be(true)
@@ -56,7 +58,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
     it "answers false when invalid (custom minimum and not enough non-empty lines)" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Test", body_lines: ["One.", "\r", "", "\t", "Two."]],
-        configuration: configuration.with(commits_body_presence_minimum: 3)
+        settings: settings.merge(commits_body_presence_minimum: 3)
       )
 
       expect(analyzer.valid?).to be(false)
@@ -78,7 +80,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPresence do
       let :analyzer do
         described_class.new(
           Gitt::Models::Commit[subject: "Test", body_lines: ["One.", "\r", " ", "\t", "Two."]],
-          configuration: configuration.with(commits_body_presence_minimum: 3)
+          settings: settings.merge(commits_body_presence_minimum: 3)
         )
       end
 

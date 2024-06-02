@@ -7,6 +7,7 @@ RSpec.describe Git::Lint::Analyzer do
   include Dry::Monads[:result]
 
   using Refinements::Pathname
+  using Refinements::Struct
 
   subject(:analyzer) { described_class.new }
 
@@ -68,7 +69,7 @@ RSpec.describe Git::Lint::Analyzer do
 
     it "reports no issues with disabled analyzer" do
       analyzer = described_class.new(
-        configuration: configuration.with(commits_subject_prefix_enabled: false)
+        settings: settings.merge(commits_subject_prefix_enabled: false)
       )
 
       git_repo_dir.change_dir do

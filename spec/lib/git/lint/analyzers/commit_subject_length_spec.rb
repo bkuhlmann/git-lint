@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
+  using Refinements::Struct
+
   subject(:analyzer) { described_class.new commit }
 
   include_context "with application dependencies"
@@ -56,7 +58,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
     it "answers false with invalid length" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Added specs"],
-        configuration: configuration.with(commits_subject_length_maximum: 10)
+        settings: settings.merge(commits_subject_length_maximum: 10)
       )
 
       expect(analyzer.valid?).to be(false)
@@ -78,7 +80,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectLength do
       subject :analyzer do
         described_class.new(
           Gitt::Models::Commit[subject: "Added specs"],
-          configuration: configuration.with(commits_subject_length_maximum: 10)
+          settings: settings.merge(commits_subject_length_maximum: 10)
         )
       end
 

@@ -19,7 +19,7 @@ module Git
         protected
 
         def load_filter_list
-          Kit::FilterList.new configuration.commits_body_tracker_shorthand_excludes
+          Kit::FilterList.new settings.commits_body_tracker_shorthand_excludes
         end
 
         def invalid_line?(line) = line.match?(/.*#{Regexp.union filter_list}.*/)

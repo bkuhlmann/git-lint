@@ -19,7 +19,7 @@ module Git
         protected
 
         def load_filter_list
-          Kit::FilterList.new configuration.commits_body_bullet_capitalization_includes
+          Kit::FilterList.new settings.commits_body_bullet_capitalization_includes
         end
 
         def invalid_line? line

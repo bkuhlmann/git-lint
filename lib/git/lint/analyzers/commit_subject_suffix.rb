@@ -20,7 +20,7 @@ module Git
         protected
 
         def load_filter_list
-          Kit::FilterList.new configuration.commits_subject_suffix_excludes
+          Kit::FilterList.new settings.commits_subject_suffix_excludes
         end
       end
     end

@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::Abstract do
+  using Refinements::Struct
+
   subject(:analyzer) { described_class.new git_commit }
 
   include_context "with application dependencies"
@@ -36,7 +38,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
     it "fails without severity" do
       analyzer = Git::Lint::Analyzers::CommitSubjectPrefix.new(
         git_commit,
-        configuration: configuration.with(commits_subject_prefix_severity: nil)
+        settings: settings.merge(commits_subject_prefix_severity: nil)
       )
       result = -> { analyzer.severity }
 
@@ -46,7 +48,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
     it "fails with invalid severity error" do
       analyzer = Git::Lint::Analyzers::CommitSubjectPrefix.new(
         git_commit,
-        configuration: configuration.with(commits_subject_prefix_severity: :bogus)
+        settings: settings.merge(commits_subject_prefix_severity: :bogus)
       )
       result = -> { analyzer.severity }
 
@@ -92,7 +94,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
     let :analyzer do
       Git::Lint::Analyzers::CommitSubjectPrefix.new(
         git_commit,
-        configuration: configuration.with(commits_subject_prefix_severity: "warn")
+        settings: settings.merge(commits_subject_prefix_severity: "warn")
       )
     end
 
@@ -116,7 +118,7 @@ RSpec.describe Git::Lint::Analyzers::Abstract do
     let :analyzer do
       Git::Lint::Analyzers::CommitSubjectPrefix.new(
         git_commit,
-        configuration: configuration.with(commits_subject_prefix_severity: "error")
+        settings: settings.merge(commits_subject_prefix_severity: "error")
       )
     end
 

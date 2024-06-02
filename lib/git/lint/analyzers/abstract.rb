@@ -8,7 +8,7 @@ module Git
     module Analyzers
       # An abstract class which provides basic functionality for all analyzers to inherit from.
       class Abstract
-        include Import[:configuration, :environment]
+        include Import[:settings, :environment]
 
         using Refinements::String
 
@@ -30,8 +30,8 @@ module Git
         end
 
         def severity
-          configuration.public_send("#{self.class.id}_severity".sub("commit_", "commits_"))
-                       .tap { |level| fail Errors::Severity, level unless LEVELS.include? level }
+          settings.public_send("#{self.class.id}_severity".sub("commit_", "commits_"))
+                  .tap { |level| fail Errors::Severity, level unless LEVELS.include? level }
         end
 
         def valid? = fail NoMethodError, "The `##{__method__}` method must be implemented."

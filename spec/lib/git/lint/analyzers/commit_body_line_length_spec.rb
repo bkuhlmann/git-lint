@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
+  using Refinements::Struct
+
   subject(:analyzer) { described_class.new commit }
 
   include_context "with application dependencies"
@@ -77,9 +79,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyLineLength do
                                 "- Donec eu_libero sit amet quam egestas semper. Aenean ultr."
                               ]
                             ],
-                            configuration: configuration.with(
-                              commits_body_line_length_maximum: 55
-                            )
+                            settings: settings.merge(commits_body_line_length_maximum: 55)
       end
 
       it "answers issue hint" do

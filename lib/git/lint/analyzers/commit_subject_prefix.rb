@@ -21,16 +21,16 @@ module Git
         protected
 
         def load_filter_list
-          configuration.commits_subject_prefix_includes
-                       .map { |prefix| "#{prefix}#{delimiter}" }
-                       .then { |list| Kit::FilterList.new list }
+          settings.commits_subject_prefix_includes
+                  .map { |prefix| "#{prefix}#{delimiter}" }
+                  .then { |list| Kit::FilterList.new list }
         end
 
         def locally_prefixed? = !ci? && commit.directive?
 
         def ci? = environment["CI"] == "true"
 
-        def delimiter = configuration.commits_subject_prefix_delimiter
+        def delimiter = settings.commits_subject_prefix_delimiter
       end
     end
   end

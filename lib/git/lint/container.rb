@@ -66,22 +66,19 @@ module Git
         register(:local) { Commits::Hosts::Local.new }
       end
 
-      register :configuration do
-        self[:defaults].add_loader(:yaml, self[:xdg_config].active)
-                       .then { |registry| Etcher.call registry }
-      end
-
-      register :defaults do
+      register :registry do
         Etcher::Registry.new(contract: Configuration::Contract, model: Configuration::Model)
                         .add_loader(:yaml, self[:defaults_path])
+                        .add_loader(:yaml, self[:xdg_config].active)
       end
 
+      register(:settings) { Etcher.call(self[:registry]).dup }
       register(:defaults_path) { Pathname(__dir__).join("configuration/defaults.yml") }
       register(:specification) { Spek::Loader.call "#{__dir__}/../../../git-lint.gemspec" }
       register(:color) { Tone.new }
       register :environment, ENV
       register(:git) { Gitt::Repository.new }
-      register(:xdg_config) { Runcom::Config.new "git-lint/configuration.yml" }
+      register(:xdg_config) { Runcom::Config.new "git-lint/settings.yml" }
       register(:logger) { Cogger.new id: "git-lint" }
       register :kernel, Kernel
     end

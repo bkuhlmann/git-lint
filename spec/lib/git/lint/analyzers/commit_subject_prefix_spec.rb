@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
+  using Refinements::Struct
+
   subject(:analyzer) { described_class.new commit }
 
   include_context "with application dependencies"
@@ -47,7 +49,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     it "answers true with custom include list" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "One test"],
-        configuration: configuration.with(commits_subject_prefix_includes: %w[One Two])
+        settings: settings.merge(commits_subject_prefix_includes: %w[One Two])
       )
 
       expect(analyzer.valid?).to be(true)
@@ -56,7 +58,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     it "answers true with empty include list" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Test"],
-        configuration: configuration.with(commits_subject_prefix_includes: [])
+        settings: settings.merge(commits_subject_prefix_includes: [])
       )
 
       expect(analyzer.valid?).to be(true)
@@ -65,7 +67,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     it "answers true with custom delimiter" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Added - specs"],
-        configuration: configuration.with(
+        settings: settings.merge(
           commits_subject_prefix_delimiter: " - ",
           commits_subject_prefix_includes: ["Added"]
         )

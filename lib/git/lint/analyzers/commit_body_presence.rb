@@ -14,7 +14,7 @@ module Git
           valid_lines.size >= minimum
         end
 
-        def minimum = configuration.commits_body_presence_minimum
+        def minimum = settings.commits_body_presence_minimum
 
         def issue
           return {} if valid?

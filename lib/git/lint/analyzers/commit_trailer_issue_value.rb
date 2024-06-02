@@ -21,7 +21,7 @@ module Git
         protected
 
         def load_filter_list
-          Kit::FilterList.new configuration.commits_trailer_issue_value_includes
+          Kit::FilterList.new settings.commits_trailer_issue_value_includes
         end
 
         def invalid_line? trailer
