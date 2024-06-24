@@ -81,6 +81,7 @@ module Git
       register(:xdg_config) { Runcom::Config.new "git-lint/settings.yml" }
       register(:logger) { Cogger.new id: "git-lint" }
       register :kernel, Kernel
+      register :io, STDOUT
     end
   end
 end

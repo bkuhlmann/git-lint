@@ -9,7 +9,7 @@ module Git
         module Analyze
           # Handles analyze action for single commit SHA
           class Commit < Sod::Action
-            include Git::Lint::Import[:git, :kernel, :logger]
+            include Git::Lint::Import[:git, :logger, :kernel, :io]
 
             description "Analyze specific commits."
 
@@ -33,7 +33,7 @@ module Git
 
             def process arguments
               analyzer.call commits: git.commits(*arguments) do |collector, reporter|
-                kernel.puts reporter
+                io.puts reporter
                 kernel.abort if collector.errors?
               end
             end

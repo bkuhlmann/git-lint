@@ -4,6 +4,7 @@ require "spec_helper"
 
 RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
   using Refinements::Pathname
+  using Refinements::StringIO
 
   subject(:action) { described_class.new }
 
@@ -18,7 +19,7 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
 
         action.call "-1"
 
-        expect(kernel).to have_received(:puts).with(/.+1 commit inspected.*0 issues.+detected/m)
+        expect(io.reread).to match(/.+1 commit inspected.*0 issues.+detected/m)
       end
     end
 
@@ -29,7 +30,7 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
 
         action.call "-1"
 
-        expect(kernel).to have_received(:puts).with(
+        expect(io.reread).to match(
           /Commit Subject Prefix Error.+1 commit inspected.*1 issue.+detected/m
         )
       end
@@ -39,7 +40,7 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
       git_repo_dir.change_dir do
         `rm -rf .git && git init`
         action.call
-        expect(kernel).to have_received(:puts).with(/.+0 commits inspected.*0 issues.+detected/m)
+        expect(io.reread).to match(/.+0 commits inspected.*0 issues.+detected/m)
       end
     end
 

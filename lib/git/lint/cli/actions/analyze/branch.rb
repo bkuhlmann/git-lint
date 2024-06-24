@@ -9,7 +9,7 @@ module Git
         module Analyze
           # Handles analyze action for branch.
           class Branch < Sod::Action
-            include Git::Lint::Import[:kernel, :logger]
+            include Git::Lint::Import[:logger, :kernel, :io]
 
             description "Analyze current branch."
 
@@ -33,7 +33,7 @@ module Git
 
             def parse
               analyzer.call do |collector, reporter|
-                kernel.puts reporter
+                io.puts reporter
                 kernel.abort if collector.errors?
               end
             end

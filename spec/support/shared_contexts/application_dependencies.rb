@@ -7,8 +7,9 @@ RSpec.shared_context "with application dependencies" do
 
   let(:settings) { Git::Lint::Container[:settings] }
   let(:environment) { Hash.new }
-  let(:kernel) { class_spy Kernel }
   let(:logger) { Cogger.new id: "git-lint", io: StringIO.new, level: :debug }
+  let(:kernel) { class_spy Kernel }
+  let(:io) { StringIO.new }
 
   before do
     settings.merge! Etcher.call(
@@ -17,7 +18,7 @@ RSpec.shared_context "with application dependencies" do
       commits_signature_includes: %w[Good Invalid]
     )
 
-    Git::Lint::Container.stub! environment:, kernel:, logger:
+    Git::Lint::Container.stub! environment:, logger:, kernel:, io:
   end
 
   after { Git::Lint::Container.restore }
