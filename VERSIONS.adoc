@@ -1,5 +1,18 @@
 = Versions
 
+== 8.0.0 (2024-07-06)
+
+* 🔼 Updated to Caliber 0.58.0 - Brooke Kuhlmann
+* 🔼 Updated to Cogger 0.21.0 - Brooke Kuhlmann
+* 🔼 Updated to Containable 0.2.0 - Brooke Kuhlmann
+* 🔼 Updated to Etcher 2.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Gitt 3.6.0 - Brooke Kuhlmann
+* 🔼 Updated to IRB Kit 0.3.0 - Brooke Kuhlmann
+* 🔼 Updated to Infusible 3.8.0 - Brooke Kuhlmann
+* 🔼 Updated to Refinements 12.5.0 - Brooke Kuhlmann
+* 🔼 Updated to Ruby 3.3.3 - Brooke Kuhlmann
+* 🔼 Updated to Sod 0.12.0 - Brooke Kuhlmann
+
 == 7.5.0 (2024-05-31)
 
 * ✅ Fixed RuboCop Style/SuperArguments issue - Brooke Kuhlmann
