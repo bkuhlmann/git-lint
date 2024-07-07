@@ -1,5 +1,10 @@
 = Versions
 
+== 8.1.0 (2024-07-07)
+
+* ✅ Fixed configuration file name - Brooke Kuhlmann
+* 🔼 Updated to Runcom 11.5.0 - Brooke Kuhlmann
+
 == 8.0.0 (2024-07-06)
 
 * 🔼 Updated to Caliber 0.58.0 - Brooke Kuhlmann
