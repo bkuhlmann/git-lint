@@ -78,7 +78,7 @@ module Git
       register(:color) { Tone.new }
       register :environment, ENV
       register(:git) { Gitt::Repository.new }
-      register(:xdg_config) { Runcom::Config.new "git-lint/settings.yml" }
+      register(:xdg_config) { Runcom::Config.new "git-lint/configuration.yml" }
       register(:logger) { Cogger.new id: "git-lint" }
       register :kernel, Kernel
       register :io, STDOUT
