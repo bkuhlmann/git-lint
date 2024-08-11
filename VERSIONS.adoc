@@ -1,5 +1,13 @@
 = Versions
 
+== 8.2.0 (2024-08-11)
+
+* 🔼 Updated to Etcher 2.1.0 - Brooke Kuhlmann
+* 🔼 Updated to Refinements 12.7.0 - Brooke Kuhlmann
+* 🔼 Updated to Ruby 3.3.4 - Brooke Kuhlmann
+* 🔼 Updated to Sod 0.14.0 - Brooke Kuhlmann
+* ⛔️ Removed Guard - Brooke Kuhlmann
+
 == 8.1.0 (2024-07-07)
 
 * ✅ Fixed configuration file name - Brooke Kuhlmann
