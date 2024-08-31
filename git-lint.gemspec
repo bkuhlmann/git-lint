@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/bkuhlmann/git-lint/issues",
     "changelog_uri" => "https://alchemists.io/projects/git-lint/versions",
-    "documentation_uri" => "https://alchemists.io/projects/git-lint",
+    "homepage_uri" => "https://alchemists.io/projects/git-lint",
     "funding_uri" => "https://github.com/sponsors/bkuhlmann",
     "label" => "Git Lint",
     "rubygems_mfa_required" => "true",
