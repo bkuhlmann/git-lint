@@ -66,10 +66,6 @@ module Git
                   trailers << self.class.build_issue_line(index, trailer.to_s)
                 end
         end
-
-        def invalid_line?(*)
-          fail NoMethodError, "The `.#{__method__}` method must be implemented."
-        end
       end
     end
   end
