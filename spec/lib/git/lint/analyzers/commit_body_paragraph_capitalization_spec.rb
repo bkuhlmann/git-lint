@@ -28,6 +28,46 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphCapitalization do
       end
     end
 
+    context "with ASCII doc audio" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["audio::https://test.io/test.flac[]"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with ASCII doc image" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["image::https://test.io/test.png[]"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with ASCII doc link" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["link:https://test.io[Test]"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with ASCII doc video" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["video::https://test.io/test.mp4[]"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with ASCII doc xref" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["xref:test-1"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
     context "with empty paragraphs" do
       let(:commit) { Gitt::Models::Commit[body_paragraphs: []] }
 
