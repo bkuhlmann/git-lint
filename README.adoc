@@ -2,7 +2,9 @@
 :toclevels: 5
 :figure-caption!:
 
+:ascii_doc_link: link:https://docs.asciidoctor.org/asciidoc/latest[ASCII Doc]
 :git_rebase_workflow_link: link:https://alchemists.io/articles/git_rebase[Git Rebase Workflow]
+:markdown_link: link:https://daringfireball.net/projects/markdown[Markdown]
 
 = Git Lint
 
@@ -412,7 +414,7 @@ Ensures commit body bullet lines are capitalized. Example:
 - [demo](https://demo.com)
 ....
 
-In general, using ASCII Doc or Markdown syntax directly after a bullet will cause capitalization checks to be ignored because there can be valid reasons for wanting to avoid capitalization in those situations.
+In general, using {ascii_doc_link} or {markdown_link} syntax directly after a bullet will cause capitalization checks to be ignored because there can be valid reasons for wanting to avoid capitalization in those situations.
 
 ==== Commit Body Bullet Delimiter
 
@@ -512,6 +514,13 @@ curabitur eleifend wisi iaculis ipsum.
 # Allowed
 Curabitur eleifend wisi iaculis ipsum.
 ....
+
+{ascii_doc_link} and {markdown_link} code blocks are ignored since a paragraph that only consists of a code block is common practice. For ASCII Doc, this includes the following to be separate paragraphs if desired:
+
+* link:https://docs.asciidoctor.org/asciidoc/latest/macros/audio-and-video[Audio and video links]
+* link:https://docs.asciidoctor.org/asciidoc/latest/macros/images[Image links]
+* link:https://docs.asciidoctor.org/asciidoc/latest/macros/links[Links]
+* link:https://docs.asciidoctor.org/asciidoc/latest/macros/xref[Cross references]
 
 ==== Commit Body Phrase
 

@@ -1,5 +1,11 @@
 = Versions
 
+== 8.4.0 (2024-09-07)
+
+* ✅ Fixed commit paragraph capitalization to ignore ASCII doc media/links - Brooke Kuhlmann
+* 🔼 Updated to Gitt 3.9.0 - Brooke Kuhlmann
+* 🔼 Updated to Ruby 3.3.5 - Brooke Kuhlmann
+
 == 8.3.0 (2024-09-01)
 
 * 🟢 Added README Developer Certificate of Origin documentation - Brooke Kuhlmann
