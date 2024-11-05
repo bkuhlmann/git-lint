@@ -1,5 +1,11 @@
 = Versions
 
+== 8.6.0 (2024-11-04)
+
+* 🔼 Updated to Cogger 0.30.0 - Brooke Kuhlmann
+* 🔼 Updated to Refinements 12.10.0 - Brooke Kuhlmann
+* 🔼 Updated to Sod 0.18.0 - Brooke Kuhlmann
+
 == 8.5.0 (2024-10-17)
 
 * 🔼 Updated to Infusible 3.11.0 - Brooke Kuhlmann
