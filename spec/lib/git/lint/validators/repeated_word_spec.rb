@@ -43,6 +43,10 @@ RSpec.describe Git::Lint::Validators::RepeatedWord do
       expect(validator.call("Use: `pipe method(:one), method(:two)`.")).to eq([])
     end
 
+    it "answers empty array when content contains duplicate version parts" do
+      expect(validator.call("Use Version 0.0.0 now.")).to eq([])
+    end
+
     it "answers empty array when content has no words" do
       expect(validator.call("1 2 3")).to eq([])
     end

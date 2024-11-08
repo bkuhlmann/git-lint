@@ -15,7 +15,8 @@ module Git
             |                 # Or.
             (?<=\s)\w+        # Match word with leading space.
           /x,
-          code_block: /`.+`/
+          code_block: /`.+`/,
+          version: /\d+\./
         }.freeze
 
         def initialize patterns: PATTERNS
@@ -34,11 +35,15 @@ module Git
           end
         end
 
-        def parse(content) = content.gsub(code_block_pattern, "").scan word_pattern
+        def parse content
+          content.gsub(code_block_pattern, "").gsub(version_pattern, "").scan word_pattern
+        end
 
         def word_pattern = patterns.fetch :word
 
         def code_block_pattern = patterns.fetch :code_block
+
+        def version_pattern = patterns.fetch :version
       end
     end
   end
