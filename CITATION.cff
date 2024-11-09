@@ -2,9 +2,9 @@ cff-version: 1.2.0
 message: Please use the following metadata when citing this project in your work.
 title: Git Lint
 abstract: A command line interface for linting Git commits.
-version: 8.6.0
+version: 8.7.0
 license: Hippocratic-2.1
-date-released: 2024-11-04
+date-released: 2024-11-08
 authors:
   - family-names: Kuhlmann
     given-names: Brooke
