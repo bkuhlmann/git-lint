@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator name capitalization.
       class CommitTrailerCollaboratorCapitalization < Abstract
-        include Import[
+        include Dependencies[
           setting: "trailers.collaborator",
           parser: "parsers.person",
           validator: "validators.capitalization"

@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer signer name construction.
       class CommitTrailerSignerName < Abstract
-        include Import[
+        include Dependencies[
           setting: "trailers.signer",
           parser: "parsers.person",
           validator: "validators.name"

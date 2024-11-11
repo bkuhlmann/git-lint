@@ -9,7 +9,7 @@ module Git
         module Analyze
           # Handles analyze action for single commit SHA
           class Commit < Sod::Action
-            include Git::Lint::Import[:git, :logger, :kernel, :io]
+            include Dependencies[:git, :logger, :kernel, :io]
 
             description "Analyze specific commits."
 

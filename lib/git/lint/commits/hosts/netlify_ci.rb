@@ -6,7 +6,7 @@ module Git
       module Hosts
         # Provides Netlify CI feature branch information.
         class NetlifyCI
-          include Git::Lint::Import[:git, :environment]
+          include Dependencies[:git, :environment]
 
           def call
             git.call("remote", "add", "-f", "origin", environment["REPOSITORY_URL"])

@@ -6,7 +6,7 @@ module Git
       module Hosts
         # Provides GitHub Action feature branch information.
         class GitHubAction
-          include Git::Lint::Import[:git]
+          include Dependencies[:git]
 
           def call = git.commits "origin/#{branch_default}..#{branch_name}"
 

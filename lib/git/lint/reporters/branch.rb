@@ -5,7 +5,7 @@ module Git
     module Reporters
       # Reports issues related to a single branch.
       class Branch
-        include Import[:color]
+        include Dependencies[:color]
         using Refinements::String
 
         def initialize(collector: Collector.new, **)

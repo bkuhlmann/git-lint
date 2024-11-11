@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer milestone key usage.
       class CommitTrailerMilestoneKey < Abstract
-        include Import[setting: "trailers.milestone"]
+        include Dependencies[setting: "trailers.milestone"]
 
         def valid? = affected_commit_trailers.empty?
 

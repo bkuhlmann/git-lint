@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer tracker value.
       class CommitTrailerTrackerValue < Abstract
-        include Import[setting: "trailers.tracker"]
+        include Dependencies[setting: "trailers.tracker"]
 
         def valid? = affected_commit_trailers.empty?
 

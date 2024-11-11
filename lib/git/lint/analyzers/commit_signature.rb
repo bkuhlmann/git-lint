@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit signature validity.
       class CommitSignature < Abstract
-        include Import[sanitizer: "sanitizers.signature"]
+        include Dependencies[sanitizer: "sanitizers.signature"]
 
         def valid?
           sanitizer.call(commit.signature).match?(/\A#{Regexp.union filter_list}\Z/)

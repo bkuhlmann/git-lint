@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer signer key usage.
       class CommitTrailerSignerKey < Abstract
-        include Import[setting: "trailers.signer"]
+        include Dependencies[setting: "trailers.signer"]
 
         def valid? = affected_commit_trailers.empty?
 

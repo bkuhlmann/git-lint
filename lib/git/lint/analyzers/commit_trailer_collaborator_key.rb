@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator key usage.
       class CommitTrailerCollaboratorKey < Abstract
-        include Import[setting: "trailers.collaborator"]
+        include Dependencies[setting: "trailers.collaborator"]
 
         def valid? = affected_commit_trailers.empty?
 

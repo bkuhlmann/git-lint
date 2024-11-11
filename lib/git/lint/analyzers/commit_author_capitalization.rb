@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes author name for proper capitalization.
       class CommitAuthorCapitalization < Abstract
-        include Import[validator: "validators.capitalization"]
+        include Dependencies[validator: "validators.capitalization"]
 
         def valid? = validator.call commit.author_name
 

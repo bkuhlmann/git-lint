@@ -9,7 +9,7 @@ module Git
       module Actions
         # Handles unsaved Git commit action.
         class Hook < Sod::Action
-          include Git::Lint::Import[:git, :logger, :kernel, :io]
+          include Dependencies[:git, :logger, :kernel, :io]
 
           description "Hook for analyzing unsaved commits."
 

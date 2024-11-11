@@ -7,7 +7,7 @@ module Git
     module Commits
       # Automatically detects and loads host.
       class Loader
-        include Import[
+        include Dependencies[
           :git,
           :environment,
           circle_ci: "hosts.circle_ci",

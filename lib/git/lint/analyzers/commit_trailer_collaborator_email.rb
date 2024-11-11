@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer collaborator email address format.
       class CommitTrailerCollaboratorEmail < Abstract
-        include Import[
+        include Dependencies[
           setting: "trailers.collaborator",
           parser: "parsers.person",
           validator: "validators.email"

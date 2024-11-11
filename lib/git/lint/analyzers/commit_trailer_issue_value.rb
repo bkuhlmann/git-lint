@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer issue value.
       class CommitTrailerIssueValue < Abstract
-        include Import[setting: "trailers.issue"]
+        include Dependencies[setting: "trailers.issue"]
 
         def valid? = affected_commit_trailers.empty?
 

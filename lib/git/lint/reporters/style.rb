@@ -5,7 +5,7 @@ module Git
     module Reporters
       # Reports issues related to a single style.
       class Style
-        include Import[:color]
+        include Dependencies[:color]
 
         def initialize(analyzer, **)
           super(**)

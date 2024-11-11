@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer format key usage.
       class CommitTrailerFormatKey < Abstract
-        include Import[setting: "trailers.format"]
+        include Dependencies[setting: "trailers.format"]
 
         def valid? = affected_commit_trailers.empty?
 

@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer signer email address format.
       class CommitTrailerSignerEmail < Abstract
-        include Import[
+        include Dependencies[
           setting: "trailers.signer",
           parser: "parsers.person",
           validator: "validators.email"

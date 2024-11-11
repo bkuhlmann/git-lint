@@ -9,7 +9,7 @@ module Git
         module Analyze
           # Handles analyze action for branch.
           class Branch < Sod::Action
-            include Git::Lint::Import[:logger, :kernel, :io]
+            include Dependencies[:logger, :kernel, :io]
 
             description "Analyze current branch."
 

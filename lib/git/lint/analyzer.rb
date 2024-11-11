@@ -4,7 +4,7 @@ module Git
   module Lint
     # Runs all analyzers.
     class Analyzer
-      include Import[:settings]
+      include Dependencies[:settings]
 
       ANALYZERS = [
         Analyzers::CommitAuthorCapitalization,

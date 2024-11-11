@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit body for repeated words.
       class CommitBodyWordRepeat < Abstract
-        include Import[validator: "validators.repeated_word"]
+        include Dependencies[validator: "validators.repeated_word"]
 
         def valid? = commit.body_lines.all? { |line| !invalid_line? line }
 

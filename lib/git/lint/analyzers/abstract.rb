@@ -8,7 +8,7 @@ module Git
     module Analyzers
       # An abstract class which provides basic functionality for all analyzers to inherit from.
       class Abstract
-        include Import[:settings, :environment]
+        include Dependencies[:settings, :environment]
 
         using Refinements::String
 

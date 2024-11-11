@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes author email address for proper format.
       class CommitAuthorEmail < Abstract
-        include Import[validator: "validators.email"]
+        include Dependencies[validator: "validators.email"]
 
         def valid? = validator.call commit.author_email
 

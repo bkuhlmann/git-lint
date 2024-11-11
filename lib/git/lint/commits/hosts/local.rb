@@ -6,7 +6,7 @@ module Git
       module Hosts
         # Provides local feature branch information.
         class Local
-          include Git::Lint::Import[:git]
+          include Dependencies[:git]
 
           def call = git.commits "#{branch_default}..#{branch_name}"
 

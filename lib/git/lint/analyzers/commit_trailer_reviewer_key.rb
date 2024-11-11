@@ -5,7 +5,7 @@ module Git
     module Analyzers
       # Analyzes commit trailer reviwer key usage.
       class CommitTrailerReviewerKey < Abstract
-        include Import[setting: "trailers.reviewer"]
+        include Dependencies[setting: "trailers.reviewer"]
 
         def valid? = affected_commit_trailers.empty?
 
