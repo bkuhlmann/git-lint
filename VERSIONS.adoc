@@ -1,5 +1,26 @@
 = Versions
 
+== 9.0.0 (2024-12-27)
+
+* 🟢 Added version release notes - Brooke Kuhlmann
+* 🔼 Updated Infusible dependency terminology - Brooke Kuhlmann
+* 🔼 Updated commit subject prefix order - Brooke Kuhlmann
+* 🔼 Updated repeated word validator to use single exclude pattern - Brooke Kuhlmann
+* 🔼 Updated to Caliber 0.68.0 - Brooke Kuhlmann
+* 🔼 Updated to Cogger 1.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Containable 1.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Core 2.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Etcher 3.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Gitt 4.0.0 - Brooke Kuhlmann
+* 🔼 Updated to IRB Kit 1.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Infusible 4.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Refinements 13.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Ruby 3.4.0 - Brooke Kuhlmann
+* 🔼 Updated to Runcom 12.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Sod 1.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Spek 4.0.0 - Brooke Kuhlmann
+* 🔼 Updated to Tone 2.0.0 - Brooke Kuhlmann
+
 == 8.8.0 (2024-11-09)
 
 * 🔼 Updated to Caliber 0.64.0 - Brooke Kuhlmann

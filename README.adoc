@@ -82,7 +82,7 @@ Running Git Lint...
 83dbad531d84a184e55cbb38c5b2a4e5fa5bcaee (Brooke Kuhlmann, 0 seconds ago): This is a bogus commit message that is also terribly long and will word wrap.
   Commit Body Presence Warning. Use minimum of 1 line (non-empty).
   Commit Subject Length Error. Use 72 characters or less.
-  Commit Subject Prefix Error. Use: /Fixed/, /Added/, /Updated/, /Removed/, /Refactored/.
+  Commit Subject Prefix Error. Use: /Added /, /Updated /, /Fixed /, /Removed /, or /Refactored /.
   Commit Subject Suffix Error. Avoid: /\./, /\?/, /\!/.
 
 1 commit inspected. 4 issues detected (1 warning, 3 errors).
@@ -118,20 +118,20 @@ commits:
       enabled: true
       severity: error
       includes:
-        - "\\-"
         - "\\*"
+        - "\\-"
     bullet_delimiter:
       enabled: true
       severity: error
       includes:
-        - "\\-"
         - "\\*"
+        - "\\-"
     bullet_only:
       enabled: true
       severity: error
       includes:
-        - "\\-"
         - "\\*"
+        - "\\-"
     leading_line:
       enabled: true
       severity: warn
@@ -182,8 +182,8 @@ commits:
       enabled: true
       severity: error
       excludes:
-        - "(f|F)ix(es|ed)?\\s\\#\\d+"
         - "(c|C)lose(s|d)?\\s\\#\\d+"
+        - "(f|F)ix(es|ed)?\\s\\#\\d+"
         - "(r|R)esolve(s|d)?\\s\\#\\d+"
     word_repeat:
       enabled: true
@@ -203,18 +203,18 @@ commits:
       severity: error
       delimiter: " "
       includes:
-        - Fixed
         - Added
         - Updated
+        - Fixed
         - Removed
         - Refactored
     suffix:
       enabled: true
       severity: error
       excludes:
+        - "\\!"
         - "\\."
         - "\\?"
-        - "\\!"
     word_repeat:
       enabled: true
       severity: error
@@ -651,6 +651,12 @@ Automatically ignores _fixup!_ or _squash!_ commit prefixes when calculating sub
 Ensures each commit subject uses consistent prefixes that explain _what_ is being committed. The
 `includes` are _case sensitive_ and default to the following prefixes:
 
+* *Added* - Identifies what was added. The commit should be as small as possible and consist of
+  implementation and spec. Otherwise, it might be a change to an existing file which adds new
+  behavior.
+* *Updated* - Identifies what was updated. The commit should be as small as possible and _not add
+  or fix_ existing behavior. This can sometimes be a grey area but is typically reserved for updates
+  to documentation, code comments, dependencies, etc.
 * *Fixed* - Identifies what was fixed. The commit should be as small as possible and consist of
   changes to implementation and spec only. In some cases this might be a single line change. The
   important point is the change is applied to existing code which corrects behavior that wasn't
@@ -658,12 +664,6 @@ Ensures each commit subject uses consistent prefixes that explain _what_ is bein
 * *Removed* - Identifies what was removed. The commit should be as small as possible and consist
   only of removed lines/files from the existing implementation. This might also mean breaking
   changes requiring the publishing of a _major_ version release in the future.
-* *Added* - Identifies what was added. The commit should be as small as possible and consist of
-  implementation and spec. Otherwise, it might be a change to an existing file which adds new
-  behavior.
-* *Updated* - Identifies what was updated. The commit should be as small as possible and _not add
-  or fix_ existing behavior. This can sometimes be a grey area but is typically reserved for updates
-  to documentation, code comments, dependencies, etc.
 * *Refactored* - Identifies what was refactored.
   link:https://thoughtbot.com/blog/lets-not-misuse-refactoring[_Refactoring is for changing code
   structure without changing observable behavior_]. The commit should be as small as possible and
