@@ -100,9 +100,9 @@ commits:
       severity: error
       delimiter: " "
       includes:
-        - Fixed
         - Added
         - Updated
+        - Fixed
         - Removed
         - Refactored
     suffix:

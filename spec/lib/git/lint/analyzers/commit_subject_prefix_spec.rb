@@ -152,7 +152,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
 
       it "answres issue hint" do
         expect(issue[:hint]).to eq(
-          "Use: /Fixed /, /Added /, /Updated /, /Removed /, or /Refactored /."
+          "Use: /Added /, /Updated /, /Fixed /, /Removed /, or /Refactored /."
         )
       end
     end
