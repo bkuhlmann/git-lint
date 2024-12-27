@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "dry-schema", "~> 1.13"
   spec.add_dependency "etcher", "~> 3.0"
   spec.add_dependency "gitt", "~> 4.0"
-  spec.add_dependency "infusible", "~> 3.12"
+  spec.add_dependency "infusible", "~> 4.0"
   spec.add_dependency "refinements", "~> 13.0"
   spec.add_dependency "runcom", "~> 12.0"
   spec.add_dependency "sod", "~> 0.20"
