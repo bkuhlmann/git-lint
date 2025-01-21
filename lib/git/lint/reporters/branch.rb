@@ -5,14 +5,9 @@ module Git
     module Reporters
       # Reports issues related to a single branch.
       class Branch
-        include Dependencies[:color]
+        include Dependencies[:collector, :color]
 
         using Refinements::String
-
-        def initialize(collector: Collector.new, **)
-          super(**)
-          @collector = collector
-        end
 
         def to_s
           "Running Git Lint...#{branch_report}\n" \
@@ -22,8 +17,6 @@ module Git
         alias to_str to_s
 
         private
-
-        attr_reader :collector
 
         def branch_report
           return "" unless collector.issues?
