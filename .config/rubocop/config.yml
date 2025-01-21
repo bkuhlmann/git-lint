@@ -4,6 +4,7 @@ inherit_gem:
 Metrics/CollectionLiteralLength:
   Exclude:
     - "lib/git/lint/analyzer.rb"
+    - "lib/git/lint/analyzers/commits/sole.rb"
 Metrics/MethodLength:
   Exclude:
     - "lib/git/lint/cli/shell.rb"
