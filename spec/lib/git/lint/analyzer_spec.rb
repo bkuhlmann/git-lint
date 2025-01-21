@@ -1,92 +1,40 @@
 # frozen_string_literal: true
 
-require "dry/monads"
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzer do
-  include Dry::Monads[:result]
-
-  using Refinements::Pathname
   using Refinements::Struct
 
   subject(:analyzer) { described_class.new }
 
-  include_context "with Git repository"
-  include_context "with application dependencies"
-
-  let(:branch) { "test" }
-
-  before do
-    git_repo_dir.change_dir do
-      `git switch --quiet --create test --track`
-      `printf "%s\n" "Test content" > one.txt`
-      `git add --all .`
-    end
-  end
+  include_context "with Git commit"
 
   describe "#call" do
-    it "answers collector and reporter without block" do
-      git_repo_dir.change_dir do
-        `git commit --no-verify --message "Added one.txt" --message "- For testing purposes"`
-
-        expect(analyzer.call).to contain_exactly(
-          kind_of(Git::Lint::Collector),
-          kind_of(Git::Lint::Reporters::Branch)
-        )
-      end
+    let :proof do
+      [
+        Tone.new,
+        [
+          "Running Git Lint...\n\n" \
+          "180dec7d8ae8cbe3565a727c63c2111e49e0b737 (Test User, 1 day ago): Added documentation\n"
+        ],
+        ["  Commit Body Leading Line Warning. Use blank line between subject and body.\n", :yellow],
+        ["\n1 commit inspected. "],
+        ["1 issue", :yellow],
+        [" detected ("],
+        ["1 warning", :yellow],
+        [", "],
+        ["0 errors", :green],
+        [").\n"]
+      ]
     end
 
-    it "yields collector and reporter with block" do
-      git_repo_dir.change_dir do
-        `git commit --no-verify --message "Added one.txt" --message "- For testing purposes"`
-
-        analyzer.call do |collector, reporter|
-          expect([collector, reporter]).to contain_exactly(
-            kind_of(Git::Lint::Collector),
-            kind_of(Git::Lint::Reporters::Branch)
-          )
-        end
-      end
+    it "reports issues with zero items for invalid commits" do
+      reporter = analyzer.call [git_commit.with(body_lines: ["Test."])]
+      expect(reporter.to_s).to have_color(proof)
     end
 
-    it "reports no issues with valid commits" do
-      git_repo_dir.change_dir do
-        `git commit --no-verify --message "Added one.txt" --message "For testing purposes"`
-        collector, _reporter = analyzer.call
-
-        expect(collector.issues?).to be(false)
-      end
-    end
-
-    it "reports issues with invalid commits" do
-      git_repo_dir.change_dir do
-        `git commit --no-verify --message "Add one.txt" --message "- A test bullet"`
-        collector, _reporter = analyzer.call
-
-        expect(collector.issues?).to be(true)
-      end
-    end
-
-    it "reports no issues with disabled analyzer" do
-      analyzer = described_class.new(
-        settings: settings.with(commits_subject_prefix_enabled: false)
-      )
-
-      git_repo_dir.change_dir do
-        `git commit --no-verify --message "Bogus commit message"`
-        collector, _reporter = analyzer.call
-
-        expect(collector.issues?).to be(false)
-      end
-    end
-
-    context "with single commit" do
-      include_context "with Git commit"
-
-      it "processes commit" do
-        collector, _reporter = analyzer.call commits: Success([git_commit])
-        expect(collector.issues?).to be(true)
-      end
+    it "answers reporter" do
+      expect(analyzer.call).to be_a(Git::Lint::Reporters::Branch)
     end
   end
 end
