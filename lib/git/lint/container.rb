@@ -75,6 +75,7 @@ module Git
       register(:settings) { Etcher.call(self[:registry]).dup }
       register(:defaults_path) { Pathname(__dir__).join("configuration/defaults.yml") }
       register(:specification) { Spek::Loader.call "#{__dir__}/../../../git-lint.gemspec" }
+      register(:collector) { Collector.new }
       register(:color) { Tone.new }
       register :environment, ENV
       register(:git) { Gitt::Repository.new }
