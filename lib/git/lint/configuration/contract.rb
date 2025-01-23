@@ -46,6 +46,8 @@ module Git
         required(:commits_signature_enabled).filled :bool
         required(:commits_signature_severity).filled :string
         required(:commits_signature_includes).array :string
+        required(:commits_subject_duplicate_enabled).filled :bool
+        required(:commits_subject_duplicate_severity).filled :string
         required(:commits_subject_length_enabled).filled :bool
         required(:commits_subject_length_severity).filled :string
         required(:commits_subject_length_maximum).filled :integer

@@ -91,6 +91,9 @@ commits:
     includes:
       - Good
   subject:
+    duplicate:
+      enabled: true
+      severity: error
     length:
       enabled: true
       severity: error

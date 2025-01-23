@@ -41,6 +41,8 @@ module Git
                          :commits_signature_enabled,
                          :commits_signature_severity,
                          :commits_signature_includes,
+                         :commits_subject_duplicate_enabled,
+                         :commits_subject_duplicate_severity,
                          :commits_subject_length_enabled,
                          :commits_subject_length_severity,
                          :commits_subject_length_maximum,
