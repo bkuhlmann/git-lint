@@ -31,20 +31,6 @@ module Git
 
       def empty? = collection.empty?
 
-      def warnings? = collection.values.flatten.any?(&:warning?)
-
-      def errors? = collection.values.flatten.any?(&:error?)
-
-      def issues? = collection.values.flatten.any?(&:invalid?)
-
-      def total_warnings = collection.values.flatten.count(&:warning?)
-
-      def total_errors = collection.values.flatten.count(&:error?)
-
-      def total_issues = collection.values.flatten.count(&:invalid?)
-
-      def total_commits = collection.keys.size
-
       def to_h = collection
 
       private
