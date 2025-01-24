@@ -1,13 +1,27 @@
 # frozen_string_literal: true
 
+require "forwardable"
+
 module Git
   module Lint
     module Reporters
       # Reports issues related to a single branch.
       class Branch
+        extend Forwardable
+
         include Dependencies[:collector, :color]
 
         using Refinements::String
+
+        DELEGATES = {individual: Individual, group: Group}.freeze
+
+        delegate %i[empty? issues? warnings? errors?] => :total
+
+        def initialize(total: Models::Total.new, delegates: DELEGATES, **)
+          super(**)
+          @total = total
+          @delegates = delegates
+        end
 
         def to_s
           "Running Git Lint...#{branch_report}\n" \
@@ -18,25 +32,35 @@ module Git
 
         private
 
+        attr_reader :total, :delegates
+
         def branch_report
-          return "" unless collector.issues?
+          return "" unless total.issues?
 
           "\n\n#{commit_report}".chomp
         end
 
         def commit_report
-          collector.to_h.reduce "" do |details, (commit, analyzers)|
-            details + Commit.new(commit:, analyzers:)
+          collector.to_h.reduce "" do |details, (reference, analyzers)|
+            if reference
+              details + individual.new(reference, analyzers:)
+            else
+              details + group_by(analyzers)
+            end
           end
         end
 
+        def group_by analyzers
+          analyzers.reduce(+"") { |text, analyzer| text << group.new(analyzer) }
+        end
+
         def commit_total
-          total = collector.total_commits
-          %(#{total} #{"commit".pluralize "s", total} inspected)
+          commits = total.items
+          %(#{commits} #{"commit".pluralize "s", commits} inspected)
         end
 
         def issue_totals
-          if collector.issues?
+          if total.issues?
             "#{issue_total} detected (#{warning_total}, #{error_total})"
           else
             color["0 issues", :green] + " detected"
@@ -44,22 +68,26 @@ module Git
         end
 
         def issue_total
-          style = collector.errors? ? :red : :yellow
-          total = collector.total_issues
-          color["#{total} issue".pluralize("s", total), style]
+          style = total.errors? ? :red : :yellow
+          issues = total.issues
+          color["#{issues} issue".pluralize("s", issues), style]
         end
 
         def warning_total
-          style = collector.warnings? ? :yellow : :green
-          total = collector.total_warnings
-          color["#{total} warning".pluralize("s", total), style]
+          style = total.warnings? ? :yellow : :green
+          warnings = total.warnings
+          color["#{warnings} warning".pluralize("s", warnings), style]
         end
 
         def error_total
-          style = collector.errors? ? :red : :green
-          total = collector.total_errors
-          color["#{total} error".pluralize("s", total), style]
+          style = total.errors? ? :red : :green
+          errors = total.errors
+          color["#{errors} error".pluralize("s", errors), style]
         end
+
+        def individual = delegates.fetch __method__
+
+        def group = delegates.fetch __method__
       end
     end
   end
