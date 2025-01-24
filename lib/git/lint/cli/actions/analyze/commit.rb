@@ -21,21 +21,25 @@ module Git
             end
 
             def call *arguments
-              process arguments.unshift "-1"
+              collect arguments.unshift("-1")
             rescue Errors::Base => error
-              logger.error { error.message }
-              kernel.abort
+              logger.abort error.message
             end
 
             private
 
             attr_reader :analyzer
 
-            def process arguments
-              analyzer.call commits: git.commits(*arguments) do |collector, reporter|
-                io.puts reporter
-                kernel.abort if collector.errors?
-              end
+            def collect arguments
+              git.commits(*arguments).either -> commits { report commits },
+                                             -> message { logger.abort message.chomp }
+            end
+
+            def report commits
+              reporter = analyzer.call commits
+
+              io.puts reporter
+              kernel.abort if reporter.errors?
             end
           end
         end
