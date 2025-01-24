@@ -26,7 +26,7 @@ RSpec.describe Git::Lint::CLI::Actions::Hook do
       end
     end
 
-    it "aborts with errors" do
+    it "aborts with invalid commit" do
       git_repo_dir.change_dir do
         action.call SPEC_ROOT.join("support/fixtures/commit-invalid.txt")
         expect(kernel).to have_received(:abort)
