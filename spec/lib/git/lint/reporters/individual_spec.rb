@@ -2,8 +2,8 @@
 
 require "spec_helper"
 
-RSpec.describe Git::Lint::Reporters::Commit do
-  subject(:reporter) { described_class.new commit: git_commit, analyzers: }
+RSpec.describe Git::Lint::Reporters::Individual do
+  subject(:reporter) { described_class.new git_commit, analyzers: }
 
   include_context "with Git commit"
 
@@ -22,14 +22,13 @@ RSpec.describe Git::Lint::Reporters::Commit do
 
   describe "#to_s" do
     context "with invalid analyzer" do
-      subject(:reporter) { described_class.new commit: git_commit, analyzers: }
+      subject(:reporter) { described_class.new git_commit, analyzers: }
 
       let(:invalid) { true }
 
       it "answers commit (SHA, author name, relative time, subject) and single analyzer report" do
         expect(reporter.to_s).to eq(
-          "180dec7d8ae8cbe3565a727c63c2111e49e0b737 (Test User, 1 day ago): " \
-          "Added documentation\n" \
+          "180dec7d8ae8cbe3565a727c63c2111e49e0b737 (Test User, 1 day ago): Added documentation\n" \
           "\e[33m  Commit Author Email Warning. A test hint.\n\e[0m" \
           "\n"
         )
@@ -37,14 +36,13 @@ RSpec.describe Git::Lint::Reporters::Commit do
     end
 
     context "with invalid analyzers" do
-      subject(:reporter) { described_class.new commit: git_commit, analyzers: [analyzer, analyzer] }
+      subject(:reporter) { described_class.new git_commit, analyzers: [analyzer, analyzer] }
 
       let(:invalid) { true }
 
       it "answers commit (SHA, author name, relative time, subject) and multiple analyzer report" do
         expect(reporter.to_s).to eq(
-          "180dec7d8ae8cbe3565a727c63c2111e49e0b737 (Test User, 1 day ago): " \
-          "Added documentation\n" \
+          "180dec7d8ae8cbe3565a727c63c2111e49e0b737 (Test User, 1 day ago): Added documentation\n" \
           "\e[33m  Commit Author Email Warning. A test hint.\n\e[0m" \
           "\e[33m  Commit Author Email Warning. A test hint.\n\e[0m" \
           "\n"
@@ -53,7 +51,7 @@ RSpec.describe Git::Lint::Reporters::Commit do
     end
 
     context "with valid analyzers" do
-      subject(:reporter) { described_class.new commit: git_commit, analyzers: [analyzer, analyzer] }
+      subject(:reporter) { described_class.new git_commit, analyzers: [analyzer, analyzer] }
 
       let(:invalid) { false }
 
@@ -68,8 +66,7 @@ RSpec.describe Git::Lint::Reporters::Commit do
 
     it "answers implicit string" do
       expect(reporter.to_str).to eq(
-        "180dec7d8ae8cbe3565a727c63c2111e49e0b737 (Test User, 1 day ago): " \
-        "Added documentation\n" \
+        "180dec7d8ae8cbe3565a727c63c2111e49e0b737 (Test User, 1 day ago): Added documentation\n" \
         "\e[33m  Commit Author Email Warning. A test hint.\n\e[0m" \
         "\n"
       )
