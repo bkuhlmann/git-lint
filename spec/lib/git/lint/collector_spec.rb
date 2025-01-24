@@ -34,6 +34,16 @@ RSpec.describe Git::Lint::Collector do
                  error?: true
   end
 
+  let :group_analyzer do
+    instance_spy Git::Lint::Analyzers::Commits::Subjects::Duplicate,
+                 class: Git::Lint::Analyzers::Commits::Subjects::Duplicate,
+                 commit: nil,
+                 commits: %w[aaa bbb],
+                 invalid?: true,
+                 warning?: false,
+                 error?: true
+  end
+
   describe "#add" do
     it "adds analyzer" do
       collector.add valid_analyzer
@@ -56,6 +66,27 @@ RSpec.describe Git::Lint::Collector do
       collector.add valid_analyzer
 
       expect(collector.retrieve(commit)).to contain_exactly(valid_analyzer, valid_analyzer)
+    end
+  end
+
+  describe "#total" do
+    it "answers total for individual analyzers" do
+      collector.add valid_analyzer
+      collector.add warn_analyzer
+      collector.add error_analyzer
+
+      expect(collector.total).to eq(
+        Git::Lint::Models::Total[items: 1, issues: 2, warnings: 1, errors: 1]
+      )
+    end
+
+    it "answers total group analyzers" do
+      collector.add group_analyzer
+      collector.add group_analyzer
+
+      expect(collector.total).to eq(
+        Git::Lint::Models::Total[items: 0, issues: 2, warnings: 0, errors: 2]
+      )
     end
   end
 
