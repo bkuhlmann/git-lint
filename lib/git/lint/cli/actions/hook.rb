@@ -21,17 +21,17 @@ module Git
           end
 
           def call path
-            analyzer.call commits: commits(path) do |collector, reporter|
-              io.puts reporter
-              kernel.abort if collector.errors?
-            end
+            reporter = analyzer.call read(path)
+
+            io.puts reporter
+            kernel.abort if reporter.errors?
           end
 
           private
 
           attr_reader :analyzer
 
-          def commits(path) = git.uncommitted(path).fmap { |commit| [commit] }
+          def read(path) = git.uncommitted(path).bind { |commit| [commit] }
         end
       end
     end

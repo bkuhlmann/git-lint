@@ -12,12 +12,14 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
   include_context "with Git repository"
 
   describe "#call" do
+    before { allow(logger).to receive(:abort) }
+
     it "reports zero issues with valid SHA" do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
         `touch b.txt && git add . && git commit --no-verify --message "Added A" --message "Test."`
 
-        action.call "-1"
+        action.call
 
         expect(io.reread).to match(/.+1 commit inspected.*0 issues.+detected/m)
       end
@@ -28,7 +30,7 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
         `git switch --quiet --create test`
         `touch a.txt && git add . && git commit --no-verify --message "Add A"`
 
-        action.call "-1"
+        action.call
 
         expect(io.reread).to match(
           /Commit Subject Prefix Error.+1 commit inspected.*1 issue.+detected/m
@@ -37,11 +39,16 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
     end
 
     it "reports zero issues when given no SHAs" do
+      allow(logger).to receive(:abort)
+
       git_repo_dir.change_dir do
         `rm -rf .git && git init`
         action.call
-        expect(io.reread).to match(/.+0 commits inspected.*0 issues.+detected/m)
       end
+
+      expect(logger).to have_received(:abort).with(
+        "fatal: your current branch 'main' does not have any commits yet"
+      )
     end
 
     it "aborts with invalid SHA" do
@@ -56,22 +63,14 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
       end
     end
 
-    context "with failure" do
-      subject(:action) { described_class.new analyzer: }
+    it "logs error for failure" do
+      analyzer = instance_double Git::Lint::Analyzer
+      action = described_class.new(analyzer:)
 
-      let(:analyzer) { instance_double Git::Lint::Analyzer }
+      allow(analyzer).to receive(:call).and_raise(Git::Lint::Errors::Base, "Danger!")
+      action.call
 
-      before { allow(analyzer).to receive(:call).and_raise(Git::Lint::Errors::Base, "Danger!") }
-
-      it "logs error" do
-        action.call
-        expect(logger.reread).to match(/🛑.+Danger!/)
-      end
-
-      it "aborts" do
-        action.call
-        expect(kernel).to have_received(:abort)
-      end
+      expect(logger).to have_received(:abort).with "Danger!"
     end
   end
 end

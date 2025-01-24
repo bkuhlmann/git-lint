@@ -12,6 +12,8 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Branch do
   include_context "with Git repository"
 
   describe "#call" do
+    before { allow(logger).to receive(:abort) }
+
     it "reports no issues with valid commits" do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
@@ -50,22 +52,14 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Branch do
       end
     end
 
-    context "with failure" do
-      subject(:action) { described_class.new analyzer: }
+    it "logs error for failure" do
+      analyzer = instance_double Git::Lint::Analyzer
+      action = described_class.new(analyzer:)
 
-      let(:analyzer) { instance_double Git::Lint::Analyzer }
+      allow(analyzer).to receive(:call).and_raise(Git::Lint::Errors::Base, "Danger!")
+      action.call
 
-      before { allow(analyzer).to receive(:call).and_raise(Git::Lint::Errors::Base, "Danger!") }
-
-      it "logs error" do
-        action.call
-        expect(logger.reread).to match(/🛑.+Danger!/)
-      end
-
-      it "aborts" do
-        action.call
-        expect(kernel).to have_received(:abort)
-      end
+      expect(logger).to have_received(:abort).with("Danger!")
     end
   end
 end
