@@ -15,26 +15,27 @@ module Git
 
             on %w[-b --branch]
 
-            def initialize(analyzer: Analyzer.new, **)
+            def initialize(analyzer: Analyzer.new, loader: Git::Lint::Commits::Loader.new, **)
               super(**)
               @analyzer = analyzer
+              @loader = loader
             end
 
             def call(*)
-              parse
+              report
             rescue Errors::Base => error
-              logger.error { error.message }
-              kernel.abort
+              logger.abort error.message
             end
 
             private
 
-            attr_reader :analyzer
+            attr_reader :analyzer, :loader
 
-            def parse
-              analyzer.call do |collector, reporter|
+            def report
+              loader.call.bind do |commits|
+                reporter = analyzer.call commits
                 io.puts reporter
-                kernel.abort if collector.errors?
+                kernel.abort if reporter.errors?
               end
             end
           end
