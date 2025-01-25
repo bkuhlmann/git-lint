@@ -66,7 +66,7 @@ module Git
         register(:local) { Commits::Hosts::Local.new }
       end
 
-      register :registry do
+      register :registry, as: :fresh do
         Etcher::Registry.new(contract: Configuration::Contract, model: Configuration::Model)
                         .add_loader(:yaml, self[:defaults_path])
                         .add_loader(:yaml, self[:xdg_config].active)
