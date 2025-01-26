@@ -19,6 +19,7 @@ require "gitt/rspec/shared_contexts/git_commit"
 require "gitt/rspec/shared_contexts/git_repo"
 require "gitt/rspec/shared_contexts/temp_dir"
 require "refinements"
+require "tone/rspec/matchers/have_color"
 require "yaml"
 
 SPEC_ROOT = Pathname(__dir__).realpath.freeze
