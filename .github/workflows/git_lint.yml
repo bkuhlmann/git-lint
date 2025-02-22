@@ -16,6 +16,4 @@ jobs:
       - name: Install
         run: gem install git-lint
       - name: Analyze
-        run: |
-          git config --global --add init.defaultBranch main
-          git-lint --analyze
+        run: git-lint analyze --branch
