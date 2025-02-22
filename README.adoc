@@ -1089,13 +1089,11 @@ Tracker: ACME Issues
 ==== Default Branch
 
 Your default branch configuration is respected no matter if it is set globally or locally. If the
-default branch is _not set_ then Git Lint will fall back to `master` for backwards compatibility.
-When the next major version is released, the default branch fallback will change from `master` to
-`main`. You can set your default branch at any time by running the following from the command line:
+default branch is _not set_ then Git Lint will fall back to `main`. You can set your default branch at any time by running the following from the command line:
 
 [source,bash]
 ----
-git config --add init.defaultBranch main
+git config set init.defaultBranch main
 ----
 
 💡 When setting your default branch, ensure you use a consistent Git configuration across all of
@@ -1338,7 +1336,7 @@ configuration disabled.
 
 === Tags
 
-* Use tags to denote link:https://alchemists.io/projects/milestoner[milestones]/releases:
+* Use tags to denote link:https://alchemists.io/articles/milestones[milestones]:
 ** Makes it easier to record milestones and capture associated release notes.
 ** Makes it easier to compare differences between versions.
 ** Provides a starting point for debugging production issues (if any).
@@ -1356,7 +1354,7 @@ configuration disabled.
 * Use hooks globally rather than locally per project. Doing this applies the same functionality
   across all projects automatically, reduces maintenance per project, and provides consistency
   across all projects. This can best be managed via your
-  link:https://github.com/bkuhlmann/dotfiles/tree/main/home_files/.config/git/hooks[Dotfiles].
+  link:https://github.com/bkuhlmann/dotfiles/tree/main/lib/templates/.config/git/hooks[Dotfiles].
 * Avoid forcing global or local project hooks as a team-wide mandate. Hooks are a personal tool much
   like editors or other tools one choose to do their work. For team consistency, use a continuous
   integration build server instead.
