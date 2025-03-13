@@ -3,8 +3,6 @@
 require "dry/monads"
 
 RSpec.shared_context "with host dependencies" do
-  include Dry::Monads[:result]
-
   include_context "with application dependencies"
 
   let :git do

@@ -3,7 +3,6 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Commits::Loader do
-  include Dry::Monads[:result]
   using Refinements::Pathname
 
   subject(:loader) { described_class.new git:, environment: }
