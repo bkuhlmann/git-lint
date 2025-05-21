@@ -18,7 +18,7 @@ module Git
   # Main namespace.
   module Lint
     def self.loader registry = Zeitwerk::Registry
-      @loader ||= registry.loaders.find { |loader| loader.tag == "git-lint" }
+      @loader ||= registry.loaders.each.find { |loader| loader.tag == "git-lint" }
     end
   end
 end
