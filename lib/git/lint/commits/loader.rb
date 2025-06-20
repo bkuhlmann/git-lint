@@ -35,7 +35,7 @@ module Git
           end
         end
 
-        def key?(key) = environment.fetch(key, "false").to_bool
+        def key?(key) = environment.fetch(key, "false").truthy?
       end
     end
   end
