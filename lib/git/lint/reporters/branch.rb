@@ -6,6 +6,7 @@ module Git
       # Reports issues related to a single branch.
       class Branch
         include Dependencies[:color]
+
         using Refinements::String
 
         def initialize(collector: Collector.new, **)
