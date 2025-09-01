@@ -75,7 +75,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     it "answers false with excluded word (mixed case)" do
       analyzer = described_class.new(
         Gitt::Models::Commit[body_lines: ["This will fail, basically."]],
-        settings: settings.merge(commits_body_phrase_excludes: ["BasicaLLy"])
+        settings: settings.with(commits_body_phrase_excludes: ["BasicaLLy"])
       )
 
       expect(analyzer.valid?).to be(false)
@@ -84,7 +84,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     it "answers false with excluded phrase (mixed case)" do
       analyzer = described_class.new(
         Gitt::Models::Commit[body_lines: ["This will fail, of course."]],
-        settings: settings.merge(commits_body_phrase_excludes: ["OF CoursE"])
+        settings: settings.with(commits_body_phrase_excludes: ["OF CoursE"])
       )
 
       expect(analyzer.valid?).to be(false)
@@ -93,7 +93,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     it "answers false with excluded boundary word (regular expression)" do
       analyzer = described_class.new(
         Gitt::Models::Commit[body_lines: ["Just for test purposes."]],
-        settings: settings.merge(commits_body_phrase_excludes: ["\\bjust\\b"])
+        settings: settings.with(commits_body_phrase_excludes: ["\\bjust\\b"])
       )
 
       expect(analyzer.valid?).to be(false)
@@ -102,7 +102,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     it "answers true with excluded, embedded boundary word (regular expression)" do
       analyzer = described_class.new(
         Gitt::Models::Commit[body_lines: ["Adjusted for testing purposes."]],
-        settings: settings.merge(commits_body_phrase_excludes: ["\\bjust\\b"])
+        settings: settings.with(commits_body_phrase_excludes: ["\\bjust\\b"])
       )
 
       expect(analyzer.valid?).to be(true)
@@ -111,7 +111,7 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyPhrase do
     it "answers false with excluded phrase (regular expression)" do
       analyzer = described_class.new(
         Gitt::Models::Commit[body_lines: ["This will fail, of course."]],
-        settings: settings.merge(commits_body_phrase_excludes: ["(o|O)f (c|C)ourse"])
+        settings: settings.with(commits_body_phrase_excludes: ["(o|O)f (c|C)ourse"])
       )
 
       expect(analyzer.valid?).to be(false)

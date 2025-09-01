@@ -57,7 +57,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     it "answers false with custom exclude list" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Added specs 😅"],
-        settings: settings.merge(commits_subject_suffix_excludes: ["😅"])
+        settings: settings.with(commits_subject_suffix_excludes: ["😅"])
       )
 
       expect(analyzer.valid?).to be(false)
@@ -66,7 +66,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectSuffix do
     it "answers true with empty exclude list" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Added specs?"],
-        settings: settings.merge(commits_subject_suffix_excludes: [])
+        settings: settings.with(commits_subject_suffix_excludes: [])
       )
 
       expect(analyzer.valid?).to be(true)

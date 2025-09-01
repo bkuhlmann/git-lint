@@ -54,7 +54,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorName do
           body_lines: [],
           trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test <test@example.com>")]
         ],
-        settings: settings.merge(commits_trailer_collaborator_name_minimum: 1)
+        settings: settings.with(commits_trailer_collaborator_name_minimum: 1)
       )
 
       expect(analyzer.valid?).to be(true)

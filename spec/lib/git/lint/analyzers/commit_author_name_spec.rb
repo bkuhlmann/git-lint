@@ -41,7 +41,7 @@ RSpec.describe Git::Lint::Analyzers::CommitAuthorName do
     it "answers true with custom minimum" do
       analyzer = described_class.new(
         Gitt::Models::Commit[author_name: "Example"],
-        settings: settings.merge(commits_author_name_minimum: 1)
+        settings: settings.with(commits_author_name_minimum: 1)
       )
 
       expect(analyzer.valid?).to be(true)

@@ -54,7 +54,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerSignerName do
           body_lines: [],
           trailers: [Gitt::Models::Trailer.for("Signed-off-by: Test <test@example.com>")]
         ],
-        settings: settings.merge(commits_trailer_signer_name_minimum: 1)
+        settings: settings.with(commits_trailer_signer_name_minimum: 1)
       )
 
       expect(analyzer.valid?).to be(true)

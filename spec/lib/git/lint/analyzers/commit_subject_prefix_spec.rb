@@ -49,7 +49,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     it "answers true with custom include list" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "One test"],
-        settings: settings.merge(commits_subject_prefix_includes: %w[One Two])
+        settings: settings.with(commits_subject_prefix_includes: %w[One Two])
       )
 
       expect(analyzer.valid?).to be(true)
@@ -58,7 +58,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     it "answers true with empty include list" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Test"],
-        settings: settings.merge(commits_subject_prefix_includes: [])
+        settings: settings.with(commits_subject_prefix_includes: [])
       )
 
       expect(analyzer.valid?).to be(true)
@@ -67,7 +67,7 @@ RSpec.describe Git::Lint::Analyzers::CommitSubjectPrefix do
     it "answers true with custom delimiter" do
       analyzer = described_class.new(
         Gitt::Models::Commit[subject: "Added - specs"],
-        settings: settings.merge(
+        settings: settings.with(
           commits_subject_prefix_delimiter: " - ",
           commits_subject_prefix_includes: ["Added"]
         )

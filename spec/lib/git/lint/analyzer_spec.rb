@@ -69,7 +69,7 @@ RSpec.describe Git::Lint::Analyzer do
 
     it "reports no issues with disabled analyzer" do
       analyzer = described_class.new(
-        settings: settings.merge(commits_subject_prefix_enabled: false)
+        settings: settings.with(commits_subject_prefix_enabled: false)
       )
 
       git_repo_dir.change_dir do
