@@ -194,6 +194,9 @@ commits:
     includes:
       - Good
   subject:
+    duplicate:
+      enabled: true
+      severity: error
     length:
       enabled: true
       severity: error
@@ -623,6 +626,27 @@ Ensures all commit signatures are properly signed for improved security and vali
 * *Expired Key* (_Y_)
 
 All of the above obtained when using the pretty formats as provided by link:https://git-scm.com/docs/git-log#Documentation/git-log.txt-emGem[Git Log].
+
+==== Commit Subject Duplicate
+
+[options="header"]
+|===
+| Enabled | Severity
+| true    | error
+|===
+
+Ensures commit subjects are not duplicated so you can rebase and clean up accordingly. Example:
+
+....
+# Disallowed
+Added documentation
+Added documentation
+
+# Allowed
+Added documentation
+....
+
+Automatically ignores _amend!_, _fixup!_, or _squash!_ commit prefixes.
 
 ==== Commit Subject Length
 
