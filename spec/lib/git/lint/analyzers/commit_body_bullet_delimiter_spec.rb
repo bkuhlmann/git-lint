@@ -46,6 +46,16 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyBulletDelimiter do
       end
     end
 
+    context "with wrapped bullets" do
+      let :commit do
+        Gitt::Models::Commit[body_lines: ["*test*", "-test-"]]
+      end
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
     context "without space after bullet" do
       let(:commit) { Gitt::Models::Commit[body_lines: ["-Test."]] }
 

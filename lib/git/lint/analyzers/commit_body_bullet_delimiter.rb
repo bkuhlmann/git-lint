@@ -22,7 +22,9 @@ module Git
           Kit::FilterList.new settings.commits_body_bullet_delimiter_includes
         end
 
-        def invalid_line?(line) = line.match?(/\A\s*#{pattern}(?!(#{pattern}|\s)).+\Z/)
+        def invalid_line? line
+          line.match?(/\A\s*#{pattern}(?!(#{pattern}|\s))(?!.+#{pattern}$).+\Z/)
+        end
 
         def pattern = Regexp.union filter_list
       end
