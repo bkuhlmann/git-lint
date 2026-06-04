@@ -78,6 +78,7 @@ module Git
                          :commits_trailer_issue_value_includes,
                          :commits_trailer_milestone_key_enabled,
                          :commits_trailer_milestone_key_severity,
+                         :commits_trailer_milestone_key_mandatory,
                          :commits_trailer_milestone_value_enabled,
                          :commits_trailer_milestone_value_severity,
                          :commits_trailer_milestone_value_includes,

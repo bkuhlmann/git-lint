@@ -155,6 +155,7 @@ commits:
     milestone_key:
       enabled: true
       severity: error
+      mandatory: true
     milestone_value:
       enabled: true
       severity: error
