@@ -125,6 +125,11 @@ commits:
     collaborator_email:
       enabled: true
       severity: error
+      excludes:
+        - "agent@"
+        - "codex@"
+        - "copilot@"
+        - "noreply"
     collaborator_key:
       enabled: true
       severity: error

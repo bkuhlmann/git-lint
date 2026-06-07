@@ -59,6 +59,7 @@ module Git
                          :commits_trailer_collaborator_capitalization_severity,
                          :commits_trailer_collaborator_email_enabled,
                          :commits_trailer_collaborator_email_severity,
+                         :commits_trailer_collaborator_email_excludes,
                          :commits_trailer_collaborator_key_enabled,
                          :commits_trailer_collaborator_key_severity,
                          :commits_trailer_collaborator_name_enabled,

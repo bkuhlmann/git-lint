@@ -64,6 +64,7 @@ module Git
         required(:commits_trailer_collaborator_capitalization_severity).filled :string
         required(:commits_trailer_collaborator_email_enabled).filled :bool
         required(:commits_trailer_collaborator_email_severity).filled :string
+        required(:commits_trailer_collaborator_email_excludes).array :string
         required(:commits_trailer_collaborator_key_enabled).filled :bool
         required(:commits_trailer_collaborator_key_severity).filled :string
         required(:commits_trailer_collaborator_name_enabled).filled :bool

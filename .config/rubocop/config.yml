@@ -10,6 +10,7 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Exclude:
     - "lib/git/lint/configuration/contract.rb"
+    - "lib/git/lint/configuration/model.rb"
 Metrics/ParameterLists:
   Exclude:
     - "lib/git/lint/models/total.rb"
