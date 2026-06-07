@@ -17,15 +17,23 @@ module Git
           return {} if valid?
 
           {
-            hint: %(Email must follow name and use format: "<name@server.domain>".),
+            hint: %(Use format: "<name@server.domain>". Avoid: #{filter_list.to_usage}.),
             lines: affected_commit_trailers
           }
         end
 
         protected
 
+        def load_filter_list
+          Kit::FilterList.new settings.commits_trailer_collaborator_email_excludes
+        end
+
         def invalid_line? trailer
-          email = parser.call(trailer.value).email
+          value = trailer.value
+
+          return true if value.match?(/.*#{Regexp.union filter_list}.*/)
+
+          email = parser.call(value).email
           trailer.key.match?(setting.pattern) && !validator.call(email)
         end
 

@@ -58,6 +58,32 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
         expect(analyzer.valid?).to be(false)
       end
     end
+
+    context "with no reply" do
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test <noreply@llm.io>")]
+        ]
+      end
+
+      it "answers false" do
+        expect(analyzer.valid?).to be(false)
+      end
+    end
+
+    context "with specific handle" do
+      let :commit do
+        Gitt::Models::Commit[
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Co-Authored-By: Test <agent@llm.io>")]
+        ]
+      end
+
+      it "answers false" do
+        expect(analyzer.valid?).to be(false)
+      end
+    end
   end
 
   describe "#issue" do
@@ -85,8 +111,10 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerCollaboratorEmail do
       end
 
       it "answers issue" do
+        excludes = "/agent@/, /codex@/, /copilot@/, and /noreply/"
+
         expect(issue).to eq(
-          hint: %(Email must follow name and use format: "<name@server.domain>".),
+          hint: %(Use format: "<name@server.domain>". Avoid: #{excludes}.),
           lines: [
             {
               content: "Co-Authored-By: Test Example <invalid>",
