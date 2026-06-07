@@ -20,6 +20,7 @@ module Git
             Analyzers::CommitBodyLeadingLine,
             Analyzers::CommitBodyLineLength,
             Analyzers::CommitBodyParagraphCapitalization,
+            Analyzers::CommitBodyParagraphNewLine,
             Analyzers::CommitBodyPhrase,
             Analyzers::CommitBodyPresence,
             Analyzers::CommitBodyTrackerShorthand,
