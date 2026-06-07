@@ -26,7 +26,13 @@ RSpec.describe Git::Lint::Analyzers::Commits::Sole do
 
     it "reports no issues with valid commits" do
       git_repo_dir.change_dir do
-        `git commit --no-verify --message "Added one.txt" --message "For testing purposes"`
+        system <<~COMMAND
+          git commit --no-verify \
+                     --message "Added one.txt" \
+                     --message "For testing purposes" \
+                     --trailer Milestone:patch
+        COMMAND
+
         collector = analyzer.call commits
 
         expect(collector.total).to eq(Git::Lint::Models::Total[items: 1])
@@ -38,7 +44,7 @@ RSpec.describe Git::Lint::Analyzers::Commits::Sole do
         `git commit --no-verify --message "Add one.txt" --message "- A test bullet"`
         collector = analyzer.call commits
 
-        expect(collector.total).to eq(Git::Lint::Models::Total[items: 1, issues: 2, errors: 2])
+        expect(collector.total).to eq(Git::Lint::Models::Total[items: 1, issues: 3, errors: 3])
       end
     end
 
@@ -46,7 +52,7 @@ RSpec.describe Git::Lint::Analyzers::Commits::Sole do
       settings.commits_subject_prefix_enabled = false
 
       git_repo_dir.change_dir do
-        `git commit --no-verify --message "Bogus commit message"`
+        `git commit --no-verify --message "Bogus commit message" --trailer Milestone:patch`
         collector = analyzer.call commits
 
         expect(collector.total).to eq(Git::Lint::Models::Total[items: 1])

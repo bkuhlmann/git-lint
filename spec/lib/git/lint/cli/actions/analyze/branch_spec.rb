@@ -10,6 +10,7 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Branch do
 
   include_context "with application dependencies"
   include_context "with Git repository"
+  include_context "with Git commit errors"
 
   describe "#call" do
     before { allow(logger).to receive(:abort) }
@@ -18,7 +19,7 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Branch do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
         `touch test.txt && git add .`
-        `git commit --no-verify --message "Added test file" --message "For testing purposes."`
+        `git commit --no-verify --message "Added test" --message "Test." --trailer Milestone:patch`
 
         action.call
 
@@ -29,14 +30,11 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Branch do
     it "reports issues with invalid commits" do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
-        `touch test.txt && git add .`
-        `git commit --no-verify --message "Add test file"`
+        `touch test.txt && git add . && git commit --no-verify --message "Add test file"`
 
         action.call
 
-        expect(io.reread).to match(
-          /Commit Subject Prefix Error.+1 commit inspected.*1 issue.+detected/m
-        )
+        expect(io.reread).to match(git_commit_invalid_pattern)
       end
     end
 

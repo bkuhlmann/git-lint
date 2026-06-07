@@ -22,7 +22,7 @@ RSpec.describe Git::Lint::CLI::Actions::Hook do
     it "answers invalid commit results" do
       git_repo_dir.change_dir do
         action.call SPEC_ROOT.join("support/fixtures/commit-invalid.txt")
-        expect(io.reread).to match(/1 commit.+2 issues/m)
+        expect(io.reread).to match(/1 commit.+3 issues/m)
       end
     end
 

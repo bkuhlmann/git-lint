@@ -8,8 +8,9 @@ RSpec.describe Git::Lint::CLI::Shell do
 
   subject(:shell) { described_class.new }
 
-  include_context "with Git repository"
   include_context "with application dependencies"
+  include_context "with Git repository"
+  include_context "with Git commit errors"
 
   before { Sod::Container.stub! logger:, io: }
 
@@ -26,7 +27,7 @@ RSpec.describe Git::Lint::CLI::Shell do
         `git switch --quiet --create test`
         `touch test.txt`
         `git add .`
-        `git commit --no-verify --message "Added test file"`
+        `git commit --no-verify --message "Added test file" --trailer Milestone:patch`
 
         shell.call %w[analyze --branch]
 
@@ -39,13 +40,11 @@ RSpec.describe Git::Lint::CLI::Shell do
         `git switch --quiet --create test`
         `touch test.txt`
         `git add .`
-        `git commit --no-verify --message "Add test file"`
+        `git commit --no-verify --message "Add test"`
 
         shell.call %w[analyze --branch]
 
-        expect(io.reread).to match(
-          /Commit Subject Prefix Error.+1 commit inspected.*1 issue.+detected/m
-        )
+        expect(io.reread).to match(git_commit_invalid_pattern)
       end
     end
 
@@ -54,7 +53,7 @@ RSpec.describe Git::Lint::CLI::Shell do
         `git switch --quiet --create test`
         `touch test.txt`
         `git add .`
-        `git commit --no-verify --message "Added test file"`
+        `git commit --no-verify --message "Added test" --trailer Milestone:patch`
         sha = `git log --pretty=format:%h -1`
 
         shell.call ["analyze", "--commit", sha]
@@ -68,7 +67,7 @@ RSpec.describe Git::Lint::CLI::Shell do
         `git switch --quiet --create test`
         `touch test.txt`
         `git add .`
-        `git commit --no-verify --message "Add test"`
+        `git commit --no-verify --message "Add test" --trailer Milestone:patch`
         sha = `git log --pretty=format:%h -1`
 
         shell.call ["analyze", "--commit", sha]
@@ -84,7 +83,7 @@ RSpec.describe Git::Lint::CLI::Shell do
 
     it "analyzes hook for invalid commit" do
       shell.call ["--hook", SPEC_ROOT.join("support/fixtures/commit-invalid.txt").to_s]
-      expect(io.reread).to match(/1 commit inspected.+2 issues.+0 warnings.+2 errors/m)
+      expect(io.reread).to match(/1 commit inspected.+3 issues.+0 warnings.+3 errors/m)
     end
 
     it "prints version" do

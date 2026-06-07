@@ -3,7 +3,11 @@
 require "spec_helper"
 
 RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
-  subject(:analyzer) { described_class.new commit }
+  using Refinements::Struct
+
+  subject(:analyzer) { described_class.new commit, git: }
+
+  let(:git) { instance_double Gitt::Repository, origin?: true }
 
   include_context "with application dependencies"
 
@@ -56,17 +60,23 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
       end
     end
 
-    context "with invalid key only" do
-      let :commit do
-        Gitt::Models::Commit[body_lines: [], trailers: [Gitt::Models::Trailer.for("milestone:")]]
-      end
+    context "when manditory but repository has no origin" do
+      let(:commit) { Gitt::Models::Commit[body_lines: [], trailers: []] }
+      let(:git) { instance_double Gitt::Repository, origin?: false }
 
-      it "answers false" do
-        expect(analyzer.valid?).to be(false)
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
       end
     end
 
-    context "with no matching key" do
+    context "when not manditory with no matching key" do
+      subject :analyzer do
+        described_class.new(
+          commit,
+          settings: settings.with(commits_trailer_milestone_key_mandatory: false)
+        )
+      end
+
       let :commit do
         Gitt::Models::Commit[
           body_lines: [],
@@ -78,6 +88,24 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "when manditory with no matching key" do
+      let(:commit) { Gitt::Models::Commit[body_lines: [], trailers: []] }
+
+      it "answers false" do
+        expect(analyzer.valid?).to be(false)
+      end
+    end
+
+    context "with invalid key only" do
+      let :commit do
+        Gitt::Models::Commit[body_lines: [], trailers: [Gitt::Models::Trailer.for("milestone:")]]
+      end
+
+      it "answers false" do
+        expect(analyzer.valid?).to be(false)
       end
     end
   end
@@ -100,7 +128,14 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
       end
     end
 
-    context "when invalid" do
+    context "with invalid trailer but not manditory" do
+      let :analyzer do
+        described_class.new(
+          commit,
+          settings: settings.with(commits_trailer_milestone_key_mandatory: false)
+        )
+      end
+
       let :commit do
         Gitt::Models::Commit[body_lines: [], trailers: [Gitt::Models::Trailer.for("milestone: no")]]
       end
@@ -115,6 +150,14 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
             }
           ]
         )
+      end
+    end
+
+    context "when missing but not mandatory" do
+      let(:commit) { Gitt::Models::Commit[body_lines: [], trailers: []] }
+
+      it "answers issue" do
+        expect(issue).to eq(hint: "Use (manditory): /Milestone/.", lines: [])
       end
     end
   end

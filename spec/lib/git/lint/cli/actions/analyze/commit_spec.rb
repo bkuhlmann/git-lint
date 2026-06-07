@@ -10,6 +10,7 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
 
   include_context "with application dependencies"
   include_context "with Git repository"
+  include_context "with Git commit errors"
 
   describe "#call" do
     before { allow(logger).to receive(:abort) }
@@ -17,7 +18,8 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
     it "reports zero issues with valid SHA" do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
-        `touch b.txt && git add . && git commit --no-verify --message "Added A" --message "Test."`
+        `touch b.txt && git add .`
+        `git commit --no-verify --message "Added A" --message "Test." --trailer Milestone:patch`
 
         action.call
 
@@ -28,13 +30,12 @@ RSpec.describe Git::Lint::CLI::Actions::Analyze::Commit do
     it "reports issue with invalid SHA" do
       git_repo_dir.change_dir do
         `git switch --quiet --create test`
-        `touch a.txt && git add . && git commit --no-verify --message "Add A"`
+        `touch a.txt && git add .`
+        `git commit --no-verify --message "Add test"`
 
         action.call
 
-        expect(io.reread).to match(
-          /Commit Subject Prefix Error.+1 commit inspected.*1 issue.+detected/m
-        )
+        expect(io.reread).to match(git_commit_invalid_pattern)
       end
     end
 
