@@ -142,6 +142,9 @@ commits:
     paragraph_capitalization:
       enabled: true
       severity: error
+    paragraph_new_line:
+      enabled: true
+      severity: error
     phrase:
       enabled: true
       severity: error
@@ -228,6 +231,11 @@ commits:
     collaborator_email:
       enabled: true
       severity: error
+      excludes:
+        - "agent@"
+        - "codex@"
+        - "copilot@"
+        - "noreply"
     collaborator_key:
       enabled: true
       severity: error
@@ -258,6 +266,7 @@ commits:
     milestone_key:
       enabled: true
       severity: error
+      mandatory: true
     milestone_value:
       enabled: true
       severity: error
@@ -525,6 +534,26 @@ Curabitur eleifend wisi iaculis ipsum.
 * link:https://docs.asciidoctor.org/asciidoc/latest/macros/links[Links]
 * link:https://docs.asciidoctor.org/asciidoc/latest/macros/xref[Cross references]
 
+==== Commit Body Paragraph New Line
+
+[options="header"]
+|===
+| Enabled | Severity | Defaults
+| true    | error    | none
+|===
+
+Ensures each paragraph of the commit body doesn't use excessive new lines. This allows paragraphs to grow/shrink based on screen size for improved readability.
+
+....
+# Disallowed
+Pellentque morbi-trist sentus et netus
+et malesuada fames ac turpis egestas.
+Vestibulum tortor quam.
+
+# Allowed
+Pellentque morbi-trist sentus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam.
+....
+
 ==== Commit Body Phrase
 
 [options="header"]
@@ -765,7 +794,7 @@ Shepherd Derrial Book
 [options="header"]
 |===
 | Enabled | Severity | Defaults
-| true    | error    | none
+| true    | error    | excludes: (see configuration)
 |===
 
 Ensures collaborator email address is valid for commit trailer.
@@ -773,6 +802,9 @@ Ensures collaborator email address is valid for commit trailer.
 ....
 # Disallowed
 Co-authored-by: River Tam <invalid>
+
+# Disallowed
+Co-authored-by: LLM <agent@slopware.io>
 
 # Allowed
 Co-authored-by: River Tam <river@firefly.com>
@@ -910,19 +942,23 @@ Issue: 123
 
 [options="header"]
 |===
-| Enabled | Severity
-| true    | error
+| Enabled | Severity | Manditory
+| true    | error    | true
 |===
 
-Ensures milestone trailer key is correct format.
+Ensures milestone trailer key is present and in correct format.
 
 ....
+# Disallowed (missing)
+
 # Disallowed
 milestone: patch
 
 # Allowed
 Milestone: patch
 ....
+
+This key is mandatory by default which means the key must always be present unless the repository is unpublished (i.e. has no origin). When the repository is unpublished, this gives you the freedom to release your initial version (i.e. 0.0.0) without this trailer. Once published, you'll need the trailer. To make the key optional, set mandatory to `false`.
 
 ==== Commit Trailer Milestone Value
 
