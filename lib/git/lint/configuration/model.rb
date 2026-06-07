@@ -27,6 +27,8 @@ module Git
                          :commits_body_line_length_maximum,
                          :commits_body_paragraph_capitalization_enabled,
                          :commits_body_paragraph_capitalization_severity,
+                         :commits_body_paragraph_new_line_enabled,
+                         :commits_body_paragraph_new_line_severity,
                          :commits_body_phrase_enabled,
                          :commits_body_phrase_severity,
                          :commits_body_phrase_excludes,

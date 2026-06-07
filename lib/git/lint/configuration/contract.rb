@@ -32,6 +32,8 @@ module Git
         required(:commits_body_line_length_maximum).filled :integer
         required(:commits_body_paragraph_capitalization_enabled).filled :bool
         required(:commits_body_paragraph_capitalization_severity).filled :string
+        required(:commits_body_paragraph_new_line_enabled).filled :bool
+        required(:commits_body_paragraph_new_line_severity).filled :string
         required(:commits_body_phrase_enabled).filled :bool
         required(:commits_body_phrase_severity).filled :string
         required(:commits_body_phrase_excludes).array :string

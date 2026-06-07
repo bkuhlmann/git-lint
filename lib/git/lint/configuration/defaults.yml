@@ -39,6 +39,9 @@ commits:
     paragraph_capitalization:
       enabled: true
       severity: error
+    paragraph_new_line:
+      enabled: true
+      severity: error
     phrase:
       enabled: true
       severity: error
