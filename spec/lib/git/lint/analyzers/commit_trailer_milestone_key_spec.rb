@@ -27,6 +27,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
     context "with valid key and value" do
       let :commit do
         Gitt::Models::Commit[
+          subject: "Added test",
           body_lines: [],
           trailers: [Gitt::Models::Trailer.for("Milestone: patch")]
         ]
@@ -40,6 +41,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
     context "with valid key and invalid value" do
       let :commit do
         Gitt::Models::Commit[
+          subject: "Added test",
           body_lines: [],
           trailers: [Gitt::Models::Trailer.for("Milestone: #\{$%}")]
         ]
@@ -52,7 +54,11 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
 
     context "with valid key only" do
       let :commit do
-        Gitt::Models::Commit[body_lines: [], trailers: [Gitt::Models::Trailer.for("Milestone:")]]
+        Gitt::Models::Commit[
+          subject: "Added test",
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("Milestone:")]
+        ]
       end
 
       it "answers true" do
@@ -61,7 +67,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
     end
 
     context "when manditory but repository has no origin" do
-      let(:commit) { Gitt::Models::Commit[body_lines: [], trailers: []] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added test", body_lines: [], trailers: []] }
       let(:git) { instance_double Gitt::Repository, origin?: false }
 
       it "answers true" do
@@ -79,6 +85,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
 
       let :commit do
         Gitt::Models::Commit[
+          subject: "Added test",
           body_lines: [],
           trailers: [
             Gitt::Models::Trailer.for("unknown: value")
@@ -91,8 +98,38 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
       end
     end
 
+    context "with amend directive" do
+      let :commit do
+        Gitt::Models::Commit[subject: "amend! Added test", body_lines: [], trailers: []]
+      end
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with fixup directive" do
+      let :commit do
+        Gitt::Models::Commit[subject: "fixup! Added test", body_lines: [], trailers: []]
+      end
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with squash directive" do
+      let :commit do
+        Gitt::Models::Commit[subject: "squash! Added test", body_lines: [], trailers: []]
+      end
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
     context "when manditory with no matching key" do
-      let(:commit) { Gitt::Models::Commit[body_lines: [], trailers: []] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added test", body_lines: [], trailers: []] }
 
       it "answers false" do
         expect(analyzer.valid?).to be(false)
@@ -101,7 +138,11 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
 
     context "with invalid key only" do
       let :commit do
-        Gitt::Models::Commit[body_lines: [], trailers: [Gitt::Models::Trailer.for("milestone:")]]
+        Gitt::Models::Commit[
+          subject: "Added test",
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("milestone:")]
+        ]
       end
 
       it "answers false" do
@@ -116,6 +157,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
     context "when valid" do
       let :commit do
         Gitt::Models::Commit[
+          subject: "Added test",
           body_lines: [],
           trailers: [
             Gitt::Models::Trailer.for("Milestone: patch")
@@ -137,7 +179,11 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
       end
 
       let :commit do
-        Gitt::Models::Commit[body_lines: [], trailers: [Gitt::Models::Trailer.for("milestone: no")]]
+        Gitt::Models::Commit[
+          subject: "Added test",
+          body_lines: [],
+          trailers: [Gitt::Models::Trailer.for("milestone: no")]
+        ]
       end
 
       it "answers issue" do
@@ -154,7 +200,7 @@ RSpec.describe Git::Lint::Analyzers::CommitTrailerMilestoneKey do
     end
 
     context "when missing but not mandatory" do
-      let(:commit) { Gitt::Models::Commit[body_lines: [], trailers: []] }
+      let(:commit) { Gitt::Models::Commit[subject: "Added test", body_lines: [], trailers: []] }
 
       it "answers issue" do
         expect(issue).to eq(hint: "Use (manditory): /Milestone/.", lines: [])

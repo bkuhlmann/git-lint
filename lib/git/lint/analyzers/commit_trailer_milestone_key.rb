@@ -7,9 +7,7 @@ module Git
       class CommitTrailerMilestoneKey < Abstract
         include Dependencies[:git, setting: "trailers.milestone"]
 
-        def valid?
-          optional? && affected_commit_trailers.empty?
-        end
+        def valid? = !mandatory? && affected_commit_trailers.empty?
 
         def issue
           return {} if valid?
@@ -32,13 +30,13 @@ module Git
 
         private
 
-        def optional?
-          return true unless mandatory?
+        def mandatory?
+          return false if commit.directive?
 
-          commit.trailers.any? { it.key == setting.name }
+          missing = commit.trailers.none? { it.key == setting.name }
+
+          settings.commits_trailer_milestone_key_mandatory && git.origin? && missing
         end
-
-        def mandatory? = settings.commits_trailer_milestone_key_mandatory && git.origin?
 
         def hint_prefix
           settings.commits_trailer_milestone_key_mandatory ? "Use (manditory)" : "Use"
