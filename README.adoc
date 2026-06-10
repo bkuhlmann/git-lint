@@ -590,7 +590,7 @@ and provides the missing spec to ensure this doesn't happen again.
 Ensures a minimum number of lines are present within the commit body. Lines with empty characters
 (i.e. whitespace, carriage returns, etc.) are considered to be empty.
 
-Automatically ignores _fixup!_ commits as they are not meant to have bodies.
+Automatically ignores _fixup!_ directives because they are not meant to have bodies.
 
 ==== Commit Body Tracker Shorthand
 
@@ -675,7 +675,7 @@ Added documentation
 Added documentation
 ....
 
-Automatically ignores _amend!_, _fixup!_, or _squash!_ commit prefixes.
+Automatically ignores _amend!_, _fixup!_, and _squash!_ directives.
 
 ==== Commit Subject Length
 
@@ -690,7 +690,7 @@ lenient than the link:http://tbaggery.com/2008/04/19/a-note-about-git-commit-mes
 rule] as it gives one the ability to formulate a more descriptive subject line without being too
 wordy or suffer being word wrapped.
 
-Automatically ignores _fixup!_ or _squash!_ commit prefixes when calculating subject length.
+Automatically ignores _amend!_, _fixup!_, and _squash!_ directives.
 
 ==== Commit Subject Prefix
 
@@ -737,8 +737,7 @@ Each prefix is delimited by a space which is the default setting but can be cust
 Whatever you choose for a delimiter will not affect Git's special bang prefixes as described in the
 tip below.
 
-💡 This analyzer automatically ignores _amend!_, _fixup!_, or _squash!_ commit prefixes when used as
-a Git Hook in order to not disturb interactive rebase workflows.
+Automatically ignores _amend!_, _fixup!_, and _squash!_ directives.
 
 ==== Commit Subject Suffix
 
@@ -959,6 +958,8 @@ Milestone: patch
 ....
 
 This key is mandatory by default which means the key must always be present unless the repository is unpublished (i.e. has no origin). When the repository is unpublished, this gives you the freedom to release your initial version (i.e. 0.0.0) without this trailer. Once published, you'll need the trailer. To make the key optional, set mandatory to `false`.
+
+Automatically ignores _amend!_, _fixup!_, and _squash!_ directives.
 
 ==== Commit Trailer Milestone Value
 
