@@ -37,7 +37,71 @@ RSpec.describe Git::Lint::Analyzers::CommitBodyParagraphNewLine do
     end
 
     context "with indentation" do
-      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["One.\n  - A.\n  - B."]] }
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["One.\n  A.\n  B."]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with ASCII Doc block" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["----\ntest\n----"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with ASCII Doc passthrough block" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["++++\ntest\n++++"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with ASCII Doc quote block" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["____\ntest\n____"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with ASCII Doc code block" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["[source,ruby]\n---\n1\n----"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with Markdown code block" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["```\ntest\n```"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with ordered list" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["1. One\n2. Two"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with unordered list (dots)" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: [". One\n. Two"]] }
+
+      it "answers true" do
+        expect(analyzer.valid?).to be(true)
+      end
+    end
+
+    context "with unordered list (stars)" do
+      let(:commit) { Gitt::Models::Commit[body_paragraphs: ["* One\n* Two"]] }
 
       it "answers true" do
         expect(analyzer.valid?).to be(true)

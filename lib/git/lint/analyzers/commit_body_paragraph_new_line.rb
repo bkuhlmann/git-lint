@@ -5,19 +5,40 @@ module Git
     module Analyzers
       # Analyzes proper capitalization of commit body paragraphs.
       class CommitBodyParagraphNewLine < Abstract
-        PATTERN = /
-          \n      # New line.
-          (?!     # Negative lookahead start.
-          \s{1,}  # Indentation.
-          |       # Or.
-          \s*     # Optional whitespace.
-          \#      # Comment character.
-          )       # Negative lookahead end.
-        /mx
+        PATTERNS = {
+          general: /
+            \n      # New line.
+            (?!     # Negative lookahead start.
+            \s{1,}  # Indentation.
+            )       # Negative lookahead end.
+          /mx,
+          markup: /
+            \A       # Start of line.
+            (        # Start of conditional.
+            \s*\#    # Optional whitepace with comment.
+            |        # Or.
+            `        # Backtick.
+            |        # Or.
+            -        # Dash.
+            |        # Or.
+            _        # Underscore.
+            |        # Or.
+            \+       # Plus.
+            |        # Or.
+            \d+\.    # Ordered list item.
+            |        # Or.
+            \.       # Unordered list itme.
+            |        # Or.
+            \*       # Unordered list itme.
+            |        # Or.
+            \[.*?\]  # ASCII Doc code block.
+            )        # End of conditional.
+          /x
+        }.freeze
 
-        def initialize(commit, pattern: PATTERN, **)
+        def initialize(commit, patterns: PATTERNS, **)
           super(commit, **)
-          @pattern = pattern
+          @patterns = patterns
         end
 
         def valid? = invalids.empty?
@@ -33,7 +54,7 @@ module Git
 
         private
 
-        attr_reader :pattern
+        attr_reader :patterns
 
         def affected_lines
           invalids.each.with_object [] do |line, lines|
@@ -42,7 +63,10 @@ module Git
         end
 
         def invalids
-          @invalids ||= commit.body_paragraphs.grep pattern
+          markup = patterns.fetch :markup
+          general = patterns.fetch :general
+
+          @invalids ||= commit.body_paragraphs.grep_v(markup).grep general
         end
       end
     end
