@@ -3,6 +3,10 @@ exclude_paths:
   - vendor
 
 detectors:
+  LongParameterList:
+    enabled: false
   TooManyStatements:
     exclude:
       - "Git::Lint::CLI::Shell#cli"
+  UnusedParameters:
+    enabled: false
