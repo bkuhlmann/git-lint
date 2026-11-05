@@ -7,13 +7,13 @@ module Git
     module Reporters
       # Reports issues related to a single branch.
       class Branch
+        DELEGATES = {individual: Individual, group: Group}.freeze
+
         extend Forwardable
 
         include Dependencies[:collector, :color]
 
         using Refinements::String
-
-        DELEGATES = {individual: Individual, group: Group}.freeze
 
         delegate %i[empty? issues? warnings? errors?] => :total
 

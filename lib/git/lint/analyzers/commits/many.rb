@@ -8,9 +8,9 @@ module Git
       module Commits
         # Runs all analyzers for a single commit only.
         class Many
-          include Dependencies[:settings, :collector]
-
           ANALYZERS = [Analyzers::Commits::Subjects::Duplicate].freeze
+
+          include Dependencies[:settings, :collector]
 
           def initialize(analyzers: ANALYZERS, **)
             super(**)

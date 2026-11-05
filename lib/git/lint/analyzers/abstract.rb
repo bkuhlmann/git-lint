@@ -8,12 +8,12 @@ module Git
     module Analyzers
       # An abstract class which provides basic functionality for all analyzers to inherit from.
       class Abstract
+        LEVELS = %w[warn error].freeze
+        BODY_OFFSET = 3
+
         include Dependencies[:settings, :environment]
 
         using Refinements::String
-
-        LEVELS = %w[warn error].freeze
-        BODY_OFFSET = 3
 
         def self.id = to_s.delete_prefix!("Git::Lint::Analyzers").snakecase
 

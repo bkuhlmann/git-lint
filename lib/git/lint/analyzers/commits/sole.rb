@@ -8,8 +8,6 @@ module Git
       module Commits
         # Runs all analyzers for a single commit only.
         class Sole
-          include Dependencies[:settings, :collector]
-
           ANALYZERS = [
             Analyzers::CommitAuthorCapitalization,
             Analyzers::CommitAuthorEmail,
@@ -51,6 +49,8 @@ module Git
             Analyzers::CommitTrailerTrackerKey,
             Analyzers::CommitTrailerTrackerValue
           ].freeze
+
+          include Dependencies[:settings, :collector]
 
           def initialize(analyzers: ANALYZERS, **)
             super(**)

@@ -6,9 +6,9 @@ module Git
   module Lint
     # Runs all analyzers.
     class Analyzer
-      include Dependencies[:collector]
-
       DELEGATES = [Analyzers::Commits::Sole, Analyzers::Commits::Many].freeze
+
+      include Dependencies[:collector]
 
       def initialize(reporter: Reporters::Branch, delegates: DELEGATES, **)
         super(**)
